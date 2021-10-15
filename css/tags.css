@@ -1,0 +1,40 @@
+/*tag-cloud*/
+.tag-cloud {
+    text-align: center;
+    margin-top: 20px;
+  }
+  .tag-cloud-title {
+    font-size: 1.8rem;
+    text-align: center;
+  }
+  .tag-cloud-tags {
+    text-align: center;
+  }
+  .tag-cloud a {
+    display: inline-block;
+    margin: 0 0.4rem;
+    text-decoration: none;
+    font-weight: normal;
+    font-size: 15px;
+    cursor: pointer;
+    line-height: normal;
+    padding: 5px 5px 5px 10px;
+    position: relative;
+    border-radius: 0 5px 5px 0;
+    -webkit-transition: all 0.3s;
+    -moz-transition: all 0.3s;
+    -o-transition: all 0.3s;
+    -ms-transition: all 0.3s;
+    transition: all 0.3s;
+  }
+  .tag-cloud a:before {
+    content: "🔖";
+  }
+  .tag-cloud a:hover {
+    color: #ff7242 !important;
+    -webkit-transform: scale(1.2);
+    -moz-transform: scale(1.2);
+    -o-transform: scale(1.2);
+    -ms-transform: scale(1.2);
+    transform: scale(1.2);
+  }
