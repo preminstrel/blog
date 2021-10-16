@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Hugo on Even - A super concise theme for Hugo</title>
+    <title>Hugo on Preminstrel&#39;s Blog</title>
     <link>https://preminstrel.github.io/categories/hugo/</link>
-    <description>Recent content in Hugo on Even - A super concise theme for Hugo</description>
+    <description>Recent content in Hugo on Preminstrel&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Sat, 16 Oct 2021 10:06:26 +0800</lastBuildDate>
@@ -12,13 +12,14 @@
     
     
     <item>
-      <title>Hello</title>
+      <title>Hello Hugo</title>
       <link>https://preminstrel.github.io/post/hello_world/</link>
       <pubDate>Sat, 16 Oct 2021 10:06:26 +0800</pubDate>
       
       <guid>https://preminstrel.github.io/post/hello_world/</guid>
-      <description>This is my first blog on Hugo server.
-Simple is best.</description>
+      <description>This is my first blog on Hugo, based on even theme.
+Why Hugo again?  Simple is best.
+ Actually, I am familiar with Hexo, Wordpress. I have used hugo themes before, such as Introduction, Docs, which are really wonderful themes as well. Before, I was fascinated by a beatiful and complicate Wordpress theme named Sakura. I pay over 1000 RMB to buy a cloud server to deploy my Wordpress theme.</description>
     </item>
     
   </channel>

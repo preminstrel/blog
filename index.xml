@@ -1,24 +1,35 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Even - A super concise theme for Hugo</title>
+    <title>Preminstrel&#39;s Blog</title>
     <link>https://preminstrel.github.io/</link>
-    <description>Recent content on Even - A super concise theme for Hugo</description>
+    <description>Recent content on Preminstrel&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 16 Oct 2021 10:06:26 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 16 Oct 2021 10:40:02 +0800</lastBuildDate>
     
 	<atom:link href="https://preminstrel.github.io/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Hello</title>
+      <title>About</title>
+      <link>https://preminstrel.github.io/about/</link>
+      <pubDate>Sat, 16 Oct 2021 10:40:02 +0800</pubDate>
+      
+      <guid>https://preminstrel.github.io/about/</guid>
+      <description>About me Currently I&amp;rsquo;m a 2019 undergraduate majoring in Electronic Science and Technology at Southeast University, 🇨🇳. I am insterested in Artificial Intelligence and Computer Vision.
+Useful Links 📫  Personal Resume  Notes Vault  </description>
+    </item>
+    
+    <item>
+      <title>Hello Hugo</title>
       <link>https://preminstrel.github.io/post/hello_world/</link>
       <pubDate>Sat, 16 Oct 2021 10:06:26 +0800</pubDate>
       
       <guid>https://preminstrel.github.io/post/hello_world/</guid>
-      <description>This is my first blog on Hugo server.
-Simple is best.</description>
+      <description>This is my first blog on Hugo, based on even theme.
+Why Hugo again?  Simple is best.
+ Actually, I am familiar with Hexo, Wordpress. I have used hugo themes before, such as Introduction, Docs, which are really wonderful themes as well. Before, I was fascinated by a beatiful and complicate Wordpress theme named Sakura. I pay over 1000 RMB to buy a cloud server to deploy my Wordpress theme.</description>
     </item>
     
   </channel>
