@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Verilog Basic Syntax - Preminstrel&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Hanshi Sun" /><meta name="description" content="数据类型 Verilog HDL 区分大小写 Verilog HDL 的关键字（如 always、and、input等）都采用小写 Verilog HDL 的注释符和C&#43;&#43;一样 数字 Syntax: &amp;lt;bitwidth&amp;gt;&#39;&amp;lt;basis&amp;gt;&amp;lt;value&amp;gt; 数制 进制符号 值 Example Binary b/B 0,1, x," /><meta name="keywords" content="Preminstrel" />
+
+
+<meta name="robots" content="">
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.68.3 with theme even" />
+
+
+<link rel="canonical" href="https://preminstrel.github.io/post/2021/10/16/verilog-basic-syntax/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.75451ad2d2268431f3dfb6289a5d8bc042bd3e23f7ac463fe449ed7872bb8c72.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Verilog Basic Syntax" />
+<meta property="og:description" content="数据类型 Verilog HDL 区分大小写 Verilog HDL 的关键字（如 always、and、input等）都采用小写 Verilog HDL 的注释符和C&#43;&#43;一样 数字 Syntax: &lt;bitwidth&gt;&#39;&lt;basis&gt;&lt;value&gt; 数制 进制符号 值 Example Binary b/B 0,1, x," />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://preminstrel.github.io/post/2021/10/16/verilog-basic-syntax/" />
+<meta property="article:published_time" content="2021-10-16T11:39:41+08:00" />
+<meta property="article:modified_time" content="2021-10-16T11:39:41+08:00" />
+<meta itemprop="name" content="Verilog Basic Syntax">
+<meta itemprop="description" content="数据类型 Verilog HDL 区分大小写 Verilog HDL 的关键字（如 always、and、input等）都采用小写 Verilog HDL 的注释符和C&#43;&#43;一样 数字 Syntax: &lt;bitwidth&gt;&#39;&lt;basis&gt;&lt;value&gt; 数制 进制符号 值 Example Binary b/B 0,1, x,">
+<meta itemprop="datePublished" content="2021-10-16T11:39:41&#43;08:00" />
+<meta itemprop="dateModified" content="2021-10-16T11:39:41&#43;08:00" />
+<meta itemprop="wordCount" content="1310">
+
+
+
+<meta itemprop="keywords" content="Verilog," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Verilog Basic Syntax"/>
+<meta name="twitter:description" content="数据类型 Verilog HDL 区分大小写 Verilog HDL 的关键字（如 always、and、input等）都采用小写 Verilog HDL 的注释符和C&#43;&#43;一样 数字 Syntax: &lt;bitwidth&gt;&#39;&lt;basis&gt;&lt;value&gt; 数制 进制符号 值 Example Binary b/B 0,1, x,"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Preminstrel</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Preminstrel</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Verilog Basic Syntax</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2021-10-16 </span>
+        <div class="post-category">
+            <a href="/categories/fpga/"> FPGA </a>
+            </div>
+          <span class="more-meta"> 1310 words </span>
+          <span class="more-meta"> 3 mins read </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#数据类型">数据类型</a></li>
+            <li><a href="#运算符">运算符</a></li>
+            <li><a href="#语句">语句</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <h3 id="数据类型">数据类型</h3>
+<p>Verilog HDL 区分大小写
+Verilog HDL 的关键字（如 always、and、input等）都采用小写
+Verilog HDL 的注释符和C++一样</p>
+<h4 id="数字">数字</h4>
+<ul>
+<li>Syntax: <code>&lt;bitwidth&gt;'&lt;basis&gt;&lt;value&gt;</code></li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">数制</th>
+<th align="center">进制符号</th>
+<th align="center">值</th>
+<th align="center">Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">Binary</td>
+<td align="center">b/B</td>
+<td align="center">0,1, x, z</td>
+<td align="center">8&rsquo;b11000101</td>
+</tr>
+<tr>
+<td align="center">Octal</td>
+<td align="center">o/O</td>
+<td align="center">0~7, x, z</td>
+<td align="center">8&rsquo;o305</td>
+</tr>
+<tr>
+<td align="center">Decimal</td>
+<td align="center">d/D</td>
+<td align="center">0~9</td>
+<td align="center">4&rsquo;d61</td>
+</tr>
+<tr>
+<td align="center">Hexadecimal</td>
+<td align="center">h/H</td>
+<td align="center">0~f, x, z</td>
+<td align="center">8&rsquo;hc5</td>
+</tr>
+</tbody>
+</table>
+<h4 id="常量">常量</h4>
+<ul>
+<li>Syntax: <code>parameter 参数名1=表达式, 参数名2=表达式, ...;</code></li>
+</ul>
+<p>Example:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-verilog" data-lang="verilog"><span class="k">parameter</span> <span class="n">count_bits</span> <span class="o">=</span> <span class="mh">8</span><span class="p">;</span>
+<span class="k">parameter</span> <span class="n">sel</span> <span class="o">=</span> <span class="mh">8</span><span class="p">,</span> <span class="n">code</span> <span class="o">=</span> <span class="mh">8&#39;ha3</span><span class="p">;</span>
+<span class="k">parameter</span> <span class="n">datawidth</span> <span class="o">=</span> <span class="mh">8</span><span class="p">;</span> <span class="n">addrwidth</span> <span class="o">=</span> <span class="n">datawidth</span> <span class="o">*</span> <span class="mh">2</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>好处：便于阅读、修改、增强 module 的通用性</p>
+<h4 id="变量">变量</h4>
+<h5 id="category">Category</h5>
+<h6 id="网络型nets-type">网络型（nets type）：</h6>
+<ul>
+<li>硬件电路中各种连接</li>
+<li>输出始终根据输入的变化而更新其值的变化</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">Type</th>
+<th align="center">Function</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">wire, tri</td>
+<td align="center">连线类型</td>
+</tr>
+<tr>
+<td align="center">wor, trior</td>
+<td align="center">多重驱动时，具有<strong>线或</strong>功能的连线型</td>
+</tr>
+<tr>
+<td align="center">wand, triand</td>
+<td align="center">多重驱动时，具有<strong>线与</strong>功能的连线型</td>
+</tr>
+<tr>
+<td align="center">tri1/tri0</td>
+<td align="center">上拉电阻/下拉电阻</td>
+</tr>
+<tr>
+<td align="center">supply1/supply0</td>
+<td align="center">电源（逻辑1）/地（逻辑0）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>wire型变量</strong>
+Syntax: <code>wire data1, data2, ..., datan;</code>
+Example:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-verilog" data-lang="verilog"><span class="kt">wire</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span>
+<span class="kt">wire</span> <span class="p">[</span><span class="mh">7</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span> <span class="n">databus</span>  	<span class="c1">//define 8 bits data bus
+</span><span class="c1"></span><span class="kt">wire</span> <span class="p">[</span><span class="mh">20</span><span class="o">:</span><span class="mh">1</span><span class="p">]</span> <span class="n">addrbus</span> 	<span class="c1">//define 20 bits address bus 
+</span></code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>最常用的 nets 型变量</li>
+<li>常用来表示用 assign 语句赋值的组合逻辑信号</li>
+<li>取值为 0，1，x，z</li>
+<li>Verilog HDL 模块中的输入/输出信号<strong>类型缺省</strong>时，自动定义为<em>wire</em>型变量</li>
+</ul>
+<h6 id="寄存器型register-type">寄存器型（register type）：</h6>
+<ul>
+<li>硬件电路中具有状态保持作用的器件，如触发器和寄存器</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">Type</th>
+<th>Function</th>
+<th align="center">Instance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">reg</td>
+<td>常用的register型变量</td>
+<td align="center">如触发器、寄存器等</td>
+</tr>
+<tr>
+<td align="center">integer</td>
+<td>32位带符号整型变量</td>
+<td align="center">-</td>
+</tr>
+<tr>
+<td align="center">real</td>
+<td>64位带符号实数型变量</td>
+<td align="center">-</td>
+</tr>
+<tr>
+<td align="center">time</td>
+<td>无符号时间变量</td>
+<td align="center">-</td>
+</tr>
+</tbody>
+</table>
+<p>Syntax: <code>reg data1, data2, ..., datan;</code>
+Example:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-verilog" data-lang="verilog"><span class="kt">reg</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span>
+<span class="kt">reg</span> <span class="p">[</span><span class="mh">8</span><span class="o">:</span><span class="mh">1</span><span class="p">]</span> <span class="n">databus</span>  	        <span class="c1">//define 8 bits register
+</span><span class="c1"></span><span class="kt">reg</span> <span class="p">[</span><span class="mh">7</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span> <span class="n">mymem</span><span class="p">[</span><span class="mh">1023</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span> 	<span class="c1">//define 1k bytes memory
+</span></code></pre></td></tr></table>
+</div>
+</div><h3 id="运算符">运算符</h3>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>operator</th>
+<th>操作数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>算术</td>
+<td>+, -, *, /, %</td>
+<td>双目</td>
+</tr>
+<tr>
+<td>逻辑</td>
+<td>&amp;&amp;, !, ||</td>
+<td>双目/单目</td>
+</tr>
+<tr>
+<td>位</td>
+<td>~, &amp;, |, ^, ^~, ~^（按位同或）</td>
+<td>单目、双目</td>
+</tr>
+<tr>
+<td>关系</td>
+<td>&lt;, &lt;=, &gt;, &gt;=</td>
+<td>双目</td>
+</tr>
+<tr>
+<td>等式</td>
+<td>==, !=, ==== （全等）, !==</td>
+<td>双目</td>
+</tr>
+<tr>
+<td>缩减</td>
+<td>&amp;, |, ~&amp;, ~|, ^, ^~, ~^</td>
+<td>单目</td>
+</tr>
+<tr>
+<td>移位</td>
+<td>&raquo;, &laquo;</td>
+<td>单目</td>
+</tr>
+<tr>
+<td>条件</td>
+<td>?:</td>
+<td>三目</td>
+</tr>
+<tr>
+<td>连接</td>
+<td>{}</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>== 和 ==== 的区别：前者结果可能为 x，而后者只有 0 和 1 两种。</li>
+</ul>
+<h3 id="语句">语句</h3>
+<h4 id="过程块">过程块</h4>
+<h5 id="always-过程块">always 过程块</h5>
+<p>当表达式的值发生改变时，就执行一遍块内语句</p>
+<ul>
+<li>always 过程块是<strong>不能嵌套使用的</strong></li>
+</ul>
+<h6 id="template">Template</h6>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-verilog" data-lang="verilog"><span class="k">always</span> <span class="p">@(</span><span class="o">&lt;</span><span class="n">signal</span><span class="o">&gt;</span><span class="p">)</span>
+<span class="k">begin</span>
+	<span class="c1">//过程赋值
+</span><span class="c1"></span>	<span class="c1">//if 语句
+</span><span class="c1"></span>	<span class="c1">//case 语句
+</span><span class="c1"></span>	<span class="c1">//while, repeat, for 语句
+</span><span class="c1"></span>	<span class="c1">// task, functiony 调用
+</span></code></pre></td></tr></table>
+</div>
+</div><h6 id="posedge-和-negedge-关键字">posedge 和 negedge 关键字</h6>
+<p>clk 为同步时序电路的时钟信号，而 clear 为异步清零信号</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-verilog" data-lang="verilog"><span class="c1">//上升沿触发、高电平清零有效
+</span><span class="c1"></span><span class="k">always</span> <span class="p">@(</span><span class="k">posedge</span> <span class="n">clk</span> <span class="k">or</span> <span class="k">posedge</span> <span class="n">clear</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><h5 id="initial-过程块">initial 过程块</h5>
+<h6 id="template-1">Template</h6>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-verilog" data-lang="verilog"><span class="k">initial</span>
+	<span class="k">begin</span>
+		<span class="n">sentence1</span><span class="p">;</span>
+		<span class="n">sentence2</span><span class="p">;</span>
+		<span class="p">...;</span>
+	<span class="k">end</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>Example</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-verilog" data-lang="verilog"><span class="k">initial</span>
+	<span class="k">begin</span>
+		<span class="n">reg1</span><span class="o">=</span><span class="mh">0</span><span class="p">;</span>
+		<span class="k">for</span> <span class="p">(</span><span class="n">addr</span> <span class="o">=</span> <span class="mh">0</span><span class="p">;</span> <span class="n">addr</span> <span class="o">&lt;</span> <span class="n">size</span><span class="p">;</span> <span class="n">addr</span> <span class="o">=</span> <span class="n">addr</span> <span class="o">+</span> <span class="mh">1</span><span class="p">)</span>
+			<span class="n">memory</span><span class="p">[</span><span class="n">addr</span><span class="p">]</span> <span class="o">=</span> <span class="mh">0</span><span class="p">;</span>
+	<span class="k">end</span>
+</code></pre></td></tr></table>
+</div>
+</div><h6 id="说明">说明</h6>
+<ul>
+<li>主要面向功能模拟，通常不具有可综合性，只用于测试文件（testbench）</li>
+<li>模拟 0 时刻开始执行，<strong>只执行一次</strong></li>
+<li>同一模块内的多个 initial 过程块，模拟 0 时刻开始<strong>并行</strong>执行</li>
+<li>initial 过程块<strong>不能嵌套使用</strong></li>
+</ul>
+<h4 id="赋值语句">赋值语句</h4>
+<h5 id="连续赋值语句assign">连续赋值语句（assign）</h5>
+<p>常用于对 wire 型变量进行赋值</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-verilog" data-lang="verilog"><span class="k">input</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">;</span>
+<span class="k">output</span> <span class="n">c</span><span class="p">;</span>
+<span class="k">assign</span> <span class="n">c</span> <span class="o">=</span> <span class="n">a</span> <span class="o">&amp;</span> <span class="n">b</span><span class="p">;</span>
+</code></pre></td></tr></table>
+</div>
+</div><h5 id="过程赋值语句">过程赋值语句</h5>
+<p>常用于 reg 型变量进行赋值
+<strong>非阻塞赋值</strong>：一条非阻塞赋值语句的执行是不会阻塞下一条语句的执行，在本条非阻塞赋值语句执行完毕前，下一条语句也可开始执行</p>
+<ul>
+<li>非阻塞赋值语句在过程块结束时才完成赋值操作，在一个过程块内的多个非阻塞赋值语句是并行执行的</li>
+<li>赋值符号 <code>&lt;=</code></li>
+</ul>
+<p><strong>阻塞赋值</strong>：</p>
+<ul>
+<li>该语句结束时就完成赋值操作，前面的语句没有完成前，后面无法执行，所以在一个过程块中，多个阻塞赋值语句是顺序执行的</li>
+<li>赋值符号 <code>=</code></li>
+</ul>
+<h4 id="语法要点">语法要点</h4>
+<ol>
+<li>always 里面赋值左边必须声明为 reg</li>
+<li>assign 表达式左边必须声明 wire</li>
+<li>边沿触发生成寄存器的时序逻辑</li>
+<li>电平触发条件完整，生成组合逻辑</li>
+<li>电平触发，条件不完整，生成锁存器的时序逻辑</li>
+<li>声明成 reg，不一定得到寄存器；声明成 reg，也可能得到锁存器</li>
+</ol>
+<h4 id="coding-要点">Coding 要点</h4>
+<ul>
+<li>如果是边沿触发的逻辑，比如 <code>always@(posedge clk)</code>，里面一律使用 <code>&lt;=</code> 赋值</li>
+<li>如果是电平触发的逻辑，一律使用 <code>=</code> 赋值，逻辑简单用 assign 语句；逻辑复杂，用 always 语句；分支条件写完整，防止出现锁存器</li>
+</ul>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">Hanshi Sun</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2021-10-16
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/verilog/">Verilog</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/2021/10/16/obsidian-review/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Obsidian Review</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/2021/10/16/hello_world/">
+            <span class="next-text nav-default">Hello Hugo</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        <div id="gitalk-container"></div>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+      var gitalk = new Gitalk({
+        id: '2021-10-16 11:39:41 \x2b0800 CST',
+        title: 'Verilog Basic Syntax',
+        clientID: '9d4d5bfb5872b737a756',
+        clientSecret: '2677eacb9eedb58e0e8e7463a2c6a5ff70054601',
+        repo: 'gitalk',
+        owner: 'preminstrel',
+        admin: ['preminstrel'],
+        body: decodeURI(location.href)
+      });
+      gitalk.render('gitalk-container');
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/gitalk/gitalk">comments powered by gitalk.</a></noscript>
+
+  
+
+  
+
+  
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:preminstrel@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://twitter.com/preminstrel" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="https://github.com/preminstrel" class="iconfont icon-github" title="github"></a>
+      <a href="https://www.zhihu.com/people/pawn-85-95" class="iconfont icon-zhihu" title="zhihu"></a>
+      <a href="https://space.bilibili.com/23354645" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="https://preminstrel.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>Hanshi Sun</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

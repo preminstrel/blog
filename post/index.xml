@@ -6,26 +6,62 @@
     <description>Recent content in Posts on Preminstrel&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 16 Oct 2021 11:39:41 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 17 Oct 2021 00:25:41 +0800</lastBuildDate>
     
 	<atom:link href="https://preminstrel.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
+      <title>Pytorch Basics</title>
+      <link>https://preminstrel.github.io/post/2021/10/17/pytorch-basics/</link>
+      <pubDate>Sun, 17 Oct 2021 00:25:41 +0800</pubDate>
+      
+      <guid>https://preminstrel.github.io/post/2021/10/17/pytorch-basics/</guid>
+      <description>01. Overview Deep Learning &amp;amp; Machine Learning 维度诅咒：维度越高，需要的训练集越大 深度学习和机器学习的区别：多了一层用来提取特征的层。传统的机器学习中（无标签），Featu</description>
+    </item>
+    
+    <item>
+      <title>Vim Basics</title>
+      <link>https://preminstrel.github.io/post/2021/10/17/vim-basics/</link>
+      <pubDate>Sun, 17 Oct 2021 00:19:58 +0800</pubDate>
+      
+      <guid>https://preminstrel.github.io/post/2021/10/17/vim-basics/</guid>
+      <description>光标的移动 使用hjkl作为方向键 h左l右，k上j下 快速移动光标至行首和行尾 1）行首：在命令模式中使用快捷键&amp;quot;^&amp;rdquo;（即S</description>
+    </item>
+    
+    <item>
+      <title>Git Basics</title>
+      <link>https://preminstrel.github.io/post/2021/10/16/git-basic/</link>
+      <pubDate>Sat, 16 Oct 2021 23:53:14 +0800</pubDate>
+      
+      <guid>https://preminstrel.github.io/post/2021/10/16/git-basic/</guid>
+      <description>之前也是接触过，用过Git和GitHub，但是并没有完全系统地对它进行学习，所以借此机会，我想对Git进行一次系统全面的学习。 Installation 首先，安装G</description>
+    </item>
+    
+    <item>
+      <title>Obsidian Review</title>
+      <link>https://preminstrel.github.io/post/2021/10/16/obsidian-review/</link>
+      <pubDate>Sat, 16 Oct 2021 23:20:55 +0800</pubDate>
+      
+      <guid>https://preminstrel.github.io/post/2021/10/16/obsidian-review/</guid>
+      <description>Obsidian 使用体验 A second brain, for you, forever. Obsidian.md Obsidian 是一款拥支持markdown语法的双链笔记，很好的一点是，区别于Notion、印象笔记等软件，Obsidian做到</description>
+    </item>
+    
+    <item>
       <title>Verilog Basic Syntax</title>
-      <link>https://preminstrel.github.io/post/verilog-basic-syntax/</link>
+      <link>https://preminstrel.github.io/post/2021/10/16/verilog-basic-syntax/</link>
       <pubDate>Sat, 16 Oct 2021 11:39:41 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/verilog-basic-syntax/</guid>
+      <guid>https://preminstrel.github.io/post/2021/10/16/verilog-basic-syntax/</guid>
       <description>数据类型 Verilog HDL 区分大小写 Verilog HDL 的关键字（如 always、and、input等）都采用小写 Verilog HDL 的注释符和C++一样 数字 Syntax: &amp;lt;bitwidth&amp;gt;&#39;&amp;lt;basis&amp;gt;&amp;lt;value&amp;gt; 数制 进制符号 值 Example Binary b/B 0,1, x,</description>
     </item>
     
     <item>
       <title>Hello Hugo</title>
-      <link>https://preminstrel.github.io/post/hello_world/</link>
+      <link>https://preminstrel.github.io/post/2021/10/16/hello_world/</link>
       <pubDate>Sat, 16 Oct 2021 10:06:26 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/hello_world/</guid>
+      <guid>https://preminstrel.github.io/post/2021/10/16/hello_world/</guid>
       <description>This is my first blog on Hugo, based on even theme.
 Why Hugo again?  Simple is best.
  Actually, I am familiar with Hexo, Wordpress. I have used hugo themes before, such as Introduction, Docs, which are really wonderful themes as well. Before, I was fascinated by a beatiful and complicate Wordpress theme named Sakura. I pay over 1000 RMB to buy a cloud server to deploy my Wordpress theme.</description>

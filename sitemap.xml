@@ -3,27 +3,111 @@
   
   <url>
     <loc>https://preminstrel.github.io/categories/</loc>
-    <lastmod>2021-10-16T11:39:41+08:00</lastmod>
+    <lastmod>2021-10-17T00:25:41+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/categories/fpga/</loc>
-    <lastmod>2021-10-16T11:39:41+08:00</lastmod>
+    <loc>https://preminstrel.github.io/tags/deep-learning/</loc>
+    <lastmod>2021-10-17T00:25:41+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>https://preminstrel.github.io/post/</loc>
-    <lastmod>2021-10-16T11:39:41+08:00</lastmod>
+    <lastmod>2021-10-17T00:25:41+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://preminstrel.github.io/tags/pytorch/</loc>
+    <lastmod>2021-10-17T00:25:41+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://preminstrel.github.io/categories/pytorch/</loc>
+    <lastmod>2021-10-17T00:25:41+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://preminstrel.github.io/post/2021/10/17/pytorch-basics/</loc>
+    <lastmod>2021-10-17T00:25:41+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>https://preminstrel.github.io/tags/</loc>
+    <lastmod>2021-10-17T00:25:41+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://preminstrel.github.io/categories/productivity/</loc>
+    <lastmod>2021-10-17T00:19:58+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://preminstrel.github.io/tags/vim/</loc>
+    <lastmod>2021-10-17T00:19:58+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://preminstrel.github.io/post/2021/10/17/vim-basics/</loc>
+    <lastmod>2021-10-17T00:19:58+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://preminstrel.github.io/tags/git/</loc>
+    <lastmod>2021-10-16T23:53:14+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://preminstrel.github.io/categories/git/</loc>
+    <lastmod>2021-10-16T23:53:14+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://preminstrel.github.io/post/2021/10/16/git-basic/</loc>
+    <lastmod>2021-10-16T23:53:14+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://preminstrel.github.io/tags/obsidian/</loc>
+    <lastmod>2021-10-16T23:20:55+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://preminstrel.github.io/post/2021/10/16/obsidian-review/</loc>
+    <lastmod>2021-10-16T23:20:55+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://preminstrel.github.io/categories/fpga/</loc>
     <lastmod>2021-10-16T11:39:41+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -37,7 +121,7 @@
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/post/verilog-basic-syntax/</loc>
+    <loc>https://preminstrel.github.io/post/2021/10/16/verilog-basic-syntax/</loc>
     <lastmod>2021-10-16T11:39:41+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -58,21 +142,21 @@
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/tags/blog/</loc>
+    <loc>https://preminstrel.github.io/categories/blog/</loc>
     <lastmod>2021-10-16T10:06:26+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/post/hello_world/</loc>
+    <loc>https://preminstrel.github.io/post/2021/10/16/hello_world/</loc>
     <lastmod>2021-10-16T10:06:26+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/categories/hugo/</loc>
+    <loc>https://preminstrel.github.io/tags/hugo/</loc>
     <lastmod>2021-10-16T10:06:26+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>

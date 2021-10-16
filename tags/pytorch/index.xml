@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Pytorch on Preminstrel&#39;s Blog</title>
+    <link>https://preminstrel.github.io/tags/pytorch/</link>
+    <description>Recent content in Pytorch on Preminstrel&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 17 Oct 2021 00:25:41 +0800</lastBuildDate>
+    
+	<atom:link href="https://preminstrel.github.io/tags/pytorch/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Pytorch Basics</title>
+      <link>https://preminstrel.github.io/post/2021/10/17/pytorch-basics/</link>
+      <pubDate>Sun, 17 Oct 2021 00:25:41 +0800</pubDate>
+      
+      <guid>https://preminstrel.github.io/post/2021/10/17/pytorch-basics/</guid>
+      <description>01. Overview Deep Learning &amp;amp; Machine Learning 维度诅咒：维度越高，需要的训练集越大 深度学习和机器学习的区别：多了一层用来提取特征的层。传统的机器学习中（无标签），Featu</description>
+    </item>
+    
+  </channel>
+</rss>

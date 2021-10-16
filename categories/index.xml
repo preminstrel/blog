@@ -6,10 +6,37 @@
     <description>Recent content in Categories on Preminstrel&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 16 Oct 2021 11:39:41 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 17 Oct 2021 00:25:41 +0800</lastBuildDate>
     
 	<atom:link href="https://preminstrel.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Pytorch</title>
+      <link>https://preminstrel.github.io/categories/pytorch/</link>
+      <pubDate>Sun, 17 Oct 2021 00:25:41 +0800</pubDate>
+      
+      <guid>https://preminstrel.github.io/categories/pytorch/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Productivity</title>
+      <link>https://preminstrel.github.io/categories/productivity/</link>
+      <pubDate>Sun, 17 Oct 2021 00:19:58 +0800</pubDate>
+      
+      <guid>https://preminstrel.github.io/categories/productivity/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Git</title>
+      <link>https://preminstrel.github.io/categories/git/</link>
+      <pubDate>Sat, 16 Oct 2021 23:53:14 +0800</pubDate>
+      
+      <guid>https://preminstrel.github.io/categories/git/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>FPGA</title>
@@ -21,11 +48,11 @@
     </item>
     
     <item>
-      <title>Hugo</title>
-      <link>https://preminstrel.github.io/categories/hugo/</link>
+      <title>Blog</title>
+      <link>https://preminstrel.github.io/categories/blog/</link>
       <pubDate>Sat, 16 Oct 2021 10:06:26 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/categories/hugo/</guid>
+      <guid>https://preminstrel.github.io/categories/blog/</guid>
       <description></description>
     </item>
     

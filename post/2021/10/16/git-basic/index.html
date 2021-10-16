@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Git Basics - Preminstrel&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Hanshi Sun" /><meta name="description" content="之前也是接触过，用过Git和GitHub，但是并没有完全系统地对它进行学习，所以借此机会，我想对Git进行一次系统全面的学习。 Installation 首先，安装G" /><meta name="keywords" content="Preminstrel" />
+
+
+<meta name="robots" content="">
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.68.3 with theme even" />
+
+
+<link rel="canonical" href="https://preminstrel.github.io/post/2021/10/16/git-basic/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.75451ad2d2268431f3dfb6289a5d8bc042bd3e23f7ac463fe449ed7872bb8c72.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Git Basics" />
+<meta property="og:description" content="之前也是接触过，用过Git和GitHub，但是并没有完全系统地对它进行学习，所以借此机会，我想对Git进行一次系统全面的学习。 Installation 首先，安装G" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://preminstrel.github.io/post/2021/10/16/git-basic/" />
+<meta property="article:published_time" content="2021-10-16T23:53:14+08:00" />
+<meta property="article:modified_time" content="2021-10-16T23:53:14+08:00" />
+<meta itemprop="name" content="Git Basics">
+<meta itemprop="description" content="之前也是接触过，用过Git和GitHub，但是并没有完全系统地对它进行学习，所以借此机会，我想对Git进行一次系统全面的学习。 Installation 首先，安装G">
+<meta itemprop="datePublished" content="2021-10-16T23:53:14&#43;08:00" />
+<meta itemprop="dateModified" content="2021-10-16T23:53:14&#43;08:00" />
+<meta itemprop="wordCount" content="1055">
+
+
+
+<meta itemprop="keywords" content="Git," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Git Basics"/>
+<meta name="twitter:description" content="之前也是接触过，用过Git和GitHub，但是并没有完全系统地对它进行学习，所以借此机会，我想对Git进行一次系统全面的学习。 Installation 首先，安装G"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Preminstrel</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Preminstrel</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Git Basics</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2021-10-16 </span>
+        <div class="post-category">
+            <a href="/categories/git/"> Git </a>
+            </div>
+          <span class="more-meta"> 1055 words </span>
+          <span class="more-meta"> 3 mins read </span>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#installation">Installation</a></li>
+            <li><a href="#create-repository">Create Repository</a></li>
+            <li><a href="#远程连接remote">远程连接remote</a></li>
+            <li><a href="#sourcetree">Sourcetree</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>之前也是接触过，用过Git和GitHub，但是并没有完全系统地对它进行学习，所以借此机会，我想对Git进行一次系统全面的学习。</p>
+<h3 id="installation">Installation</h3>
+<p>首先，安装Git，这里我们选择Scoop。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-Bash" data-lang="Bash">$ scoop install git
+</code></pre></td></tr></table>
+</div>
+</div><p>在git中，我们可以用Git Bash或者Git GUI来操控。当然，这里我选择了Windows Terminal。</p>
+<h3 id="create-repository">Create Repository</h3>
+<h4 id="create-a-local-repository">Create a local repository</h4>
+<p>首先创建一个文件夹 <code>mkdir work</code>，然后进行 <code>cd work</code> ，对这个仓库进行初始化 。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-Bash" data-lang="Bash">$ git init
+</code></pre></td></tr></table>
+</div>
+</div><p>这样我们的仓库就创建好了。当然，前面的那些 <code>git config</code> 要自己配置一下。</p>
+<h4 id="basic">Basic</h4>
+<p><code>git config --global user.email &quot;preminstrel@gmail.com&quot;</code></p>
+<p><code>git config --global user.name &quot;preminstrel&quot;</code></p>
+<p><code>git add</code>：添加新文件</p>
+<p><code>git commit -m &quot;message&quot;</code>：提交change到branch上</p>
+<p><code>git status</code>：查看当前work tree的情况</p>
+<p><code>git log</code>：查阅Git的日志</p>
+<p><code>git branch a</code>：创建一个叫a的新分支</p>
+<p><code>git checkout a</code>：进入分支a</p>
+<p><code>git branch -D a</code>：删除分支a</p>
+<p><code>git config --global http.proxy http://127.0.0.1:1081</code>：设置代理</p>
+<p><code>git config --global -l</code>：查看设置</p>
+<p><code>git config --global --unset http.proxy</code>：取消代理</p>
+<p><code>git config --global --unset https.proxy</code>：取消代理</p>
+<blockquote>
+<p>代理部分具体见<a href="https://blog.csdn.net/qq_33349365/article/details/101514412">这里</a></p>
+</blockquote>
+<h3 id="远程连接remote">远程连接remote</h3>
+<h4 id="创建ssh-key">创建SSH Key</h4>
+<p>因为本地Git仓库和GitHub仓库之间的传输是通过SSH加密传输的，GitHub需要识别是否是你推送，GitHub只要知道了你的公钥，就可以确认只有你自己才能推送，所以需要配置ssh key。</p>
+<p>在用户主目录下，看看有没有.ssh文件，如果有，再看文件下有没有<code>id_rsa</code>和<code>id_rsa.pub</code>这两个文件，如果已经有了，可直接到下一步。如果没有，打开Git Bash，输入命令，创建SSH Key</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-Bash" data-lang="Bash">$ ssh-keygen -t rsa -C <span class="s2">&#34;yourmail@gmail.com&#34;</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>再去用户主目录里找到<code>.ssh</code>文件夹，里面有<code>id_rsa</code>和<code>id_rsa.pub</code>两个文件，这两个就是SSH Key的秘钥对，<code>id_rsa</code>是私钥，不能泄露，<code>id_rsa.pub</code>是公钥，可以公开。</p>
+<h4 id="github上确认ssh-key">Github上确认SSH Key</h4>
+<p>接下来到GitHub上，打开“Account settings”&ndash;“SSH Keys”页面，然后点击“Add SSH Key”，填上Title（随意写），在Key文本框里粘贴 <code>id_rsa.pub</code>文件里的全部内容。</p>
+<h4 id="验证">验证</h4>
+<p>验证是否成功：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-Bash" data-lang="Bash">$ ssh -T git@github.com
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="token">Token</h4>
+<p>密码验证于2021年8月13日不再支持，也就是不能再用密码方式去提交代码。请用使用 <strong>personal access token</strong> 替代。</p>
+<h5 id="rebase-local--repository">Rebase local  Repository</h5>
+<p>有的时候需要rebase本地库，这个时候我们需要使用命令  <code>git pull --rebase origin master</code></p>
+<h4 id="push不用输入密码-ssh传输">push不用输入密码-SSH传输</h4>
+<p>移除当前关联的远程仓库</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-Bash" data-lang="Bash">git remote rm origin
+</code></pre></td></tr></table>
+</div>
+</div><p>添加新的ssh地址</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-Bash" data-lang="Bash">git remote add origin ssh地址
+</code></pre></td></tr></table>
+</div>
+</div><p>4.再次提交</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-Bash" data-lang="Bash">git push origin master
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="sourcetree">Sourcetree</h3>
+<p>可以下载这个软件，是一个客户端。</p>
+<p>PS：Github Desktop 也可以用。</p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">Hanshi Sun</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2021-10-16
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/git/">Git</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/2021/10/17/vim-basics/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Vim Basics</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/2021/10/16/obsidian-review/">
+            <span class="next-text nav-default">Obsidian Review</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        <div id="gitalk-container"></div>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+      var gitalk = new Gitalk({
+        id: '2021-10-16 23:53:14 \x2b0800 CST',
+        title: 'Git Basics',
+        clientID: '9d4d5bfb5872b737a756',
+        clientSecret: '2677eacb9eedb58e0e8e7463a2c6a5ff70054601',
+        repo: 'gitalk',
+        owner: 'preminstrel',
+        admin: ['preminstrel'],
+        body: decodeURI(location.href)
+      });
+      gitalk.render('gitalk-container');
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/gitalk/gitalk">comments powered by gitalk.</a></noscript>
+
+  
+
+  
+
+  
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:preminstrel@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://twitter.com/preminstrel" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="https://github.com/preminstrel" class="iconfont icon-github" title="github"></a>
+      <a href="https://www.zhihu.com/people/pawn-85-95" class="iconfont icon-zhihu" title="zhihu"></a>
+      <a href="https://space.bilibili.com/23354645" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="https://preminstrel.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>Hanshi Sun</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>
