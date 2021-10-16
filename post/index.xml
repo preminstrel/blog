@@ -6,10 +6,19 @@
     <description>Recent content in Posts on Preminstrel&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 16 Oct 2021 10:06:26 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 16 Oct 2021 11:39:41 +0800</lastBuildDate>
     
 	<atom:link href="https://preminstrel.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Verilog Basic Syntax</title>
+      <link>https://preminstrel.github.io/post/verilog-basic-syntax/</link>
+      <pubDate>Sat, 16 Oct 2021 11:39:41 +0800</pubDate>
+      
+      <guid>https://preminstrel.github.io/post/verilog-basic-syntax/</guid>
+      <description>数据类型 Verilog HDL 区分大小写 Verilog HDL 的关键字（如 always、and、input等）都采用小写 Verilog HDL 的注释符和C++一样 数字 Syntax: &amp;lt;bitwidth&amp;gt;&#39;&amp;lt;basis&amp;gt;&amp;lt;value&amp;gt; 数制 进制符号 值 Example Binary b/B 0,1, x,</description>
+    </item>
     
     <item>
       <title>Hello Hugo</title>
