@@ -6,10 +6,28 @@
     <description>Recent content in Tags on Preminstrel&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 17 Oct 2021 13:46:08 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 17 Oct 2021 20:05:26 +0800</lastBuildDate>
     
 	<atom:link href="https://preminstrel.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>FPGA</title>
+      <link>https://preminstrel.github.io/tags/fpga/</link>
+      <pubDate>Sun, 17 Oct 2021 20:05:26 +0800</pubDate>
+      
+      <guid>https://preminstrel.github.io/tags/fpga/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Vivado</title>
+      <link>https://preminstrel.github.io/tags/vivado/</link>
+      <pubDate>Sun, 17 Oct 2021 20:05:26 +0800</pubDate>
+      
+      <guid>https://preminstrel.github.io/tags/vivado/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Scoop</title>

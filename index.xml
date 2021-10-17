@@ -12,6 +12,24 @@
     
     
     <item>
+      <title>Vivado ILA</title>
+      <link>https://preminstrel.github.io/post/2021/10/17/vivado-ila/</link>
+      <pubDate>Sun, 17 Oct 2021 20:05:26 +0800</pubDate>
+      
+      <guid>https://preminstrel.github.io/post/2021/10/17/vivado-ila/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Vivado Basics</title>
+      <link>https://preminstrel.github.io/post/2021/10/17/vivado-basics/</link>
+      <pubDate>Sun, 17 Oct 2021 17:03:41 +0800</pubDate>
+      
+      <guid>https://preminstrel.github.io/post/2021/10/17/vivado-basics/</guid>
+      <description>在学习 FPGA 的过程中，我们需要用到 Vivado软件，这里我用的是 Vivado2021.1版本的软件。一般来说， FPGA 开发的流程分为以下几个部分来实现</description>
+    </item>
+    
+    <item>
       <title>Scoop</title>
       <link>https://preminstrel.github.io/post/2021/10/17/scoop/</link>
       <pubDate>Sun, 17 Oct 2021 13:46:08 +0800</pubDate>

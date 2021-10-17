@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Hello Hugo - Preminstrel&#39;s Blog</title>
+  <title>Vivado Basics - Preminstrel&#39;s Blog</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -16,9 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="Hanshi Sun" /><meta name="description" content="This is my first blog on Hugo, based on even theme.
-Why Hugo again?  Simple is best.
- Actually, I am familiar with Hexo, Wordpress. I have used hugo themes before, such as Introduction, Docs, which are really wonderful themes as well. Before, I was fascinated by a beatiful and complicate Wordpress theme named Sakura. I pay over 1000 RMB to buy a cloud server to deploy my Wordpress theme." /><meta name="keywords" content="Preminstrel" />
+<meta name="author" content="Hanshi Sun" /><meta name="description" content="在学习 FPGA 的过程中，我们需要用到 Vivado软件，这里我用的是 Vivado2021.1版本的软件。一般来说， FPGA 开发的流程分为以下几个部分来实现" /><meta name="keywords" content="Preminstrel" />
 
 
 <meta name="robots" content="">
@@ -31,7 +29,7 @@ Why Hugo again?  Simple is best.
 <meta name="generator" content="Hugo 0.68.3 with theme even" />
 
 
-<link rel="canonical" href="https://preminstrel.github.io/post/2021/10/16/hello_world/" />
+<link rel="canonical" href="https://preminstrel.github.io/post/2021/10/17/vivado-basics/" />
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -44,29 +42,23 @@ Why Hugo again?  Simple is best.
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
-<meta property="og:title" content="Hello Hugo" />
-<meta property="og:description" content="This is my first blog on Hugo, based on even theme.
-Why Hugo again?  Simple is best.
- Actually, I am familiar with Hexo, Wordpress. I have used hugo themes before, such as Introduction, Docs, which are really wonderful themes as well. Before, I was fascinated by a beatiful and complicate Wordpress theme named Sakura. I pay over 1000 RMB to buy a cloud server to deploy my Wordpress theme." />
+<meta property="og:title" content="Vivado Basics" />
+<meta property="og:description" content="在学习 FPGA 的过程中，我们需要用到 Vivado软件，这里我用的是 Vivado2021.1版本的软件。一般来说， FPGA 开发的流程分为以下几个部分来实现" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://preminstrel.github.io/post/2021/10/16/hello_world/" />
-<meta property="article:published_time" content="2021-10-16T10:06:26+08:00" />
-<meta property="article:modified_time" content="2021-10-16T10:06:26+08:00" />
-<meta itemprop="name" content="Hello Hugo">
-<meta itemprop="description" content="This is my first blog on Hugo, based on even theme.
-Why Hugo again?  Simple is best.
- Actually, I am familiar with Hexo, Wordpress. I have used hugo themes before, such as Introduction, Docs, which are really wonderful themes as well. Before, I was fascinated by a beatiful and complicate Wordpress theme named Sakura. I pay over 1000 RMB to buy a cloud server to deploy my Wordpress theme.">
-<meta itemprop="datePublished" content="2021-10-16T10:06:26&#43;08:00" />
-<meta itemprop="dateModified" content="2021-10-16T10:06:26&#43;08:00" />
-<meta itemprop="wordCount" content="139">
+<meta property="og:url" content="https://preminstrel.github.io/post/2021/10/17/vivado-basics/" />
+<meta property="article:published_time" content="2021-10-17T17:03:41+08:00" />
+<meta property="article:modified_time" content="2021-10-17T17:03:41+08:00" />
+<meta itemprop="name" content="Vivado Basics">
+<meta itemprop="description" content="在学习 FPGA 的过程中，我们需要用到 Vivado软件，这里我用的是 Vivado2021.1版本的软件。一般来说， FPGA 开发的流程分为以下几个部分来实现">
+<meta itemprop="datePublished" content="2021-10-17T17:03:41&#43;08:00" />
+<meta itemprop="dateModified" content="2021-10-17T17:03:41&#43;08:00" />
+<meta itemprop="wordCount" content="1148">
 
 
 
-<meta itemprop="keywords" content="Hugo," /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Hello Hugo"/>
-<meta name="twitter:description" content="This is my first blog on Hugo, based on even theme.
-Why Hugo again?  Simple is best.
- Actually, I am familiar with Hexo, Wordpress. I have used hugo themes before, such as Introduction, Docs, which are really wonderful themes as well. Before, I was fascinated by a beatiful and complicate Wordpress theme named Sakura. I pay over 1000 RMB to buy a cloud server to deploy my Wordpress theme."/>
+<meta itemprop="keywords" content="Vivado,FPGA," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Vivado Basics"/>
+<meta name="twitter:description" content="在学习 FPGA 的过程中，我们需要用到 Vivado软件，这里我用的是 Vivado2021.1版本的软件。一般来说， FPGA 开发的流程分为以下几个部分来实现"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -133,15 +125,15 @@ Why Hugo again?  Simple is best.
           <article class="post">
     
     <header class="post-header">
-      <h1 class="post-title">Hello Hugo</h1>
+      <h1 class="post-title">Vivado Basics</h1>
 
       <div class="post-meta">
-        <span class="post-time"> 2021-10-16 </span>
+        <span class="post-time"> 2021-10-17 </span>
         <div class="post-category">
-            <a href="/categories/blog/"> Blog </a>
+            <a href="/categories/fpga/"> FPGA </a>
             </div>
-          <span class="more-meta"> 139 words </span>
-          <span class="more-meta"> 1 min read </span>
+          <span class="more-meta"> 1148 words </span>
+          <span class="more-meta"> 3 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
     </header>
@@ -155,8 +147,13 @@ Why Hugo again?  Simple is best.
       <ul>
         <li>
           <ul>
-            <li><a href="#why-hugo-again">Why Hugo again?</a></li>
-            <li><a href="#how-it-works">How it works?</a></li>
+            <li><a href="#create-project">Create Project</a></li>
+            <li><a href="#code">Code</a></li>
+            <li><a href="#compile">Compile</a></li>
+            <li><a href="#assign-pins">Assign Pins</a></li>
+            <li><a href="#program-device">Program Device</a></li>
+            <li><a href="#debug">Debug</a></li>
+            <li><a href="#program-flash">Program Flash</a></li>
           </ul>
         </li>
       </ul>
@@ -166,14 +163,87 @@ Why Hugo again?  Simple is best.
   </div>
 </div>
     <div class="post-content">
-      <p>This is my first blog on Hugo, based on even theme.</p>
-<h3 id="why-hugo-again">Why Hugo again?</h3>
-<blockquote>
-<p>Simple is best.</p>
-</blockquote>
-<p>Actually, I am familiar with Hexo, Wordpress. I have used hugo themes before, such as <em>Introduction</em>, <em>Docs</em>, which are really wonderful themes as well. Before, I was fascinated by a beatiful and complicate Wordpress theme named <em>Sakura</em>. I pay over 1000 RMB to buy a cloud server to deploy my Wordpress theme. However, you konw, due to the fact that I am a student so that I cannot pay such amout of money every year. Moreover, I notice that I have spent too much time just on the framework and appearance of the blog site, resulting in less time and attention to writing, which is terrible.</p>
-<h3 id="how-it-works">How it works?</h3>
-<p>The site is powered by Hugo and deployed on GiHub Pages for free.</p>
+      <p>在学习 FPGA 的过程中，我们需要用到 Vivado软件，这里我用的是 Vivado2021.1版本的软件。一般来说， FPGA 开发的流程分为以下几个部分来实现。</p>
+<div class="mermaid">
+graph LR
+	id1(Create Project)-->id2(Code)-->id3(Complie)-->id4(Assign Pins)-->id5(Program Device)-->id6(Debug)-->id7(Program Flash)
+    id6-.->id2
+</div>
+<h3 id="create-project">Create Project</h3>
+<p><strong>Project Name</strong></p>
+<p>可以新建一个工程，注意，location 中可以选择 <code>create project subdirectory</code> 来创建存放工程的文件夹，这一步的引导比较简单。</p>
+<p><strong>Project Type</strong></p>
+<p>选择 <code>RTL Project</code></p>
+<p><strong>Add Sources</strong></p>
+<p>我们可以将之前已经写好的 Verilog 等文件加进工程中。</p>
+<p><strong>Default Part</strong></p>
+<p>选择合适的芯片型号</p>
+<h3 id="code">Code</h3>
+<p>这里用 Verilog 写代码，编辑器建议用 VS Code。设计了一个双路灯控电路</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-verilog" data-lang="verilog"><span class="k">module</span> <span class="n">light</span><span class="p">(</span>
+	<span class="k">input</span> <span class="n">x1</span><span class="p">,</span>
+	<span class="k">input</span> <span class="n">x2</span><span class="p">,</span>
+	<span class="k">output</span> <span class="n">f</span>
+<span class="p">);</span>
+
+<span class="k">assign</span> <span class="n">f</span> <span class="o">=</span> <span class="p">(</span><span class="n">x1</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">x2</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="o">~</span><span class="n">x1</span> <span class="o">&amp;</span> <span class="n">x2</span><span class="p">)</span>
+		
+<span class="k">endmodule</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>写完代码后直接 <code>Add Sources</code> 添加文件即可。</p>
+<h3 id="compile">Compile</h3>
+<p>设计完整个工程之后，要经过 Vivado 软件中几个工具的处理，分别是<strong>分析代码、综合电路以及生成目标芯片</strong>的实现内容。这些应用工具被聚集在一起，统称为编译器。</p>
+<div class="mermaid">
+graph LR
+	id1(Run Synthesis)-->id2(Run Implementation)-->id3(Generate Bitstream)
+</div>
+<p>如果工程编译不通过，那么信息栏里就会提示报 Bug。建议<strong>查阅 <em>Log</em> 一栏下的报错信息</strong>，因为 Log 一栏下的信息打印是按<strong>顺序</strong>来进行的，那么在进行问题定位的时候就方便查找第一个报错的信息。一般来说， 往往后面顺序的信息很多都是由于第一个报错原因导致的，所以解决了第一个报错问题，基本上就可以同时解决其它的报错问题了。要注意的是，<strong>报错信息栏里的提示不会随时更新，它的信息是过时的</strong>，在解决了某些问题或者修改了代码后请<strong>重新编译更新信息状态栏</strong>。</p>
+<h3 id="assign-pins">Assign Pins</h3>
+<p>Vivado 需要先对工程进行编译再进行管脚配置，编译完后 ，在左侧工具栏中选 中 <code>IMPLEMENTATION</code>，然后选择 <code>Open Implemented Design</code>，在随后跳转的窗口右上角选择切换到 <code>I/O Planning</code>，开始管脚配置。</p>
+<p>配置完成后，保存管脚配置信息，命名管脚约束文件名后， 点击 <code>OK</code> 生成管脚约束文件。</p>
+<h3 id="program-device">Program Device</h3>
+<p>引脚分配完毕之后，需要重新进行一次<strong>全编译</strong>。当全编译通过后 Vivado 软件即可生成可以烧录到 FPGA 中的配置文件。将下载器 USB-Blaster 与 FPGA 开发板进行连接，打开 FPGA 开发板电源后回到 Vivado 主界面，在左侧工具栏 <code>PROGRAM AND DEGUG</code> 下展开 <code>Open Hardware Manager</code>，点击 <code>Open Target</code>，选择选项 <code>Auto Connect</code>，连接下载器。</p>
+<p>在左侧工具栏 <code>PROGRAM AND DEGUG</code> 下展开 <code>Open Hardware Manager</code>，点击 <code>Program Device</code>，选择相应的型号，打开下载界面。</p>
+<h3 id="debug">Debug</h3>
+<p>下载完毕后即可进行电路的测试，我们可以利用 ILA 工具进行问题的定位和错误的排查。</p>
+<h3 id="program-flash">Program Flash</h3>
+<ol>
+<li>
+<p>在 Vivado 软件里找到 <code>Settings</code> 设置选项，进入后点击 <code>Bitstream</code> 选项，将 <code>bin_file</code> 勾选。</p>
+</li>
+<li>
+<p>点击 <code>Generate Bitstream</code>，生成 <code>bit</code> 文件和 <code>bin</code> 文件。</p>
+</li>
+<li>
+<p>开发板上电，点击 <code>Open Hardware Manager——Open Target——Auto Connect</code>，连接板子。</p>
+</li>
+<li>
+<p>在 <code>Hardware</code> 面板中右击 FPGA 器件，选择 <code>Add Configuration Memery Device</code>。</p>
+</li>
+<li>
+<p>在弹出的添加配置存储器的界面中，找到板载的 <code>Flash</code> 存储器型号，完成添加。</p>
+</li>
+<li>
+<p>找到二进制 <code>bin</code> 文件（<code>project_name\project_name.runs\impl_1\xxx.bin</code>），选中进行代码烧写，实现上电自启动，完成程序固化。</p>
+</li>
+<li>
+<p>下载完成，断电重上电后运行的就是固化的程序。</p>
+</li>
+</ol>
 
     </div>
 
@@ -185,7 +255,7 @@ Why Hugo again?  Simple is best.
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        2021-10-16
+        2021-10-17
         
     </span>
   </p>
@@ -211,15 +281,20 @@ Why Hugo again?  Simple is best.
   </div>
 </div><footer class="post-footer">
       <div class="post-tags">
-          <a href="/tags/hugo/">Hugo</a>
+          <a href="/tags/vivado/">Vivado</a>
+          <a href="/tags/fpga/">FPGA</a>
           </div>
       <nav class="post-nav">
-        <a class="prev" href="/post/2021/10/16/verilog-basic-syntax/">
+        <a class="prev" href="/post/2021/10/17/vivado-ila/">
             <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">Verilog Basic Syntax</span>
+            <span class="prev-text nav-default">Vivado ILA</span>
             <span class="prev-text nav-mobile">Prev</span>
           </a>
-        
+        <a class="next" href="/post/2021/10/17/scoop/">
+            <span class="next-text nav-default">Scoop</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
       </nav>
     </footer>
   </article>
@@ -229,8 +304,8 @@ Why Hugo again?  Simple is best.
     <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js" crossorigin="anonymous"></script>
     <script type="text/javascript">
       var gitalk = new Gitalk({
-        id: '2021-10-16 10:06:26 \x2b0800 CST',
-        title: 'Hello Hugo',
+        id: '2021-10-17 17:03:41 \x2b0800 CST',
+        title: 'Vivado Basics',
         clientID: '9d4d5bfb5872b737a756',
         clientSecret: '2677eacb9eedb58e0e8e7463a2c6a5ff70054601',
         repo: 'gitalk',
