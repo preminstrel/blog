@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="Hanshi Sun" /><meta name="description" content="技术路线分为两部分，第一部分是ECGNet模型的设计，第二部分为利用ALQ算法模型的量化压缩。 ECGNet Model 网络设计和学长们的几乎完全相同，结构如下：" /><meta name="keywords" content="Preminstrel" />
+<meta name="author" content="Hanshi Sun" /><meta name="description" content="技术路线分为两部分，第一部分是ECGNet模型的设计，第二部分为利用ALQ算法模型的量化压缩。 ECGNet Model 网络设计结构如下： Layer Layer Name Kernel $\times$ Unit Other Layer Params Params 1 Conv1D" /><meta name="keywords" content="Preminstrel" />
 
 
 <meta name="robots" content="">
@@ -43,22 +43,22 @@
 
 
 <meta property="og:title" content="Arrhythmia Classifier Using CNN With ALQ" />
-<meta property="og:description" content="技术路线分为两部分，第一部分是ECGNet模型的设计，第二部分为利用ALQ算法模型的量化压缩。 ECGNet Model 网络设计和学长们的几乎完全相同，结构如下：" />
+<meta property="og:description" content="技术路线分为两部分，第一部分是ECGNet模型的设计，第二部分为利用ALQ算法模型的量化压缩。 ECGNet Model 网络设计结构如下： Layer Layer Name Kernel $\times$ Unit Other Layer Params Params 1 Conv1D" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://preminstrel.github.io/post/2021/10/17/arrhythmia-classifier-using-cnn-with-alq/" />
 <meta property="article:published_time" content="2021-10-17T13:37:23+08:00" />
 <meta property="article:modified_time" content="2021-10-17T13:37:23+08:00" />
 <meta itemprop="name" content="Arrhythmia Classifier Using CNN With ALQ">
-<meta itemprop="description" content="技术路线分为两部分，第一部分是ECGNet模型的设计，第二部分为利用ALQ算法模型的量化压缩。 ECGNet Model 网络设计和学长们的几乎完全相同，结构如下：">
+<meta itemprop="description" content="技术路线分为两部分，第一部分是ECGNet模型的设计，第二部分为利用ALQ算法模型的量化压缩。 ECGNet Model 网络设计结构如下： Layer Layer Name Kernel $\times$ Unit Other Layer Params Params 1 Conv1D">
 <meta itemprop="datePublished" content="2021-10-17T13:37:23&#43;08:00" />
 <meta itemprop="dateModified" content="2021-10-17T13:37:23&#43;08:00" />
-<meta itemprop="wordCount" content="1411">
+<meta itemprop="wordCount" content="1399">
 
 
 
 <meta itemprop="keywords" content="Deep Learning,Publication," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Arrhythmia Classifier Using CNN With ALQ"/>
-<meta name="twitter:description" content="技术路线分为两部分，第一部分是ECGNet模型的设计，第二部分为利用ALQ算法模型的量化压缩。 ECGNet Model 网络设计和学长们的几乎完全相同，结构如下："/>
+<meta name="twitter:description" content="技术路线分为两部分，第一部分是ECGNet模型的设计，第二部分为利用ALQ算法模型的量化压缩。 ECGNet Model 网络设计结构如下： Layer Layer Name Kernel $\times$ Unit Other Layer Params Params 1 Conv1D"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -132,7 +132,7 @@
         <div class="post-category">
             <a href="/categories/publication/"> Publication </a>
             </div>
-          <span class="more-meta"> 1411 words </span>
+          <span class="more-meta"> 1399 words </span>
           <span class="more-meta"> 3 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
@@ -160,7 +160,7 @@
     <div class="post-content">
       <p>技术路线分为两部分，第一部分是ECGNet模型的设计，第二部分为利用ALQ算法模型的量化压缩。</p>
 <h3 id="ecgnet-model">ECGNet Model</h3>
-<p>网络设计和学长们的几乎完全相同，结构如下：</p>
+<p>网络设计结构如下：</p>
 <table>
 <thead>
 <tr>

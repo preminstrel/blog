@@ -17,7 +17,7 @@
       <pubDate>Sun, 17 Oct 2021 13:37:23 +0800</pubDate>
       
       <guid>https://preminstrel.github.io/post/2021/10/17/arrhythmia-classifier-using-cnn-with-alq/</guid>
-      <description>技术路线分为两部分，第一部分是ECGNet模型的设计，第二部分为利用ALQ算法模型的量化压缩。 ECGNet Model 网络设计和学长们的几乎完全相同，结构如下：</description>
+      <description>技术路线分为两部分，第一部分是ECGNet模型的设计，第二部分为利用ALQ算法模型的量化压缩。 ECGNet Model 网络设计结构如下： Layer Layer Name Kernel $\times$ Unit Other Layer Params Params 1 Conv1D</description>
     </item>
     
   </channel>
