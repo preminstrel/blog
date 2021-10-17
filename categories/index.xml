@@ -6,10 +6,46 @@
     <description>Recent content in Categories on Preminstrel&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 17 Oct 2021 00:25:41 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 17 Oct 2021 13:46:08 +0800</lastBuildDate>
     
 	<atom:link href="https://preminstrel.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Productivity</title>
+      <link>https://preminstrel.github.io/categories/productivity/</link>
+      <pubDate>Sun, 17 Oct 2021 13:46:08 +0800</pubDate>
+      
+      <guid>https://preminstrel.github.io/categories/productivity/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Linux</title>
+      <link>https://preminstrel.github.io/categories/linux/</link>
+      <pubDate>Sun, 17 Oct 2021 13:42:45 +0800</pubDate>
+      
+      <guid>https://preminstrel.github.io/categories/linux/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Publication</title>
+      <link>https://preminstrel.github.io/categories/publication/</link>
+      <pubDate>Sun, 17 Oct 2021 13:37:23 +0800</pubDate>
+      
+      <guid>https://preminstrel.github.io/categories/publication/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Model Compression</title>
+      <link>https://preminstrel.github.io/categories/model-compression/</link>
+      <pubDate>Sun, 17 Oct 2021 10:48:26 +0800</pubDate>
+      
+      <guid>https://preminstrel.github.io/categories/model-compression/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Pytorch</title>
@@ -17,15 +53,6 @@
       <pubDate>Sun, 17 Oct 2021 00:25:41 +0800</pubDate>
       
       <guid>https://preminstrel.github.io/categories/pytorch/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Productivity</title>
-      <link>https://preminstrel.github.io/categories/productivity/</link>
-      <pubDate>Sun, 17 Oct 2021 00:19:58 +0800</pubDate>
-      
-      <guid>https://preminstrel.github.io/categories/productivity/</guid>
       <description></description>
     </item>
     

@@ -3,21 +3,112 @@
   
   <url>
     <loc>https://preminstrel.github.io/categories/</loc>
-    <lastmod>2021-10-17T00:25:41+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://preminstrel.github.io/tags/deep-learning/</loc>
-    <lastmod>2021-10-17T00:25:41+08:00</lastmod>
+    <lastmod>2021-10-17T13:46:08+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>https://preminstrel.github.io/post/</loc>
-    <lastmod>2021-10-17T00:25:41+08:00</lastmod>
+    <lastmod>2021-10-17T13:46:08+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://preminstrel.github.io/categories/productivity/</loc>
+    <lastmod>2021-10-17T13:46:08+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://preminstrel.github.io/tags/scoop/</loc>
+    <lastmod>2021-10-17T13:46:08+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://preminstrel.github.io/post/2021/10/17/scoop/</loc>
+    <lastmod>2021-10-17T13:46:08+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://preminstrel.github.io/tags/</loc>
+    <lastmod>2021-10-17T13:46:08+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://preminstrel.github.io/tags/windows/</loc>
+    <lastmod>2021-10-17T13:46:08+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://preminstrel.github.io/tags/deep-learning/</loc>
+    <lastmod>2021-10-17T13:42:45+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://preminstrel.github.io/post/2021/10/17/deep-learning-on-wsl/</loc>
+    <lastmod>2021-10-17T13:42:45+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://preminstrel.github.io/categories/linux/</loc>
+    <lastmod>2021-10-17T13:42:45+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://preminstrel.github.io/post/2021/10/17/arrhythmia-classifier-using-cnn-with-alq/</loc>
+    <lastmod>2021-10-17T13:37:23+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://preminstrel.github.io/tags/publication/</loc>
+    <lastmod>2021-10-17T13:37:23+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://preminstrel.github.io/categories/publication/</loc>
+    <lastmod>2021-10-17T13:37:23+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://preminstrel.github.io/categories/model-compression/</loc>
+    <lastmod>2021-10-17T10:48:26+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://preminstrel.github.io/tags/quantization/</loc>
+    <lastmod>2021-10-17T10:48:26+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://preminstrel.github.io/post/2021/10/17/quantization-compression/</loc>
+    <lastmod>2021-10-17T10:48:26+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -39,20 +130,6 @@
   <url>
     <loc>https://preminstrel.github.io/post/2021/10/17/pytorch-basics/</loc>
     <lastmod>2021-10-17T00:25:41+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://preminstrel.github.io/tags/</loc>
-    <lastmod>2021-10-17T00:25:41+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://preminstrel.github.io/categories/productivity/</loc>
-    <lastmod>2021-10-17T00:19:58+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>

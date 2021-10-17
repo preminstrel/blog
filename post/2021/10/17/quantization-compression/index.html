@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Quantization Compression - Preminstrel&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Hanshi Sun" /><meta name="description" content="本文参考此博客 量化有若干相似的术语。低精度（Low precision）可能是最通用的概念。常规精度一般使用 FP32（32位浮点，单精度）存储" /><meta name="keywords" content="Preminstrel" />
+
+
+<meta name="robots" content="">
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.68.3 with theme even" />
+
+
+<link rel="canonical" href="https://preminstrel.github.io/post/2021/10/17/quantization-compression/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.75451ad2d2268431f3dfb6289a5d8bc042bd3e23f7ac463fe449ed7872bb8c72.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="Quantization Compression" />
+<meta property="og:description" content="本文参考此博客 量化有若干相似的术语。低精度（Low precision）可能是最通用的概念。常规精度一般使用 FP32（32位浮点，单精度）存储" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://preminstrel.github.io/post/2021/10/17/quantization-compression/" />
+<meta property="article:published_time" content="2021-10-17T10:48:26+08:00" />
+<meta property="article:modified_time" content="2021-10-17T10:48:26+08:00" />
+<meta itemprop="name" content="Quantization Compression">
+<meta itemprop="description" content="本文参考此博客 量化有若干相似的术语。低精度（Low precision）可能是最通用的概念。常规精度一般使用 FP32（32位浮点，单精度）存储">
+<meta itemprop="datePublished" content="2021-10-17T10:48:26&#43;08:00" />
+<meta itemprop="dateModified" content="2021-10-17T10:48:26&#43;08:00" />
+<meta itemprop="wordCount" content="4509">
+
+
+
+<meta itemprop="keywords" content="Quantization,Deep Learning," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Quantization Compression"/>
+<meta name="twitter:description" content="本文参考此博客 量化有若干相似的术语。低精度（Low precision）可能是最通用的概念。常规精度一般使用 FP32（32位浮点，单精度）存储"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Preminstrel</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Preminstrel</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Quantization Compression</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2021-10-17 </span>
+        <div class="post-category">
+            <a href="/categories/model-compression/"> Model Compression </a>
+            </div>
+          <span class="more-meta"> 4509 words </span>
+          <span class="more-meta"> 9 mins read </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#量化的算术">量化的算术</a>
+          <ul>
+            <li><a href="#定点和浮点">定点和浮点</a></li>
+            <li><a href="#量化浮点">量化浮点</a></li>
+          </ul>
+        </li>
+        <li><a href="#implementation">Implementation</a>
+          <ul>
+            <li><a href="#background">Background</a></li>
+            <li><a href="#矩阵运算的量化">矩阵运算的量化</a></li>
+            <li><a href="#卷积网络的量化">卷积网络的量化</a></li>
+          </ul>
+        </li>
+        <li><a href="#model-size">Model Size</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>本文参考<a href="https://jackwish.net/2019/neural-network-quantization-introduction-chn.html">此博客</a></p>
+<p>量化有若干相似的术语。<strong>低精度</strong>（Low precision）可能是最通用的概念。常规精度一般使用 FP32（32位浮点，单精度）存储模型权重；低精度则表示 FP16（半精度浮点），INT8（8位的定点整数）等等数值格式。不过目前低精度往往指代 INT8。</p>
+<p><strong>量化</strong>一般指 INT8 。不过，根据存储一个权重元素所需的位数，还可以包括：</p>
+<ul>
+<li><a href="https://arxiv.org/abs/1602.02830">二值神经网络</a>：在运行时权重和激活只取两种值（例如 +1，-1）的神经网络，以及在训练时计算参数的梯度。</li>
+<li><a href="https://arxiv.org/abs/1605.04711">三元权重网络</a>：权重约束为+1,0和-1的神经网络。</li>
+<li><a href="https://arxiv.org/abs/1603.05279">XNOR网络</a>：过滤器和卷积层的输入是二进制的。 XNOR 网络主要使用二进制运算来近似卷积。</li>
+</ul>
+<p>工业界最终选择了 INT8 量化—— FP32 在推理（inference）期间被 INT8 取代，而训练（training）仍然是 FP32。<a href="http://on-demand.gputechconf.com/gtc/2017/presentation/s7310-8-bit-inference-with-tensorrt.pdf">TensorRT</a>，<a href="https://www.tensorflow.org/lite/performance/post_training_quantization">TensorFlow</a>，<a href="https://github.com/pytorch/glow/blob/master/docs/Quantization.md">PyTorch</a>，<a href="https://github.com/apache/incubator%20-mxnet/blob/master/python/mxnet/contrib/quantization.py">MxNet</a> 和许多其他深度学习软件都已启用（或正在启用）量化。</p>
+<p>通常，可以根据 FP32 和 INT8 的转换机制对解决方案进行分类。一些框架简单地引入了 <code>Quantize</code> 和 <code>Dequantize</code> 层，当从卷积或全链接层送入或取出时，它将 FP32 转换为 INT8 或相反。在这种情况下，如图的上半部分所示，模型本身和输入/输出采用 FP32 格式。深度学习框架加载模型，重写网络以插入<code>Quantize</code> 和 <code>Dequantize</code> 层，并将权重转换为 INT8 格式。</p>
+<p><img src="/img/20210916155908.png" alt=""></p>
+<p>其他一些框架将网络整体转换为 INT8 格式，因此在推理期间没有格式转换，如图的下半部分。该方法要求算子（Operator）都支持量化，因为运算符之间的数据流是INT8。对于尚未支持的那些，它可能会回落到 Quantize/Dequantize 方案。下文的讨论都基于这种方式。</p>
+<p>由于 INT8 使用的比特数只有 FP32 的 25% ，在 INT8 和 FP32 之间转换数值的方法非常重要，因为它会显着影响预测精度。</p>
+<h2 id="量化的算术">量化的算术</h2>
+<p>量化过程可以分为两部分：<strong>将模型从 FP32 转换为 INT8，以及使用 INT8 进行推理</strong>。本节说明这两部分背后的<strong>算术原理</strong>。如果不了解基础算术原理，在考虑量化细节时通常会感到困惑。</p>
+<h3 id="定点和浮点">定点和浮点</h3>
+<p>从事计算机科学的人很少了解算术运算的执行方式。由于量化桥接了固定点（fixed point）和浮点（floating point），在接触相关研究和解决方案之前，有必要先了解它们的基础知识。</p>
+<p>定点和浮点都是数值的表示（representation），它们区别在于，将整数（integer）部分和小数（fractional）部分分开的点，点在哪里。 <strong>定点保留特定位数整数和小数，而浮点保留特定位数的有效数字（significand）和指数（exponent）</strong>。</p>
+<p><img src="/img/20210916160421.png" alt=""></p>
+<p>上图给出了定点和浮点表示的格式和示例。对于定点，II 表示整数，FF 表示 IIIII.FFFFF中的分数。对于浮点数，base分别为二进制、十进制和十六进制格式的 2、10 和 16 。定点和浮点的数值示例在图中是一一对应的。</p>
+<p>在指令集（Instruction Set Architecture）的内置数据类型中，<strong>定点是整数，浮点是二进制格式</strong>。一般来说，指令集层面的定点是连续的，因为它是整数，且两个邻近的可表示数字的间隙是 1 。另一方面，浮点代表实数，其数值间隙由指数确定，因而具有非常宽的值域（32 位数值最大整数是 $2^{31}−1$，而浮点值域为 $(2−2^{-23})×2^{127}$），值越接近零就越准确。一个观察结果是，在给定指数时，浮点在不同范围内拥有数值数量相同数量，如下图。例如，$[1,2)$中浮点值的数量与 $[0.5,1)、[2,4]、[4,8]$等相同。</p>
+<p><img src="/img/20210916161741.png" alt=""></p>
+<p>浮点运算可以由整数运算组成，在计算机发展的早期，浮点计算都是用软件在定点硬件上模拟的。下面的等式展示了如何将浮点乘法用定点乘法和加法表示。加法的表示方法要复杂得多，这里不做进一步讨论，有需求的可以参考计算机体系结构相关资料。</p>
+<p>$$\begin{aligned}
+z &amp;=x \times y \\<br>
+z_{\text {significand }} \times b a s e^{z_{\text {exponent }}} &amp;=\left(x_{\text {significand }} \times \text { base }^{x_{exponent }}\right) \times\left(y_{\text {significand }} \times \text { base }^{y_{{exponent }}}\right) \\<br>
+&amp;=\left(x_{\text {significand }} \times y_{\text {significand }}\right) \times\left(\text { base }^{x_{exponent }} \times \text { base }^{y_{exponent}}\right) \\<br>
+&amp;=\left(x_{\text {significand }} \times y_{\text {significand }}\right) \times \text { base }^{x_{exponent}+y_{exponent }}
+\end{aligned}$$</p>
+<p>实际上，在上面有效数字的整数乘法之后，当乘法结果相对于表示范围太大时，通常需要<strong>重新缩放</strong>，如下图。<strong>重新缩放移动将有效数字结果的一部分转移到指数</strong>，并以最近舍入方法舍入剩余的有效数字。图的右半部分是一个例子。<strong>由于部分数字被舍弃，浮点乘法会丢失一些信息</strong>。</p>
+<p>![[Pasted image 20210916162555.png]]</p>
+<h3 id="量化浮点">量化浮点</h3>
+<p>神经网络由浮点运算构成。如<a href="https://jackwish.net/2019/%EF%BC%83fixed-point-and-floating-point">定点与浮点</a>所述，FP32 和 INT8 的值域是$[(2−2^{-23})×2^{127},(2^{23}-2)×2^{127}]$ 和 $[−128,127]$，而取值数量大约分别为 $2^{32}$ 和 $2^8$ 。因此，<strong>将网络从 FP32 转换为 INT8 并不像数据类型转换截断那样简单</strong>。</p>
+<p>幸运的是，<strong>神经网络权重的值分布范围很窄，非常接近零</strong>。下图给出了 MobileNetV1 中十层（拥有最多值的层）的权重分布。</p>
+<p><img src="/img/20210916164452.png" alt=""></p>
+<p>当值落在 $(−1,1)$ 中，量化浮点使用类似$x_{float}=x_{scale}\times x_{quantized}$ 的方法将 FP32 映射到 INT8，其中 $x_{float}$ 表示 FP32 权重，$x_{quantized}$ 表示量化的 INT8 权重，$x_{scale}$ 是映射因子（缩放因子）。有时我们不希望将 FP32 零映射到 INT8 零，即<a href="https://en.wikipedia.org/wiki/Digital_signal_processing">数字信号处理</a>中的<a href="https://en.wikipedia.org/wiki/Quantization_(signal_processing)">均一量化</a>和如下等式 。</p>
+<p>$$x_{float}=x_{scale}\times (x_{quantized}−x_{zero\_point})$$</p>
+<p>大多数情况下量化选用无符号整数，那么 INT8 值域为 $[0,255]$ 。zero_point 在这种情况下更有意义。具体而言，如下面的 等式所示，量化浮点值可以分为两个步骤</p>
+<ol>
+<li>通过在权重张量（Tensor）中找到 <em>min</em> 和 <em>max</em> 值从而确定 $x_{scale}$ 和$x_{zero_point}$。</li>
+<li>将权重张量的每个值从 FP32 转换为 INT8 。</li>
+</ol>
+<p>$$\begin{aligned}
+x_{\text {float }} &amp; \in\left[x_{\text {float }}^{\min }, x_{\text {float }}^{\max }\right] \\<br>
+x_{\text {scale }} &amp;=\frac{x_{\text {float }}^{\max }-x_{\text {float }}^{\text {min }}}{x_{\text {quantized }}^{\max }-x_{\text {quantized }}^{\min }} \\<br>
+x_{\text {zero_point }} &amp;=x_{\text {quantized }}^{\max }-x_{\text {float }}^{\max } \div x_{\text {scale }} \\<br>
+x_{\text {quantized }} &amp;=x_{\text {float }} \div x_{\text {scale }}+x_{\text {zero_point }}
+\end{aligned}$$</p>
+<p><strong>注意，当浮点运算结果不等于整数时，需要额外的舍入步骤</strong>。例如将 FP32 值域 $[−1,1]$ 映射到 INT8 值域 $[0,255]$，有 $x_{scale}=\frac{2}{255}$，而$x_{zero_point}=255−\frac{255}{2}\approx 127$。</p>
+<p>量化过程中存在误差是不可避免的，就像数字信号处理中量化一样。下图显示了数字信号处理的<a href="https://en.wikipedia.org/wiki/Quantization_(signal_processing)#Quantization_error_models">量化和误差</a>。</p>
+<p><img src="/img/20210916170741.png" alt=""></p>
+<h2 id="implementation">Implementation</h2>
+<h3 id="background">Background</h3>
+<p>量化并不是什么新知识，我们在对图像做预处理时就用到了量化。回想一下，我们通常会将一张 uint8 类型、数值范围在 0~255 的图片归一成 float32 类型、数值范围在 0.0~1.0 的张量，这个过程就是反量化。类似地，我们经常将网络输出的范围在 0.0~1.0 之间的张量调整成数值为 0~255、uint8 类型的图片数据，这个过程就是量化。所以量化本质上只是对数值范围的重新调整，可以「粗略」理解为是一种线性映射。(之所以加「粗略」二字，是因为有些论文会用非线性量化，但目前在工业界落地的还都是线性量化，所以本文只讨论线性量化的方案)。</p>
+<p>不过，可以明显看出，反量化一般没有信息损失，而量化一般都会有精度损失。这也非常好理解，float32 能保存的数值范围本身就比 uint8 多，因此必定有大量数值无法用 uint8 表示，只能四舍五入成 uint8 型的数值。量化模型和全精度模型的误差也来自四舍五入的 clip 操作。</p>
+<p>我们用 $r$  表示<strong>浮点实数</strong>，$q$  表示<strong>量化后的定点整数</strong>。<strong>浮点和整型之间的换算公式</strong>为：</p>
+<blockquote>
+<p>$$r=S(q-Z)$$
+$$q=round(\frac{r}{S}+Z)$$</p>
+</blockquote>
+<p>其中，$S$ 是 <em>scale</em>，表示<strong>实数和整数之间的比例关系</strong>，$Z$  是 <em>zero point</em>，表示<strong>实数中的 0 经过量化后对应的整数</strong>，它们的计算方法为：</p>
+<blockquote>
+<p>$$S=\frac{r_{max}-r_{min}}{q_{max}-q_{min}}$$
+$$Z = round(q_{max}-\frac{r_{max}}{S})$$</p>
+</blockquote>
+<p>$r_{max}, r_{min}$ 分别是 $r$ 的最大值和最小值；$q_{min}, q_{max}$ 同理。需要强调的一点是，定点整数的 zero point 就代表浮点实数的 0，二者之间的换算不存在精度损失。 这么做的目的是为了在 padding 时保证浮点数值的 0 和定点整数的 zero point 完全等价，保证定点和浮点之间的表征能够一致。</p>
+<h3 id="矩阵运算的量化">矩阵运算的量化</h3>
+<p>由于卷积网络中的卷积层和全连接层本质上都是一堆矩阵乘法，因此我们先看如何将<strong>浮点运算上的矩阵转换为定点运算</strong>。
+假设 $r_1,r_2$ 是浮点实数上的两个 $N\times N$ 的矩阵，$r_3$ 是 $r_1,r_2$ 相乘后的矩阵
+$$r_3^{i,k}=\sum_{j=1}^N r_1^{i,j}r_2^{j,k}$$
+假设  $S_1,Z_1$ 是 $r_1$ 矩阵对应的 scale 和 zero point，$S_2,Z_2,S_3,Z_3$ 同理，那么可以推出：
+$$S_3(q_3^{i,k}-Z_3)=\sum_{j=1}^NS_1(q_1^{i,k}-Z_1)S_2(q_2^{i,k}-Z_2)$$
+整理得到 $$q_3^{i,k}=\frac{S_1S_2}{S_3}\sum_{j=1}^N (q^{i,j}_1-Z_1)(q^{i,j}_2-Z_2)+Z_3$$</p>
+<p>除了 $\frac{S_1S_2}{S_3}$ ，其他都是定点整数运算。那如何把  $\frac{S_1S_2}{S_3}$ 也变成定点运算呢？这里要用到一个 <em>trick</em>。假设 $M=\frac{S_1S_2}{S_3}$  ，由于 $M$ 通常都是 $(0, 1)$之间的实数 (这是通过大量实验统计出来的)，因此可以表示成 $M=2^{-n}M_0$，其中 $M_0$  是一个定点实数。注意，定点数并不一定是整数，所谓定点，指的是小数点的位置是固定的，即小数位数是固定的。因此，如果存在 $M=2^{-n}M_0$，那我们就可以通过 $M_0$ 的 bit 位移操作实现 $M=2^{-n}M_0$ ，这样整个过程就都在定点上计算了。</p>
+<p>很多刚接触量化的同学对这一点比较疑惑，下面我就用一个简单的示例说明这一点。我们把 $M=\frac{S_1S_2}{S_3}$  代入可以得到：$$q_3^{i,j}=M\sum_{j=1}^N (q_1^{i,j}-Z_1)(q_2^{i,j}-Z_2)+Z_3=MP+Z_3$$</p>
+<p>这里面 $P$  是一个在<strong>定点域上计算好的整数</strong>。</p>
+<p>假设 $P = 7091,M = 0.0072474273418460$  ($M$ 可以通过 $S$ 事先计算得到)，那下面我们就是要找到一个 $M_0$ 和 $n$ ，使得 $M P =2^{-n}M_0 P$ 成立。我们可以用一段代码来找到这两个数：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">M</span> <span class="o">=</span> <span class="mf">0.0072474273418460</span>
+<span class="n">P</span> <span class="o">=</span> <span class="mi">7091</span>
+
+<span class="k">def</span> <span class="nf">multiply</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">P</span><span class="p">):</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">M</span> <span class="o">*</span> <span class="n">P</span>
+    <span class="n">Mo</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="mi">2</span> <span class="o">**</span> <span class="n">n</span> <span class="o">*</span> <span class="n">M</span><span class="p">))</span> <span class="c1"># 这里不一定要四舍五入截断，因为python定点数不好表示才这样处理</span>
+
+    <span class="n">approx_result</span> <span class="o">=</span> <span class="p">(</span><span class="n">Mo</span> <span class="o">*</span> <span class="n">P</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">n</span>
+    <span class="k">print</span><span class="p">(</span><span class="s2">&#34;n=</span><span class="si">%d</span><span class="s2">, Mo=</span><span class="si">%d</span><span class="s2">, approx=</span><span class="si">%f</span><span class="s2">, error=</span><span class="si">%f</span><span class="s2">&#34;</span><span class="o">%</span>\
+          <span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">Mo</span><span class="p">,</span> <span class="n">approx_result</span><span class="p">,</span> <span class="n">result</span><span class="o">-</span><span class="n">approx_result</span><span class="p">))</span>
+
+<span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">16</span><span class="p">):</span>
+    <span class="n">multiply</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">M</span><span class="p">,</span> <span class="n">P</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>可以看到，在 $n=11、M_0=15$ 的时候，误差就已经在 1 以内了。因此，只要 $M_0P$ 的数值范围在 21(32-11) 个 bit 内，就可以通过对 $M_0P$ 右移 $n$ 个 bit 来近似 $MP$ 了，而这个误差本身在可以接受的范围内。这样一来，就可以完全通过定点运算来计算，即我们实现了<strong>浮点矩阵乘法的量化</strong>。</p>
+<h3 id="卷积网络的量化">卷积网络的量化</h3>
+<p>有了上面矩阵乘法的量化，我们就可以进一步尝试对卷积网络的量化。假设一个这样的网络：</p>
+<p><img src="/img/20210916190953.png" alt=""></p>
+<p>这个网络只有三个模块，现在需要把 <em>conv、fc、relu</em> 量化。</p>
+<p>假设输入为 $x$，可以事先统计样本的最大值和最小值，然后计算出 $S_x$ (scale) 和 $Z_x$ (zero point)。
+同样地，假设 <em>conv、fc</em> 的参数为 $w_1, w_2$，以及 scale 和 zero point 为 $S_{w1},Z_{w1},S_{w2},Z_{w2}$ 。中间层的 feature map 为 $a_1,a_2$ ，事先统计出它们的 scale 和 zero point 为 $S_{a1},Z_{a1},S_{s2},Z_{a2}$。</p>
+<p>卷积运算和全连接层的本质都是矩阵运算，因此我们可以把卷积运算表示成 (这里先忽略加 bias 的操作，这一步同样可以量化，不过中间有一些 trick，我们在之后的文章再仔细研究)：
+$$a_1^{i,k}=\sum_{j=1}^N x^{i,j}w_1^{i,j}$$
+$$q_{a1}^{i,k}=M\sum_{j=1}^N (q_x^{i,j}-Z_x)(q_{w1}^{i,j}-Z_{w1})+Z_{a1}$$
+其中 $M=\dfrac{S_{w1}S_{x}}{S_{a1}}$。得到 conv 的输出后，不用反量化回  $a_1$ ，直接用  $q_{a1}$ 继续后面的计算即可。</p>
+<p>对于量化的 RuLU 来说，计算公式不再是 $q_{a2}=max(q_{a1},0)$，而是 $q_{a2}=max(q_{a1},Z_{a1})$，并且 $S_{a1}=S_{a2},Z_{a1}=Z_{a2}$。在部署的时候，ReLU 或者 BN 通常是会整合到 conv 中一起计算的。</p>
+<p>得到 $q_{a2}$ 之后，我们可以计算 fc 层。假设网络输出为 $y$ ，对应的 scale 和zero_point 为 $S_y,Z_y$ ，则量化之后的  fc 层可以用如下公式来计算：
+$$
+q_{y}^{i, k}=M \sum_{j=1}^{N}\left(q_{a 2}^{i, j}-Z_{a 2}\right)\left(q_{w 2}^{j, k}-Z_{w 2}\right)+Z_{y}
+$$</p>
+<p>然后通过公式 $y=S_y(q_y-Z_y)$ 把结果反量化回去，就可以得到近似原来全精度模型的输出了。</p>
+<p>可以看到，上面整个流程都是用定点运算实现的。我们在得到全精度的模型后，可以事先统计出 weight 以及中间各个 feature map 的 min、max，并以此计算出 scale 和 zero point，然后把 weight 量化成 int8/int16 型的整数后，整个网络便完成了量化，然后就可以依据上面的流程做量化推理了。</p>
+<h2 id="model-size">Model Size</h2>
+<ul>
+<li>网络的大小取决于Parameter的数量，如果是float32，就是$Parameters\times 4$</li>
+</ul>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">Hanshi Sun</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2021-10-17
+        
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
+  </p>
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">Reward</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/wechat.jpg">
+        <span>wechat</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/alipay.jpg">
+        <span>alipay</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/quantization/">Quantization</a>
+          <a href="/tags/deep-learning/">Deep Learning</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/2021/10/17/arrhythmia-classifier-using-cnn-with-alq/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Arrhythmia Classifier Using CNN With ALQ</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/2021/10/17/pytorch-basics/">
+            <span class="next-text nav-default">Pytorch Basics</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        <div id="gitalk-container"></div>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+      var gitalk = new Gitalk({
+        id: '2021-10-17 10:48:26 \x2b0800 CST',
+        title: 'Quantization Compression',
+        clientID: '9d4d5bfb5872b737a756',
+        clientSecret: '2677eacb9eedb58e0e8e7463a2c6a5ff70054601',
+        repo: 'gitalk',
+        owner: 'preminstrel',
+        admin: ['preminstrel'],
+        body: decodeURI(location.href)
+      });
+      gitalk.render('gitalk-container');
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/gitalk/gitalk">comments powered by gitalk.</a></noscript>
+
+  
+
+  
+
+  
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:preminstrel@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://twitter.com/preminstrel" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="https://github.com/preminstrel" class="iconfont icon-github" title="github"></a>
+      <a href="https://www.zhihu.com/people/pawn-85-95" class="iconfont icon-zhihu" title="zhihu"></a>
+      <a href="https://space.bilibili.com/23354645" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="https://preminstrel.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    
+    
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>Hanshi Sun</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

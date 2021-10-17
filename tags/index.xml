@@ -6,17 +6,53 @@
     <description>Recent content in Tags on Preminstrel&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 17 Oct 2021 00:25:41 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 17 Oct 2021 13:46:08 +0800</lastBuildDate>
     
 	<atom:link href="https://preminstrel.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
+      <title>Scoop</title>
+      <link>https://preminstrel.github.io/tags/scoop/</link>
+      <pubDate>Sun, 17 Oct 2021 13:46:08 +0800</pubDate>
+      
+      <guid>https://preminstrel.github.io/tags/scoop/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Windows</title>
+      <link>https://preminstrel.github.io/tags/windows/</link>
+      <pubDate>Sun, 17 Oct 2021 13:46:08 +0800</pubDate>
+      
+      <guid>https://preminstrel.github.io/tags/windows/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Deep Learning</title>
       <link>https://preminstrel.github.io/tags/deep-learning/</link>
-      <pubDate>Sun, 17 Oct 2021 00:25:41 +0800</pubDate>
+      <pubDate>Sun, 17 Oct 2021 13:42:45 +0800</pubDate>
       
       <guid>https://preminstrel.github.io/tags/deep-learning/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Publication</title>
+      <link>https://preminstrel.github.io/tags/publication/</link>
+      <pubDate>Sun, 17 Oct 2021 13:37:23 +0800</pubDate>
+      
+      <guid>https://preminstrel.github.io/tags/publication/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Quantization</title>
+      <link>https://preminstrel.github.io/tags/quantization/</link>
+      <pubDate>Sun, 17 Oct 2021 10:48:26 +0800</pubDate>
+      
+      <guid>https://preminstrel.github.io/tags/quantization/</guid>
       <description></description>
     </item>
     

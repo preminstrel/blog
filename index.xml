@@ -12,6 +12,42 @@
     
     
     <item>
+      <title>Scoop</title>
+      <link>https://preminstrel.github.io/post/2021/10/17/scoop/</link>
+      <pubDate>Sun, 17 Oct 2021 13:46:08 +0800</pubDate>
+      
+      <guid>https://preminstrel.github.io/post/2021/10/17/scoop/</guid>
+      <description>在windows环境下，显然无法像LInux环境一样一开始就有现成的包管理，于是我看到了Scoop，Scoop可以用PowerShell安装</description>
+    </item>
+    
+    <item>
+      <title>Deep Learning on WSL</title>
+      <link>https://preminstrel.github.io/post/2021/10/17/deep-learning-on-wsl/</link>
+      <pubDate>Sun, 17 Oct 2021 13:42:45 +0800</pubDate>
+      
+      <guid>https://preminstrel.github.io/post/2021/10/17/deep-learning-on-wsl/</guid>
+      <description>Pytorch环境搭建 Install Anaconda3 最近在用WSL，因为比双系统方便且想直接在WSL里面写代码，于是就在WSL环境下进行了配置。首先安装Anacond</description>
+    </item>
+    
+    <item>
+      <title>Arrhythmia Classifier Using CNN With ALQ</title>
+      <link>https://preminstrel.github.io/post/2021/10/17/arrhythmia-classifier-using-cnn-with-alq/</link>
+      <pubDate>Sun, 17 Oct 2021 13:37:23 +0800</pubDate>
+      
+      <guid>https://preminstrel.github.io/post/2021/10/17/arrhythmia-classifier-using-cnn-with-alq/</guid>
+      <description>技术路线分为两部分，第一部分是ECGNet模型的设计，第二部分为利用ALQ算法模型的量化压缩。 ECGNet Model 网络设计和学长们的几乎完全相同，结构如下：</description>
+    </item>
+    
+    <item>
+      <title>Quantization Compression</title>
+      <link>https://preminstrel.github.io/post/2021/10/17/quantization-compression/</link>
+      <pubDate>Sun, 17 Oct 2021 10:48:26 +0800</pubDate>
+      
+      <guid>https://preminstrel.github.io/post/2021/10/17/quantization-compression/</guid>
+      <description>本文参考此博客 量化有若干相似的术语。低精度（Low precision）可能是最通用的概念。常规精度一般使用 FP32（32位浮点，单精度）存储</description>
+    </item>
+    
+    <item>
       <title>Pytorch Basics</title>
       <link>https://preminstrel.github.io/post/2021/10/17/pytorch-basics/</link>
       <pubDate>Sun, 17 Oct 2021 00:25:41 +0800</pubDate>

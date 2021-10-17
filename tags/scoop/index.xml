@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Scoop on Preminstrel&#39;s Blog</title>
+    <link>https://preminstrel.github.io/tags/scoop/</link>
+    <description>Recent content in Scoop on Preminstrel&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 17 Oct 2021 13:46:08 +0800</lastBuildDate>
+    
+	<atom:link href="https://preminstrel.github.io/tags/scoop/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Scoop</title>
+      <link>https://preminstrel.github.io/post/2021/10/17/scoop/</link>
+      <pubDate>Sun, 17 Oct 2021 13:46:08 +0800</pubDate>
+      
+      <guid>https://preminstrel.github.io/post/2021/10/17/scoop/</guid>
+      <description>在windows环境下，显然无法像LInux环境一样一开始就有现成的包管理，于是我看到了Scoop，Scoop可以用PowerShell安装</description>
+    </item>
+    
+  </channel>
+</rss>
