@@ -44,7 +44,7 @@ Why Hugo again?  Simple is best.
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
-<meta property="og:title" content="Hello Hugo" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" /><meta property="og:title" content="Hello Hugo" />
 <meta property="og:description" content="This is my first blog on Hugo, based on even theme.
 Why Hugo again?  Simple is best.
  Actually, I am familiar with Hexo, Wordpress. I have used hugo themes before, such as Introduction, Docs, which are really wonderful themes as well. Before, I was fascinated by a beatiful and complicate Wordpress theme named Sakura. I pay over 1000 RMB to buy a cloud server to deploy my Wordpress theme." />
@@ -110,6 +110,7 @@ Why Hugo again?  Simple is best.
   <a href="/" class="logo">Preminstrel</a>
 </div>
 
+
 <nav class="site-navbar">
   <ul id="menu" class="menu">
     <li class="menu-item">
@@ -124,7 +125,9 @@ Why Hugo again?  Simple is best.
         <a class="menu-item-link" href="/about/">About</a>
       </li>
   </ul>
-</nav>
+</nav><li style="display:inline-block;margin-left:290px;">
+    <input type="search" class="docsearch-input" placeholder="Search" />
+  </li>
     </header>
 
     <main id="main" class="main">
@@ -316,8 +319,31 @@ Why Hugo again?  Simple is best.
 
 
 
+<script src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+<script>
+docsearch({
+    apiKey: "67ddc142183934ec2d0aa925bf40c09a",
+    indexName: "blog",
+    appId: "RQO6N4CQFD",
+    inputSelector: '.docsearch-input',
+    debug: false,
+});
+</script>
 
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
 
+<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/algoliasearch.min.js"></script>
+<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/autocomplete.min.js"></script>
+
+
+ 
+<script src= "/js/search.js" type="text/javascript"></script>
+
+</script>
+
+
+  
+  
 </body>
 </html>
