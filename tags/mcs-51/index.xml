@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>MCS 51 on Preminstrel&#39;s Blog</title>
+    <link>https://preminstrel.github.io/tags/mcs-51/</link>
+    <description>Recent content in MCS 51 on Preminstrel&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Mon, 18 Oct 2021 22:45:32 +0800</lastBuildDate>
+    
+	<atom:link href="https://preminstrel.github.io/tags/mcs-51/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>MCS 51 Basics</title>
+      <link>https://preminstrel.github.io/post/2021/10/18/mcs-51-basics/</link>
+      <pubDate>Mon, 18 Oct 2021 22:45:32 +0800</pubDate>
+      
+      <guid>https://preminstrel.github.io/post/2021/10/18/mcs-51-basics/</guid>
+      <description>最近因为在上微机原理课，所以买了51单片机（MCS 51）来进行实验学习。 啊啊</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -12,6 +12,15 @@
     
     
     <item>
+      <title>MCS 51 Basics</title>
+      <link>https://preminstrel.github.io/post/2021/10/18/mcs-51-basics/</link>
+      <pubDate>Mon, 18 Oct 2021 22:45:32 +0800</pubDate>
+      
+      <guid>https://preminstrel.github.io/post/2021/10/18/mcs-51-basics/</guid>
+      <description>最近因为在上微机原理课，所以买了51单片机（MCS 51）来进行实验学习。 啊啊</description>
+    </item>
+    
+    <item>
       <title>Vivado ILA</title>
       <link>https://preminstrel.github.io/post/2021/10/18/vivado-ila/</link>
       <pubDate>Mon, 18 Oct 2021 20:05:26 +0800</pubDate>
