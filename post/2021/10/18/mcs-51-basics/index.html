@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="Hanshi Sun" /><meta name="description" content="最近因为在上微机原理课，所以买了51单片机（MCS 51）来进行实验学习。 啊啊" /><meta name="keywords" content="Preminstrel" />
+<meta name="author" content="Hanshi Sun" /><meta name="description" content="最近因为在上微机原理课，所以买了51单片机（MCS 51）来进行实验学习。 S/N 板载资源 Details 1 数码管模块 2个四位一体共阴数码管，可以显示8位数字字符" /><meta name="keywords" content="Preminstrel" />
 
 
 <meta name="robots" content="">
@@ -43,22 +43,22 @@
 
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" /><meta property="og:title" content="MCS 51 Basics" />
-<meta property="og:description" content="最近因为在上微机原理课，所以买了51单片机（MCS 51）来进行实验学习。 啊啊" />
+<meta property="og:description" content="最近因为在上微机原理课，所以买了51单片机（MCS 51）来进行实验学习。 S/N 板载资源 Details 1 数码管模块 2个四位一体共阴数码管，可以显示8位数字字符" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://preminstrel.github.io/post/2021/10/18/mcs-51-basics/" />
 <meta property="article:published_time" content="2021-10-18T22:45:32+08:00" />
 <meta property="article:modified_time" content="2021-10-18T22:45:32+08:00" />
 <meta itemprop="name" content="MCS 51 Basics">
-<meta itemprop="description" content="最近因为在上微机原理课，所以买了51单片机（MCS 51）来进行实验学习。 啊啊">
+<meta itemprop="description" content="最近因为在上微机原理课，所以买了51单片机（MCS 51）来进行实验学习。 S/N 板载资源 Details 1 数码管模块 2个四位一体共阴数码管，可以显示8位数字字符">
 <meta itemprop="datePublished" content="2021-10-18T22:45:32&#43;08:00" />
 <meta itemprop="dateModified" content="2021-10-18T22:45:32&#43;08:00" />
-<meta itemprop="wordCount" content="38">
+<meta itemprop="wordCount" content="612">
 
 
 
 <meta itemprop="keywords" content="MCU,MCS 51," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="MCS 51 Basics"/>
-<meta name="twitter:description" content="最近因为在上微机原理课，所以买了51单片机（MCS 51）来进行实验学习。 啊啊"/>
+<meta name="twitter:description" content="最近因为在上微机原理课，所以买了51单片机（MCS 51）来进行实验学习。 S/N 板载资源 Details 1 数码管模块 2个四位一体共阴数码管，可以显示8位数字字符"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -135,8 +135,8 @@
         <div class="post-category">
             <a href="/categories/mcu/"> MCU </a>
             </div>
-          <span class="more-meta"> 38 words </span>
-          <span class="more-meta"> 1 min read </span>
+          <span class="more-meta"> 612 words </span>
+          <span class="more-meta"> 2 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
     </header>
@@ -149,8 +149,143 @@
 </div>
     <div class="post-content">
       <p>最近因为在上微机原理课，所以买了51单片机（MCS 51）来进行实验学习。</p>
-<p><img src="https://raw.githubusercontent.com/preminstrel/Markdown_Files/main/img/20211018225338.png" alt="image-20211018225326610"></p>
-<p>啊啊</p>
+<p><img src="https://raw.githubusercontent.com/preminstrel/Markdown_Files/main/img/20211018225338.png" alt=""></p>
+<table>
+<thead>
+<tr>
+<th>S/N</th>
+<th>板载资源</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>数码管模块</td>
+<td>2个四位一体共阴数码管，可以显示8位数字字符，如时钟和密码等</td>
+</tr>
+<tr>
+<td>2</td>
+<td>LCD1602 接口</td>
+<td>兼容 LCD1602/LCD9648 液晶屏，可以显示数字字符等</td>
+</tr>
+<tr>
+<td>3</td>
+<td>LCD12864 接口</td>
+<td>兼容 LCD9648/MiniLCD12864/带字库 LCD12864液晶，可以显示汉字和图像</td>
+</tr>
+<tr>
+<td>4</td>
+<td>8*8 LED 点阵</td>
+<td>可以显示数字、字符和图形</td>
+</tr>
+<tr>
+<td>5</td>
+<td>LED 模块</td>
+<td>8个 LED，可以实现流水灯等显示</td>
+</tr>
+<tr>
+<td>6</td>
+<td>矩阵按键</td>
+<td>4*4 矩阵按键，可以用作计算器、密码锁等应用的输入装置</td>
+</tr>
+<tr>
+<td>7</td>
+<td>红外接收头</td>
+<td>NEC 协议，可以实现遥控</td>
+</tr>
+<tr>
+<td>8</td>
+<td>DS18B20 温度传感器</td>
+<td>可以实现温度采集控制</td>
+</tr>
+<tr>
+<td>9</td>
+<td>NRF24L01 接口</td>
+<td>可以实现2.4G远程遥控通信</td>
+</tr>
+<tr>
+<td>10</td>
+<td>独立按键</td>
+<td>4个按键，可以用作按键输入控制</td>
+</tr>
+<tr>
+<td>11</td>
+<td>MicroUSB 接口</td>
+<td>可以用作电源输入、程序下载等</td>
+</tr>
+<tr>
+<td>12</td>
+<td>USB 转 TTL 模块</td>
+<td>CH340C 芯片，可用作电脑 USB 与单片机串口下载和通信</td>
+</tr>
+<tr>
+<td>13</td>
+<td>3.3V 电源模块</td>
+<td>ASM1117-3.3 芯片，将5V转为3.3V供用户使用</td>
+</tr>
+<tr>
+<td>14</td>
+<td>电源开关</td>
+<td>系统电源控制开关</td>
+</tr>
+<tr>
+<td>15</td>
+<td>ADC/DAC 模块</td>
+<td>XPT2046 芯片用作 ADC，LM358+PWM 作为 DAC，可采集外部模拟信号和输出模拟电压</td>
+</tr>
+<tr>
+<td>16</td>
+<td>EEPROM 模块</td>
+<td>AT24C02 芯片，可以存储256字节数据，掉电不丢失</td>
+</tr>
+<tr>
+<td>17</td>
+<td>复位按键</td>
+<td>系统复位</td>
+</tr>
+<tr>
+<td>18</td>
+<td>无源蜂鸣器</td>
+<td>可以用作报警提示、音乐等</td>
+</tr>
+<tr>
+<td>19</td>
+<td>DS1302 时钟模块</td>
+<td>DS1302 芯片，可以用作时钟发生</td>
+</tr>
+<tr>
+<td>20</td>
+<td>步进电机驱动模块</td>
+<td>ULN2003 芯片，可以用作直流电机、28BYJ48 步进电机驱动</td>
+</tr>
+<tr>
+<td>21</td>
+<td>STC89Cxx 单片机座及 IO</td>
+<td>固定单片机，并将所有 IO 引出，方便用户二次开发</td>
+</tr>
+<tr>
+<td>22</td>
+<td>TFTLCD 模块接口</td>
+<td>与3号接口组合可连接 TFTLCD，方便用户二次开发</td>
+</tr>
+<tr>
+<td>23</td>
+<td>74HC595</td>
+<td>拓展 IO，控制 LED 点阵</td>
+</tr>
+<tr>
+<td>24</td>
+<td>74HC245</td>
+<td>驱动数码管段选显示</td>
+</tr>
+<tr>
+<td>25</td>
+<td>74HC138</td>
+<td>驱动数码管位选显示</td>
+</tr>
+</tbody>
+</table>
 
     </div>
 
