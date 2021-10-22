@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="Hanshi Sun" /><meta name="description" content="最近因为在上微机原理课，所以买了51单片机（MCS 51）来进行实验学习。 S/N 板载资源 Details 1 数码管模块 2个四位一体共阴数码管，可以显示8位数字字符" /><meta name="keywords" content="Preminstrel" />
+<meta name="author" content="Hanshi Sun" /><meta name="description" content="最近因为在上微机原理课，所以买了51单片机（MCS 51）来进行实验学习。 Introduction to MCU 一台能够工作的计算机要有这样几个部件构成：CPU（进行运算、控" /><meta name="keywords" content="Preminstrel" />
 
 
 <meta name="robots" content="">
@@ -43,22 +43,22 @@
 
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" /><meta property="og:title" content="MCS 51 Basics" />
-<meta property="og:description" content="最近因为在上微机原理课，所以买了51单片机（MCS 51）来进行实验学习。 S/N 板载资源 Details 1 数码管模块 2个四位一体共阴数码管，可以显示8位数字字符" />
+<meta property="og:description" content="最近因为在上微机原理课，所以买了51单片机（MCS 51）来进行实验学习。 Introduction to MCU 一台能够工作的计算机要有这样几个部件构成：CPU（进行运算、控" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://preminstrel.github.io/post/2021/10/18/mcs-51-basics/" />
 <meta property="article:published_time" content="2021-10-18T22:45:32+08:00" />
-<meta property="article:modified_time" content="2021-10-18T22:45:32+08:00" />
+<meta property="article:modified_time" content="2021-10-22T00:00:00+00:00" />
 <meta itemprop="name" content="MCS 51 Basics">
-<meta itemprop="description" content="最近因为在上微机原理课，所以买了51单片机（MCS 51）来进行实验学习。 S/N 板载资源 Details 1 数码管模块 2个四位一体共阴数码管，可以显示8位数字字符">
+<meta itemprop="description" content="最近因为在上微机原理课，所以买了51单片机（MCS 51）来进行实验学习。 Introduction to MCU 一台能够工作的计算机要有这样几个部件构成：CPU（进行运算、控">
 <meta itemprop="datePublished" content="2021-10-18T22:45:32&#43;08:00" />
-<meta itemprop="dateModified" content="2021-10-18T22:45:32&#43;08:00" />
-<meta itemprop="wordCount" content="612">
+<meta itemprop="dateModified" content="2021-10-22T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="4723">
 
 
 
 <meta itemprop="keywords" content="MCU,MCS 51," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="MCS 51 Basics"/>
-<meta name="twitter:description" content="最近因为在上微机原理课，所以买了51单片机（MCS 51）来进行实验学习。 S/N 板载资源 Details 1 数码管模块 2个四位一体共阴数码管，可以显示8位数字字符"/>
+<meta name="twitter:description" content="最近因为在上微机原理课，所以买了51单片机（MCS 51）来进行实验学习。 Introduction to MCU 一台能够工作的计算机要有这样几个部件构成：CPU（进行运算、控"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -135,8 +135,8 @@
         <div class="post-category">
             <a href="/categories/mcu/"> MCU </a>
             </div>
-          <span class="more-meta"> 612 words </span>
-          <span class="more-meta"> 2 mins read </span>
+          <span class="more-meta"> 4723 words </span>
+          <span class="more-meta"> 10 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
     </header>
@@ -144,12 +144,55 @@
     <div class="post-toc" id="post-toc">
   <h2 class="post-toc-title">Contents</h2>
   <div class="post-toc-content always-active">
-    <nav id="TableOfContents"></nav>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#introduction-to-mcu">Introduction to MCU</a>
+      <ul>
+        <li><a href="#mcs-51">MCS 51</a></li>
+        <li><a href="#stc89cxx-chip">STC89Cxx Chip</a></li>
+      </ul>
+    </li>
+    <li><a href="#单片机最小系统构成">单片机最小系统构成</a>
+      <ul>
+        <li><a href="#晶振电路">晶振电路</a></li>
+        <li><a href="#复位电路">复位电路</a></li>
+        <li><a href="#电源电路">电源电路</a></li>
+      </ul>
+    </li>
+    <li><a href="#keil-c51-template">Keil C51 template</a>
+      <ul>
+        <li><a href="#头文件作用">头文件作用</a></li>
+      </ul>
+    </li>
+    <li><a href="#点亮第一个-led">点亮第一个 LED</a>
+      <ul>
+        <li><a href="#introduction-to-gpio">Introduction to GPIO</a>
+          <ul>
+            <li><a href="#concepts">Concepts</a></li>
+            <li><a href="#framework">Framework</a></li>
+          </ul>
+        </li>
+        <li><a href="#introduction-to-led">Introduction to LED</a></li>
+        <li><a href="#hardware-design">Hardware Design</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
   </div>
 </div>
     <div class="post-content">
       <p>最近因为在上微机原理课，所以买了51单片机（MCS 51）来进行实验学习。</p>
-<p><img src="https://raw.githubusercontent.com/preminstrel/Markdown_Files/main/img/20211018225338.png" alt=""></p>
+<h1 id="introduction-to-mcu">Introduction to MCU</h1>
+<p>一台能够工作的计算机要有这样几个部件构成：CPU（进行运算、控制）、RAM （<strong>数据</strong>存储）、ROM（<strong>程序</strong>存储）、输入/输出设备（例如：串行口、并行输出口等）。</p>
+<p>在个人计算机上这些部件被分成若干块芯片，安装一个称之为<strong>主板</strong>的印刷线路板上。而在单片机中，这些部件全部被做到一块集成电路芯片中，所以就称为<strong>单片机（也称微控制器 MCU）</strong>，而且有一些单片机中除了上述部份外，还集成了其它部份如 A/D，D/A 等。体积不大，一般用 40 脚封装， 当然功能多一些单片机也有引脚比较多的，如 68 引脚， 功能少的只有 10 多个或 20 多个引脚，有的甚至只 8 只引脚。</p>
+<h2 id="mcs-51">MCS 51</h2>
+<p>51 单片机是对所有兼容 Intel 8031 指令系统的单片机的统称。51 单片机是基础入门的 一个单片机，还是应用最广泛的一种。需要注意的是 <strong>51 系列的单片机一般不具备自编程能力</strong>。 80C51 是 MCS-51 系列中的一个典型品种；其它厂商以 8051 为基核开发出的CMOS 工艺单片机产品统称为 80C51 系列。</p>
+<p><strong>总线（BUS）<strong>是单片机各部件之间传送信息的公共通道。单片机中有</strong>内部总线</strong>和<strong>外部总线</strong>两类，内部总线是 CPU 内部之间的连线，外部总线是指 CPU 与其它部件之间的连线；外部总线有三种: <strong>数据总线 DB（Data Bus）,地址总线 AB（Address Bus）和控制总线 CB（Control Bus）</strong>。</p>
+<h2 id="stc89cxx-chip">STC89Cxx Chip</h2>
+<p>我国芯片技术的快速发展，宏晶公司推出了增强型51单片机 STC89Cxx/STC90Cxx 等系列，除内部资源及功能大大增强外，还有一个非常重要的是它支持 <strong>ISP（在系统可编程）/IAP（在应用可编程）</strong>，无需专用编程器或专用仿真器。开发板上使用的 STC89C52 或者 STC89C516，这两款芯片以及其他 STC89Cxx 或者 STC90Cxx 除 Flash 和 RAM 容量差异外，内部资源功能几乎一样。下面我们看下常见 PDIP 封装（直插封装）的 51 单片机芯片实物图如下所示：</p>
+<div align=center>
+<img src="https://raw.githubusercontent.com/preminstrel/Markdown_Files/main/img/20211018225338.png" width="500px" />
+</div>
 <table>
 <thead>
 <tr>
@@ -286,6 +329,104 @@
 </tr>
 </tbody>
 </table>
+<h1 id="单片机最小系统构成">单片机最小系统构成</h1>
+<p>若要使系统正常运行，必须确保单片机的最小系统稳定工作。51 单片机的最小系统由以下几部分组成：</p>
+<ul>
+<li>晶振电路</li>
+<li>复位电路</li>
+<li>电源电路</li>
+</ul>
+<p>晶振电路提供时钟给单片机工作，犹如人的心脏。</p>
+<p>复位电路提供系统复位操作，当系统出现运行不正常或者死机等情况时，可以通过复位按键重新启动系统。</p>
+<p>电源电路也是非常关键的一个部分，因为单片机对供电电压是有要求的，如果电压过大将烧坏芯片，如果电压过小系统将运行不了。所以选择一个合适稳定的电源电路是非常关键的。 还有一点非常重要，由于 51 单片机的 P0 口是漏极开路，即<strong>输出高电平会导致高阻态，要让它输出高电平就必须外接上拉电阻</strong>。</p>
+<h2 id="晶振电路">晶振电路</h2>
+<p>由于单片机正常工作需要一个<strong>时钟</strong>，因此就需要在其晶振引脚上外接晶振 （我们使用的 STC89CXX 单片机晶振引脚是 18 和 19 脚），至于需要多大晶振这就取决于你所使用的单片机，由于使用的是 51 单片机，其时钟频率可在 0-40MHZ 上运行，一般情况下建议选择 12M（适合计算延时时间）或者是 11.0592M（适合串口通信）。</p>
+<p>若直接将此晶振接入单片机晶振引脚，会发现系统工作不稳定，这是因为晶振起振的一瞬间会产生一些电感，为了消除这个电感所带来的干扰，可以在此晶振两端分别加上一个电容，电容的选取需要无极性的， 另一端需要共地。根据选取的晶振大小决定电容值，通常电容可在 10-33PF 值范围内选取。我们使用的是 33PF 电容。这样一来就构成了晶振电路。只有保证晶振电路稳定，单片机才能继续工作。</p>
+<div align=center>
+<img src="https://raw.githubusercontent.com/preminstrel/Markdown_Files/main/img/20211022115957.png" width="400px" />
+</div>
+<h2 id="复位电路">复位电路</h2>
+<p>前面已经将晶振电路搭建完成，晶振需要无时无刻给单片机提供运行周期。但即使时钟周期在不停的运行，系统也有可能会出现崩溃或者瘫痪状态。</p>
+<p>为了处理这一情况，需要设计一个复位电路来实现此功能。单片机引脚当中有一个 <code>RST</code> 复位引脚，STC89CXX 单片机是<strong>高电平复位</strong>，所以只需要让这个引脚保持一段时间高电平就可以。要实现此功能通常有两种方式，一种是通过按键进行手动复位，还有一种是上电复位，即电源开启后自动复位。</p>
+<p>手动复位是通过一个按键及电容电阻所组成，利用按键的开关功能实现复位，按键按下后 <code>VCC</code> 直接进入到单片机 <code>RST</code> 引脚，松开后 <code>VCC</code> 断开，<code>RST</code> 被电阻拉为低电平。这一合一开就实现了手动复位。当按下按键 <code>RSTK1</code>，<code>VCC</code> 直接连接到 <code>RST</code> 复位脚，<code>VCC</code> 是高电平所以系统复位。</p>
+<p>而自动复位主要是利用 RC 充放电功能，电源已开启，由于电容隔直，<code>VCC</code> 直接进入 <code>RST</code>，然后电容开始慢慢充电，直到充电完成，此时 <code>RST</code> 被电阻拉低。 这样就起到上电复位的效果。</p>
+<h2 id="电源电路">电源电路</h2>
+<p>任何电子器件都需要有一个合适的电源进行供电，没有电源，系统是不会工作的。STC89CXX 单片机的工作电压是 3.3-5.5V 范围， 通常我们使用 5V 直流。将电源接入到各芯片电源引脚即可。</p>
+<p>开发板上还预留了 <code>P3</code>（5V/3V）端子，这些端子可以很方便的给外部模块连接电源。</p>
+<h1 id="keil-c51-template">Keil C51 template</h1>
+<p>我们使用 Keil 来创建完美地工程模板，为后面的程序编写带来方便。</p>
+<p>CPU 型号选择 <code>AT89C52</code>，在 <code>Configuration</code> 中配置好合适的字体后，我们创建一个 <code>main.c</code> 文件，写入以下代码。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="cm">/* main.c */</span>
+
+<span class="cp">#include</span> <span class="cpf">&#34;reg52.h&#34;</span><span class="cp">
+</span><span class="cp"></span>
+<span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="k">while</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="p">{</span>
+        
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="头文件作用">头文件作用</h2>
+<p>在代码中引用头文件，其实际意义就是将这个头文件中的全部内容放到引用头文件的位置处，免去我们每次编写同类程序都要将头文件中的语句重复编写。</p>
+<p>在代码中加入头文件有两种书写方法，分别为<code>#include &lt;reg52.h&gt;</code>和<code>#include&quot;reg52.h&quot;</code>，这两种写法是有区别的。</p>
+<ul>
+<li>使用<code>&lt;&gt;</code>包含头文件时，编译器先进入到<strong>软件安装文件夹</strong>处开始搜索这个头文件，也就是 <code>KEILC51/C51/INC</code> 这个文件夹下，如果这个文件夹没有引用的头文件，编译器将会报错。</li>
+<li>使用<code>&quot;&quot;</code>包含头文件时，编译器先进入到<strong>当前工程所在文件夹</strong>处开始搜索该头文件，如果当前工程所在文件夹下没有该头文件，编译器<strong>将继续回到软件安装文件夹处搜索这个头文件</strong>，若找不到该头文件，编译器将报错。</li>
+</ul>
+<h1 id="点亮第一个-led">点亮第一个 LED</h1>
+<p>不论学习什么单片机，最简单的外设莫过于 IO 口的高低电平控制，这里我们使用创建好的工程模板上，通过控制 51 单片机的 GPIO 使开发板上的 LED 灯点亮。</p>
+<h2 id="introduction-to-gpio">Introduction to GPIO</h2>
+<h3 id="concepts">Concepts</h3>
+<p>GPIO（<em>general purpose intput output</em>）是通用输入输出端口的简称，可以<strong>通过软件来控制其输入和输出</strong>。51 单片机芯片的 GPIO 引脚与外部设备连接 起来，从而实现与外部通讯、控制以及数据采集的功能。GPIO 最简单的应用还属点亮 LED 灯了，只需通过软件控制 GPIO 输出高低电平即可。</p>
+<p>GPIO 还可以作为输入控制，比如在引脚上接入一个按键，通过电平的高低判断按键是否按下。 我们开发板上使用的 51 单片机型号是 STC89C52 或 STC89C516，此芯片共有 40 引脚。注意，并不是所有的引脚都是 GPIO，51 单片机引脚可以分为以下三个大类：</p>
+<ul>
+<li>电源引脚：引脚图中的 <code>VCC</code>、 <code>GND</code> 都属于电源引脚。</li>
+<li>晶振引脚：引脚图中的 <code>XTAL1</code>、<code>XTAL2</code> 都属于晶振引脚。</li>
+<li>复位引脚：引脚图中的 <code>RST/VPD</code> 属于复位引脚，不做其他功能使用。</li>
+<li>下载引脚：51 单片机的串口功能引脚（<code>TXD</code>、<code>RXD</code>）可以作为下载引脚使用。</li>
+<li>GPIO 引脚：引脚图中带有 <code>Px.x</code> 等字样的均属于 GPIO 引脚。从引脚图可以看出，GPIO 占用了芯片大部分的引脚，共达 32 个，分为了 4 组，<code>P0</code>、<code>P1</code>、 <code>P2</code>、<code>P3</code>，每组为 8 个 IO，而且在 <code>P3</code> 组中每个 IO 都具备额外功能，只要通过相应的寄存器设置即可配置对应的附加功能，同一时刻，每个引脚只能使用该引脚。</li>
+</ul>
+<h3 id="framework">Framework</h3>
+<h4 id="p0-端口"><code>P0</code> 端口</h4>
+<p><code>P0</code> 端口含有 8 位引脚，下图为其中一个，其它几个与之完全一致，因此只需了解当中一个即可。</p>
+<p><code>P0</code> 端口由锁存器、输入缓冲器、切换开关、一个非门、一个与非门及场效应管驱动电路构成。再看图的最右边，标号为 <code>P0.x</code> 引脚的图标，也就是说 <code>P0.x</code> 引脚可以是 <code>P0.0</code> 到 <code>P0.7</code> 的任何一位，即在 <code>P0</code> 口有 8 个与上图相同的电路组成。</p>
+<div align=center>
+<img src="https://raw.githubusercontent.com/preminstrel/Markdown_Files/main/img/20211022225548.png" width="400px" />
+</div>
+<h5 id="输入缓冲器">输入缓冲器</h5>
+<p>在 <code>P0</code> 口中，有两个三态的缓冲器，在学数字电路时，我们已知道，三态门有三个状态，即在输出端可以是高电平、低电平，同时还有一种就是高阻状态（或称为禁止状态）。</p>
+<p>上图一个是读锁存器的缓冲器，也就是说，要读取 D 锁存器输出端 Q 的数据，那就得使读锁存器的这个缓冲器的三态控制端（上图中标号为‘读锁存器’端）有效。下面一个是读引脚的缓冲器，要读取 <code>P0.x</code> 引脚上的数据，也要使标号为‘读引脚’的这个三态缓冲器的控制端有效，引脚上的数据才会传输到我们单片机的内部数据总线上。</p>
+<h5 id="d-锁存器">D 锁存器</h5>
+<p>构成一个锁存器，通常要用一个时序电路，时序的单元电路在学数字电路时我们知道，一个触发器可以保存一位的二进制数（即具有保持功能），在 51 单片机的 32 根 I/O 口线中都是用一个 D 触发器来构成锁存器的。上图中的 D 锁存器，D 端是数据输入端，CP（CLK）是控制端（也就是时序控制信号输 入端），Q 是输出端，Q 非是反向输出端。</p>
+<p>对于 D 触发器来讲，当 D 输入端有一个输入信号，如果这时控制端 CP 没有信号（也就是时序脉冲没有到来），这时输入端 D 的数据是无法传输到输出端 Q 及反向输出端 Q 非的。如果时序控制端 CP 的时序脉冲一旦到了，这时 D 端输入的数据就会传输到 Q 及 Q 非端。数据传送过来后，当 CP 时序控制端的时序信号消失了，这时，输出端还会保持着上次输入端 D 的数据（即把上次的数据锁存起来了）。如果下一个时序控制脉冲信号来了，这时 D 端的数据才再次传送到 Q 端，从而改变 Q 端的状态。</p>
+<h5 id="多路开关">多路开关</h5>
+<p>在 51 单片机中，当内部的存储器够用（也就是不需要外扩展存储器时，这里讲的存储器包括数据存储器及程序存储器）时，<code>P0</code> 口可以作为通用的输入输出端口（即 I/O）使用，对于 8031（内部没有 ROM）的单片机或者编写的程序超 过了单片机内部的存储器容量，需要外扩存储器时，<code>P0</code> 口就作为‘地址/数据’ 总线使用。那么这个多路选择开关就是用于选择是做为普通 I/O 口使用还是作为 ‘数据/地址’总线使用的选择开关了。上图当多路开关与下面接通时， <code>P0</code> 口是作为普通的 I/O 口使用的，当多路开关是与上面接通时，<code>P0</code> 口是作为‘地址/数据’总线使用的。</p>
+<ul>
+<li><code>P0</code> 口是漏极开路，要使其输出高电平，必须外接上拉电阻，通常选择 4.7K~10K 阻值。</li>
+<li><code>P0</code>、<code>P1</code>、<code>P2</code> 几乎都用作普通 I/O 口使用，既可作为输入，又可作为输出。</li>
+<li><code>P3</code> 口既可用作普通 I/O 口，又可作为第二功能使用，比如串口、外部中断、计数器等。</li>
+</ul>
+<h2 id="introduction-to-led">Introduction to LED</h2>
+<p>LED 即发光二极管。它具有单向导电性，<strong>通过 5mA 左右电流即可发光，电流越大，其亮度越强，但若电流过大，会烧毁二极管，一般我们控制在 3 mA-20mA 之间</strong>，通常我们会在 LED 管脚上串联一个电阻，目的就是为了限制通过发光二极管的电流不要太大，因此这些电阻又可以称为“限流电阻”。当发光二极管发光时，测量它两端电压约为 1.7V，这个电压又叫做发光二极管的“导通压降”。</p>
+<h2 id="hardware-design">Hardware Design</h2>
 
     </div>
 
@@ -297,7 +438,7 @@
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        2021-10-18
+        2021-10-22
         
     </span>
   </p>

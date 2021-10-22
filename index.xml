@@ -17,7 +17,7 @@
       <pubDate>Mon, 18 Oct 2021 22:45:32 +0800</pubDate>
       
       <guid>https://preminstrel.github.io/post/2021/10/18/mcs-51-basics/</guid>
-      <description>最近因为在上微机原理课，所以买了51单片机（MCS 51）来进行实验学习。 S/N 板载资源 Details 1 数码管模块 2个四位一体共阴数码管，可以显示8位数字字符</description>
+      <description>最近因为在上微机原理课，所以买了51单片机（MCS 51）来进行实验学习。 Introduction to MCU 一台能够工作的计算机要有这样几个部件构成：CPU（进行运算、控</description>
     </item>
     
     <item>
