@@ -17,7 +17,7 @@
       <pubDate>Sun, 17 Oct 2021 13:37:23 +0800</pubDate>
       
       <guid>https://preminstrel.github.io/post/2021/10/17/arrhythmia-classifier-using-cnn-with-alq/</guid>
-      <description>技术路线分为两部分，第一部分是ECGNet模型的设计，第二部分为利用ALQ算法模型的量化压缩。 ECGNet Model 网络设计结构如下： Layer Layer Name Kernel $\times$ Unit Other Layer Params Params 1 Conv1D</description>
+      <description>Introduction 在许多医疗保健方案中，患者被诊断出患有各种各样的疾病，包括心血管疾病（CVDs），这是一种普遍的致命疾病。 心电图描述了人的心电活动，对准确</description>
     </item>
     
   </channel>

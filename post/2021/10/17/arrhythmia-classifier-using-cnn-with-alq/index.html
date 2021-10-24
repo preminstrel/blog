@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="Hanshi Sun" /><meta name="description" content="技术路线分为两部分，第一部分是ECGNet模型的设计，第二部分为利用ALQ算法模型的量化压缩。 ECGNet Model 网络设计结构如下： Layer Layer Name Kernel $\times$ Unit Other Layer Params Params 1 Conv1D" /><meta name="keywords" content="Preminstrel" />
+<meta name="author" content="Hanshi Sun" /><meta name="description" content="Introduction 在许多医疗保健方案中，患者被诊断出患有各种各样的疾病，包括心血管疾病（CVDs），这是一种普遍的致命疾病。 心电图描述了人的心电活动，对准确" /><meta name="keywords" content="Preminstrel" />
 
 
 <meta name="robots" content="">
@@ -43,22 +43,22 @@
 
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" /><meta property="og:title" content="Arrhythmia Classifier Using CNN With ALQ" />
-<meta property="og:description" content="技术路线分为两部分，第一部分是ECGNet模型的设计，第二部分为利用ALQ算法模型的量化压缩。 ECGNet Model 网络设计结构如下： Layer Layer Name Kernel $\times$ Unit Other Layer Params Params 1 Conv1D" />
+<meta property="og:description" content="Introduction 在许多医疗保健方案中，患者被诊断出患有各种各样的疾病，包括心血管疾病（CVDs），这是一种普遍的致命疾病。 心电图描述了人的心电活动，对准确" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://preminstrel.github.io/post/2021/10/17/arrhythmia-classifier-using-cnn-with-alq/" />
 <meta property="article:published_time" content="2021-10-17T13:37:23+08:00" />
-<meta property="article:modified_time" content="2021-10-17T13:37:23+08:00" />
+<meta property="article:modified_time" content="2021-10-24T00:00:00+00:00" />
 <meta itemprop="name" content="Arrhythmia Classifier Using CNN With ALQ">
-<meta itemprop="description" content="技术路线分为两部分，第一部分是ECGNet模型的设计，第二部分为利用ALQ算法模型的量化压缩。 ECGNet Model 网络设计结构如下： Layer Layer Name Kernel $\times$ Unit Other Layer Params Params 1 Conv1D">
+<meta itemprop="description" content="Introduction 在许多医疗保健方案中，患者被诊断出患有各种各样的疾病，包括心血管疾病（CVDs），这是一种普遍的致命疾病。 心电图描述了人的心电活动，对准确">
 <meta itemprop="datePublished" content="2021-10-17T13:37:23&#43;08:00" />
-<meta itemprop="dateModified" content="2021-10-17T13:37:23&#43;08:00" />
-<meta itemprop="wordCount" content="1399">
+<meta itemprop="dateModified" content="2021-10-24T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="2721">
 
 
 
 <meta itemprop="keywords" content="Deep Learning,Publication," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Arrhythmia Classifier Using CNN With ALQ"/>
-<meta name="twitter:description" content="技术路线分为两部分，第一部分是ECGNet模型的设计，第二部分为利用ALQ算法模型的量化压缩。 ECGNet Model 网络设计结构如下： Layer Layer Name Kernel $\times$ Unit Other Layer Params Params 1 Conv1D"/>
+<meta name="twitter:description" content="Introduction 在许多医疗保健方案中，患者被诊断出患有各种各样的疾病，包括心血管疾病（CVDs），这是一种普遍的致命疾病。 心电图描述了人的心电活动，对准确"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -135,8 +135,8 @@
         <div class="post-category">
             <a href="/categories/publication/"> Publication </a>
             </div>
-          <span class="more-meta"> 1399 words </span>
-          <span class="more-meta"> 3 mins read </span>
+          <span class="more-meta"> 2721 words </span>
+          <span class="more-meta"> 6 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
     </header>
@@ -146,31 +146,58 @@
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
   <ul>
-    <li>
+    <li><a href="#introduction">Introduction</a>
       <ul>
-        <li>
-          <ul>
-            <li><a href="#ecgnet-model">ECGNet Model</a></li>
-            <li><a href="#compression-with-alq-algorithm">Compression With ALQ Algorithm</a></li>
-          </ul>
-        </li>
+        <li><a href="#overview">Overview</a></li>
       </ul>
     </li>
+    <li><a href="#methodology">METHODOLOGY</a>
+      <ul>
+        <li><a href="#ecgnet-model">ECGNet Model</a></li>
+        <li><a href="#alq-algorithm">ALQ Algorithm</a></li>
+      </ul>
+    </li>
+    <li><a href="#result">Result</a></li>
   </ul>
 </nav>
   </div>
 </div>
     <div class="post-content">
-      <p>技术路线分为两部分，第一部分是ECGNet模型的设计，第二部分为利用ALQ算法模型的量化压缩。</p>
-<h3 id="ecgnet-model">ECGNet Model</h3>
-<p>网络设计结构如下：</p>
+      <h1 id="introduction">Introduction</h1>
+<p>在许多医疗保健方案中，患者被诊断出患有各种各样的疾病，包括心血管疾病（CVDs），这是一种普遍的致命疾病。 心电图描述了人的心电活动，对准确诊断有重要意义。 但在早期，有些心律失常症状不明显，持续时间短，难以识别，导致严重后果。 因此，部署在低功耗设备上的实时心率检测成为人们关注的焦点。</p>
+<p>神经网络通过模拟人脑的层次结构实现数据的层次特征表达，具有强大的信息处理能力，促进了心电分类方法算法和模型的发展。 虽然神经网络模型的检测和分类精度看起来相当可观，但其庞大的可训练网络参数消耗大量内存，需要更多的时间进行复杂的计算，难以部署在低功耗的硬件平台上。 为了解决这个问题，我们考虑了网络结构的设计和自适应性的量化压缩方法。采用自适应位宽量化方法对模型误差进行优化，可以降低典型量化方法的精度下降，甚至提高模型误差的精度。 简单来说，我们的贡献有三个方面:</p>
+<ul>
+<li>提出了一种自适应损失感知量化算法（ALQ），以降低一维卷积神经网络的内存和功耗，同时保持甚至提高分类精度。</li>
+<li>基于我们的压缩方法，进一步提出了一种基于长时程心电片段分析的17层卷积神经网络（CNN）结构用于心律失常（17类）检测，实现了心律失常检测的总体准确率为93.5%。</li>
+<li>最后，我们实现了量化方法，在存储压缩率达到了 23.4 倍的情况下，分类的准确率达到了95.84%，说明了所提出的量化方法相对于以往方法的优越性。</li>
+</ul>
+<h2 id="overview">Overview</h2>
+<p>参考论文：</p>
+<blockquote>
+<p>Zhongnan Qu, Zimu Zhou, Yun Cheng, Lothar Thiele. Adaptive Loss-Aware Quantization for Multi-Bit Networks. In <em>the IEEE/CVF Conference on Computer Vision and Pattern Recognition</em> (CVPR), 2020, pp. 7988-7997</p>
+</blockquote>
+<p>我根据Qu的论文提出的<strong>自适应损失感知量化  (Adaptive Loss-aware Quantization,ALQ)</strong> 算法对ECGNet进行了量化压缩。论文中实现了Conv2d的情况，我修改模型后得到Conv1d的模型。在经过ALQ压缩后，能够实现大部分Layers低于 2 位，少部分Layers低于1位的平均位宽（average bitwidth）， 而不会降低模型的精度。 甚至，在量化之后，模型的精度有可能得到提高，达到95%的准确率。（一般来说会降低，这里我也不清楚为什么会提高，猜测有可能是量化压缩提高了正则化）</p>
+<p>量化解决方案通过最小化误差以重建全精度权重来训练量化器不同， ALQ 直接最小化损失函数上的量化引起的误差， 既不涉及梯度近似（gradient approximation）也不涉及全精度维护（full precision maintenance）。 ALQ 还利用了包括自适应位宽、 平滑位宽减少、 和迭代训练的量化，以允许更小的网络规模而不会损失准确性。</p>
+<h1 id="methodology">METHODOLOGY</h1>
+<p>在本节中，我们首先介绍分类器的架构概述，并描述我们的一维 CNN 架构的细节。在本节的最后，讨论了ALQ策略和一些ALQ参数的选择。整个提出的框架可以分为两部分，如图所示。</p>
+<p>第一部分是心律失常分类神经网络体系结构，该体系结构基于基本块设计，确定神经网络的深度。对模型进行训练后，得到的ECGNet的精度达到93.5%。模型参数应被保存，以便进行量化压缩。</p>
+<div align=center>
+<img src="/img/frame-overview.png" width="500px" />
+</div>
+<p>第二部分是ALQ策略（Adaptive Loss-aware quantification）。网络中每一层对量化的敏感度是不同的。因此，假设我们给出的总比特数不变，对量化较敏感的层位数获得的位宽应该较大，而对量化较不敏感的层位获得的位宽应该较小，以达到更好的精度。该方法通过对 $\alpha$ 域的最小有效坐标进行剪枝来降低平均位宽，并在正确选择 $n$ 等参数的基础上优化二值化的基底 $B_k$ 和坐标 $\alpha_k$ 。该部分实现了对神经网络有效的压缩，不同于现有方法，成功避免了精度下降可，以满足较低的资源需求。</p>
+<h2 id="ecgnet-model">ECGNet Model</h2>
+<p>我们原创的心律失常分类卷积神经网络如图所示。该网络由若干基本块和两个线性层组成。基本块层包括一维卷积层和最大池化层，它们之间的激活为 ReLU。基本块用于特征提取，线性层用于分类。</p>
+<div align=center>
+<img src="/img/Net-arch.png" width="500px" />
+</div>
+<p>输入是原始的长时间心电信号，由3600个采样点组成，持续时间为10秒。该网络无需对原始信号进行人工特征提取、特征分割和数据处理，即可实现端到端检测并推断出分类输出。在设计网络结构时，我们在网络规模和精度之间进行了权衡。最后，我们决定基本块的数量应该是7，因为这样的深度可以产生相当多的输出。同时，它保留了很小的网络参数。因此，我们最后得到的卷积神经网络是17层的。具体网络设计结构如下：</p>
 <table>
 <thead>
 <tr>
 <th align="center">Layer</th>
 <th>Layer Name</th>
-<th align="center">Kernel $\times$ Unit</th>
 <th align="center">Other Layer Params</th>
+<th align="center">Kernel $\times$ Unit</th>
 <th>Params</th>
 </tr>
 </thead>
@@ -178,99 +205,99 @@
 <tr>
 <td align="center">1</td>
 <td>Conv1D</td>
-<td align="center">$16\times 8$</td>
 <td align="center">Activation = ReLU, Strides=2, Padding=7</td>
+<td align="center">$16\times 8$</td>
 <td>136</td>
 </tr>
 <tr>
 <td align="center">2</td>
 <td>MaxPooling1D</td>
-<td align="center">$8$</td>
 <td align="center">Stride=4</td>
+<td align="center">$8$</td>
 <td>-</td>
 </tr>
 <tr>
 <td align="center">3</td>
 <td>Conv1D</td>
-<td align="center">$12\times 12$</td>
 <td align="center">Activation = ReLU, Strides=2, Padding=5</td>
+<td align="center">$12\times 12$</td>
 <td>1,164</td>
 </tr>
 <tr>
 <td align="center">4</td>
 <td>MaxPooling1D</td>
-<td align="center">$4$</td>
 <td align="center">Stride=2</td>
+<td align="center">$4$</td>
 <td>-</td>
 </tr>
 <tr>
 <td align="center">5</td>
 <td>Conv1D</td>
-<td align="center">$9\times 32$</td>
 <td align="center">Activation = ReLU, Strides=1, Padding=4</td>
+<td align="center">$9\times 32$</td>
 <td>3,488</td>
 </tr>
 <tr>
 <td align="center">6</td>
 <td>MaxPooling1D</td>
-<td align="center">$5$</td>
 <td align="center">Stride=2</td>
+<td align="center">$5$</td>
 <td>-</td>
 </tr>
 <tr>
 <td align="center">7</td>
 <td>Conv1D</td>
-<td align="center">$7\times 64$</td>
 <td align="center">Activation = ReLU, Strides=1, Padding=3</td>
+<td align="center">$7\times 64$</td>
 <td>14,400</td>
 </tr>
 <tr>
 <td align="center">8</td>
 <td>MaxPooling1D</td>
-<td align="center">$4$</td>
 <td align="center">Stride=2</td>
+<td align="center">$4$</td>
 <td>-</td>
 </tr>
 <tr>
 <td align="center">9</td>
 <td>Conv1D</td>
-<td align="center">$5\times 64$</td>
 <td align="center">Activation = ReLU, Strides=1, Padding=2</td>
+<td align="center">$5\times 64$</td>
 <td>20,544</td>
 </tr>
 <tr>
 <td align="center">10</td>
 <td>MaxPooling1D</td>
-<td align="center">$2$</td>
 <td align="center">Stride=2</td>
+<td align="center">$2$</td>
 <td>-</td>
 </tr>
 <tr>
 <td align="center">11</td>
 <td>Conv1D</td>
-<td align="center">$3\times 64$</td>
 <td align="center">Activation = ReLU, Strides=1, Padding=1</td>
+<td align="center">$3\times 64$</td>
 <td>12,352</td>
 </tr>
 <tr>
 <td align="center">12</td>
 <td>MaxPooling1D</td>
-<td align="center">$2$</td>
 <td align="center">Strides=2</td>
+<td align="center">$2$</td>
 <td>-</td>
 </tr>
 <tr>
 <td align="center">13</td>
 <td>Conv1D</td>
-<td align="center">$3\times 72$</td>
 <td align="center">Activation = ReLU, Strides=1, Padding=1</td>
+<td align="center">$3\times 72$</td>
 <td>13,896</td>
 </tr>
 <tr>
 <td align="center">14</td>
 <td>MaxPooling1D</td>
-<td align="center">$2$</td>
 <td align="center">Strides=2</td>
+<td align="center">$2$</td>
 <td>-</td>
 </tr>
 <tr>
@@ -283,15 +310,15 @@
 <tr>
 <td align="center">16</td>
 <td>Linear</td>
-<td align="center">$1\times 216$</td>
 <td align="center">Activation = ReLU, Dropout Rate=0.1</td>
+<td align="center">$1\times 216$</td>
 <td>13,888</td>
 </tr>
 <tr>
 <td align="center">17</td>
 <td>Linear</td>
-<td align="center">$1\times 17$</td>
 <td align="center">Activation = ReLU</td>
+<td align="center">$1\times 17$</td>
 <td>1,105</td>
 </tr>
 </tbody>
@@ -299,30 +326,24 @@
 <p><strong>Total params</strong>: 80,973</p>
 <p><strong>Params size</strong>: 316.3KB</p>
 <p><strong>Accuracy</strong>:  93.5%</p>
-<h3 id="compression-with-alq-algorithm">Compression With ALQ Algorithm</h3>
-<p>在模型压缩中，通常通过   pruning ,  quantization,  distillation 等方法来压缩预训练模型。在 ECGNet 的压缩中，我们利用了量化压缩。   我们通过将深度神经网络的 weights 和 activations 量化为 multi-bit networks (MBNs) 来实现模型的压缩。</p>
-<p>参考论文：</p>
-<blockquote>
-<p>Zhongnan Qu, Zimu Zhou, Yun Cheng, Lothar Thiele. Adaptive Loss-Aware Quantization for Multi-Bit Networks. In <em>the IEEE/CVF Conference on Computer Vision and Pattern Recognition</em> (CVPR), 2020, pp. 7988-7997</p>
-</blockquote>
-<h4 id="overview">Overview</h4>
-<p>我根据Qu的论文提出的<strong>自适应损失感知量化  (Adaptive Loss-aware Quantization,ALQ)</strong> 算法对ECGNet进行了量化压缩。论文中实现了Conv2d的情况，我修改模型后得到Conv1d的模型。在经过ALQ压缩后，能够实现大部分Layers低于 2 位，少部分Layers低于1位的平均位宽（average bitwidth）， 而不会降低模型的精度。 甚至，在量化之后，模型的精度有可能得到提高，达到95%的准确率。（一般来说会降低，这里我也不清楚为什么会提高，猜测有可能是量化压缩提高了正则化）</p>
-<p>量化解决方案通过最小化误差以重建全精度权重来训练量化器不同， ALQ 直接最小化损失函数上的量化引起的误差， 既不涉及梯度近似（gradient approximation）也不涉及全精度维护（full precision maintenance）。 ALQ 还利用了包括自适应位宽、 平滑位宽减少、 和迭代训练的量化，以允许更小的网络规模而不会损失准确性。</p>
-<h4 id="alq">ALQ</h4>
-<p>对于一个权重矩阵$w\in R^{N\times 1}$，我们可以将其分为 G 个不相交的组，每个组的 $w_g\in R^{n\times 1}$ 并且 $N=n\times G$。（这里可以利用并行计算提高模型压缩速度）然后我们可以对每个小组的权重进行量化压缩，
-$$w_g=\sum_{i=1}^{I_g} \alpha_i \beta_i = \mathbf{B_g} \alpha_g,\quad \beta_i\in {-1,+1}^{n\times I_g}$$
-其中， $\alpha_i \in R_+$ ，是第 $i$ 个binary basis 和相应的 coordinate；$I_g$ 表示的是位宽（bitwidth）；$\mathbf{B_g}\in {-1,+1}^{n\times I_g}$ ；$I_g\in R_+^{I_g\times 1}$ 。于是我们可以定义平均位宽 $I=\frac{1}{G}\sum_{g=1}^G I_g$。我们可以通过解决如下的优化问题来压缩模型：
-$$\min \qquad l(w_g)$$
-$$s.t.\qquad w_g=\sum_{i=1}^{I_g}\alpha_i \beta_i = \mathbf{B_g} \alpha_g$$
-$$\qquad \qquad card(\alpha)=I\times G\le I_{min}\times G$$
-其中 $l$ 就是损失函数 loss</p>
-<h5 id="step-1-full-precision-ecgnet">Step 1 Full precision ECGNet</h5>
+<h2 id="alq-algorithm">ALQ Algorithm</h2>
+<p>尽管所提出的网络架构深度极小，但由于权值的位宽较大，心律失常检测网络仍然存在内存和功耗问题。由于不同层的重要性不同，采用自适应位宽对不同层进行量化是合理的，可以显著降低网络的平均位宽。我们采用自适应一维损耗多比特网络（MBNs）量化方法来帮助我们实现对原来提出的网络的压缩。</p>
+<p>在模型压缩中，通常通过   pruning ,  quantization,  distillation 等方法来压缩预训练模型。在 ECGNet 的压缩中，我们利用了量化压缩。我们通过将深度神经网络的 weights 和 activations 量化为 multi-bit networks (MBNs) 来实现模型的压缩。</p>
+<p>与将误差最小化的量化方法重建全精度权值不同，一维ALQ使损失函数的量化误差最小化。在此过程中，并不涉及梯度近似。在我们训练全精度ECGNet后，量化过程就可以开始了。为了提高压缩速度，引入了并行计算。对于向量化的权值 $w∈R^{N×1}$，将 $w$ 划分为 $m$ 个不相交的组。每组权重用 $w_k∈R^{n×1}$ 表示，其中 $N = n × m$，在二进制基础上可以表示量化的权重。</p>
+<p>$$\omega_k=\sum_{i=1}^{I_k}\alpha_i \beta_i=B_k\alpha_k,\quad \beta_i\in{-1,1}^{n\times 1}$$</p>
+<p>我们用 $I_k$ 来表示第 k 组的位宽，于是我们可以定义平均位宽为：</p>
+<p>$$\bar{I}=\frac{1}{m}\sum_{k=1}^m I_k$$</p>
+<p>我们的优化方案如下：</p>
+<div align=center>
+<img src="/img/Algorithm.png" width="500px" />
+</div>
+<p><strong>Step 1 Full precision ECGNet</strong></p>
 <p>这一步就是在本文第一部分中，对ECGNet进行全精度的训练。得到的数据需要进行保存，会用在后面两步之中。</p>
-<h5 id="step-2-pruning-in-alpha-domain">Step 2 Pruning in $\alpha$ Domain</h5>
-<p>在这一步中， 我们通过修剪最不重要的（w.r.t the loss） $\alpha$ 逐步减少Layer的平均位宽 $I$  。   在这一步中， 我们只设置了一些元素 $\alpha$  为零。这一步会导致模型准确率的下降，但是我们会在Step 2中重新提高回来。</p>
-<h5 id="step-3-optimizing-binary-bases-b_g-and-coordinates-alpha-_g">Step 3: Optimizing Binary Bases $B_g$ and Coordinates $\alpha _g$</h5>
-<p>在这一步中， 我们重新训练剩余的   binary bases 和 coordinates 来恢复因为Step 1中减少位宽引起的准确率的下降。在这个步骤中，我们首先固定 coordinates 来对搜索binary bases 进行最优搜索，然后再固定 binary bases 对coordinates进行搜索。经过优化之后，准确率重新提高了。</p>
-<h4 id="result">Result</h4>
+<p><strong>Step 2 Pruning in $\alpha$ Domain</strong>
+在这一步中， 我们通过修剪最不重要的（w.r.t the loss） $\alpha$ 逐步减少Layer的平均位宽 $\bar{I}$  。   在这一步中， 我们只设置了一些元素 $\alpha$  为零。这一步会导致模型准确率的下降，但是我们会在Step 2中重新提高回来。</p>
+<p><strong>Step 3: Optimizing Binary Bases $B_g$ and Coordinates $\alpha _g$</strong>
+在这一步中， 我们重新训练剩余的   binary bases 和 coordinates 来恢复因为Step 1中减少位宽引起的准确率的下降。在这个步骤中，我们首先固定 coordinates 来对搜索binary bases 进行最优搜索，然后再固定 binary bases 对coordinates进行搜索。经过优化之后，准确率重新提高了。</p>
+<h1 id="result">Result</h1>
 <p>ALQ量化压缩后七个卷积层和两个全连接层的平均位宽结果如下：</p>
 <table>
 <thead>
@@ -396,8 +417,12 @@ $$\qquad \qquad card(\alpha)=I\times G\le I_{min}\times G$$
 </tr>
 </tbody>
 </table>
-<p>可以看到，316.3KB的模型经过压缩后变成了13.538KB，平均位宽为1.3696。压缩率为23.36x。
-准确率上，甚至还上升了，达到了95%，上升了1.5%。</p>
+<p>可以看到，316.3KB的模型经过压缩后变成了13.538KB，平均位宽为1.3696。压缩率为23.36x。</p>
+<p>准确率上，甚至还上升了，达到了95%，上升了1.5%。</p>
+<p>归一化后的混淆矩阵如下图：</p>
+<div align=center>
+<img src="/img/Confusion-matrix.png" width="500px" />
+</div>
 
     </div>
 
@@ -409,7 +434,7 @@ $$\qquad \qquad card(\alpha)=I\times G\le I_{min}\times G$$
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        2021-10-17
+        2021-10-24
         
     </span>
   </p>
