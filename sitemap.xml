@@ -10,28 +10,28 @@
   
   <url>
     <loc>https://preminstrel.github.io/tags/mcs-51/</loc>
-    <lastmod>2021-10-22T00:00:00+00:00</lastmod>
+    <lastmod>2021-10-24T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/post/2021/10/18/mcs-51-basics-1/</loc>
-    <lastmod>2021-10-22T00:00:00+00:00</lastmod>
+    <loc>https://preminstrel.github.io/post/2021/10/24/mcs-51-basics-2/</loc>
+    <lastmod>2021-10-24T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>https://preminstrel.github.io/tags/mcu/</loc>
-    <lastmod>2021-10-22T00:00:00+00:00</lastmod>
+    <lastmod>2021-10-24T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
     <loc>https://preminstrel.github.io/categories/mcu/</loc>
-    <lastmod>2021-10-22T00:00:00+00:00</lastmod>
+    <lastmod>2021-10-24T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -45,6 +45,13 @@
   
   <url>
     <loc>https://preminstrel.github.io/tags/</loc>
+    <lastmod>2021-10-24T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://preminstrel.github.io/post/2021/10/18/mcs-51-basics-1/</loc>
     <lastmod>2021-10-24T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>

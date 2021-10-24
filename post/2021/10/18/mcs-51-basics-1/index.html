@@ -47,12 +47,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://preminstrel.github.io/post/2021/10/18/mcs-51-basics-1/" />
 <meta property="article:published_time" content="2021-10-18T22:45:32+08:00" />
-<meta property="article:modified_time" content="2021-10-22T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-10-24T00:00:00+00:00" />
 <meta itemprop="name" content="MCS 51 Basics (1)">
 <meta itemprop="description" content="最近因为在上微机原理课，所以买了51单片机（MCS 51）来进行实验学习。 Introduction to MCU 一台能够工作的计算机要有这样几个部件构成：CPU（进行运算、控">
 <meta itemprop="datePublished" content="2021-10-18T22:45:32&#43;08:00" />
-<meta itemprop="dateModified" content="2021-10-22T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="5619">
+<meta itemprop="dateModified" content="2021-10-24T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="5631">
 
 
 
@@ -135,7 +135,7 @@
         <div class="post-category">
             <a href="/categories/mcu/"> MCU </a>
             </div>
-          <span class="more-meta"> 5619 words </span>
+          <span class="more-meta"> 5631 words </span>
           <span class="more-meta"> 12 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
@@ -182,6 +182,7 @@
         </li>
       </ul>
     </li>
+    <li><a href="#reference">Reference</a></li>
   </ul>
 </nav>
   </div>
@@ -572,6 +573,10 @@
 </code></pre></td></tr></table>
 </div>
 </div><p><code>0X01&lt;&lt;i</code> 表示 i 增加 1 次，<code>0x01</code> 中的 1 就移动多少位，因为 1（高电平）不会让 LED 点亮，需要取反后变为低电平 0 才能点亮，所以最后的结果需要取反后给 <code>LED_PORT</code> 口，并且每次循环都要延时一段时间，这样才能分辨出来 LED 在流水。</p>
+<h1 id="reference">Reference</h1>
+<ul>
+<li>普中51单片机开发攻略</li>
+</ul>
 
     </div>
 
@@ -583,7 +588,7 @@
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        2021-10-22
+        2021-10-24
         
     </span>
   </p>
@@ -613,7 +618,11 @@
           <a href="/tags/mcs-51/">MCS 51</a>
           </div>
       <nav class="post-nav">
-        
+        <a class="prev" href="/post/2021/10/24/mcs-51-basics-2/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">MCS 51 Basics (2)</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
         <a class="next" href="/post/2021/10/18/vivado-ila/">
             <span class="next-text nav-default">Vivado ILA</span>
             <span class="next-text nav-mobile">Next</span>
