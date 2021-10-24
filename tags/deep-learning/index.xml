@@ -44,7 +44,7 @@
       <pubDate>Sun, 17 Oct 2021 00:25:41 +0800</pubDate>
       
       <guid>https://preminstrel.github.io/post/2021/10/17/pytorch-basics/</guid>
-      <description>01. Overview Deep Learning &amp;amp; Machine Learning 维度诅咒：维度越高，需要的训练集越大 深度学习和机器学习的区别：多了一层用来提取特征的层。传统的机器学习中（无标签），Featu</description>
+      <description>01. Overview DL &amp;amp; ML 维度诅咒：维度越高，需要的训练集越大 深度学习和机器学习的区别：多了一层用来提取特征的层。传统的机器学习中（无标签），Feature</description>
     </item>
     
   </channel>

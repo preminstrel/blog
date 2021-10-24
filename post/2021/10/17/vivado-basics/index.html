@@ -169,7 +169,7 @@
       <p>在学习 FPGA 的过程中，我们需要用到 Vivado软件，这里我用的是 Vivado2021.1版本的软件。一般来说， FPGA 开发的流程分为以下几个部分来实现。</p>
 <div class="mermaid">
 graph LR
-	id1(Create Project)-->id2(Code)-->id3(Complie)-->id4(Assign Pins)-->id5(Program Device)-->id6(Debug)-->id7(Program Flash)
+    id1(Create Project)-->id2(Code)-->id3(Complie)-->id4(Assign Pins)-->id5(Program Device)-->id6(Debug)-->id7(Program Flash)
     id6-.->id2
 </div>
 <h3 id="create-project">Create Project</h3>
@@ -197,13 +197,13 @@ graph LR
 </span></code></pre></td>
 <td class="lntd">
 <pre class="chroma"><code class="language-verilog" data-lang="verilog"><span class="k">module</span> <span class="n">light</span><span class="p">(</span>
-	<span class="k">input</span> <span class="n">x1</span><span class="p">,</span>
-	<span class="k">input</span> <span class="n">x2</span><span class="p">,</span>
-	<span class="k">output</span> <span class="n">f</span>
+    <span class="k">input</span> <span class="n">x1</span><span class="p">,</span>
+    <span class="k">input</span> <span class="n">x2</span><span class="p">,</span>
+    <span class="k">output</span> <span class="n">f</span>
 <span class="p">);</span>
 
 <span class="k">assign</span> <span class="n">f</span> <span class="o">=</span> <span class="p">(</span><span class="n">x1</span> <span class="o">&amp;</span> <span class="o">~</span><span class="n">x2</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="o">~</span><span class="n">x1</span> <span class="o">&amp;</span> <span class="n">x2</span><span class="p">)</span>
-		
+        
 <span class="k">endmodule</span>
 </code></pre></td></tr></table>
 </div>
@@ -212,7 +212,7 @@ graph LR
 <p>设计完整个工程之后，要经过 Vivado 软件中几个工具的处理，分别是<strong>分析代码、综合电路以及生成目标芯片</strong>的实现内容。这些应用工具被聚集在一起，统称为编译器。</p>
 <div class="mermaid">
 graph LR
-	id1(Run Synthesis)-->id2(Run Implementation)-->id3(Generate Bitstream)
+    id1(Run Synthesis)-->id2(Run Implementation)-->id3(Generate Bitstream)
 </div>
 <p>如果工程编译不通过，那么信息栏里就会提示报 Bug。建议<strong>查阅 <em>Log</em> 一栏下的报错信息</strong>，因为 Log 一栏下的信息打印是按<strong>顺序</strong>来进行的，那么在进行问题定位的时候就方便查找第一个报错的信息。一般来说， 往往后面顺序的信息很多都是由于第一个报错原因导致的，所以解决了第一个报错问题，基本上就可以同时解决其它的报错问题了。要注意的是，<strong>报错信息栏里的提示不会随时更新，它的信息是过时的</strong>，在解决了某些问题或者修改了代码后请<strong>重新编译更新信息状态栏</strong>。</p>
 <h3 id="assign-pins">Assign Pins</h3>
