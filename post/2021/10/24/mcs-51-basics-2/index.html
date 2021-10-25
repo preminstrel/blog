@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="Hanshi Sun" /><meta name="description" content="前面我们已经介绍了如何控制 51 单片机的 IO 口输出高低电平，这次我们通过另外一个实验来讲述 51 单片机 IO 口的输出。通过单片机的一个 IO 口控制板载无源蜂鸣" /><meta name="keywords" content="Preminstrel" />
+<meta name="author" content="Hanshi Sun" /><meta name="description" content="Buzzer 前面我们已经介绍了如何控制 51 单片机的 IO 口输出高低电平，这次我们通过另外一个实验来讲述 51 单片机 IO 口的输出。通过单片机的一个 IO 口控制板载无源蜂" /><meta name="keywords" content="Preminstrel" />
 
 
 <meta name="robots" content="">
@@ -43,22 +43,22 @@
 
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" /><meta property="og:title" content="MCS 51 Basics (2)" />
-<meta property="og:description" content="前面我们已经介绍了如何控制 51 单片机的 IO 口输出高低电平，这次我们通过另外一个实验来讲述 51 单片机 IO 口的输出。通过单片机的一个 IO 口控制板载无源蜂鸣" />
+<meta property="og:description" content="Buzzer 前面我们已经介绍了如何控制 51 单片机的 IO 口输出高低电平，这次我们通过另外一个实验来讲述 51 单片机 IO 口的输出。通过单片机的一个 IO 口控制板载无源蜂" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://preminstrel.github.io/post/2021/10/24/mcs-51-basics-2/" />
 <meta property="article:published_time" content="2021-10-24T22:18:50+08:00" />
-<meta property="article:modified_time" content="2021-10-24T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-10-25T00:00:00+00:00" />
 <meta itemprop="name" content="MCS 51 Basics (2)">
-<meta itemprop="description" content="前面我们已经介绍了如何控制 51 单片机的 IO 口输出高低电平，这次我们通过另外一个实验来讲述 51 单片机 IO 口的输出。通过单片机的一个 IO 口控制板载无源蜂鸣">
+<meta itemprop="description" content="Buzzer 前面我们已经介绍了如何控制 51 单片机的 IO 口输出高低电平，这次我们通过另外一个实验来讲述 51 单片机 IO 口的输出。通过单片机的一个 IO 口控制板载无源蜂">
 <meta itemprop="datePublished" content="2021-10-24T22:18:50&#43;08:00" />
-<meta itemprop="dateModified" content="2021-10-24T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="3339">
+<meta itemprop="dateModified" content="2021-10-25T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="4363">
 
 
 
 <meta itemprop="keywords" content="MCU,MCS 51," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="MCS 51 Basics (2)"/>
-<meta name="twitter:description" content="前面我们已经介绍了如何控制 51 单片机的 IO 口输出高低电平，这次我们通过另外一个实验来讲述 51 单片机 IO 口的输出。通过单片机的一个 IO 口控制板载无源蜂鸣"/>
+<meta name="twitter:description" content="Buzzer 前面我们已经介绍了如何控制 51 单片机的 IO 口输出高低电平，这次我们通过另外一个实验来讲述 51 单片机 IO 口的输出。通过单片机的一个 IO 口控制板载无源蜂"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -135,8 +135,8 @@
         <div class="post-category">
             <a href="/categories/mcu/"> MCU </a>
             </div>
-          <span class="more-meta"> 3339 words </span>
-          <span class="more-meta"> 7 mins read </span>
+          <span class="more-meta"> 4363 words </span>
+          <span class="more-meta"> 9 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
     </header>
@@ -164,7 +164,12 @@
     </li>
     <li><a href="#动态数码管">动态数码管</a>
       <ul>
-        <li><a href="#introduction-1">Introduction</a></li>
+        <li><a href="#introduction-1">Introduction</a>
+          <ul>
+            <li><a href="#显示原理-1">显示原理</a></li>
+          </ul>
+        </li>
+        <li><a href="#software-design-2">Software Design</a></li>
       </ul>
     </li>
     <li><a href="#reference">Reference</a></li>
@@ -173,8 +178,8 @@
   </div>
 </div>
     <div class="post-content">
-      <p>前面我们已经介绍了如何控制 51 单片机的 IO 口输出高低电平，这次我们通过另外一个实验来讲述 51 单片机 IO 口的输出。通过单片机的一个 IO 口控制板载无源蜂鸣器，实现蜂鸣器控制。</p>
-<h1 id="buzzer">Buzzer</h1>
+      <h1 id="buzzer">Buzzer</h1>
+<p>前面我们已经介绍了如何控制 51 单片机的 IO 口输出高低电平，这次我们通过另外一个实验来讲述 51 单片机 IO 口的输出。通过单片机的一个 IO 口控制板载无源蜂鸣器，实现蜂鸣器控制。</p>
 <h2 id="introduction-to-buzzer">Introduction to buzzer</h2>
 <p>蜂鸣器是一种一体化结构的电子讯响器，采用<strong>直流电压</strong>供电，作发声器件。蜂鸣器主要分为压电式蜂鸣器和电磁式蜂鸣器两种类型。 压电式蜂鸣器主要由多谐振荡器、压电蜂鸣片、阻抗匹配器及共鸣箱、外壳等组成。多谐振荡器由晶体管或集成电路构成，当接通电源后（1.5~15V 直流工作电压），多谐振荡器起振,输出 1.5~5kHZ 的音频信号，阻抗匹配器推动压电蜂鸣片发声。电磁式蜂鸣器由振荡器、电磁线圈、磁铁、振动膜片及外壳等组成。接通电源后，振荡器产生的音频信号电流通过电磁线圈，使电磁线圈产生磁场，振动膜片在电磁线圈和磁铁的相互作用下，周期性地振动发声。</p>
 <p>其实一句话就可概括它们之间的区别，想要压电式蜂鸣器发声，需提供<strong>一定频率的脉冲信号</strong>；想要电磁式蜂鸣器发声，<strong>只需提供电源即可</strong>。 我们开发板上使用的蜂鸣器是无源蜂鸣器，属于压电式蜂鸣器类型。这里说的有源和无源，并不是指电源的意思，而是指蜂鸣器内部<strong>是否含有振荡电路</strong>，有源蜂鸣器内部自带振荡电路，只需提供电源即可发声，而无源蜂鸣器则需提供一定频率的脉冲信号才能发声，频率大小通常在 1.5-5KHz 之间。</p>
@@ -418,7 +423,125 @@
 <p>前面我们已经介绍了如何使用 51 单片机控制静态数码管显示，在实际应用中通常都需要显示多位数值，如果采用静态数码管显示就不够好，因此就需要采用另外一种显示方式，即数码管动态显示。开发板上板载 2 个四位一体的共阴数码管，我们就来介绍下如何使用 51 单片机控制动态数码管显示。所要实现的功能是：控制动态数码管从左至右显示数字 0-7。</p>
 <h2 id="introduction-1">Introduction</h2>
 <p>多位数码管，即两个或两个以上单个数码管并列集中在一起形成一体的数码管。当多位一体时，它们内部的公共端是独立的，而负责显示什么数字的段线（a-dp）全部是连接在一起的，独立的公共端可以控制多位一体中的哪一位数码管点亮，而连接在一起的段线可以控制这个能点亮数码管亮什么数字，通常我们把公共端叫做“位选线”，连接在一起的段线叫做“段选线”，有了这两个线后，通过单片机及外部驱动电路就可以控制任意的数码管显示任意的数字了。</p>
-<p>一般一位数码管有 10 个引脚，二位数码管也是 10 个引脚，四位数码管是 12 个引脚，关于具体的引脚及段、位标号大家可以查询相关资料，最简单的办法就是用数字万用表测量，若没有数字万用表也可用 5V 直流电源串接 1k 电阻后测量，将测量结果记录，通过统计便可绘制出引脚标号。多位数码管有许多是按 一定要求设计的，引脚不完全按照一般规则设定，所以需要在使用时查找手册，最直接的办法就是按照数码管上的标示向生产商要求。我们开发板上使用了 2 个四位一体的共阴数码管，这样可在上面同时显示 8个数值。</p>
+<p>一般一位数码管有 10 个引脚，二位数码管也是 10 个引脚，四位数码管是 12 个引脚，关于具体的引脚及段、位标号大家可以查询相关资料，最简单的办法就是用数字万用表测量，若没有数字万用表也可用 5V 直流电源串接 1k 电阻后测量，将测量结果记录，通过统计便可绘制出引脚标号。多位数码管有许多是按 一定要求设计的，引脚不完全按照一般规则设定，所以需要在使用时查找手册，最直接的办法就是按照数码管上的标示向生产商要求。我们开发板上使用了 2 个四位一体的共阴数码管，这样可在上面同时显示 8 个数值。</p>
+<h3 id="显示原理-1">显示原理</h3>
+<p>多位数码管依然可以静态显示，但是显示时要么只显示一位数码管，要么多位同时显示相同内容。当多位数码管应用于某一系统时，它们的“位选”是可独立控制的，而“段选”是连接在一起的，我们可以通过位选信号控制哪几个数码管亮，而在同一时刻，位选选通的所有数码管上显示的数字始终都是一样的，因为它们的段选是连接在一起的，送入所有数码管的段选信号都是相同的，所以它们显示的数字必定一样，数码管的这种显示方法叫做静态显示。</p>
+<p>而动态显示，就是利用减少段选线，分开位选线，<strong>利用位选线不同时选择通断，改变段选数据来实现的</strong>。比如在第一次选中第一位数码管时，给段选数据 0，下一次位选中第二位数码管时显示 1。为了在显示 1 的时候，0 不会消失（当然实际上是消失了），必须在人肉眼观察不到的时间里再次点亮第一次点亮的 0。 而这时就需要记住，人的肉眼正常情况下只能分辨变化超过 24ms 间隔的运动。也就是说，在下一次点亮 0 这个数字的时间差不得大于 24ms。这时就会发现，数码管点亮是在向右或者向左一位一位点亮，形成了动态效果。如果把间隔时间改长就能直接展现这一现象。</p>
+<p>74HC138 总结：A0、A1、A2 输入就相当于 3 位 2 进制数，A0 是低位，A1 是次高位，A2 是高位。而 Y0-Y7 具体哪一个输出有效电平，就看输入二进制对应的十进制数值。比如输入是 101（A2，A1，A0），其对应的十进制数是 5，所以 Y5 输出有效电平（低电平）。</p>
+<h2 id="software-design-2">Software Design</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-c" data-lang="c"><span class="cp">#include</span> <span class="cpf">&#34;reg52.h&#34;</span><span class="cp">
+</span><span class="cp"></span>
+<span class="k">typedef</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">u16</span><span class="p">;</span>    <span class="c1">//对系统默认数据类型进行重定义
+</span><span class="c1"></span><span class="k">typedef</span> <span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">u8</span><span class="p">;</span>
+
+<span class="cp">#define SMG_A_DP_PORT    P0    </span><span class="c1">//使用宏定义数码管段码口
+</span><span class="c1"></span>
+<span class="c1">//定义数码管位选信号控制脚
+</span><span class="c1"></span><span class="n">sbit</span> <span class="n">LSA</span><span class="o">=</span><span class="n">P2</span><span class="o">^</span><span class="mi">2</span><span class="p">;</span>
+<span class="n">sbit</span> <span class="n">LSB</span><span class="o">=</span><span class="n">P2</span><span class="o">^</span><span class="mi">3</span><span class="p">;</span>
+<span class="n">sbit</span> <span class="n">LSC</span><span class="o">=</span><span class="n">P2</span><span class="o">^</span><span class="mi">4</span><span class="p">;</span>
+
+<span class="c1">//共阴极数码管显示0~F的段码数据
+</span><span class="c1"></span><span class="n">u8</span> <span class="n">gsmg_code</span><span class="p">[</span><span class="mi">17</span><span class="p">]</span><span class="o">=</span><span class="p">{</span><span class="mh">0x3f</span><span class="p">,</span><span class="mh">0x06</span><span class="p">,</span><span class="mh">0x5b</span><span class="p">,</span><span class="mh">0x4f</span><span class="p">,</span><span class="mh">0x66</span><span class="p">,</span><span class="mh">0x6d</span><span class="p">,</span><span class="mh">0x7d</span><span class="p">,</span><span class="mh">0x07</span><span class="p">,</span>
+                <span class="mh">0x7f</span><span class="p">,</span><span class="mh">0x6f</span><span class="p">,</span><span class="mh">0x77</span><span class="p">,</span><span class="mh">0x7c</span><span class="p">,</span><span class="mh">0x39</span><span class="p">,</span><span class="mh">0x5e</span><span class="p">,</span><span class="mh">0x79</span><span class="p">,</span><span class="mh">0x71</span><span class="p">};</span>
+
+<span class="kt">void</span> <span class="nf">delay_10us</span><span class="p">(</span><span class="n">u16</span> <span class="n">ten_us</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">while</span><span class="p">(</span><span class="n">ten_us</span><span class="o">--</span><span class="p">);</span>    
+<span class="p">}</span>
+
+
+<span class="kt">void</span> <span class="nf">smg_display</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">u8</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+
+    <span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="mi">8</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">switch</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="c1">//位选
+</span><span class="c1"></span>        <span class="p">{</span>
+            <span class="k">case</span> <span class="mi">0</span><span class="o">:</span> <span class="n">LSC</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">LSB</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">LSA</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="k">break</span><span class="p">;</span>
+            <span class="k">case</span> <span class="mi">1</span><span class="o">:</span> <span class="n">LSC</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">LSB</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">LSA</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="k">break</span><span class="p">;</span>
+            <span class="k">case</span> <span class="mi">2</span><span class="o">:</span> <span class="n">LSC</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">LSB</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">LSA</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="k">break</span><span class="p">;</span>
+            <span class="k">case</span> <span class="mi">3</span><span class="o">:</span> <span class="n">LSC</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">LSB</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">LSA</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="k">break</span><span class="p">;</span>
+            <span class="k">case</span> <span class="mi">4</span><span class="o">:</span> <span class="n">LSC</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">LSB</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">LSA</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="k">break</span><span class="p">;</span>
+            <span class="k">case</span> <span class="mi">5</span><span class="o">:</span> <span class="n">LSC</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">LSB</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">LSA</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="k">break</span><span class="p">;</span>
+            <span class="k">case</span> <span class="mi">6</span><span class="o">:</span> <span class="n">LSC</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">LSB</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">LSA</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="k">break</span><span class="p">;</span>
+            <span class="k">case</span> <span class="mi">7</span><span class="o">:</span> <span class="n">LSC</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">LSB</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">LSA</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="k">break</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="n">SMG_A_DP_PORT</span><span class="o">=</span><span class="n">gsmg_code</span><span class="p">[</span><span class="n">i</span><span class="p">];</span><span class="c1">//传送段选数据
+</span><span class="c1"></span>        <span class="n">delay_10us</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span><span class="c1">//延时一段时间，等待显示稳定
+</span><span class="c1"></span>        <span class="n">SMG_A_DP_PORT</span><span class="o">=</span><span class="mh">0x00</span><span class="p">;</span><span class="c1">//消音
+</span><span class="c1"></span>    <span class="p">}</span>
+<span class="p">}</span>
+
+
+<span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
+<span class="p">{</span>    
+    <span class="k">while</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">smg_display</span><span class="p">();</span>
+    <span class="p">}</span>        
+<span class="p">}</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>该程序是根据动态数码管显示原理所编写，即选中所要显示的那位数码管，然后发送在该位数码管上所要显示的段码数据，延时一定时间后在将段选口清零即消隐（消除之前的显示），如此循环 8 次即可实现 8 位数码管显示。<strong>在动态显示中，要注意延时时间，只要保证在人肉眼所能感觉时间之内即可，让我们看到所要显示的内容就像是同时显示一样。</strong></p>
 <h1 id="reference">Reference</h1>
 <ul>
 <li>普中51单片机开发攻略</li>
@@ -434,7 +557,7 @@
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        2021-10-24
+        2021-10-25
         
     </span>
   </p>
@@ -464,7 +587,11 @@
           <a href="/tags/mcs-51/">MCS 51</a>
           </div>
       <nav class="post-nav">
-        
+        <a class="prev" href="/post/2021/10/25/mcs-51-basics-3/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">MCS 51 Basics (3)</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
         <a class="next" href="/post/2021/10/18/mcs-51-basics-1/">
             <span class="next-text nav-default">MCS 51 Basics (1)</span>
             <span class="next-text nav-mobile">Next</span>

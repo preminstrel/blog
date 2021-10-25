@@ -12,12 +12,21 @@
     
     
     <item>
+      <title>MCS 51 Basics (3)</title>
+      <link>https://preminstrel.github.io/post/2021/10/25/mcs-51-basics-3/</link>
+      <pubDate>Mon, 25 Oct 2021 22:59:29 +0800</pubDate>
+      
+      <guid>https://preminstrel.github.io/post/2021/10/25/mcs-51-basics-3/</guid>
+      <description>独立按键 前面介绍的都是 IO 口输出的使用，这一章我们通过独立按键实验来介绍 IO 口作为输入的使用。开发板上板载 4 个独立按键。我们所要实现的功能是：通</description>
+    </item>
+    
+    <item>
       <title>MCS 51 Basics (2)</title>
       <link>https://preminstrel.github.io/post/2021/10/24/mcs-51-basics-2/</link>
       <pubDate>Sun, 24 Oct 2021 22:18:50 +0800</pubDate>
       
       <guid>https://preminstrel.github.io/post/2021/10/24/mcs-51-basics-2/</guid>
-      <description>前面我们已经介绍了如何控制 51 单片机的 IO 口输出高低电平，这次我们通过另外一个实验来讲述 51 单片机 IO 口的输出。通过单片机的一个 IO 口控制板载无源蜂鸣</description>
+      <description>Buzzer 前面我们已经介绍了如何控制 51 单片机的 IO 口输出高低电平，这次我们通过另外一个实验来讲述 51 单片机 IO 口的输出。通过单片机的一个 IO 口控制板载无源蜂</description>
     </item>
     
     <item>
