@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>DC/DC 开关电源 - Preminstrel&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Hanshi Sun" /><meta name="description" content="开关电源是一种高频化电能转换装置，其主要利用电力电子开关器件(如晶体管、MOS管、可控晶闸管等)，通过控制电路，使电子开关器件周期性地&amp;qu" /><meta name="keywords" content="Preminstrel" />
+
+
+<meta name="robots" content="">
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.68.3 with theme even" />
+
+
+<link rel="canonical" href="https://preminstrel.github.io/post/2021/10/29/dcdc-%E5%BC%80%E5%85%B3%E7%94%B5%E6%BA%90/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.75451ad2d2268431f3dfb6289a5d8bc042bd3e23f7ac463fe449ed7872bb8c72.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" /><meta property="og:title" content="DC/DC 开关电源" />
+<meta property="og:description" content="开关电源是一种高频化电能转换装置，其主要利用电力电子开关器件(如晶体管、MOS管、可控晶闸管等)，通过控制电路，使电子开关器件周期性地&qu" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://preminstrel.github.io/post/2021/10/29/dcdc-%E5%BC%80%E5%85%B3%E7%94%B5%E6%BA%90/" />
+<meta property="article:published_time" content="2021-10-29T17:40:03+08:00" />
+<meta property="article:modified_time" content="2021-10-29T00:00:00+00:00" />
+<meta itemprop="name" content="DC/DC 开关电源">
+<meta itemprop="description" content="开关电源是一种高频化电能转换装置，其主要利用电力电子开关器件(如晶体管、MOS管、可控晶闸管等)，通过控制电路，使电子开关器件周期性地&qu">
+<meta itemprop="datePublished" content="2021-10-29T17:40:03&#43;08:00" />
+<meta itemprop="dateModified" content="2021-10-29T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="2418">
+
+
+
+<meta itemprop="keywords" content="MCU,Power," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="DC/DC 开关电源"/>
+<meta name="twitter:description" content="开关电源是一种高频化电能转换装置，其主要利用电力电子开关器件(如晶体管、MOS管、可控晶闸管等)，通过控制电路，使电子开关器件周期性地&qu"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Preminstrel</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Preminstrel</a>
+</div>
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li>
+  </ul>
+</nav><li style="display:inline-block;margin-left:290px;">
+    <input type="search" class="docsearch-input" placeholder="Search" />
+  </li>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">DC/DC 开关电源</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2021-10-29 </span>
+        <div class="post-category">
+            <a href="/categories/mcu/"> MCU </a>
+            </div>
+          <span class="more-meta"> 2418 words </span>
+          <span class="more-meta"> 5 mins read </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#buck-型-dc-dc">Buck 型 DC-DC</a></li>
+    <li><a href="#buck-型开关电源原理">Buck 型开关电源原理</a></li>
+    <li><a href="#电感工作模式选择">电感工作模式选择</a></li>
+    <li><a href="#buck-转换器的纹波">Buck 转换器的纹波</a></li>
+    <li><a href="#dc-dc-电源芯片的选择">DC-DC 电源芯片的选择</a></li>
+    <li><a href="#与-ldo-的区别">与 LDO 的区别</a></li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>开关电源是一种高频化电能转换装置，其主要利用电力电子开关器件(如晶体管、MOS管、可控晶闸管等)，通过控制电路，使电子开关器件周期性地&quot;接通&quot;和&quot;关断&rdquo;，让电力电子开关器件对输入电压进行脉冲调制，从而实现电压变换以及输出电压可调和自动稳压的功能。按照调制方式的不同可分为脉宽调制(PWM)和脉频调制(PFM)两种，目前<strong>脉宽调制</strong>在开关电源中占据主导地位。</p>
+<p><strong>开关电源的优势</strong></p>
+<ul>
+<li>功耗低，效率高</li>
+<li>体积小，重量轻</li>
+<li>稳压范围宽</li>
+</ul>
+<p><strong>开关电源的损耗来源</strong></p>
+<ul>
+<li>开关管损耗</li>
+<li>电感电容损耗</li>
+<li>二级管损耗</li>
+</ul>
+<p>开关电源的损耗分析：开关电源的效率可以达到 90% 以上，如果精心优化与设计，甚至可以达到 95% 以上，这在以电池作为电力来源的场合非常重要，例如手机、小型无人机等。<strong>因此开关电源设计的优劣程度将直接影响设备的续航能力</strong>。</p>
+<ol>
+<li>
+<p>开关管损耗：这是开关电源的主要损耗，主要包括开关损耗、导通损耗。因此应该尽量选择导通电阻比较小的开关管作为开关电源的核心元器件。</p>
+</li>
+<li>
+<p>电感电容损耗：电感损耗主要包括直流电阻损耗，电容损耗主要包括漏电流损耗。因此应该尽量选择直流电阻较小的电感和漏电流较小的电容元器件。</p>
+</li>
+<li>
+<p>二极管损耗：主要包括导通损耗和开关损耗。因此应该尽量选择导通压降较小，反向恢复时间较短的二极管，例如肖特基二极管或快恢复二极管等。</p>
+</li>
+</ol>
+<h1 id="buck-型-dc-dc">Buck 型 DC-DC</h1>
+<p><strong>非同步整流 Buck 型开关电源的典型拓扑：</strong></p>
+<div align=center>
+<img src="/img/201910120900307.png" width="500px" />
+</div>
+<p>实际电路结构中，使用场效应管或者三极管当作图中的开关，开关周期性地接通和断开，由于电感和电容的滤波作用，使负载上得到一个直流的电压。由于开关管要么断开，要么饱和，所以损耗比较小。</p>
+<p><strong>同步整流 Buck 型开关电源的典型拓扑：</strong></p>
+<div align=center>
+<img src="/img/2019101209013774.png" width="400px" />
+</div>
+<p>同步整流 Buck 型开关电源的工作原理与非同步的基本相当，只不过将续流二极管换成了MOS管（称之为同步整流管），DC-DC 芯片需同时控制MOS 管Q1、Q2 的开关。</p>
+<h1 id="buck-型开关电源原理">Buck 型开关电源原理</h1>
+<p>Buck 型开关电源主要由开关管、储能电感、输出电容以及续流二极管组成，并通过负反馈回路维持输出Vo的稳定。忽略电路损耗，输入输出满足：</p>
+<p>$$\frac{V_\text{O}}{V_\text{IN}}=\frac{T_\text{ON}}{T_\text{O}}$$</p>
+<p>基本框图与主要点波形如下图所示。</p>
+<div align=center>
+<img src="/img/2019101209041589.png" width="500px" />
+</div>
+<p>Q1 导通时，输入通过Q1 对电感进行充电，电感电流线性增大，如上图（d）所示，满足条件：</p>
+<p>$$V_\text{IN}-V_\text{O}=L_\text{O}*\frac{dI}{dt}$$</p>
+<p>当 Q1 关断时，由于流经电感的电流不能突变，关断瞬间电流有快速降低的趋势，由楞次定律可知，电感内磁场会产生反向的感应电动势以阻止电流减小，这种瞬间的电压颠倒的现象称为“电感反冲”，此时因为有续流二极管的存在，将 V1 点电压强制钳位于地，保证 V1 不会由于“电感反冲”变得很“负”，从而保证 Q1 的可靠关断。所以 Q1 关断以后电感电流保持线性降低，直至下个周期开关打开，如上图（e）所示。满足：
+​
+$$-V_\text{O}=L_\text{O}*\frac{dI}{dt}$$</p>
+<p>所以，最终电感上的电流为 Q1 打开和关断状态之和，如上图（f）所示，在输出稳定的情况下，开关周期是基本上固定的，所以直流输出电流也就是经过上图（f）斜坡中点的那条直流分量，实际的工作可能由于负载变化等原因，直流输出电流会有相应的增加或减少，但是斜坡的斜率是不会变化的，所以可以得到斜坡起始值和峰值是由直流输出电流决定的。</p>
+<p>另外，上图（a）和（b）表示了控制芯片根据输出电压来形成一定占空比的 PWM 波形的原理：（a）的三角波是芯片内部产生的振荡波形，中间的直线是误差放大器根据输出电压产生的电平，两个波形对比，即产生（b）所示的方波，当然这只是一个简化，不同的芯片其控制机理也有比较大的区别。</p>
+<h1 id="电感工作模式选择">电感工作模式选择</h1>
+<p>按电感电流是否从 0 开始，可分为电感电流连续工作模式和电感电流不连续工作模式，如下图：</p>
+<div align=center>
+<img src="/img/20191012090658415.png" width="600px" />
+</div>
+<p>图（a） 中， 电感电流处于连续工作模式， 电感起始电流 $I_a$ 大于 0 ， 稳定时输出电流</p>
+<p>$$I_\text{O}=\frac{I_a+I_b}{2}$$
+​
+图（b）中，电感工作在不连续状态，电感起始电流为 0 且最大值大于 $2I_\text{O}$ 。实际电路中，如果电感较小，且负载较轻，则电感电流可能降低为 0 而进入不连续模式，电感进入不连续模式波形如下图：</p>
+<div align=center>
+<img src="/img/20191012092133824.png" width="600px" />
+</div>
+<p>图中明显可以看到，电感电流不连续时，有明显阻尼振荡，即所谓的“振铃现象”。虽然电感不连续时，反馈回路仍然能够通过调整开关状态维持输出电压稳定，但是在一些BUCK型输出滤波器的拓扑却会在非连续模式下出现问题，电路设计尽量避免不连续状态出现。</p>
+<h1 id="buck-转换器的纹波">Buck 转换器的纹波</h1>
+<p>电压纹波是指叠加在输出稳定电压上的变化的电压。开关电源的纹波，一般指 20MHz 以内的电压波动成分，所以测量纹波时需打开示波器的带宽限制功能，对输入信号作 20MHz 低通滤波处理。更高频的波动，一般称为高频噪声。由于Buck转换器在工作过程中，输出电容 C 会不断地充放电，所以会产生输出电压 $V_\text{O}$ 的波动，这是 Buck 转换器固有的纹波。从 LC 滤波的角度看，增大 L 和 C 可以降低 LC 滤波器的截止频率，从而减小纹波。</p>
+<p>纹波的另一个重要来源是输出电容 C 的等效串联电阻(ESR)，充放电的电流在 ESR 上产生压降，进一步增大了纹波。铝电解电容的容量较大，但是 ESR 也较大，所以一般另加 ESR 较小的陶瓷电容与电解电容并联组成输出电容。</p>
+<h1 id="dc-dc-电源芯片的选择">DC-DC 电源芯片的选择</h1>
+<p>主要考虑因素：输入电压、输出电压、最大输出电流。</p>
+<ul>
+<li>如果输入电压和输出电压很接近，最好是选用 LDO 稳压器，可达到很高的效率。</li>
+<li>如果输入和输出不是很接近，就要考虑开关型 DC-DC 了。此时若使用 LDO，功耗大，效率低。</li>
+<li>开关频率的选取主要考虑 LC 电路体积与开关损耗、音频噪声等因素。高开关频率可以减小滤波电路 LC 的体积，但同时增加开关损耗，降低效率；开关频率过低，可能产生音频噪声。</li>
+</ul>
+<p>在选择 DC-DC 芯片时除了考虑以上三点外，还需考虑整机功耗，转换效率，电源纹波等因素，结合实际情况，选择合适的 DC-DC电源芯片。</p>
+<h1 id="与-ldo-的区别">与 LDO 的区别</h1>
+<ul>
+<li><em><strong>LDO</strong></em></li>
+</ul>
+<p>低压差线性稳压器，故名思意，为线性的稳压器，仅能使用在降压应用中。输出电压必需小于输入电压。</p>
+<p><strong>优点</strong>：稳定性好，负载响应快。输出纹波小。</p>
+<p><strong>缺点</strong>：效率低，输入输出的电压差不能太大。负载不能太大，目前最大的 LDO 为 5A（但要保证5A的输出还有很多的限制条件）</p>
+<ul>
+<li><em><strong>DC-DC</strong></em>：</li>
+</ul>
+<p>直流电压转直流电压。严格来讲，LDO 也是 DC-DC 的一种，但目前 DC-DC 多指开关电源。</p>
+<p>具有很<strong>多种拓朴结构</strong>，如 BUCK，BOOST，等。</p>
+<p><strong>优点</strong>：效率高，输入电压范围较宽。</p>
+<p><strong>缺点</strong>：负载响应比 LDO 差，输出纹波比 LDO 大。</p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">Hanshi Sun</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2021-10-29
+        
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
+  </p>
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">Reward</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/wechat.jpg">
+        <span>wechat</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/alipay.jpg">
+        <span>alipay</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/mcu/">MCU</a>
+          <a href="/tags/power/">Power</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/2021/10/29/ldo/">
+            <span class="next-text nav-default">LDO</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        <div id="gitalk-container"></div>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+      var gitalk = new Gitalk({
+        id: '2021-10-29 17:40:03 \x2b0800 CST',
+        title: 'DC\/DC 开关电源',
+        clientID: '9d4d5bfb5872b737a756',
+        clientSecret: '2677eacb9eedb58e0e8e7463a2c6a5ff70054601',
+        repo: 'gitalk',
+        owner: 'preminstrel',
+        admin: ['preminstrel'],
+        body: decodeURI(location.href)
+      });
+      gitalk.render('gitalk-container');
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/gitalk/gitalk">comments powered by gitalk.</a></noscript>
+
+  
+
+  
+
+  
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:preminstrel@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://twitter.com/preminstrel" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="https://github.com/preminstrel" class="iconfont icon-github" title="github"></a>
+      <a href="https://www.zhihu.com/people/pawn-85-95" class="iconfont icon-zhihu" title="zhihu"></a>
+      <a href="https://space.bilibili.com/23354645" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="https://preminstrel.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    
+    
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>Hanshi Sun</span>
+  </span>
+  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/mermaid/8.8.3/mermaid.min.js"></script>
+  <script>
+    $(".language-mermaid").addClass("mermaid");
+  </script>
+</div>
+
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+<script>
+docsearch({
+    apiKey: "67ddc142183934ec2d0aa925bf40c09a",
+    indexName: "blog",
+    appId: "RQO6N4CQFD",
+    inputSelector: '.docsearch-input',
+    debug: false,
+});
+</script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+
+<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/algoliasearch.min.js"></script>
+<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/autocomplete.min.js"></script>
+
+
+ 
+<script src= "/js/search.js" type="text/javascript"></script>
+
+</script>
+
+
+  
+  
+</body>
+</html>

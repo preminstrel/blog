@@ -6,10 +6,28 @@
     <description>Recent content in MCU on Preminstrel&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 28 Oct 2021 23:20:54 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 29 Oct 2021 17:40:03 +0800</lastBuildDate>
     
 	<atom:link href="https://preminstrel.github.io/tags/mcu/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>DC/DC 开关电源</title>
+      <link>https://preminstrel.github.io/post/2021/10/29/dcdc-%E5%BC%80%E5%85%B3%E7%94%B5%E6%BA%90/</link>
+      <pubDate>Fri, 29 Oct 2021 17:40:03 +0800</pubDate>
+      
+      <guid>https://preminstrel.github.io/post/2021/10/29/dcdc-%E5%BC%80%E5%85%B3%E7%94%B5%E6%BA%90/</guid>
+      <description>开关电源是一种高频化电能转换装置，其主要利用电力电子开关器件(如晶体管、MOS管、可控晶闸管等)，通过控制电路，使电子开关器件周期性地&amp;qu</description>
+    </item>
+    
+    <item>
+      <title>LDO</title>
+      <link>https://preminstrel.github.io/post/2021/10/29/ldo/</link>
+      <pubDate>Fri, 29 Oct 2021 13:03:54 +0800</pubDate>
+      
+      <guid>https://preminstrel.github.io/post/2021/10/29/ldo/</guid>
+      <description>LDO (Low Dropout Regulator) 低压差稳压器在电源设计中用途十分广泛。相比于 DC-DC 稳压器，LDO 具有噪声小，芯片尺寸小，外围器件少且设计简单等优点；也存在输入输出电压压</description>
+    </item>
     
     <item>
       <title>I2S</title>

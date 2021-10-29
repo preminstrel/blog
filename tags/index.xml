@@ -6,7 +6,7 @@
     <description>Recent content in Tags on Preminstrel&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 28 Oct 2021 23:20:54 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 29 Oct 2021 17:40:03 +0800</lastBuildDate>
     
 	<atom:link href="https://preminstrel.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,9 +14,18 @@
     <item>
       <title>MCU</title>
       <link>https://preminstrel.github.io/tags/mcu/</link>
-      <pubDate>Thu, 28 Oct 2021 23:20:54 +0800</pubDate>
+      <pubDate>Fri, 29 Oct 2021 17:40:03 +0800</pubDate>
       
       <guid>https://preminstrel.github.io/tags/mcu/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Power</title>
+      <link>https://preminstrel.github.io/tags/power/</link>
+      <pubDate>Fri, 29 Oct 2021 17:40:03 +0800</pubDate>
+      
+      <guid>https://preminstrel.github.io/tags/power/</guid>
       <description></description>
     </item>
     

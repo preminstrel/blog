@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>LDO - Preminstrel&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Hanshi Sun" /><meta name="description" content="LDO (Low Dropout Regulator) 低压差稳压器在电源设计中用途十分广泛。相比于 DC-DC 稳压器，LDO 具有噪声小，芯片尺寸小，外围器件少且设计简单等优点；也存在输入输出电压压" /><meta name="keywords" content="Preminstrel" />
+
+
+<meta name="robots" content="">
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.68.3 with theme even" />
+
+
+<link rel="canonical" href="https://preminstrel.github.io/post/2021/10/29/ldo/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.75451ad2d2268431f3dfb6289a5d8bc042bd3e23f7ac463fe449ed7872bb8c72.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" /><meta property="og:title" content="LDO" />
+<meta property="og:description" content="LDO (Low Dropout Regulator) 低压差稳压器在电源设计中用途十分广泛。相比于 DC-DC 稳压器，LDO 具有噪声小，芯片尺寸小，外围器件少且设计简单等优点；也存在输入输出电压压" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://preminstrel.github.io/post/2021/10/29/ldo/" />
+<meta property="article:published_time" content="2021-10-29T13:03:54+08:00" />
+<meta property="article:modified_time" content="2021-10-29T00:00:00+00:00" />
+<meta itemprop="name" content="LDO">
+<meta itemprop="description" content="LDO (Low Dropout Regulator) 低压差稳压器在电源设计中用途十分广泛。相比于 DC-DC 稳压器，LDO 具有噪声小，芯片尺寸小，外围器件少且设计简单等优点；也存在输入输出电压压">
+<meta itemprop="datePublished" content="2021-10-29T13:03:54&#43;08:00" />
+<meta itemprop="dateModified" content="2021-10-29T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="2478">
+
+
+
+<meta itemprop="keywords" content="MCU,Power," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="LDO"/>
+<meta name="twitter:description" content="LDO (Low Dropout Regulator) 低压差稳压器在电源设计中用途十分广泛。相比于 DC-DC 稳压器，LDO 具有噪声小，芯片尺寸小，外围器件少且设计简单等优点；也存在输入输出电压压"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Preminstrel</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Preminstrel</a>
+</div>
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li>
+  </ul>
+</nav><li style="display:inline-block;margin-left:290px;">
+    <input type="search" class="docsearch-input" placeholder="Search" />
+  </li>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">LDO</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2021-10-29 </span>
+        <div class="post-category">
+            <a href="/categories/mcu/"> MCU </a>
+            </div>
+          <span class="more-meta"> 2478 words </span>
+          <span class="more-meta"> 5 mins read </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#regulation">Regulation</a></li>
+    <li><a href="#efficiency-and-heat-dissipation">Efficiency and heat dissipation</a></li>
+    <li><a href="#quiescent-current">Quiescent current</a></li>
+    <li><a href="#filtering">Filtering</a></li>
+    <li><a href="#specifications">Specifications</a></li>
+    <li><a href="#reference">Reference</a></li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p><em><strong>LDO (Low Dropout Regulator)</strong></em> 低压差稳压器在电源设计中用途十分广泛。相比于 <em><strong>DC-DC</strong></em> 稳压器，LDO 具有噪声小，芯片尺寸小，外围器件少且设计简单等优点；也存在输入输出电压压差大时导致效率低且发热量大，只能降压使用等缺点。低压差稳压器是一种直流线性稳压器，即使在电源电压非常接近输出电压时也能调节输出电压。</p>
+<div align=center>
+<img src="/img/20211029133101.png" width="600px" />
+</div>
+<h1 id="regulation">Regulation</h1>
+<p>误差放大器的引脚电压与基准电压 ($V_{\text{REF}}$) 相同，因此输出电压值（$V_\text{O}$）由两个电阻（$R_1$ 和 $R_2$）的阻值比决定。</p>
+<p>$$V_\text{O}=\left(1+\frac{R_1}{R_2}\right) V_{\text{REF}}$$</p>
+<p>该电路主要是由串联调整管、取样电阻、比较放大器组成。取样电压加在比较放大器的同相输入端，与加在反相输入端的基准电压 $V_{\text{REF}}$ 相比较，两者的差值经放大器放大后，控制串联调整管的压降，从而稳定输出电压。当输出电压 $V_\text{O}$ 降低时，基准电压与取样电压的差值增加，比较放大器输出的驱动电流增加，串联调整管压降减小，从而使输出电压升高。相反，若输出电压 $V_\text{O}$ 超过所需要的设定值，比较放大器输出的前驱动电流减小，从而使输出电压降低。</p>
+<p>供电过程中，输出电压校正连续进行，调整时间只受比较放大器和串联调整管回路反应速度的限制。环路内的<strong>负反馈</strong>总是强制比较放大器调节输入两端的电压使其相等。</p>
+<p>负反馈回路以保持输出电压的稳定。但反馈信号在通过回路后都有一定的增益和相位变化。如果反馈信号相位有 $180^{\circ}$ 变化，负反馈就会变成正反馈，造成输出不稳定。因此反馈信号经过整个回路的相位偏移，需要有至少 $20^{\circ}$ 的相位裕度，才能保证电路的稳定。（相位裕度定义为回路总的相位偏移与 $-180^{\circ}$ 的差）</p>
+<h1 id="efficiency-and-heat-dissipation">Efficiency and heat dissipation</h1>
+<p>典型 LDO 的传输元件和内部电路 $({\displaystyle P_{\text{LOSS}}})$ 中的功耗计算如下：</p>
+<p>$${\displaystyle P_{\text{LOSS}}=\left(V_{\text{IN}}-V_{\text{OUT}}\right)I_{\text{OUT}}+V_{\text{IN }}I_{\text{Q}}}$$</p>
+<p>其中 ${\displaystyle I_{\text{Q}}}$ 是 LDO 内部电路所需的静态电流。因此，可以按如下方式计算效率：</p>
+<p>$${\displaystyle \eta ={\frac {P_{\text{IN}}-P_{\text{LOSS}}}{P_{\text{IN}}}}} 其中 {\displaystyle P_{\text{IN }}=V_{\text{IN}}I_{\text{IN}}}$$</p>
+<p>但是，当 LDO 处于完全运行状态（即向负载提供电流）时，通常：${\displaystyle I_{\text{OUT}}\gg I_{\text{Q}}}$。这使我们可以将 ${\displaystyle P_{\text{LOSS}}}$ 简化为以下内容：</p>
+<p>$${\displaystyle P_{\text{LOSS}}=\left(V_{\text{IN}}-V_{\text{OUT}}\right)I_{\text{OUT}}}$$
+这进一步将效率方程简化为：</p>
+<p>$${\displaystyle \eta ={\frac {V_{\text{OUT}}}{V_{\text{IN}}}}}$$</p>
+<p>使用低压差线性稳压器时，务必牢记散热考虑。输入和输出电压之间的高电流和/或宽差可能会<strong>导致大功率耗散</strong>。此外，随着差异的扩大，效率将受到影响。根据封装的不同，过度的功耗可能会损坏 LDO 或导致其进入热关断状态。</p>
+<h1 id="quiescent-current">Quiescent current</h1>
+<p>线性稳压器的其他重要特性之一是<strong>静态电流</strong>，也称为接地电流或电源电流，它解释了 LDO 的输入和输出电流之间的差异（尽管很小），即：</p>
+<p>$${\displaystyle I_{\text{Q}}=I_{\text{IN}}-I_{\text{OUT}}}{\displaystyle I_{\text{Q}}=I_{\text{IN}}-I_{\text{OUT}}}$$</p>
+<p>静态电流是由 LDO 汲取的电流，以控制其内部电路以使其正常运行。串联传输元件、拓扑结构和环境温度是静态电流的主要贡献者。</p>
+<p>许多应用不需要 LDO 一直处于完全运行状态（即向负载提供电流）。在此空闲状态下，LDO 仍会吸收少量静态电流，以便在出现负载时保持内部电路准备就绪。当没有电流被提供给负载时， ${\displaystyle P_{\text{LOSS}}}$ 可以表示如下：</p>
+<p>$${\displaystyle P_{\text{LOSS}}=V_{\text{IN}}I_{Q}}{\displaystyle P_{\text{LOSS}}=V_{\text{IN}}I_{Q}}$$</p>
+<h1 id="filtering">Filtering</h1>
+<p>除了调节电压外，LDO 还可以用作滤波器。这在系统使用开关器时特别有用，因为开关器会在开关频率处引入输出电压中的纹波。如果不理会，这种纹波有可能对振荡器、数据转换器、和由切换器供电的射频系统的性能产生不利影响。然而，任何电源，不仅仅是切换器，都可能包含设计不合需要的交流元件。</p>
+<p>使用 LDO 作为滤波器时应考虑的两个规格是电源抑制比 (PSRR) 和输出噪声。</p>
+<h1 id="specifications">Specifications</h1>
+<p>LDO 的特征在于其压差、静态电流、负载调节、线路调节、最大电流（由传输晶体管的大小决定）、速度（随着负载变化其响应速度）、电压变化由于负载电流、输出电容器及其等效串联电阻中的突然瞬变而导致输出中的问题。速度由输出电流的上升时间表示，因为它从 0 mA 负载电流（无负载）到最大负载电流。这基本上由误差放大器的带宽决定。还期望 LDO 在所有情况下提供安静和稳定的输出（可能的扰动示例可能是：输入电压或输出电流的突然变化）。稳定性分析采用了一些性能指标来获得这种行为，并涉及适当放置极点和​​零点。大多数情况下，在低频时会出现一个主导极点，而在高频时会推动其他极点和零点。</p>
+<div align=center>
+<img src="/img/20211029163501.jpg" width="300px" />
+</div>
+<p><strong>电源抑制比 Power supply rejection ratio</strong></p>
+<p>PSRR 是指 LDO 抑制输入端纹波的能力。作为其调节的一部分，误差放大器和带隙会衰减输入电压中偏离与之比较的内部基准的任何尖峰。在理想的 LDO 中，输出电压将仅由直流频率组成。然而，误差放大器在高频下获得小尖峰的能力有限。PSRR 表示如下：</p>
+<p>$${\displaystyle {\text{PSRR}}={\frac {\Delta V_{\text{IN}}^{2}}{\Delta V_{\text{OUT}}^{2}}}=10\ log \left({\frac {\Delta V_{\text{IN}}^{2}}{\Delta V_{\text{OUT}}^{2}}}\right){\text{dB }}}$$</p>
+<p>例如，在 1 MHz 时 PSRR 为 55 dB 的 LDO 在此频率下将 1 mV 输入纹波衰减至输出端仅为 1.78 µV。PSRR 增加 6 dB 大致相当于衰减增加 2 倍。</p>
+<p>大多数 LDO 在较低频率 (10 Hz – 1 kHz) 下具有相对较高的 PSRR。然而，高性能 LDO 的特点是在很宽的频谱（10 Hz - 5 MHz）上具有高 PSRR。在宽带上具有高 PSRR 允许 LDO 抑制高频噪声，如开关产生的噪声。与其他规格类似，PSRR 会随着频率、温度、电流、输出电压和电压差而波动。</p>
+<p><strong>输出噪声 Output noise</strong></p>
+<p>在滤波器设计中还必须考虑来自 LDO 本身的噪声。与其他电子设备一样，LDO 受热噪声、双极散粒噪声和闪烁噪声的影响。 [9]这些现象中的每一种都会对输出电压产生噪声，主要集中在频谱的低端。为了正确过滤交流频率，LDO 必须抑制输入端的纹波，同时在输出端引入最小的噪声。如果有噪声的 LDO 只是在输出端再次增加该噪声，那么衰减输入电压纹波的努力可能会徒劳无功。</p>
+<p><strong>负载调节 Load regulation</strong></p>
+<p>负载调整率是衡量电路在不同负载条件下保持指定输出电压的能力。负载调节定义为：</p>
+<p>$${\displaystyle {\text{负载调节}}={\Delta V_{\text{OUT}} \over \Delta I_{\text{OUT}}}}$$</p>
+<p>输出电压变化的最坏情况发生在负载电流从零过渡到其最大额定值时，反之亦然。</p>
+<p><strong>线路调节 Line regulation</strong></p>
+<p>线路调节是衡量电路在输入电压变化时保持指定输出电压的能力。线路调节定义为：</p>
+<p>$${\displaystyle {\text{线规}}={\Delta V_{\text{OUT}} \over \Delta V_{\text{IN}}}}$$</p>
+<p>与负载调整率一样，线路调整率是一个稳态参数——所有频率分量都被忽略。增加直流开环电流增益可改善线路调节。</p>
+<p><strong>瞬态响应 Transient response</strong></p>
+<p>瞬态响应是负载电流阶跃变化的最大允许输出电压变化。瞬态响应是输出电容值 (${\textstyle C_{\text{OUT}}}$)、输出电容的等效串联电阻 (ESR)、旁路电容 (${\textstyle C_{\text{ BYP}}}$)，通常添加到输出电容器以改善负载瞬态响应和最大负载电流 (${\textstyle I_{\text{OUT,MAX}}}$)。最大瞬态电压变化定义如下：</p>
+<p>$${\displaystyle \Delta V_{\text{TR,MAX}}={\frac {I_{\text{OUT,MAX}}}{C_{\text{OUT}}+C_{\text{BYP}}} }\Delta t_{1}+{\Delta V_{\text{ESR}}}}$$</p>
+<p>其中 ${\textstyle \Delta t_{1}}$ 对应于 LDO 稳压器的闭环带宽。 ${\textstyle \Delta V_{\text{ESR}}}$ 是由于输出电容器的 ESR (${\textstyle R_{\text{ESR}}}$) 的存在而导致的电压变化。应用程序确定该值应该有多低。</p>
+<h1 id="reference">Reference</h1>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Low-dropout_regulator">Wikipedia-Low-dropout regulator</a></li>
+</ul>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">Hanshi Sun</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2021-10-29
+        
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
+  </p>
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">Reward</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/wechat.jpg">
+        <span>wechat</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/alipay.jpg">
+        <span>alipay</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/mcu/">MCU</a>
+          <a href="/tags/power/">Power</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/2021/10/29/dcdc-%E5%BC%80%E5%85%B3%E7%94%B5%E6%BA%90/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">DC/DC 开关电源</span>
+            <span class="prev-text nav-mobile">Prev</span>
+          </a>
+        <a class="next" href="/post/2021/10/28/i2s/">
+            <span class="next-text nav-default">I2S</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        <div id="gitalk-container"></div>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+      var gitalk = new Gitalk({
+        id: '2021-10-29 13:03:54 \x2b0800 CST',
+        title: 'LDO',
+        clientID: '9d4d5bfb5872b737a756',
+        clientSecret: '2677eacb9eedb58e0e8e7463a2c6a5ff70054601',
+        repo: 'gitalk',
+        owner: 'preminstrel',
+        admin: ['preminstrel'],
+        body: decodeURI(location.href)
+      });
+      gitalk.render('gitalk-container');
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/gitalk/gitalk">comments powered by gitalk.</a></noscript>
+
+  
+
+  
+
+  
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:preminstrel@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://twitter.com/preminstrel" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="https://github.com/preminstrel" class="iconfont icon-github" title="github"></a>
+      <a href="https://www.zhihu.com/people/pawn-85-95" class="iconfont icon-zhihu" title="zhihu"></a>
+      <a href="https://space.bilibili.com/23354645" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="https://preminstrel.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    
+    
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021<span class="heart"><i class="iconfont icon-heart"></i></span><span>Hanshi Sun</span>
+  </span>
+  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/mermaid/8.8.3/mermaid.min.js"></script>
+  <script>
+    $(".language-mermaid").addClass("mermaid");
+  </script>
+</div>
+
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+<script>
+docsearch({
+    apiKey: "67ddc142183934ec2d0aa925bf40c09a",
+    indexName: "blog",
+    appId: "RQO6N4CQFD",
+    inputSelector: '.docsearch-input',
+    debug: false,
+});
+</script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+
+<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/algoliasearch.min.js"></script>
+<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/autocomplete.min.js"></script>
+
+
+ 
+<script src= "/js/search.js" type="text/javascript"></script>
+
+</script>
+
+
+  
+  
+</body>
+</html>
