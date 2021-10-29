@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ZYNQ on Preminstrel&#39;s Blog</title>
+    <link>https://preminstrel.github.io/tags/zynq/</link>
+    <description>Recent content in ZYNQ on Preminstrel&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 29 Oct 2021 23:51:59 +0800</lastBuildDate>
+    
+	<atom:link href="https://preminstrel.github.io/tags/zynq/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>ZYBO Z7 Basics 1</title>
+      <link>https://preminstrel.github.io/post/2021/10/29/zybo-z7-basics-1/</link>
+      <pubDate>Fri, 29 Oct 2021 23:51:59 +0800</pubDate>
+      
+      <guid>https://preminstrel.github.io/post/2021/10/29/zybo-z7-basics-1/</guid>
+      <description>最近要在 FPGA 上部署之前的 ECGNet，所以老师给了我一块 ZYBO-Z7，搭载 7020 芯片，让我们自学并实现硬件部署。</description>
+    </item>
+    
+  </channel>
+</rss>

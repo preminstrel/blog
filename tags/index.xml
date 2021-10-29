@@ -6,10 +6,28 @@
     <description>Recent content in Tags on Preminstrel&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 29 Oct 2021 17:40:03 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 29 Oct 2021 23:51:59 +0800</lastBuildDate>
     
 	<atom:link href="https://preminstrel.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>FPGA</title>
+      <link>https://preminstrel.github.io/tags/fpga/</link>
+      <pubDate>Fri, 29 Oct 2021 23:51:59 +0800</pubDate>
+      
+      <guid>https://preminstrel.github.io/tags/fpga/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ZYNQ</title>
+      <link>https://preminstrel.github.io/tags/zynq/</link>
+      <pubDate>Fri, 29 Oct 2021 23:51:59 +0800</pubDate>
+      
+      <guid>https://preminstrel.github.io/tags/zynq/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>MCU</title>
@@ -44,15 +62,6 @@
       <pubDate>Mon, 25 Oct 2021 22:59:29 +0800</pubDate>
       
       <guid>https://preminstrel.github.io/tags/mcs-51/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>FPGA</title>
-      <link>https://preminstrel.github.io/tags/fpga/</link>
-      <pubDate>Mon, 18 Oct 2021 20:05:26 +0800</pubDate>
-      
-      <guid>https://preminstrel.github.io/tags/fpga/</guid>
       <description></description>
     </item>
     

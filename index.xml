@@ -12,6 +12,15 @@
     
     
     <item>
+      <title>ZYBO Z7 Basics 1</title>
+      <link>https://preminstrel.github.io/post/2021/10/29/zybo-z7-basics-1/</link>
+      <pubDate>Fri, 29 Oct 2021 23:51:59 +0800</pubDate>
+      
+      <guid>https://preminstrel.github.io/post/2021/10/29/zybo-z7-basics-1/</guid>
+      <description>最近要在 FPGA 上部署之前的 ECGNet，所以老师给了我一块 ZYBO-Z7，搭载 7020 芯片，让我们自学并实现硬件部署。</description>
+    </item>
+    
+    <item>
       <title>DC/DC 开关电源</title>
       <link>https://preminstrel.github.io/post/2021/10/29/dcdc-%E5%BC%80%E5%85%B3%E7%94%B5%E6%BA%90/</link>
       <pubDate>Fri, 29 Oct 2021 17:40:03 +0800</pubDate>
