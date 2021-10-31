@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Preminstrel&#39;s Blog</title>
+  <title>ZYBO Z7 Basics: Vivado - Preminstrel&#39;s Blog</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="Hanshi Sun" /><meta name="description" content="Preminstrel&#39;s Blog" /><meta name="keywords" content="Preminstrel" />
+<meta name="author" content="Hanshi Sun" /><meta name="description" content="硬件连接与上电验证 PC 与 ZYBO 之间通过 micro USB 线连接，ZYBO 端连接到 PROG-UART 接口上。 打开电源开关，确认电源供电正常。如果是第一次将 ZYBO 与 PC 相连，那么 PC 端会自" /><meta name="keywords" content="Preminstrel" />
 
 
 <meta name="robots" content="">
@@ -29,9 +29,7 @@
 <meta name="generator" content="Hugo 0.68.3 with theme even" />
 
 
-<link rel="canonical" href="https://preminstrel.github.io/" />
-  <link href="https://preminstrel.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Preminstrel&#39;s Blog" />
-  <link href="https://preminstrel.github.io/index.xml" rel="feed" type="application/rss+xml" title="Preminstrel&#39;s Blog" />
+<link rel="canonical" href="https://preminstrel.github.io/post/2021/10/31/zybo-z7-basics-3/" />
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -44,15 +42,23 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" /><meta property="og:title" content="Preminstrel&#39;s Blog" />
-<meta property="og:description" content="Preminstrel&#39;s Blog" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://preminstrel.github.io/" />
-<meta property="og:updated_time" content="2021-10-16T10:40:02+08:00" />
-<meta itemprop="name" content="Preminstrel&#39;s Blog">
-<meta itemprop="description" content="Preminstrel&#39;s Blog"><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Preminstrel&#39;s Blog"/>
-<meta name="twitter:description" content="Preminstrel&#39;s Blog"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" /><meta property="og:title" content="ZYBO Z7 Basics: Vivado" />
+<meta property="og:description" content="硬件连接与上电验证 PC 与 ZYBO 之间通过 micro USB 线连接，ZYBO 端连接到 PROG-UART 接口上。 打开电源开关，确认电源供电正常。如果是第一次将 ZYBO 与 PC 相连，那么 PC 端会自" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://preminstrel.github.io/post/2021/10/31/zybo-z7-basics-3/" />
+<meta property="article:published_time" content="2021-10-31T14:08:22+08:00" />
+<meta property="article:modified_time" content="2021-10-31T00:00:00+00:00" />
+<meta itemprop="name" content="ZYBO Z7 Basics: Vivado">
+<meta itemprop="description" content="硬件连接与上电验证 PC 与 ZYBO 之间通过 micro USB 线连接，ZYBO 端连接到 PROG-UART 接口上。 打开电源开关，确认电源供电正常。如果是第一次将 ZYBO 与 PC 相连，那么 PC 端会自">
+<meta itemprop="datePublished" content="2021-10-31T14:08:22&#43;08:00" />
+<meta itemprop="dateModified" content="2021-10-31T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="186">
+
+
+
+<meta itemprop="keywords" content="FPGA,ZYNQ," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="ZYBO Z7 Basics: Vivado"/>
+<meta name="twitter:description" content="硬件连接与上电验证 PC 与 ZYBO 之间通过 micro USB 线连接，ZYBO 端连接到 PROG-UART 接口上。 打开电源开关，确认电源供电正常。如果是第一次将 ZYBO 与 PC 相连，那么 PC 端会自"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -119,136 +125,116 @@
     <main id="main" class="main">
       <div class="content-wrapper">
         <div id="content" class="content">
-          <section id="posts" class="posts">
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/2021/10/25/mcs-51-basics-3/">MCS 51 Basics (3)</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2021-10-25 </span>
-      <div class="post-category">
-          <a href="/categories/mcu/"> MCU </a>
-          </div>
-        <span class="more-meta"> 1447 words </span>
-        <span class="more-meta"> 3 mins read </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      独立按键 前面介绍的都是 IO 口输出的使用，这一章我们通过独立按键实验来介绍 IO 口作为输入的使用。开发板上板载 4 个独立按键。我们所要实现的功能是：通
-    </div>
-    <div class="read-more">
-      <a href="/post/2021/10/25/mcs-51-basics-3/" class="read-more-link">Read more...</a>
-    </div>
-  </div>
-</article>
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">ZYBO Z7 Basics: Vivado</h1>
 
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/2021/10/24/mcs-51-basics-2/">MCS 51 Basics (2)</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2021-10-24 </span>
-      <div class="post-category">
-          <a href="/categories/mcu/"> MCU </a>
-          </div>
-        <span class="more-meta"> 4363 words </span>
-        <span class="more-meta"> 9 mins read </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      Buzzer 前面我们已经介绍了如何控制 51 单片机的 IO 口输出高低电平，这次我们通过另外一个实验来讲述 51 单片机 IO 口的输出。通过单片机的一个 IO 口控制板载无源蜂
-    </div>
-    <div class="read-more">
-      <a href="/post/2021/10/24/mcs-51-basics-2/" class="read-more-link">Read more...</a>
-    </div>
-  </div>
-</article>
+      <div class="post-meta">
+        <span class="post-time"> 2021-10-31 </span>
+        <div class="post-category">
+            <a href="/categories/zynq/"> ZYNQ </a>
+            </div>
+          <span class="more-meta"> 186 words </span>
+          <span class="more-meta"> 1 min read </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
 
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/2021/10/18/mcs-51-basics-1/">MCS 51 Basics (1)</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2021-10-18 </span>
-      <div class="post-category">
-          <a href="/categories/mcu/"> MCU </a>
-          </div>
-        <span class="more-meta"> 5631 words </span>
-        <span class="more-meta"> 12 mins read </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      最近因为在上微机原理课，所以买了51单片机（MCS 51）来进行实验学习。 Introduction to MCU 一台能够工作的计算机要有这样几个部件构成：CPU（进行运算、控
-    </div>
-    <div class="read-more">
-      <a href="/post/2021/10/18/mcs-51-basics-1/" class="read-more-link">Read more...</a>
-    </div>
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#硬件连接与上电验证">硬件连接与上电验证</a></li>
+  </ul>
+</nav>
   </div>
-</article>
+</div>
+    <div class="post-content">
+      <h1 id="硬件连接与上电验证">硬件连接与上电验证</h1>
+<p>PC 与 ZYBO 之间通过 micro USB 线连接，ZYBO 端连接到 PROG-UART 接口上。</p>
+<p>打开电源开关，确认电源供电正常。如果是第一次将 ZYBO 与 PC 相连，那么 PC 端会自动识别该 USB 设备并安装相应驱动。
+ZYBO 的板载 PROG-UART 接口集供电、编程与 UART 功能为一体，PC 端识别该设备时会有 2 部分：一部分是对应 UART 功能的 COM 端口；另一部分是对应 USB 编程功能。</p>
+<p>进入 PC 的设备管理器，如下图，<code>COM7</code> 对应 UART 功能；<code>USB Serial Converter A/B</code> 对应 USB 编程功能。</p>
+<div align=center>
+<img src="/img/20211031141550.png" width="400px" />
+</div>
 
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/2021/10/18/vivado-ila/">Vivado ILA</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2021-10-18 </span>
-      <div class="post-category">
-          <a href="/categories/fpga/"> FPGA </a>
-          </div>
-        <span class="more-meta"> 697 words </span>
-        <span class="more-meta"> 2 mins read </span>
     </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      进行 FPGA 开发的过程中，在逻辑代码上板运行前都会进行仿真验证，而 EDA 仿真工具（如Modelsim等）的使用更是可以可以让工程师提早发现工程中出现的
-    </div>
-    <div class="read-more">
-      <a href="/post/2021/10/18/vivado-ila/" class="read-more-link">Read more...</a>
-    </div>
-  </div>
-</article>
 
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/2021/10/17/vivado-basics/">Vivado Basics</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2021-10-17 </span>
-      <div class="post-category">
-          <a href="/categories/fpga/"> FPGA </a>
-          </div>
-        <span class="more-meta"> 1148 words </span>
-        <span class="more-meta"> 3 mins read </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      在学习 FPGA 的过程中，我们需要用到 Vivado软件，这里我用的是 Vivado2021.1版本的软件。一般来说， FPGA 开发的流程分为以下几个部分来实现
-    </div>
-    <div class="read-more">
-      <a href="/post/2021/10/17/vivado-basics/" class="read-more-link">Read more...</a>
-    </div>
-  </div>
-</article>
-
-    </section>
-  
-  <nav class="pagination">
-    <a class="prev" href="/page/2/">
-        <i class="iconfont icon-left"></i>
-        <span class="prev-text">Prev</span>
-      </a>
-    <a class="next" href="/page/4/">
-        <span class="next-text">Next</span>
-        <i class="iconfont icon-right"></i>
-      </a>
-  </nav>
-        </div>
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">Hanshi Sun</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2021-10-31
         
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
+  </p>
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">Reward</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/wechat.jpg">
+        <span>wechat</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/alipay.jpg">
+        <span>alipay</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/fpga/">FPGA</a>
+          <a href="/tags/zynq/">ZYNQ</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/2021/10/31/zybo-z7-basics-2/">
+            <span class="next-text nav-default">ZYBO Z7 Basics: 编程模式配置与上电</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        <div id="gitalk-container"></div>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+      var gitalk = new Gitalk({
+        id: '2021-10-31 14:08:22 \x2b0800 CST',
+        title: 'ZYBO Z7 Basics: Vivado',
+        clientID: '9d4d5bfb5872b737a756',
+        clientSecret: '2677eacb9eedb58e0e8e7463a2c6a5ff70054601',
+        repo: 'gitalk',
+        owner: 'preminstrel',
+        admin: ['preminstrel'],
+        body: decodeURI(location.href)
+      });
+      gitalk.render('gitalk-container');
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/gitalk/gitalk">comments powered by gitalk.</a></noscript>
+
+  
+
+  
+
+  
+  
 
       </div>
     </main>
