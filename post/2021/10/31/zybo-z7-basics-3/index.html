@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>ZYBO Z7 Basics: Vivado - Preminstrel&#39;s Blog</title>
+  <title>ZYBO Z7 Basics: PL 端点亮 LED - Preminstrel&#39;s Blog</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -42,22 +42,22 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" /><meta property="og:title" content="ZYBO Z7 Basics: Vivado" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" /><meta property="og:title" content="ZYBO Z7 Basics: PL 端点亮 LED" />
 <meta property="og:description" content="硬件连接与上电验证 PC 与 ZYBO 之间通过 micro USB 线连接，ZYBO 端连接到 PROG-UART 接口上。 打开电源开关，确认电源供电正常。如果是第一次将 ZYBO 与 PC 相连，那么 PC 端会自" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://preminstrel.github.io/post/2021/10/31/zybo-z7-basics-3/" />
 <meta property="article:published_time" content="2021-10-31T14:08:22+08:00" />
-<meta property="article:modified_time" content="2021-10-31T00:00:00+00:00" />
-<meta itemprop="name" content="ZYBO Z7 Basics: Vivado">
+<meta property="article:modified_time" content="2021-10-31T14:08:22+08:00" />
+<meta itemprop="name" content="ZYBO Z7 Basics: PL 端点亮 LED">
 <meta itemprop="description" content="硬件连接与上电验证 PC 与 ZYBO 之间通过 micro USB 线连接，ZYBO 端连接到 PROG-UART 接口上。 打开电源开关，确认电源供电正常。如果是第一次将 ZYBO 与 PC 相连，那么 PC 端会自">
 <meta itemprop="datePublished" content="2021-10-31T14:08:22&#43;08:00" />
-<meta itemprop="dateModified" content="2021-10-31T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="186">
+<meta itemprop="dateModified" content="2021-10-31T14:08:22&#43;08:00" />
+<meta itemprop="wordCount" content="1014">
 
 
 
 <meta itemprop="keywords" content="FPGA,ZYNQ," /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="ZYBO Z7 Basics: Vivado"/>
+<meta name="twitter:title" content="ZYBO Z7 Basics: PL 端点亮 LED"/>
 <meta name="twitter:description" content="硬件连接与上电验证 PC 与 ZYBO 之间通过 micro USB 线连接，ZYBO 端连接到 PROG-UART 接口上。 打开电源开关，确认电源供电正常。如果是第一次将 ZYBO 与 PC 相连，那么 PC 端会自"/>
 
 <!--[if lte IE 9]>
@@ -128,15 +128,15 @@
           <article class="post">
     
     <header class="post-header">
-      <h1 class="post-title">ZYBO Z7 Basics: Vivado</h1>
+      <h1 class="post-title">ZYBO Z7 Basics: PL 端点亮 LED</h1>
 
       <div class="post-meta">
         <span class="post-time"> 2021-10-31 </span>
         <div class="post-category">
             <a href="/categories/zynq/"> ZYNQ </a>
             </div>
-          <span class="more-meta"> 186 words </span>
-          <span class="more-meta"> 1 min read </span>
+          <span class="more-meta"> 1014 words </span>
+          <span class="more-meta"> 3 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
     </header>
@@ -147,6 +147,11 @@
     <nav id="TableOfContents">
   <ul>
     <li><a href="#硬件连接与上电验证">硬件连接与上电验证</a></li>
+    <li><a href="#添加开发板信息">添加开发板信息</a></li>
+    <li><a href="#design-sources">Design Sources</a></li>
+    <li><a href="#约束文件">约束文件</a></li>
+    <li><a href="#开发板下载">开发板下载</a></li>
+    <li><a href="#reference">Reference</a></li>
   </ul>
 </nav>
   </div>
@@ -160,6 +165,224 @@ ZYBO 的板载 PROG-UART 接口集供电、编程与 UART 功能为一体，PC �
 <div align=center>
 <img src="/img/20211031141550.png" width="400px" />
 </div>
+<h1 id="添加开发板信息">添加开发板信息</h1>
+<p>下面我们直接开始利用 Vivado 开发环境进行 PL 端的设计。</p>
+<p>创建中，有一步是根据自己的开发板选择器件型号，可以通过 Parts 直接通过型号进行搜索，例如 Zybo Z7-20 开发板上的芯片型号为 <code>xc7z020clg400-1</code>。也可以通过 Boards 找到开发板名字进行添加，这种方法需要先在 Vivado 中添加 Zybo Z7 开发板信息。这里推荐一个 GitHub 上的 <a href="https://github.com/Digilent/vivado-boards">Repo</a>，可以通过复制仓库的文件到 Vivado 相应的文件夹中实现开发板信息的添加。</p>
+<div align=center>
+<img src="/img/20211101222815.png" width="700px" />
+</div>
+<h1 id="design-sources">Design Sources</h1>
+<p>这一部分是对功能的 Verilog 代码实现，将下面的代码添加到工程的 <code>Design Sources</code> 中。</p>
+<p><strong>实现功能</strong>：四个开关 <code>SW0-SW3</code> 分别控制四个 LED <code>LD0-LD3</code> 的亮灭。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span><span class="lnt">71
+</span><span class="lnt">72
+</span><span class="lnt">73
+</span><span class="lnt">74
+</span><span class="lnt">75
+</span><span class="lnt">76
+</span><span class="lnt">77
+</span><span class="lnt">78
+</span><span class="lnt">79
+</span><span class="lnt">80
+</span><span class="lnt">81
+</span><span class="lnt">82
+</span><span class="lnt">83
+</span><span class="lnt">84
+</span><span class="lnt">85
+</span><span class="lnt">86
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-verilog" data-lang="verilog"><span class="no">`timescale</span> <span class="mh">1</span><span class="n">ns</span> <span class="o">/</span> <span class="mh">1</span><span class="n">ps</span>
+<span class="k">module</span> <span class="n">led_2</span><span class="p">(</span>
+    <span class="k">input</span> <span class="n">sysclk</span><span class="p">,</span>
+    <span class="k">input</span> <span class="p">[</span><span class="mh">3</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span> <span class="n">sw</span><span class="p">,</span>
+    <span class="k">output</span> <span class="kt">reg</span><span class="p">[</span><span class="mh">3</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span> <span class="n">led</span>
+       <span class="p">);</span>
+    
+    <span class="k">parameter</span> <span class="n">LED_CNT1</span> <span class="o">=</span> <span class="mh">25</span><span class="n">_000_000</span><span class="p">;</span>       <span class="c1">//每数0.5秒LED闪一次
+</span><span class="c1"></span>    <span class="k">parameter</span> <span class="n">LED_CNT2</span> <span class="o">=</span> <span class="n">LED_CNT1</span> <span class="o">*</span> <span class="mh">2</span><span class="p">;</span>
+    <span class="k">parameter</span> <span class="n">LED_CNT3</span> <span class="o">=</span> <span class="n">LED_CNT1</span> <span class="o">*</span> <span class="mh">3</span><span class="p">;</span>
+    <span class="k">parameter</span> <span class="n">LED_CNT4</span> <span class="o">=</span> <span class="n">LED_CNT1</span> <span class="o">*</span> <span class="mh">4</span><span class="p">;</span> 
+    
+    <span class="kt">reg</span> <span class="p">[</span><span class="mh">31</span><span class="o">:</span><span class="mh">0</span><span class="p">]</span> <span class="n">count</span><span class="p">;</span>
+    <span class="k">always</span> <span class="p">@(</span><span class="k">posedge</span> <span class="n">sysclk</span> <span class="p">)</span>  <span class="c1">//计数器在0~LED_CNT4-1之间循环
+</span><span class="c1"></span>    <span class="k">begin</span>
+      <span class="k">if</span><span class="p">(</span><span class="n">count</span> <span class="o">==</span> <span class="n">LED_CNT4</span> <span class="o">-</span><span class="mh">1</span><span class="p">)</span>
+        <span class="n">count</span> <span class="o">&lt;=</span> <span class="mh">0</span><span class="p">;</span>
+      <span class="k">else</span>
+        <span class="n">count</span> <span class="o">&lt;=</span> <span class="n">count</span> <span class="o">+</span> <span class="mh">1</span><span class="p">;</span>
+    <span class="k">end</span>
+    
+    <span class="k">always</span> <span class="p">@(</span><span class="k">posedge</span> <span class="n">sysclk</span> <span class="p">)</span>
+    <span class="k">begin</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">sw</span><span class="p">[</span><span class="mh">0</span><span class="p">]</span> <span class="o">==</span> <span class="mh">1</span><span class="p">)</span>
+    <span class="k">begin</span>
+      <span class="k">if</span><span class="p">(</span><span class="n">count</span> <span class="o">==</span> <span class="n">LED_CNT1</span><span class="o">-</span><span class="mh">1</span><span class="p">)</span>
+         <span class="n">led</span> <span class="o">&lt;=</span> <span class="mh">4</span><span class="mb">&#39;b0001</span><span class="p">;</span>
+      <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">count</span> <span class="o">==</span> <span class="n">LED_CNT2</span><span class="o">-</span><span class="mh">1</span><span class="p">)</span>
+         <span class="n">led</span> <span class="o">&lt;=</span> <span class="mh">4</span><span class="mb">&#39;b0010</span><span class="p">;</span>
+      <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">count</span> <span class="o">==</span> <span class="n">LED_CNT3</span><span class="o">-</span><span class="mh">1</span><span class="p">)</span>
+         <span class="n">led</span> <span class="o">&lt;=</span> <span class="mh">4</span><span class="mb">&#39;b0100</span><span class="p">;</span>
+      <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">count</span> <span class="o">==</span> <span class="n">LED_CNT4</span><span class="o">-</span><span class="mh">1</span><span class="p">)</span>   
+         <span class="n">led</span> <span class="o">&lt;=</span> <span class="mh">4</span><span class="mb">&#39;b1000</span><span class="p">;</span>   
+    <span class="k">end</span>
+    
+        <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">sw</span><span class="p">[</span><span class="mh">1</span><span class="p">]</span> <span class="o">==</span> <span class="mh">1</span><span class="p">)</span>
+    <span class="k">begin</span>
+      <span class="k">if</span><span class="p">(</span><span class="n">count</span> <span class="o">==</span> <span class="n">LED_CNT1</span><span class="o">-</span><span class="mh">1</span><span class="p">)</span>
+         <span class="n">led</span> <span class="o">&lt;=</span> <span class="mh">4</span><span class="mb">&#39;b1000</span><span class="p">;</span>
+      <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">count</span> <span class="o">==</span> <span class="n">LED_CNT2</span><span class="o">-</span><span class="mh">1</span><span class="p">)</span>
+         <span class="n">led</span> <span class="o">&lt;=</span> <span class="mh">4</span><span class="mb">&#39;b0100</span><span class="p">;</span>
+      <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">count</span> <span class="o">==</span> <span class="n">LED_CNT3</span><span class="o">-</span><span class="mh">1</span><span class="p">)</span>
+         <span class="n">led</span> <span class="o">&lt;=</span> <span class="mh">4</span><span class="mb">&#39;b0010</span><span class="p">;</span>
+      <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">count</span> <span class="o">==</span> <span class="n">LED_CNT4</span><span class="o">-</span><span class="mh">1</span><span class="p">)</span>   
+         <span class="n">led</span> <span class="o">&lt;=</span> <span class="mh">4</span><span class="mb">&#39;b0001</span><span class="p">;</span>   
+    <span class="k">end</span>
+    
+       <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">sw</span><span class="p">[</span><span class="mh">2</span><span class="p">]</span> <span class="o">==</span> <span class="mh">1</span><span class="p">)</span>
+    <span class="k">begin</span>
+      <span class="k">if</span><span class="p">(</span><span class="n">count</span> <span class="o">==</span> <span class="n">LED_CNT1</span><span class="o">-</span><span class="mh">1</span><span class="p">)</span>
+         <span class="n">led</span> <span class="o">&lt;=</span> <span class="mh">4</span><span class="mb">&#39;b0001</span><span class="p">;</span>
+     <span class="c1">// else if(count == LED_CNT2-1)
+</span><span class="c1"></span>        <span class="c1">// led &lt;= 4&#39;b0010;
+</span><span class="c1"></span>      <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">count</span> <span class="o">==</span> <span class="n">LED_CNT3</span><span class="o">-</span><span class="mh">1</span><span class="p">)</span>
+         <span class="n">led</span> <span class="o">&lt;=</span> <span class="mh">4</span><span class="mb">&#39;b0100</span><span class="p">;</span>
+     <span class="c1">// else if(count == LED_CNT4-1)   
+</span><span class="c1"></span>       <span class="c1">// led &lt;= 4&#39;b1000;   
+</span><span class="c1"></span>    <span class="k">end</span>
+    
+        <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">sw</span><span class="p">[</span><span class="mh">3</span><span class="p">]</span> <span class="o">==</span> <span class="mh">1</span><span class="p">)</span>
+    <span class="k">begin</span>
+      <span class="k">if</span><span class="p">(</span><span class="n">count</span> <span class="o">==</span> <span class="n">LED_CNT1</span><span class="o">-</span><span class="mh">1</span><span class="p">)</span>
+        <span class="c1">// led &lt;= 4&#39;b0001;
+</span><span class="c1"></span>     <span class="c1">// else if(count == LED_CNT2-1)
+</span><span class="c1"></span>         <span class="n">led</span> <span class="o">&lt;=</span> <span class="mh">4</span><span class="mb">&#39;b0010</span><span class="p">;</span>
+     <span class="c1">// else if(count == LED_CNT3-1)
+</span><span class="c1"></span>       <span class="c1">//  led &lt;= 4&#39;b0100;
+</span><span class="c1"></span>      <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">count</span> <span class="o">==</span> <span class="n">LED_CNT4</span><span class="o">-</span><span class="mh">1</span><span class="p">)</span>   
+         <span class="n">led</span> <span class="o">&lt;=</span> <span class="mh">4</span><span class="mb">&#39;b1000</span><span class="p">;</span>   
+    <span class="k">end</span>
+    
+     <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">sw</span><span class="p">[</span><span class="mh">0</span><span class="p">]</span> <span class="o">==</span> <span class="mh">0</span> <span class="o">&amp;&amp;</span> <span class="n">sw</span><span class="p">[</span><span class="mh">1</span><span class="p">]</span> <span class="o">==</span> <span class="mh">0</span> <span class="o">&amp;&amp;</span> <span class="n">sw</span><span class="p">[</span><span class="mh">2</span><span class="p">]</span> <span class="o">==</span> <span class="mh">0</span> <span class="o">&amp;&amp;</span> <span class="n">sw</span><span class="p">[</span><span class="mh">3</span><span class="p">]</span> <span class="o">==</span> <span class="mh">0</span><span class="p">)</span>
+       <span class="k">begin</span>
+         <span class="k">if</span><span class="p">(</span><span class="n">count</span> <span class="o">==</span> <span class="n">LED_CNT1</span><span class="o">-</span><span class="mh">1</span><span class="p">)</span>
+            <span class="n">led</span> <span class="o">&lt;=</span> <span class="mh">4</span><span class="mb">&#39;b0000</span><span class="p">;</span>
+         <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">count</span> <span class="o">==</span> <span class="n">LED_CNT2</span><span class="o">-</span><span class="mh">1</span><span class="p">)</span>
+            <span class="n">led</span> <span class="o">&lt;=</span> <span class="mh">4</span><span class="mb">&#39;b0000</span><span class="p">;</span>
+         <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">count</span> <span class="o">==</span> <span class="n">LED_CNT3</span><span class="o">-</span><span class="mh">1</span><span class="p">)</span>
+            <span class="n">led</span> <span class="o">&lt;=</span> <span class="mh">4</span><span class="mb">&#39;b0000</span><span class="p">;</span>
+         <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">count</span> <span class="o">==</span> <span class="n">LED_CNT4</span><span class="o">-</span><span class="mh">1</span><span class="p">)</span>   
+            <span class="n">led</span> <span class="o">&lt;=</span> <span class="mh">4</span><span class="mb">&#39;b0000</span><span class="p">;</span>   
+       <span class="k">end</span>
+    
+    <span class="k">end</span>
+
+<span class="k">endmodule</span>
+</code></pre></td></tr></table>
+</div>
+</div><h1 id="约束文件">约束文件</h1>
+<p>我们用 Vivado 生成 Bitstream 的时候，会用到相对应芯片的 <code>.xdc</code> 文件。我在 GitHub 上面找到相应的 <a href="https://github.com/Digilent/digilent-xdc/blob/master/Zybo-Z7-Master.xdc">GitHub Digilent-Zybo Z7 .xdc</a> 文件，只要在工程的 <code>Constraints</code> 处新建一个约束文件，然后将里面的文本复制进去即可。</p>
+<p>我们需要对给定的 <code>.xdc</code> 文件进行注释的修改，标准如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-text" data-lang="text">## This file is a general .xdc for the Zybo Z7 Rev. B
+## It is compatible with the Zybo Z7-20 and Zybo Z7-10
+## To use it in a project:
+## - uncomment the lines corresponding to used pins
+## - rename the used ports (in each line, after get_ports) according to the top level signal names in the project
+</code></pre></td></tr></table>
+</div>
+</div><h1 id="开发板下载">开发板下载</h1>
+<ul>
+<li>生成 Bitstream</li>
+<li>打开 <code>Flow -&gt; Hardware Manager</code>，连接后进行自动下载</li>
+<li>观察现象，符合预期</li>
+</ul>
+<h1 id="reference">Reference</h1>
+<ul>
+<li><a href="https://blog.csdn.net/a646123070/article/details/83793947">CSDN</a></li>
+<li><a href="https://github.com/Digilent/digilent-xdc/blob/master/Zybo-Z7-Master.xdc">GitHub Digilent-Zybo Z7 .xdc</a></li>
+<li><a href="https://github.com/Digilent/vivado-boards">GitHub Vivado-boards</a></li>
+</ul>
 
     </div>
 
@@ -217,7 +440,7 @@ ZYBO 的板载 PROG-UART 接口集供电、编程与 UART 功能为一体，PC �
     <script type="text/javascript">
       var gitalk = new Gitalk({
         id: '2021-10-31 14:08:22 \x2b0800 CST',
-        title: 'ZYBO Z7 Basics: Vivado',
+        title: 'ZYBO Z7 Basics: PL 端点亮 LED',
         clientID: '9d4d5bfb5872b737a756',
         clientSecret: '2677eacb9eedb58e0e8e7463a2c6a5ff70054601',
         repo: 'gitalk',
