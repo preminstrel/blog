@@ -6,10 +6,19 @@
     <description>Recent content in FPGA on Preminstrel&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 31 Oct 2021 14:08:22 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 04 Nov 2021 20:28:55 +0800</lastBuildDate>
     
 	<atom:link href="https://preminstrel.github.io/tags/fpga/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>ZYBO Z7 Basics: PS 端裸机实现 Hello World</title>
+      <link>https://preminstrel.github.io/post/2021/11/04/zybo-z7-basics-4/</link>
+      <pubDate>Thu, 04 Nov 2021 20:28:55 +0800</pubDate>
+      
+      <guid>https://preminstrel.github.io/post/2021/11/04/zybo-z7-basics-4/</guid>
+      <description>我们已经学会了纯 PL 端的 LED 点灯实验，也学会了如何建立一个空的项目，现在我们来学习一下 PS 端的裸机运行 Hello World。 建立新工程 首先，建立一个新工程</description>
+    </item>
     
     <item>
       <title>ZYBO Z7 Basics: PL 端点亮 LED</title>
