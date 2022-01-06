@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>ZYBO Z7 Basics: PS 端裸机实现 Hello World - Preminstrel&#39;s Blog</title>
+  <title>Introduction to GAN-1 - Preminstrel&#39;s Blog</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="Hanshi Sun" /><meta name="description" content="我们已经学会了纯 PL 端的 LED 点灯实验，也学会了如何建立一个空的项目，现在我们来学习一下 PS 端的裸机运行 Hello World。 建立新工程 首先，建立一个新工程" /><meta name="keywords" content="Preminstrel" />
+<meta name="author" content="Hanshi Sun" /><meta name="description" content="最近科研要用到 CycleGAN，借此机会，便对 GAN(Generative Adversarial Networks) 进行一个学习。Ian Goodfellow 大牛的 Generative Adversarial Networks（arxiv：https://arxiv" /><meta name="keywords" content="Preminstrel" />
 
 
 <meta name="robots" content="">
@@ -29,7 +29,7 @@
 <meta name="generator" content="Hugo 0.68.3 with theme even" />
 
 
-<link rel="canonical" href="https://preminstrel.github.io/post/2021/11/04/zybo-z7-basics-4/" />
+<link rel="canonical" href="https://preminstrel.github.io/post/2022/01/06/introduction-to-gan-1/" />
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -42,23 +42,23 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" /><meta property="og:title" content="ZYBO Z7 Basics: PS 端裸机实现 Hello World" />
-<meta property="og:description" content="我们已经学会了纯 PL 端的 LED 点灯实验，也学会了如何建立一个空的项目，现在我们来学习一下 PS 端的裸机运行 Hello World。 建立新工程 首先，建立一个新工程" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" /><meta property="og:title" content="Introduction to GAN-1" />
+<meta property="og:description" content="最近科研要用到 CycleGAN，借此机会，便对 GAN(Generative Adversarial Networks) 进行一个学习。Ian Goodfellow 大牛的 Generative Adversarial Networks（arxiv：https://arxiv" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://preminstrel.github.io/post/2021/11/04/zybo-z7-basics-4/" />
-<meta property="article:published_time" content="2021-11-04T20:28:55+08:00" />
-<meta property="article:modified_time" content="2021-11-04T00:00:00+00:00" />
-<meta itemprop="name" content="ZYBO Z7 Basics: PS 端裸机实现 Hello World">
-<meta itemprop="description" content="我们已经学会了纯 PL 端的 LED 点灯实验，也学会了如何建立一个空的项目，现在我们来学习一下 PS 端的裸机运行 Hello World。 建立新工程 首先，建立一个新工程">
-<meta itemprop="datePublished" content="2021-11-04T20:28:55&#43;08:00" />
-<meta itemprop="dateModified" content="2021-11-04T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="531">
+<meta property="og:url" content="https://preminstrel.github.io/post/2022/01/06/introduction-to-gan-1/" />
+<meta property="article:published_time" content="2022-01-06T23:12:33+08:00" />
+<meta property="article:modified_time" content="2022-01-06T23:12:33+08:00" />
+<meta itemprop="name" content="Introduction to GAN-1">
+<meta itemprop="description" content="最近科研要用到 CycleGAN，借此机会，便对 GAN(Generative Adversarial Networks) 进行一个学习。Ian Goodfellow 大牛的 Generative Adversarial Networks（arxiv：https://arxiv">
+<meta itemprop="datePublished" content="2022-01-06T23:12:33&#43;08:00" />
+<meta itemprop="dateModified" content="2022-01-06T23:12:33&#43;08:00" />
+<meta itemprop="wordCount" content="914">
 
 
 
-<meta itemprop="keywords" content="FPGA,ZYNQ," /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="ZYBO Z7 Basics: PS 端裸机实现 Hello World"/>
-<meta name="twitter:description" content="我们已经学会了纯 PL 端的 LED 点灯实验，也学会了如何建立一个空的项目，现在我们来学习一下 PS 端的裸机运行 Hello World。 建立新工程 首先，建立一个新工程"/>
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Introduction to GAN-1"/>
+<meta name="twitter:description" content="最近科研要用到 CycleGAN，借此机会，便对 GAN(Generative Adversarial Networks) 进行一个学习。Ian Goodfellow 大牛的 Generative Adversarial Networks（arxiv：https://arxiv"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -128,14 +128,12 @@
           <article class="post">
     
     <header class="post-header">
-      <h1 class="post-title">ZYBO Z7 Basics: PS 端裸机实现 Hello World</h1>
+      <h1 class="post-title">Introduction to GAN-1</h1>
 
       <div class="post-meta">
-        <span class="post-time"> 2021-11-04 </span>
-        <div class="post-category">
-            <a href="/categories/zynq/"> ZYNQ </a>
-            </div>
-          <span class="more-meta"> 531 words </span>
+        <span class="post-time"> 2022-01-06 </span>
+        
+          <span class="more-meta"> 914 words </span>
           <span class="more-meta"> 2 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
@@ -146,44 +144,38 @@
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#建立新工程">建立新工程</a></li>
-    <li><a href="#添加处理器ip内核">添加处理器（IP）内核</a></li>
-    <li><a href="#生成输出文件并封装成-hdl-形式">生成输出文件并封装成 HDL 形式</a></li>
+    <li><a href="#basic-theory">Basic Theory</a></li>
     <li><a href="#reference">Reference</a></li>
   </ul>
 </nav>
   </div>
 </div>
     <div class="post-content">
-      <p>我们已经学会了纯 PL 端的 LED 点灯实验，也学会了如何建立一个空的项目，现在我们来学习一下 PS 端的裸机运行 Hello World。</p>
-<h1 id="建立新工程">建立新工程</h1>
-<p>首先，建立一个新工程。和上次一样，添加好必要的约束文件。</p>
-<h1 id="添加处理器ip内核">添加处理器（IP）内核</h1>
-<p>在 <code>Flow Navigatot</code> 窗口下的 <code>IP INTEGRATOR</code> 子窗口点击 <code>Create Block Design</code> 按钮，新建一个 Block Design，填好文件名字和选好所在位置之后点击 OK。</p>
+      <p>最近科研要用到 CycleGAN，借此机会，便对 <em><strong>GAN(Generative Adversarial Networks)</strong></em> 进行一个学习。Ian Goodfellow 大牛的 Generative Adversarial Networks（arxiv：<a href="https://link.zhihu.com/?target=https%3A//arxiv.org/abs/1406.2661">https://arxiv.org/abs/1406.2661</a>），是这个领域的开天辟地之作。</p>
+<h1 id="basic-theory">Basic Theory</h1>
+<p>这里用生成图片为例对GAN的原理进行说明。假设我们有两个网络，<em><strong>G(Generator)</strong></em> 和 <em><strong>D(Discriminator)</strong></em>，它们的功能分别是：</p>
+<ul>
+<li>$G$ 是一个生成图片的网络，它接收一个随机的噪声 $z$，通过这个噪声生成图片，记做 $G(z)$。</li>
+<li>$D$ 是一个判别网络，判别一张图片是不是“真实的”。它的输入参数是 $x$，$x$ 代表一张图片，输出 $D(x)$ 代表 $x$ 为真实图片的概率，如果为 1，就代表 100% 是真实的图片，而输出为 0，就代表不可能是真实的图片。</li>
+</ul>
+<p>在训练过程中，**生成网络 $G$ 的目标就是尽量生成真实的图片去欺骗判别网络 $D$。而 $D$ 的目标就是尽量把 $G$ 生成的图片和真实的图片分别开来。**这样，$G$ 和 $D$ 构成了一个动态的“博弈过程”。最后博弈的结果是：**在最理想的状态下，**$G$ 可以生成足以“以假乱真”的图片 $G(z)$。对于 $D$ 来说，它难以判定 $G$ 生成的图片究竟是不是真实的，因此 $D(G(z)) = 0.5$。这样，我们就成功地得到了一个生成式的模型 $G$，它可以用来生成图片。</p>
+<p>以上只是大致说了一下 GAN 的核心原理，如何用数学语言描述呢？这里直接摘录论文里的公式：</p>
+<p>$$\min_{G} \max_{D} V(D, G)=\mathbb{E}_{\boldsymbol{x} \sim p_{\text {data }}(\boldsymbol{x})}[\log D(\boldsymbol{x})]+\mathbb{E}_{\boldsymbol{z} \sim p_{\boldsymbol{z}}(\boldsymbol{z})}[\log (1-D(G(\boldsymbol{z})))]$$</p>
+<p>公式中：</p>
+<ul>
+<li>整个式子由两项构成。$x$ 表示真实图片，$z$  表示输入 $G$ 网络的噪声，而 $G(z)$ 表示 $G$ 网络生成的图片。</li>
+<li>$D(x)$ 表示 $D$ 网络判断<strong>真实图片是否真实</strong>的概率（因为 $x$ 就是真实的，所以对于 $D$ 来说，这个值越接近 1 越好）。而 $D(G(z))$ 是 <strong>$D$ 网络判断 $G$ 生成的图片的是否真实的概率。</strong></li>
+<li>$G$ 的目的：上面提到过，$D(G(z))$ 是<strong>$D$ 网络判断 $G$ 生成的图片是否真实的概率</strong>，$G$ 应该希望自己生成的图片“越接近真实越好”。也就是说，$G$ 希望 $D(G(z))$ 尽可能得大，这时 $V(D, G)$ 会变小。因此我们看到式子的最前面的记号是 $\min_G$。</li>
+<li>$D$ 的目的：$D$ 的能力越强，$D(x)$ 应该越大，$D(G(x))$ 应该越小。这时 $V(D,G)$ 会变大。因此式子对于 $D$ 来说是求最大 $\max_D$</li>
+</ul>
+<p>下面这幅图片很好地描述了这个过程：</p>
 <div align=center>
-<img src="/img/20211104204503.png" width="600px" />
+<img src="/img/20220106234555.png" width="400px"/>
 </div>
-<p>建立完成后的 Block Design 如下图所示。</p>
-<div align=center>
-<img src="/img/20211104205259.png" width="600px" />
-</div>
-<p>选中 IP 核后，系统会以图形界面的形式把 IP 核显示出来</p>
-<div align=center>
-<img src="/img/20211104205636.png" width="600px" />
-</div>
-<p>点击上图浅绿色条带中的 <code>Run Block Automation</code>。勾选 <code>Apply Board Preset</code>，将这个 IP 核相关的输入/输出信号映射到芯片具体的引脚上，并添加必要的约束。点击 OK 按钮后启动自动化，完成后结果如下图</p>
-<div align=center>
-<img src="/img/20211104205914.png" width="400px" />
-</div>
-<p>通过双击图中的 IP 核（图案会变成橙色）可以更改其内部配置。默认状态下使能了 <code>M_AXI_GP0</code>，可以将 PL 部分带 AXI 从接口的 IP 连接到 PS 进行控制。这里我们需要把 PL 端和 PS 端的时钟连接起来，即把 <code>M_AXI_GP0_ACLK</code> 与 <code>FCLK_CLK0</code> 连接起来。</p>
-<div align=center>
-<img src="/img/20211104210320.png" width="400px" />
-</div>
-<p>完成配置后，右击图案，选择 <code>Validate Design</code>（或者使用快捷键 F6）进行规则检查。</p>
-<h1 id="生成输出文件并封装成-hdl-形式">生成输出文件并封装成 HDL 形式</h1>
-<p>Generate Output Products 主要是把 IP 参数和连接信息 update 到 project 中，同时也会检查错误。（一般 synth 也会更新，但是有目标的 update 下更放心）
-右键 <code>Create HDL Wrapper</code>，给整个 bd 加个 hdl 的壳。（因为综合工具不处理原理图 bd，所以再次倒腾回 hdl 的 code 模式）</p>
 <h1 id="reference">Reference</h1>
+<ul>
+<li><a href="https://zhuanlan.zhihu.com/p/24767059">GAN学习指南：从原理入门到制作生成Demo</a></li>
+</ul>
 
     </div>
 
@@ -195,7 +187,7 @@
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        2021-11-04
+        2022-01-06
         
     </span>
   </p>
@@ -220,18 +212,11 @@
       </label>
   </div>
 </div><footer class="post-footer">
-      <div class="post-tags">
-          <a href="/tags/fpga/">FPGA</a>
-          <a href="/tags/zynq/">ZYNQ</a>
-          </div>
+      
       <nav class="post-nav">
-        <a class="prev" href="/post/2022/01/06/introduction-to-gan-1/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">Introduction to GAN-1</span>
-            <span class="prev-text nav-mobile">Prev</span>
-          </a>
-        <a class="next" href="/post/2021/10/31/zybo-z7-basics-3/">
-            <span class="next-text nav-default">ZYBO Z7 Basics: PL 端点亮 LED</span>
+        
+        <a class="next" href="/post/2021/11/04/zybo-z7-basics-4/">
+            <span class="next-text nav-default">ZYBO Z7 Basics: PS 端裸机实现 Hello World</span>
             <span class="next-text nav-mobile">Next</span>
             <i class="iconfont icon-right"></i>
           </a>
@@ -244,8 +229,8 @@
     <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js" crossorigin="anonymous"></script>
     <script type="text/javascript">
       var gitalk = new Gitalk({
-        id: '2021-11-04 20:28:55 \x2b0800 CST',
-        title: 'ZYBO Z7 Basics: PS 端裸机实现 Hello World',
+        id: '2022-01-06 23:12:33 \x2b0800 CST',
+        title: 'Introduction to GAN-1',
         clientID: '9d4d5bfb5872b737a756',
         clientSecret: '2677eacb9eedb58e0e8e7463a2c6a5ff70054601',
         repo: 'gitalk',
