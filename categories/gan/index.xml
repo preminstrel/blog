@@ -17,7 +17,7 @@
       <pubDate>Sun, 09 Jan 2022 13:50:22 +0800</pubDate>
       
       <guid>https://preminstrel.github.io/post/2022/01/09/cyclegan/</guid>
-      <description></description>
+      <description>在科研过程中，需要用到 CycleGAN 对眼底图象进行 CFP 和 FFA 的 translation。CycleGAN 的功能，通俗来讲就是在数据集 unpaired 的情况下风格迁移，原论文</description>
     </item>
     
     <item>

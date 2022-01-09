@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="Hanshi Sun" /><meta name="description" content="" /><meta name="keywords" content="Preminstrel" />
+<meta name="author" content="Hanshi Sun" /><meta name="description" content="在科研过程中，需要用到 CycleGAN 对眼底图象进行 CFP 和 FFA 的 translation。CycleGAN 的功能，通俗来讲就是在数据集 unpaired 的情况下风格迁移，原论文" /><meta name="keywords" content="Preminstrel" />
 
 
 <meta name="robots" content="">
@@ -43,22 +43,22 @@
 
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" /><meta property="og:title" content="CycleGAN" />
-<meta property="og:description" content="" />
+<meta property="og:description" content="在科研过程中，需要用到 CycleGAN 对眼底图象进行 CFP 和 FFA 的 translation。CycleGAN 的功能，通俗来讲就是在数据集 unpaired 的情况下风格迁移，原论文" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://preminstrel.github.io/post/2022/01/09/cyclegan/" />
 <meta property="article:published_time" content="2022-01-09T13:50:22+08:00" />
-<meta property="article:modified_time" content="2022-01-09T13:50:22+08:00" />
+<meta property="article:modified_time" content="2022-01-10T00:00:00+00:00" />
 <meta itemprop="name" content="CycleGAN">
-<meta itemprop="description" content="">
+<meta itemprop="description" content="在科研过程中，需要用到 CycleGAN 对眼底图象进行 CFP 和 FFA 的 translation。CycleGAN 的功能，通俗来讲就是在数据集 unpaired 的情况下风格迁移，原论文">
 <meta itemprop="datePublished" content="2022-01-09T13:50:22&#43;08:00" />
-<meta itemprop="dateModified" content="2022-01-09T13:50:22&#43;08:00" />
-<meta itemprop="wordCount" content="0">
+<meta itemprop="dateModified" content="2022-01-10T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="1443">
 
 
 
 <meta itemprop="keywords" content="GAN,Deep Learning," /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="CycleGAN"/>
-<meta name="twitter:description" content=""/>
+<meta name="twitter:description" content="在科研过程中，需要用到 CycleGAN 对眼底图象进行 CFP 和 FFA 的 translation。CycleGAN 的功能，通俗来讲就是在数据集 unpaired 的情况下风格迁移，原论文"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -135,8 +135,8 @@
         <div class="post-category">
             <a href="/categories/gan/"> GAN </a>
             </div>
-          <span class="more-meta"> 0 words </span>
-          <span class="more-meta"> 0 mins read </span>
+          <span class="more-meta"> 1443 words </span>
+          <span class="more-meta"> 3 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
     </header>
@@ -144,11 +144,79 @@
     <div class="post-toc" id="post-toc">
   <h2 class="post-toc-title">Contents</h2>
   <div class="post-toc-content always-active">
-    <nav id="TableOfContents"></nav>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#abstract">Abstract</a></li>
+    <li><a href="#theory">Theory</a></li>
+    <li><a href="#implementation">Implementation</a></li>
+    <li><a href="#reference">Reference</a></li>
+  </ul>
+</nav>
   </div>
 </div>
     <div class="post-content">
-      
+      <p>在科研过程中，需要用到 CycleGAN 对眼底图象进行 CFP 和 FFA 的 translation。CycleGAN 的功能，通俗来讲就是在数据集 unpaired 的情况下风格迁移，原论文的链接如下。</p>
+<blockquote>
+<p><a href="https://arxiv.org/abs/1703.10593">Unpaired Image-to-Image Translation using Cycle-Consistent Adversarial Networks</a></p>
+</blockquote>
+<div align=center>
+<img src="/img/20220109140203.png" width="700px"/>
+</div>
+<h1 id="abstract">Abstract</h1>
+<p>图像到图像得转换是一类视觉图形问题，其目标是使用一组 pair 好的的图像对来学习输入图像和输出图像之间的映射。但是，对于一些难以获取配对训练数据的情况下，以往的方法将不可用。Zhu et al. 提出了一种在数据没有进行配对的情况下利用 CycleGAN 将图像从源域 $X$ 转换到目标域 $Y$ 的方法。</p>
+<p>其目标是：对于映射 $G: X \rightarrow Y$，使得 $G(X)$  和 $Y$ 使用对抗性损失(<em><strong>adversarial loss</strong></em>)进行衡量无法区分。因为这个映射是高度欠约束的，所以应该将它与逆映射 $F: Y \rightarrow X$ 结合起来，并引入循环一致性损失(<em><strong>cycle consistency loss</strong></em>)来推动 $F(G(X)) \approx X$（反之亦然）。</p>
+<h1 id="theory">Theory</h1>
+<p>想要做到这点，有两个比较重要的点，第一个就是双判别器。如图所示，两个分布 $X,Y$，生成器$G,F$ 分别是 $X$ 到 $Y$ 和 $Y$ 到 $X$ 的映射，两个判别器 $Dx,Dy$ 可以对转换后的图片进行判别。</p>
+<p>第二个点就是 cycle consistency loss，用数据集中其他的图来检验生成器，这是防止 $G$ 和 $F$ 过拟合，比如想把一个小狗照片转化成梵高风格，如果没有 cycle consistency loss，生成器可能会生成一张梵高真实画作来骗过 $Dx$，而无视输入的小狗。</p>
+<div align=center>
+<img src="/img/20220109203103.png" width="700px"/>
+</div>
+<p>我们的目标是学习两个域 $X$ 和 $Y$ 给定的训练样本之间的映射函数。我们的模型包括两个映射$G: X\rightarrow Y$ 和 $F: Y\rightarrow X$. 此外，我们引入了两个对抗性鉴别器 $D_X$ 和 $D_Y$，其中 $D_X$ 旨在区分图像 $\{X\}$ 和翻译图像 $\{F(y)\} $；同样，$D_Y$ 的目的是区分 $\{y\}$ 和 $\{G(x)\}$。需要进行优化的目标包括两类：</p>
+<ul>
+<li><em><strong>Adversarial Loss</strong></em>，用于将生成图像的分布与目标域中的数据分布相匹配；对于映射函数 $G: X\rightarrow Y$ 和其对应的 $D_Y$，我们要求优化 $\min_G\max_{D_Y}L_\text{GAN}(G,D_Y,X,Y)$。</li>
+</ul>
+<p>$$L_\text{GAN}(G,D_Y,X, Y) = \mathbb{E}_{y\sim p_\text{data}(y)}\left[\log D_Y(y)\right] + \mathbb{E}_{x\sim p_\text{data}(x)}\left[\log(1 −D_Y(G(x))\right]$$</p>
+<ul>
+<li><em><strong>Cycle Consistency Loss</strong></em>，以防止学习到的映射 $G$ 和 $F$ 相互矛盾。需要满足 $$x\rightarrow G(x)\rightarrow F(G(x))\approx x,\qquad y\rightarrow F(y)\rightarrow G(F(y))\approx y$$我们使用 Cycle Consistency Loss 来激励这种行为：
+$$
+\begin{aligned}
+L_{\text {cyc }}(G, F) =\mathbb{E}_{x \sim p_{\text {data }}(x)}\left[||F(G(x))-x||_{1}\right]+\mathbb{E}_{y \sim p_{\text {data }}(y)}\left[||G(F(y))-y||_{1}\right]
+\end{aligned}
+$$</li>
+</ul>
+<p>由 Cycle Consistency Loss 引起的行为可以在图中观察到：重构图像 $F(G(x))$ 最终与输入图像 $x$ 紧密匹配。理论上，对抗训练可以学习映射输出 $G$ 和 $F$，它们分别作为目标域 $Y$ 和 $X$ 产生相同的分布。然而，具有足够大的容量，网络可以将相同的输入图像集合映射到目标域中的任何图像的随机排列。因此，单独的对抗性 loss 不能保证可以映射单个输入。需要另外来一个 loss，保证 $G$ 和 $F$ 不仅能满足各自的判别器，还能应用于其他图片。也就是说，$G$ 和 $F$ 可能合伙偷懒骗人，给 $G$ 一个图，$G$ 偷偷把小狗变成梵高自画像，$F$ 再把梵高自画像变成输入。Cycle Consistency loss 的到来制止了这种投机取巧的行为，他用梵高其他的画作测试 $FG$，用另外真实照片测试 $GF$，看看能否变回到原来的样子，这样保证了 $GF$ 在整个 $X，Y$ 分布区间的普适性。</p>
+<div align=center>
+<img src="/img/20220109213709.png" width="400px"/>
+</div>
+<ul>
+<li><em><strong>Full Objective</strong></em>
+$$
+\begin{aligned}
+L\left(G, F, D_{X}, D_{Y}\right) =L_{\mathrm{GAN}}\left(G, D_{Y}, X, Y\right)
++L_{\mathrm{GAN}}\left(F, D_{X}, Y, X\right)
++\lambda L_{\mathrm{cyc}}(G, F)
+\end{aligned}
+$$
+其中 $\lambda$ 是控制两种目标的相对重要性的，我们要对下式进行优化：
+$$
+G^{*}, F^{*}=\arg \min _{G, F} \max _{D_{X}, D_{Y}} L\left(G, F, D_{X}, D_{Y}\right)
+$$</li>
+</ul>
+<p>CycleGAN 可以看作是训练两个“自动编码器”：我们学习一个自动编码器 $F\circ G:X→ X$ 联合另一个 $G\circ F:Y\rightarrow Y$。 然而，这些自动编码器都有特殊的内部结构：它们通过中间表示将图像映射到自身，中间表示是将图像转换到另一个域中。这种设置也可以被视为“<strong>对抗性自动编码器(<em>adversarial autoencoders</em>)</strong>” 的特例，它使用对抗性丢失来训练自动编码器的瓶颈层，以匹配任意目标分布。</p>
+<h1 id="implementation">Implementation</h1>
+<ul>
+<li>
+<p><em><strong>Network Architecture</strong></em></p>
+</li>
+<li>
+<p><em><strong>Training details</strong></em></p>
+</li>
+</ul>
+<h1 id="reference">Reference</h1>
+<ul>
+<li><a href="https://zhuanlan.zhihu.com/p/37198143">CycleGAN原理以及代码全解析</a></li>
+</ul>
+
     </div>
 
     <div class="post-copyright">
@@ -159,7 +227,7 @@
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        2022-01-09
+        2022-01-10
         
     </span>
   </p>
