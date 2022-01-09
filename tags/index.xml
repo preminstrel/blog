@@ -6,10 +6,28 @@
     <description>Recent content in Tags on Preminstrel&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 04 Nov 2021 20:28:55 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 06 Jan 2022 23:12:33 +0800</lastBuildDate>
     
 	<atom:link href="https://preminstrel.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Deep Learning</title>
+      <link>https://preminstrel.github.io/tags/deep-learning/</link>
+      <pubDate>Thu, 06 Jan 2022 23:12:33 +0800</pubDate>
+      
+      <guid>https://preminstrel.github.io/tags/deep-learning/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>GAN</title>
+      <link>https://preminstrel.github.io/tags/gan/</link>
+      <pubDate>Thu, 06 Jan 2022 23:12:33 +0800</pubDate>
+      
+      <guid>https://preminstrel.github.io/tags/gan/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>FPGA</title>
@@ -89,15 +107,6 @@
       <pubDate>Sun, 17 Oct 2021 13:46:08 +0800</pubDate>
       
       <guid>https://preminstrel.github.io/tags/windows/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Deep Learning</title>
-      <link>https://preminstrel.github.io/tags/deep-learning/</link>
-      <pubDate>Sun, 17 Oct 2021 13:42:45 +0800</pubDate>
-      
-      <guid>https://preminstrel.github.io/tags/deep-learning/</guid>
       <description></description>
     </item>
     

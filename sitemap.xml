@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://preminstrel.github.io/tags/deep-learning/</loc>
+    <lastmod>2022-01-06T23:12:33+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://preminstrel.github.io/tags/gan/</loc>
+    <lastmod>2022-01-06T23:12:33+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>https://preminstrel.github.io/post/2022/01/06/introduction-to-gan-1/</loc>
     <lastmod>2022-01-06T23:12:33+08:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -16,6 +30,13 @@
   </url>
   
   <url>
+    <loc>https://preminstrel.github.io/tags/</loc>
+    <lastmod>2022-01-06T23:12:33+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
     <loc>https://preminstrel.github.io/categories/</loc>
     <lastmod>2021-11-04T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -24,13 +45,6 @@
   
   <url>
     <loc>https://preminstrel.github.io/tags/fpga/</loc>
-    <lastmod>2021-11-04T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://preminstrel.github.io/tags/</loc>
     <lastmod>2021-11-04T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -235,13 +249,6 @@
   <url>
     <loc>https://preminstrel.github.io/tags/windows/</loc>
     <lastmod>2021-10-17T13:46:08+08:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://preminstrel.github.io/tags/deep-learning/</loc>
-    <lastmod>2021-10-24T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>

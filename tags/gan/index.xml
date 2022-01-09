@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>GAN on Preminstrel&#39;s Blog</title>
+    <link>https://preminstrel.github.io/tags/gan/</link>
+    <description>Recent content in GAN on Preminstrel&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 06 Jan 2022 23:12:33 +0800</lastBuildDate>
+    
+	<atom:link href="https://preminstrel.github.io/tags/gan/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Introduction to GAN-1</title>
+      <link>https://preminstrel.github.io/post/2022/01/06/introduction-to-gan-1/</link>
+      <pubDate>Thu, 06 Jan 2022 23:12:33 +0800</pubDate>
+      
+      <guid>https://preminstrel.github.io/post/2022/01/06/introduction-to-gan-1/</guid>
+      <description>最近科研要用到 CycleGAN，借此机会，便对 GAN(Generative Adversarial Networks) 进行一个学习。Ian Goodfellow 大牛的 Generative Adversarial Networks（arxiv：https://arxiv</description>
+    </item>
+    
+  </channel>
+</rss>
