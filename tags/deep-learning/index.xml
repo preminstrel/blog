@@ -6,17 +6,26 @@
     <description>Recent content in Deep Learning on Preminstrel&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 06 Jan 2022 23:12:33 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 09 Jan 2022 13:50:22 +0800</lastBuildDate>
     
 	<atom:link href="https://preminstrel.github.io/tags/deep-learning/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Introduction to GAN-1</title>
-      <link>https://preminstrel.github.io/post/2022/01/06/introduction-to-gan-1/</link>
+      <title>CycleGAN</title>
+      <link>https://preminstrel.github.io/post/2022/01/09/cyclegan/</link>
+      <pubDate>Sun, 09 Jan 2022 13:50:22 +0800</pubDate>
+      
+      <guid>https://preminstrel.github.io/post/2022/01/09/cyclegan/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Introduction to GAN</title>
+      <link>https://preminstrel.github.io/post/2022/01/06/introduction-to-gan/</link>
       <pubDate>Thu, 06 Jan 2022 23:12:33 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2022/01/06/introduction-to-gan-1/</guid>
+      <guid>https://preminstrel.github.io/post/2022/01/06/introduction-to-gan/</guid>
       <description>最近科研要用到 CycleGAN，借此机会，便对 GAN(Generative Adversarial Networks) 进行一个学习。Ian Goodfellow 大牛的 Generative Adversarial Networks（arxiv：https://arxiv</description>
     </item>
     

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Preminstrel&#39;s Blog</title>
+  <title>CycleGAN - Preminstrel&#39;s Blog</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="Hanshi Sun" /><meta name="description" content="Preminstrel&#39;s Blog" /><meta name="keywords" content="Preminstrel" />
+<meta name="author" content="Hanshi Sun" /><meta name="description" content="" /><meta name="keywords" content="Preminstrel" />
 
 
 <meta name="robots" content="">
@@ -29,9 +29,7 @@
 <meta name="generator" content="Hugo 0.68.3 with theme even" />
 
 
-<link rel="canonical" href="https://preminstrel.github.io/" />
-  <link href="https://preminstrel.github.io/index.xml" rel="alternate" type="application/rss+xml" title="Preminstrel&#39;s Blog" />
-  <link href="https://preminstrel.github.io/index.xml" rel="feed" type="application/rss+xml" title="Preminstrel&#39;s Blog" />
+<link rel="canonical" href="https://preminstrel.github.io/post/2022/01/09/cyclegan/" />
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -44,15 +42,23 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" /><meta property="og:title" content="Preminstrel&#39;s Blog" />
-<meta property="og:description" content="Preminstrel&#39;s Blog" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://preminstrel.github.io/" />
-<meta property="og:updated_time" content="2021-10-16T10:40:02+08:00" />
-<meta itemprop="name" content="Preminstrel&#39;s Blog">
-<meta itemprop="description" content="Preminstrel&#39;s Blog"><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Preminstrel&#39;s Blog"/>
-<meta name="twitter:description" content="Preminstrel&#39;s Blog"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" /><meta property="og:title" content="CycleGAN" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://preminstrel.github.io/post/2022/01/09/cyclegan/" />
+<meta property="article:published_time" content="2022-01-09T13:50:22+08:00" />
+<meta property="article:modified_time" content="2022-01-09T13:50:22+08:00" />
+<meta itemprop="name" content="CycleGAN">
+<meta itemprop="description" content="">
+<meta itemprop="datePublished" content="2022-01-09T13:50:22&#43;08:00" />
+<meta itemprop="dateModified" content="2022-01-09T13:50:22&#43;08:00" />
+<meta itemprop="wordCount" content="0">
+
+
+
+<meta itemprop="keywords" content="GAN,Deep Learning," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="CycleGAN"/>
+<meta name="twitter:description" content=""/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -119,136 +125,104 @@
     <main id="main" class="main">
       <div class="content-wrapper">
         <div id="content" class="content">
-          <section id="posts" class="posts">
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/2021/10/29/zybo-z7-basics-1/">ZYBO Z7 Basics: Overview</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2021-10-29 </span>
-      <div class="post-category">
-          <a href="/categories/zynq/"> ZYNQ </a>
-          </div>
-        <span class="more-meta"> 1128 words </span>
-        <span class="more-meta"> 3 mins read </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      最近要在 FPGA 上部署之前的 ECGNet，所以导师给了我一块 Digilent 的 ZYBO Z7-20，搭载 ZYNQ 7020 芯片，让我们自学并实现硬件部署。 Overview Zybo Z7是一款功能丰富、随时
-    </div>
-    <div class="read-more">
-      <a href="/post/2021/10/29/zybo-z7-basics-1/" class="read-more-link">Read more...</a>
-    </div>
-  </div>
-</article>
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">CycleGAN</h1>
 
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/2021/10/29/dcdc-%E5%BC%80%E5%85%B3%E7%94%B5%E6%BA%90/">DC/DC 开关电源</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2021-10-29 </span>
-      <div class="post-category">
-          <a href="/categories/mcu/"> MCU </a>
-          </div>
-        <span class="more-meta"> 2418 words </span>
-        <span class="more-meta"> 5 mins read </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      开关电源是一种高频化电能转换装置，其主要利用电力电子开关器件(如晶体管、MOS管、可控晶闸管等)，通过控制电路，使电子开关器件周期性地&qu
-    </div>
-    <div class="read-more">
-      <a href="/post/2021/10/29/dcdc-%E5%BC%80%E5%85%B3%E7%94%B5%E6%BA%90/" class="read-more-link">Read more...</a>
-    </div>
-  </div>
-</article>
+      <div class="post-meta">
+        <span class="post-time"> 2022-01-09 </span>
+        <div class="post-category">
+            <a href="/categories/gan/"> GAN </a>
+            </div>
+          <span class="more-meta"> 0 words </span>
+          <span class="more-meta"> 0 mins read </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
 
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/2021/10/29/ldo/">LDO</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2021-10-29 </span>
-      <div class="post-category">
-          <a href="/categories/mcu/"> MCU </a>
-          </div>
-        <span class="more-meta"> 2478 words </span>
-        <span class="more-meta"> 5 mins read </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      LDO (Low Dropout Regulator) 低压差稳压器在电源设计中用途十分广泛。相比于 DC-DC 稳压器，LDO 具有噪声小，芯片尺寸小，外围器件少且设计简单等优点；也存在输入输出电压压
-    </div>
-    <div class="read-more">
-      <a href="/post/2021/10/29/ldo/" class="read-more-link">Read more...</a>
-    </div>
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents"></nav>
   </div>
-</article>
+</div>
+    <div class="post-content">
+      
+    </div>
 
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/2021/10/28/i2s/">I2S</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2021-10-28 </span>
-      <div class="post-category">
-          <a href="/categories/mcu/"> MCU </a>
-          </div>
-        <span class="more-meta"> 1341 words </span>
-        <span class="more-meta"> 3 mins read </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      I2S（Inter-IC Sound）总线, 又称集成电路内置音频总线，是飞利浦半导体公司(现为恩智浦半导体公司)针对数字音频设备之间的音频数据
-    </div>
-    <div class="read-more">
-      <a href="/post/2021/10/28/i2s/" class="read-more-link">Read more...</a>
-    </div>
-  </div>
-</article>
-
-    <article class="post">
-  <header class="post-header">
-    <h1 class="post-title"><a class="post-link" href="/post/2021/10/28/i2c/">I2C</a></h1>
-    <div class="post-meta">
-      <span class="post-time"> 2021-10-28 </span>
-      <div class="post-category">
-          <a href="/categories/mcu/"> MCU </a>
-          </div>
-        <span class="more-meta"> 2732 words </span>
-        <span class="more-meta"> 6 mins read </span>
-    </div>
-  </header>
-  
-  <div class="post-content">
-    <div class="post-summary">
-      I2C 通讯协议（Inter-Integrated Circuit）是由 Phiilps 公司开发的，由于它引脚少，硬件实现简单，可扩展性强，不需要 USART、CA
-    </div>
-    <div class="read-more">
-      <a href="/post/2021/10/28/i2c/" class="read-more-link">Read more...</a>
-    </div>
-  </div>
-</article>
-
-    </section>
-  
-  <nav class="pagination">
-    <a class="prev" href="/">
-        <i class="iconfont icon-left"></i>
-        <span class="prev-text">Prev</span>
-      </a>
-    <a class="next" href="/page/3/">
-        <span class="next-text">Next</span>
-        <i class="iconfont icon-right"></i>
-      </a>
-  </nav>
-        </div>
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">Hanshi Sun</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2022-01-09
         
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
+  </p>
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">Reward</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/wechat.jpg">
+        <span>wechat</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/alipay.jpg">
+        <span>alipay</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/gan/">GAN</a>
+          <a href="/tags/deep-learning/">Deep Learning</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/2022/01/06/introduction-to-gan/">
+            <span class="next-text nav-default">Introduction to GAN</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        <div id="gitalk-container"></div>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+      var gitalk = new Gitalk({
+        id: '2022-01-09 13:50:22 \x2b0800 CST',
+        title: 'CycleGAN',
+        clientID: '9d4d5bfb5872b737a756',
+        clientSecret: '2677eacb9eedb58e0e8e7463a2c6a5ff70054601',
+        repo: 'gitalk',
+        owner: 'preminstrel',
+        admin: ['preminstrel'],
+        body: decodeURI(location.href)
+      });
+      gitalk.render('gitalk-container');
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/gitalk/gitalk">comments powered by gitalk.</a></noscript>
+
+  
+
+  
+
+  
+  
 
       </div>
     </main>
