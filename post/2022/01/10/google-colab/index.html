@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>CycleGAN - Preminstrel&#39;s Blog</title>
+  <title>Google Colab - Preminstrel&#39;s Blog</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="Hanshi Sun" /><meta name="description" content="在科研过程中，需要用到 CycleGAN 对眼底图象进行 CFP 和 FFA 的 translation。CycleGAN 的功能，通俗来讲就是在数据集 unpaired 的情况下风格迁移，原论文" /><meta name="keywords" content="Preminstrel" />
+<meta name="author" content="Hanshi Sun" /><meta name="description" content="当我电脑的 RTX2060 带不动，而导师的实验室算力资源还没到位的时候，就必须去花钱租赁额外的计算资源了，需要在 3 月前的这一段时间内先自掏腰包对付一下。无" /><meta name="keywords" content="Preminstrel" />
 
 
 <meta name="robots" content="">
@@ -29,7 +29,7 @@
 <meta name="generator" content="Hugo 0.68.3 with theme even" />
 
 
-<link rel="canonical" href="https://preminstrel.github.io/post/2022/01/09/cyclegan/" />
+<link rel="canonical" href="https://preminstrel.github.io/post/2022/01/10/google-colab/" />
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -42,23 +42,23 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" /><meta property="og:title" content="CycleGAN" />
-<meta property="og:description" content="在科研过程中，需要用到 CycleGAN 对眼底图象进行 CFP 和 FFA 的 translation。CycleGAN 的功能，通俗来讲就是在数据集 unpaired 的情况下风格迁移，原论文" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" /><meta property="og:title" content="Google Colab" />
+<meta property="og:description" content="当我电脑的 RTX2060 带不动，而导师的实验室算力资源还没到位的时候，就必须去花钱租赁额外的计算资源了，需要在 3 月前的这一段时间内先自掏腰包对付一下。无" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://preminstrel.github.io/post/2022/01/09/cyclegan/" />
-<meta property="article:published_time" content="2022-01-09T13:50:22+08:00" />
-<meta property="article:modified_time" content="2022-01-10T00:00:00+00:00" />
-<meta itemprop="name" content="CycleGAN">
-<meta itemprop="description" content="在科研过程中，需要用到 CycleGAN 对眼底图象进行 CFP 和 FFA 的 translation。CycleGAN 的功能，通俗来讲就是在数据集 unpaired 的情况下风格迁移，原论文">
-<meta itemprop="datePublished" content="2022-01-09T13:50:22&#43;08:00" />
-<meta itemprop="dateModified" content="2022-01-10T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="1549">
+<meta property="og:url" content="https://preminstrel.github.io/post/2022/01/10/google-colab/" />
+<meta property="article:published_time" content="2022-01-10T21:07:50+08:00" />
+<meta property="article:modified_time" content="2022-01-10T21:07:50+08:00" />
+<meta itemprop="name" content="Google Colab">
+<meta itemprop="description" content="当我电脑的 RTX2060 带不动，而导师的实验室算力资源还没到位的时候，就必须去花钱租赁额外的计算资源了，需要在 3 月前的这一段时间内先自掏腰包对付一下。无">
+<meta itemprop="datePublished" content="2022-01-10T21:07:50&#43;08:00" />
+<meta itemprop="dateModified" content="2022-01-10T21:07:50&#43;08:00" />
+<meta itemprop="wordCount" content="650">
 
 
 
-<meta itemprop="keywords" content="GAN,Deep Learning," /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="CycleGAN"/>
-<meta name="twitter:description" content="在科研过程中，需要用到 CycleGAN 对眼底图象进行 CFP 和 FFA 的 translation。CycleGAN 的功能，通俗来讲就是在数据集 unpaired 的情况下风格迁移，原论文"/>
+<meta itemprop="keywords" content="Google,GPU," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Google Colab"/>
+<meta name="twitter:description" content="当我电脑的 RTX2060 带不动，而导师的实验室算力资源还没到位的时候，就必须去花钱租赁额外的计算资源了，需要在 3 月前的这一段时间内先自掏腰包对付一下。无"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -128,15 +128,15 @@
           <article class="post">
     
     <header class="post-header">
-      <h1 class="post-title">CycleGAN</h1>
+      <h1 class="post-title">Google Colab</h1>
 
       <div class="post-meta">
-        <span class="post-time"> 2022-01-09 </span>
+        <span class="post-time"> 2022-01-10 </span>
         <div class="post-category">
-            <a href="/categories/gan/"> GAN </a>
+            <a href="/categories/gpu/"> GPU </a>
             </div>
-          <span class="more-meta"> 1549 words </span>
-          <span class="more-meta"> 4 mins read </span>
+          <span class="more-meta"> 650 words </span>
+          <span class="more-meta"> 2 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
     </header>
@@ -146,68 +146,52 @@
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#abstract">Abstract</a></li>
-    <li><a href="#theory">Theory</a></li>
-    <li><a href="#implementation">Implementation</a></li>
+    <li><a href="#google-colab-pro">Google Colab Pro</a></li>
+    <li><a href="#work-with-google-drive">Work with Google Drive</a></li>
     <li><a href="#reference">Reference</a></li>
   </ul>
 </nav>
   </div>
 </div>
     <div class="post-content">
-      <p>在科研过程中，需要用到 CycleGAN 对眼底图象进行 CFP 和 FFA 的 translation。CycleGAN 的功能，通俗来讲就是在数据集 unpaired 的情况下风格迁移，原论文的链接如下。</p>
-<blockquote>
-<p><a href="https://arxiv.org/abs/1703.10593">Unpaired Image-to-Image Translation using Cycle-Consistent Adversarial Networks</a></p>
-</blockquote>
+      <p>当我电脑的 RTX2060 带不动，而导师的实验室算力资源还没到位的时候，就必须去花钱租赁额外的计算资源了，需要在 3 月前的这一段时间内先自掏腰包对付一下。无奈，许多 GPU 虽然性能很棒，也很稳定，但是都是以计算时间计费的，3RMB/h 之类的很常见。</p>
+<h1 id="google-colab-pro">Google Colab Pro</h1>
+<p>朋友介绍说 Google Colab Pro 不仅价格便宜，而且是包月的，随便用。而且 Google Colab 即使不用 Pro 也可以正常使用，就是只能用一张 K80。白嫖党能使用的 K80 就比 CPU 快了一倍而已，而付费用户可使用的 <strong>P100 比 K80 的训练速度快 6.5 倍</strong>，另外 <strong>P100 的显存也比 K80 多了足足 4 G</strong>。经过我的测试之后，我发现 K80 的算力倒和我电脑的差不多了，于是花了 $11 买了一个月，分配到了一片 Tesla P100。</p>
 <div align=center>
-<img src="/img/20220109140203.png" width="700px"/>
+<img src="/img/20220110214328.png" width="600px"/>
 </div>
-<h1 id="abstract">Abstract</h1>
-<p>图像到图像得转换是一类视觉图形问题，其目标是使用一组 pair 好的的图像对来学习输入图像和输出图像之间的映射。但是，对于一些难以获取配对训练数据的情况下，以往的方法将不可用。Zhu et al. 提出了一种在数据没有进行配对的情况下利用 CycleGAN 将图像从源域 $X$ 转换到目标域 $Y$ 的方法。</p>
-<p>其目标是：对于映射 $G: X \rightarrow Y$，使得 $G(X)$  和 $Y$ 使用对抗性损失(<em><strong>adversarial loss</strong></em>)进行衡量无法区分。因为这个映射是高度欠约束的，所以应该将它与逆映射 $F: Y \rightarrow X$ 结合起来，并引入循环一致性损失(<em><strong>cycle consistency loss</strong></em>)来推动 $F(G(X)) \approx X$（反之亦然）。</p>
-<h1 id="theory">Theory</h1>
-<p>想要做到这点，有两个比较重要的点，第一个就是双判别器。如图所示，两个分布 $X,Y$，生成器$G,F$ 分别是 $X$ 到 $Y$ 和 $Y$ 到 $X$ 的映射，两个判别器 $D_X,D_Y$ 可以对转换后的图片进行判别。</p>
-<p>第二个点就是 cycle consistency loss，用数据集中其他的图来检验生成器，这是防止 $G$ 和 $F$ 过拟合，比如想把一个小狗照片转化成梵高风格，如果没有 cycle consistency loss，生成器可能会生成一张梵高真实画作来骗过 $Dx$，而无视输入的小狗。</p>
+<p>可以看到，这个工作环境还是很不错的，符合 jupyter notebook 的一些习惯。而且，用 Google Colab 配置环境那是十分的丝滑，各种 package 和 git repo 的下载速度十分之快，几乎不需要花时间配置环境。但是需要注意的是，Colab Pro 每个 session 的时间上限为 24h，也就是说，如果数据量很大，P100 不够一天跑完一个 session 的时候，就不能用 Colab Pro 了，所以这个只能算是入门级的炼丹炉。</p>
 <div align=center>
-<img src="/img/20220109203103.png" width="700px"/>
+<img src="/img/20220110222236.png" width="800px"/>
 </div>
-<p>我们的目标是学习两个域 $X$ 和 $Y$ 给定的训练样本之间的映射函数。我们的模型包括两个映射$G: X\rightarrow Y$ 和 $F: Y\rightarrow X$. 此外，我们引入了两个对抗性鉴别器 $D_X$ 和 $D_Y$，其中 $D_X$ 旨在区分图像 $\{X\}$ 和翻译图像 $\{F(y)\} $；同样，$D_Y$ 的目的是区分 $\{y\}$ 和 $\{G(x)\}$。需要进行优化的目标包括两类：</p>
-<ul>
-<li><em><strong>Adversarial Loss</strong></em>，用于将生成图像的分布与目标域中的数据分布相匹配；对于映射函数 $G: X\rightarrow Y$ 和其对应的 $D_Y$，我们要求优化 $\min_G\max_{D_Y}L_\text{GAN}(G,D_Y,X,Y)$。</li>
-</ul>
-<p>$$L_\text{GAN}(G,D_Y,X, Y) = \mathbb{E}_{y\sim p_\text{data}(y)}\left[\log D_Y(y)\right] + \mathbb{E}_{x\sim p_\text{data}(x)}\left[\log(1 −D_Y(G(x))\right]$$</p>
-<ul>
-<li><em><strong>Cycle Consistency Loss</strong></em>，以防止学习到的映射 $G$ 和 $F$ 相互矛盾。需要满足 $$x\rightarrow G(x)\rightarrow F(G(x))\approx x,\qquad y\rightarrow F(y)\rightarrow G(F(y))\approx y$$我们使用 Cycle Consistency Loss 来激励这种行为：
-$$
-\begin{aligned}
-L_{\text {cyc }}(G, F) =\mathbb{E}_{x \sim p_{\text {data }}(x)}\left[||F(G(x))-x||_{1}\right]+\mathbb{E}_{y \sim p_{\text {data }}(y)}\left[||G(F(y))-y||_{1}\right]
-\end{aligned}
-$$</li>
-</ul>
-<p>由 Cycle Consistency Loss 引起的行为可以在图中观察到：重构图像 $F(G(x))$ 最终与输入图像 $x$ 紧密匹配。理论上，对抗训练可以学习映射输出 $G$ 和 $F$，它们分别作为目标域 $Y$ 和 $X$ 产生相同的分布。然而，具有足够大的容量，网络可以将相同的输入图像集合映射到目标域中的任何图像的随机排列。因此，单独的对抗性 loss 不能保证可以映射单个输入。需要另外来一个 loss，保证 $G$ 和 $F$ 不仅能满足各自的判别器，还能应用于其他图片。也就是说，$G$ 和 $F$ 可能合伙偷懒骗人，给 $G$ 一个图，$G$ 偷偷把小狗变成梵高自画像，$F$ 再把梵高自画像变成输入。Cycle Consistency loss 的到来制止了这种投机取巧的行为，他用梵高其他的画作测试 $FG$，用另外真实照片测试 $GF$，看看能否变回到原来的样子，这样保证了 $GF$ 在整个 $X，Y$ 分布区间的普适性。</p>
-<div align=center>
-<img src="/img/20220109213709.png" width="400px"/>
+<h1 id="work-with-google-drive">Work with Google Drive</h1>
+<p>Google Drive 是 Google 生态中不可或缺的一部分，得益于此，可以和 Google Colab Pro 联动工作。我们知道，训练模型需要给出数据集留出一定的空间，这次我拿到的数据集大概是 3GB 左右，是完全无法每次训练之前都上传到 Colab 的，所以 Google Drive 便派上了用场。我们可以将 Google Drive 与 Google Colab 相连，访问和修改 Drive 中的数据。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">google.colab</span> <span class="kn">import</span> <span class="n">drive</span>
+<span class="n">drive</span><span class="o">.</span><span class="n">mount</span><span class="p">(</span><span class="s1">&#39;/content/gdrive&#39;</span><span class="p">)</span>
+</code></pre></td></tr></table>
 </div>
+</div><p>执行完以上指令之后，会弹出窗口让登录 Google 账号，登陆完毕， 成功 <code>Mounted at /content/gdrive</code>。随后，将 <code>os.chdir</code> 移动至需要的地方即可。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">os</span>
+<span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="s1">&#39;/content/gdrive/MyDrive/{TARGET FOLDER NAME}/&#39;</span><span class="p">)</span>
+<span class="o">%</span><span class="n">ls</span>
+</code></pre></td></tr></table>
+</div>
+</div><h1 id="reference">Reference</h1>
 <ul>
-<li><em><strong>Full Objective</strong></em>
-$$
-\begin{aligned}
-L\left(G, F, D_{X}, D_{Y}\right) =L_{\mathrm{GAN}}\left(G, D_{Y}, X, Y\right)
-+L_{\mathrm{GAN}}\left(F, D_{X}, Y, X\right)
-+\lambda L_{\mathrm{cyc}}(G, F)
-\end{aligned}
-$$
-其中 $\lambda$ 是控制两种目标的相对重要性的，我们要对下式进行优化：
-$$
-G^{*}, F^{*}=\arg \min _{G, F} \max _{D_{X}, D_{Y}} L\left(G, F, D_{X}, D_{Y}\right)
-$$</li>
-</ul>
-<p>CycleGAN 可以看作是训练两个“自动编码器”：我们学习一个自动编码器 $F\circ G:X→ X$ 联合另一个 $G\circ F:Y\rightarrow Y$。 然而，这些自动编码器都有特殊的内部结构：它们通过中间表示将图像映射到自身，中间表示是将图像转换到另一个域中。这种设置也可以被视为“<strong>对抗性自动编码器(<em>adversarial autoencoders</em>)</strong>” 的特例，它使用对抗性丢失来训练自动编码器的瓶颈层，以匹配任意目标分布。</p>
-<h1 id="implementation">Implementation</h1>
-<p>论文的作者给出了 <a href="https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix">Pytorch</a> 的和 <a href="https://github.com/junyanz/CycleGAN">Torch</a> 的具体实现步骤，在 GitHub 上可以找到很丰富的资源和 docs。需要注意的是，这个网络训练起来挺吃 GPU 的，用一张 Tesla P100-PCIE-16GB 来训练的话，取 trainA 和 trainB 均为1096 张 256*256 的照片，跑一个 epoch 要 5.5min，跑 200 个 epoch 大概要 18.3 个小时。</p>
-<h1 id="reference">Reference</h1>
-<ul>
-<li><a href="https://zhuanlan.zhihu.com/p/37198143">CycleGAN原理以及代码全解析</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/218133131">Google Colab 的正确使用姿势</a></li>
 </ul>
 
     </div>
@@ -246,17 +230,13 @@ $$</li>
   </div>
 </div><footer class="post-footer">
       <div class="post-tags">
-          <a href="/tags/gan/">GAN</a>
-          <a href="/tags/deep-learning/">Deep Learning</a>
+          <a href="/tags/google/">Google</a>
+          <a href="/tags/gpu/">GPU</a>
           </div>
       <nav class="post-nav">
-        <a class="prev" href="/post/2022/01/10/google-colab/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">Google Colab</span>
-            <span class="prev-text nav-mobile">Prev</span>
-          </a>
-        <a class="next" href="/post/2022/01/06/introduction-to-gan/">
-            <span class="next-text nav-default">Introduction to GAN</span>
+        
+        <a class="next" href="/post/2022/01/09/cyclegan/">
+            <span class="next-text nav-default">CycleGAN</span>
             <span class="next-text nav-mobile">Next</span>
             <i class="iconfont icon-right"></i>
           </a>
@@ -269,8 +249,8 @@ $$</li>
     <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js" crossorigin="anonymous"></script>
     <script type="text/javascript">
       var gitalk = new Gitalk({
-        id: '2022-01-09 13:50:22 \x2b0800 CST',
-        title: 'CycleGAN',
+        id: '2022-01-10 21:07:50 \x2b0800 CST',
+        title: 'Google Colab',
         clientID: '9d4d5bfb5872b737a756',
         clientSecret: '2677eacb9eedb58e0e8e7463a2c6a5ff70054601',
         repo: 'gitalk',

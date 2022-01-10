@@ -3,7 +3,49 @@
   
   <url>
     <loc>https://preminstrel.github.io/categories/</loc>
-    <lastmod>2022-01-10T00:00:00+00:00</lastmod>
+    <lastmod>2022-01-10T21:07:50+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://preminstrel.github.io/tags/google/</loc>
+    <lastmod>2022-01-10T21:07:50+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://preminstrel.github.io/post/2022/01/10/google-colab/</loc>
+    <lastmod>2022-01-10T21:07:50+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://preminstrel.github.io/tags/gpu/</loc>
+    <lastmod>2022-01-10T21:07:50+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://preminstrel.github.io/categories/gpu/</loc>
+    <lastmod>2022-01-10T21:07:50+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://preminstrel.github.io/post/</loc>
+    <lastmod>2022-01-10T21:07:50+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://preminstrel.github.io/tags/</loc>
+    <lastmod>2022-01-10T21:07:50+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
@@ -31,20 +73,6 @@
   
   <url>
     <loc>https://preminstrel.github.io/categories/gan/</loc>
-    <lastmod>2022-01-10T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://preminstrel.github.io/post/</loc>
-    <lastmod>2022-01-10T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
-    <loc>https://preminstrel.github.io/tags/</loc>
     <lastmod>2022-01-10T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>

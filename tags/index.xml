@@ -6,10 +6,28 @@
     <description>Recent content in Tags on Preminstrel&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 09 Jan 2022 13:50:22 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 10 Jan 2022 21:07:50 +0800</lastBuildDate>
     
 	<atom:link href="https://preminstrel.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Google</title>
+      <link>https://preminstrel.github.io/tags/google/</link>
+      <pubDate>Mon, 10 Jan 2022 21:07:50 +0800</pubDate>
+      
+      <guid>https://preminstrel.github.io/tags/google/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>GPU</title>
+      <link>https://preminstrel.github.io/tags/gpu/</link>
+      <pubDate>Mon, 10 Jan 2022 21:07:50 +0800</pubDate>
+      
+      <guid>https://preminstrel.github.io/tags/gpu/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Deep Learning</title>

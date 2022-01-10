@@ -12,6 +12,15 @@
     
     
     <item>
+      <title>Google Colab</title>
+      <link>https://preminstrel.github.io/post/2022/01/10/google-colab/</link>
+      <pubDate>Mon, 10 Jan 2022 21:07:50 +0800</pubDate>
+      
+      <guid>https://preminstrel.github.io/post/2022/01/10/google-colab/</guid>
+      <description>当我电脑的 RTX2060 带不动，而导师的实验室算力资源还没到位的时候，就必须去花钱租赁额外的计算资源了，需要在 3 月前的这一段时间内先自掏腰包对付一下。无</description>
+    </item>
+    
+    <item>
       <title>CycleGAN</title>
       <link>https://preminstrel.github.io/post/2022/01/09/cyclegan/</link>
       <pubDate>Sun, 09 Jan 2022 13:50:22 +0800</pubDate>
