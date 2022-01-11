@@ -52,7 +52,7 @@
 <meta itemprop="description" content="Video rendering Command line flags 1  $ manim scene.py test -s -pql   -p means preview/play, which can display the rendered video. -ql means low quality (480P15) -qm means medium quality (720P30) -qh means high quality (1080P60) DEFAULT -qp (1440P60) -qk (2160P60) -s means saving the last frame  Mobjects Mobjects are the basic building block for all manim animations. For an instance, Circle, Arrow and Rectangle are mojects.">
 <meta itemprop="datePublished" content="2021-07-23T23:53:14&#43;08:00" />
 <meta itemprop="dateModified" content="2021-07-23T23:53:14&#43;08:00" />
-<meta itemprop="wordCount" content="550">
+<meta itemprop="wordCount" content="549">
 
 
 
@@ -135,7 +135,7 @@
         <div class="post-category">
             <a href="/categories/manim/"> Manim </a>
             </div>
-          <span class="more-meta"> 550 words </span>
+          <span class="more-meta"> 549 words </span>
           <span class="more-meta"> 3 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
@@ -177,7 +177,7 @@
 <pre class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">$ manim scene.py test -s -pql
+<pre class="chroma"><code class="language-bash" data-lang="bash">$ manim scene.py <span class="nb">test</span> -s -pql
 </code></pre></td></tr></table>
 </div>
 </div><ul>
@@ -202,8 +202,8 @@
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">circle.shift(UP * 2)
-square = Square().shift(LEFT)
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">circle</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="n">UP</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">square</span> <span class="o">=</span> <span class="n">Square</span><span class="p">()</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="n">LEFT</span><span class="p">)</span>
 </code></pre></td></tr></table>
 </div>
 </div><h4 id="move_to-and-next_to"><code>move_to()</code> and <code>next_to()</code></h4>
@@ -218,12 +218,12 @@ square = Square().shift(LEFT)
 </span><span class="lnt">6
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">        # place the circle two units left from the origin
-        circle.move_to(LEFT * 2)
-        # place the square to the left of the circle
-        square.next_to(circle, LEFT)
-        # align the left border of the triangle to the left border of the circle
-        triangle.align_to(circle, LEFT)
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># place the circle two units left from the origin</span>
+<span class="n">circle</span><span class="o">.</span><span class="n">move_to</span><span class="p">(</span><span class="n">LEFT</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span>
+<span class="c1"># place the square to the left of the circle</span>
+<span class="n">square</span><span class="o">.</span><span class="n">next_to</span><span class="p">(</span><span class="n">circle</span><span class="p">,</span> <span class="n">LEFT</span><span class="p">)</span>
+<span class="c1"># align the left border of the triangle to the left border of the circle</span>
+<span class="n">triangle</span><span class="o">.</span><span class="n">align_to</span><span class="p">(</span><span class="n">circle</span><span class="p">,</span> <span class="n">LEFT</span><span class="p">)</span>
 </code></pre></td></tr></table>
 </div>
 </div><h4 id="mobject-on-screen-order">Mobject on-screen order</h4>
@@ -233,8 +233,8 @@ square = Square().shift(LEFT)
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">self.add(triangle, square, circle)
-self.add(circle, square, triangle)
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">triangle</span><span class="p">,</span> <span class="n">square</span><span class="p">,</span> <span class="n">circle</span><span class="p">)</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">circle</span><span class="p">,</span> <span class="n">square</span><span class="p">,</span> <span class="n">triangle</span><span class="p">)</span>
 </code></pre></td></tr></table>
 </div>
 </div><p>The former creates triangle, square and circle in order while the latter creates circle, square and triangle in order.</p>
@@ -244,7 +244,7 @@ self.add(circle, square, triangle)
 <pre class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">square.rotate(PI/4)
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">square</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="n">PI</span><span class="o">/</span><span class="mi">4</span><span class="p">)</span>
 </code></pre></td></tr></table>
 </div>
 </div><h3 id="styling-mobjects">Styling mobjects</h3>
@@ -255,8 +255,8 @@ self.add(circle, square, triangle)
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">        circle.set_stroke(color=GREEN, width=20)
-        square.set_fill(YELLOW, opacity=1.0)
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">circle</span><span class="o">.</span><span class="n">set_stroke</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="n">GREEN</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">square</span><span class="o">.</span><span class="n">set_fill</span><span class="p">(</span><span class="n">YELLOW</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
 </code></pre></td></tr></table>
 </div>
 </div><p>he former changes the visual style of the mobject’s <em>border</em> while the latter changes the style of the <em>interior</em>.</p>
@@ -267,8 +267,8 @@ self.add(circle, square, triangle)
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">dot1 = Dot()
-dot1.scale(3)
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">dot1</span> <span class="o">=</span> <span class="n">Dot</span><span class="p">()</span>
+<span class="n">dot1</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 </code></pre></td></tr></table>
 </div>
 </div><h3 id="animation">Animation</h3>
@@ -280,7 +280,7 @@ dot1.scale(3)
 <pre class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">self.play(Rotate(square, PI/4))
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="bp">self</span><span class="o">.</span><span class="n">play</span><span class="p">(</span><span class="n">Rotate</span><span class="p">(</span><span class="n">square</span><span class="p">,</span> <span class="n">PI</span><span class="o">/</span><span class="mi">4</span><span class="p">))</span>
 </code></pre></td></tr></table>
 </div>
 </div><h4 id="applymethod"><code>ApplyMethod()</code></h4>
@@ -292,10 +292,10 @@ dot1.scale(3)
 </span><span class="lnt">4
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback"># animate the change of color
-self.play(ApplyMethod(square.set_fill, WHITE))
-# animate the change of position
-self.play(ApplyMethod(square.shift, UP))
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># animate the change of color</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">play</span><span class="p">(</span><span class="n">ApplyMethod</span><span class="p">(</span><span class="n">square</span><span class="o">.</span><span class="n">set_fill</span><span class="p">,</span> <span class="n">WHITE</span><span class="p">))</span>
+<span class="c1"># animate the change of position</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">play</span><span class="p">(</span><span class="n">ApplyMethod</span><span class="p">(</span><span class="n">square</span><span class="o">.</span><span class="n">shift</span><span class="p">,</span> <span class="n">UP</span><span class="p">))</span>
 </code></pre></td></tr></table>
 </div>
 </div><p>For example, <code>ApplyMethod(square.shift, UP)</code> executes <code>square.shift(UP)</code>, but animates it instead of applying it immediately.</p>
@@ -305,7 +305,7 @@ self.play(ApplyMethod(square.shift, UP))
 <pre class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">self.play(ApplyMethod(square.shift, UP), run_time=3)
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="bp">self</span><span class="o">.</span><span class="n">play</span><span class="p">(</span><span class="n">ApplyMethod</span><span class="p">(</span><span class="n">square</span><span class="o">.</span><span class="n">shift</span><span class="p">,</span> <span class="n">UP</span><span class="p">),</span> <span class="n">run_time</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 </code></pre></td></tr></table>
 </div>
 </div><h4 id="growfromcenter"><code>GrowFromCenter()</code></h4>
@@ -314,7 +314,7 @@ self.play(ApplyMethod(square.shift, UP))
 <pre class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">self.play(GrowFromCenter(circle))
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="bp">self</span><span class="o">.</span><span class="n">play</span><span class="p">(</span><span class="n">GrowFromCenter</span><span class="p">(</span><span class="n">circle</span><span class="p">))</span>
 </code></pre></td></tr></table>
 </div>
 </div><h4 id="transform"><code>Transform()</code></h4>
@@ -323,7 +323,7 @@ self.play(ApplyMethod(square.shift, UP))
 <pre class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">self.play(Transform(dot, dot2))
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="bp">self</span><span class="o">.</span><span class="n">play</span><span class="p">(</span><span class="n">Transform</span><span class="p">(</span><span class="n">dot</span><span class="p">,</span> <span class="n">dot2</span><span class="p">))</span>
 </code></pre></td></tr></table>
 </div>
 </div><h4 id="movealongpath"><code>MoveAlongPath()</code></h4>
@@ -332,7 +332,7 @@ self.play(ApplyMethod(square.shift, UP))
 <pre class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">self.play(MoveAlongPath(dot, circle), run_time=2, rate_func=linear)
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="bp">self</span><span class="o">.</span><span class="n">play</span><span class="p">(</span><span class="n">MoveAlongPath</span><span class="p">(</span><span class="n">dot</span><span class="p">,</span> <span class="n">circle</span><span class="p">),</span> <span class="n">run_time</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">rate_func</span><span class="o">=</span><span class="n">linear</span><span class="p">)</span>
 </code></pre></td></tr></table>
 </div>
 </div><h4 id="rate_func"><code>rate_func</code></h4>
@@ -346,7 +346,7 @@ self.play(ApplyMethod(square.shift, UP))
 <pre class="chroma"><code><span class="lnt">1
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">self.play(Rotating(dot, about_point=[2, 0, 0]), run_time=1.5)
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="bp">self</span><span class="o">.</span><span class="n">play</span><span class="p">(</span><span class="n">Rotating</span><span class="p">(</span><span class="n">dot</span><span class="p">,</span> <span class="n">about_point</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]),</span> <span class="n">run_time</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
 </code></pre></td></tr></table>
 </div>
 </div><h4 id="2310-transform-and-replacementtransform">2.3.10 <code>Transform()</code> and <code>ReplacementTransform()</code></h4>
@@ -365,8 +365,8 @@ self.play(ApplyMethod(square.shift, UP))
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">b1 = Brace(line,direction = line.copy().rotate(PI/2).get_unit_vector())
-b1text = b1.get_text(&#34;Hello&#34;)
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">b1</span> <span class="o">=</span> <span class="n">Brace</span><span class="p">(</span><span class="n">line</span><span class="p">,</span><span class="n">direction</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span><span class="o">.</span><span class="n">rotate</span><span class="p">(</span><span class="n">PI</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">get_unit_vector</span><span class="p">())</span>
+<span class="n">b1text</span> <span class="o">=</span> <span class="n">b1</span><span class="o">.</span><span class="n">get_text</span><span class="p">(</span><span class="s2">&#34;Hello&#34;</span><span class="p">)</span>
 </code></pre></td></tr></table>
 </div>
 </div><p>arrow: <code>Arrow(ORIGIN, [2, 2, 0], buff=0)</code></p>
@@ -383,8 +383,8 @@ b1text = b1.get_text(&#34;Hello&#34;)
 </span><span class="lnt">2
 </span></code></pre></td>
 <td class="lntd">
-<pre class="chroma"><code class="language-fallback" data-lang="fallback">text = MathTex(&#34;\\left\\{ \\begin{aligned} &amp;\\mu a^2+b^2=c^2 \\\ &amp;a = 0 \\end{aligned}\\right.&#34;) 
-text = MathTex( r&#34;\left\{ \begin{aligned} &amp;\mu a^2+b^2=c^2 \\ &amp;a = 0 \end{aligned}\right.&#34;)
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">text</span> <span class="o">=</span> <span class="n">MathTex</span><span class="p">(</span><span class="s2">&#34;</span><span class="se">\\</span><span class="s2">left</span><span class="se">\\</span><span class="s2">{ </span><span class="se">\\</span><span class="s2">begin{aligned} &amp;</span><span class="se">\\</span><span class="s2">mu a^2+b^2=c^2 </span><span class="se">\\</span><span class="s2">\ &amp;a = 0 </span><span class="se">\\</span><span class="s2">end{aligned}</span><span class="se">\\</span><span class="s2">right.&#34;</span><span class="p">)</span> 
+<span class="n">text</span> <span class="o">=</span> <span class="n">MathTex</span><span class="p">(</span> <span class="sa">r</span><span class="s2">&#34;\left\{ \begin{aligned} &amp;\mu a^2+b^2=c^2 </span><span class="se">\\</span><span class="s2"> &amp;a = 0 \end{aligned}\right.&#34;</span><span class="p">)</span>
 </code></pre></td></tr></table>
 </div>
 </div><blockquote>
