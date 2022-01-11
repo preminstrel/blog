@@ -470,4 +470,53 @@
     <priority>0.5</priority>
   </url>
   
+  <url>
+    <loc>https://preminstrel.github.io/tags/manim/</loc>
+    <lastmod>2021-07-23T23:53:14+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://preminstrel.github.io/categories/manim/</loc>
+    <lastmod>2021-07-23T23:53:14+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://preminstrel.github.io/post/2021/07/23/manim/</loc>
+    <lastmod>2021-07-23T23:53:14+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://preminstrel.github.io/categories/animation/</loc>
+    <lastmod>2021-07-20T23:53:14+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://preminstrel.github.io/tags/conan/</loc>
+    <lastmod>2021-07-20T23:53:14+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://preminstrel.github.io/post/2021/07/20/conan-m24-rreview/</loc>
+    <lastmod>2021-07-20T23:53:14+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://preminstrel.github.io/post/2021/07/15/uma-musume/</loc>
+    <lastmod>2021-07-15T23:53:14+08:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
 </urlset>

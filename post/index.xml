@@ -274,5 +274,33 @@ Why Hugo again?  Simple is best.
  Actually, I am familiar with Hexo, Wordpress. I have used hugo themes before, such as Introduction, Docs, which are really wonderful themes as well. Before, I was fascinated by a beatiful and complicate Wordpress theme named Sakura. I pay over 1000 RMB to buy a cloud server to deploy my Wordpress theme.</description>
     </item>
     
+    <item>
+      <title>Manim</title>
+      <link>https://preminstrel.github.io/post/2021/07/23/manim/</link>
+      <pubDate>Fri, 23 Jul 2021 23:53:14 +0800</pubDate>
+      
+      <guid>https://preminstrel.github.io/post/2021/07/23/manim/</guid>
+      <description>Video rendering Command line flags 1  $ manim scene.py test -s -pql   -p means preview/play, which can display the rendered video. -ql means low quality (480P15) -qm means medium quality (720P30) -qh means high quality (1080P60) DEFAULT -qp (1440P60) -qk (2160P60) -s means saving the last frame  Mobjects Mobjects are the basic building block for all manim animations. For an instance, Circle, Arrow and Rectangle are mojects.</description>
+    </item>
+    
+    <item>
+      <title>Conan M24 The Scarlet Bullet  Review</title>
+      <link>https://preminstrel.github.io/post/2021/07/20/conan-m24-rreview/</link>
+      <pubDate>Tue, 20 Jul 2021 23:53:14 +0800</pubDate>
+      
+      <guid>https://preminstrel.github.io/post/2021/07/20/conan-m24-rreview/</guid>
+      <description>Actually, M24 is similar to other recent releases, which reasoning element is highly reduced while some unscientific and unbelievable phenomenon may happen. To be frank, I clearly know that it is a convert to cater more audience’s demand, including someone who is not interested in mystery stories. Although maybe it is an irreversible transformation, I still hope that M25’s performance can be better in this aspect.
+Let&amp;rsquo;s discuss M24 itself. The background of M24 is the 2020 Tokyo Olympic Games, which was not successfully hold in the real world.</description>
+    </item>
+    
+    <item>
+      <title>Uma Musume Review</title>
+      <link>https://preminstrel.github.io/post/2021/07/15/uma-musume/</link>
+      <pubDate>Thu, 15 Jul 2021 23:53:14 +0800</pubDate>
+      
+      <guid>https://preminstrel.github.io/post/2021/07/15/uma-musume/</guid>
+      <description>Eclipse First, the Rest Nowhere. Overview Uma Musume Pretty Derby has two seasons, I prefer the later season, adaption based on true story of Tokai Teio (トウカイテイオー). The plot is ordinary, even you can preview the next race’s result. However, Cygames, the producer of Uma Musume anime, made it remarkably extraordinary through its expressive pictures.</description>
+    </item>
+    
   </channel>
 </rss>

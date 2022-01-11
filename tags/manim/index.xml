@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Manim on Preminstrel&#39;s Blog</title>
+    <link>https://preminstrel.github.io/tags/manim/</link>
+    <description>Recent content in Manim on Preminstrel&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Fri, 23 Jul 2021 23:53:14 +0800</lastBuildDate>
+    
+	<atom:link href="https://preminstrel.github.io/tags/manim/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Manim</title>
+      <link>https://preminstrel.github.io/post/2021/07/23/manim/</link>
+      <pubDate>Fri, 23 Jul 2021 23:53:14 +0800</pubDate>
+      
+      <guid>https://preminstrel.github.io/post/2021/07/23/manim/</guid>
+      <description>Video rendering Command line flags 1  $ manim scene.py test -s -pql   -p means preview/play, which can display the rendered video. -ql means low quality (480P15) -qm means medium quality (720P30) -qh means high quality (1080P60) DEFAULT -qp (1440P60) -qk (2160P60) -s means saving the last frame  Mobjects Mobjects are the basic building block for all manim animations. For an instance, Circle, Arrow and Rectangle are mojects.</description>
+    </item>
+    
+  </channel>
+</rss>
