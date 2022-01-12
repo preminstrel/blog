@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Google Colab - Preminstrel&#39;s Blog</title>
+  <title>Introduction to Object Detection - Preminstrel&#39;s Blog</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="Hanshi Sun" /><meta name="description" content="当我电脑的 RTX2060 带不动，而导师的实验室算力资源还没到位的时候，就必须去花钱租赁额外的计算资源了，需要在 3 月前的这一段时间内先自掏腰包对付一下。无" /><meta name="keywords" content="Preminstrel" />
+<meta name="author" content="Hanshi Sun" /><meta name="description" content="目标检测(Object Detection)的任务是找出图像中所有特定的目标，确定它们的类别和位置。由于各类物体有不同的外观和形状，加上成像时" /><meta name="keywords" content="Preminstrel" />
 
 
 <meta name="robots" content="">
@@ -29,7 +29,7 @@
 <meta name="generator" content="Hugo 0.68.3 with theme even" />
 
 
-<link rel="canonical" href="https://preminstrel.github.io/post/2022/01/10/google-colab/" />
+<link rel="canonical" href="https://preminstrel.github.io/post/2022/01/12/introduction-to-object-detection/" />
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -42,23 +42,23 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" /><meta property="og:title" content="Google Colab" />
-<meta property="og:description" content="当我电脑的 RTX2060 带不动，而导师的实验室算力资源还没到位的时候，就必须去花钱租赁额外的计算资源了，需要在 3 月前的这一段时间内先自掏腰包对付一下。无" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" /><meta property="og:title" content="Introduction to Object Detection" />
+<meta property="og:description" content="目标检测(Object Detection)的任务是找出图像中所有特定的目标，确定它们的类别和位置。由于各类物体有不同的外观和形状，加上成像时" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://preminstrel.github.io/post/2022/01/10/google-colab/" />
-<meta property="article:published_time" content="2022-01-10T21:07:50+08:00" />
-<meta property="article:modified_time" content="2022-01-10T21:07:50+08:00" />
-<meta itemprop="name" content="Google Colab">
-<meta itemprop="description" content="当我电脑的 RTX2060 带不动，而导师的实验室算力资源还没到位的时候，就必须去花钱租赁额外的计算资源了，需要在 3 月前的这一段时间内先自掏腰包对付一下。无">
-<meta itemprop="datePublished" content="2022-01-10T21:07:50&#43;08:00" />
-<meta itemprop="dateModified" content="2022-01-10T21:07:50&#43;08:00" />
-<meta itemprop="wordCount" content="650">
+<meta property="og:url" content="https://preminstrel.github.io/post/2022/01/12/introduction-to-object-detection/" />
+<meta property="article:published_time" content="2022-01-12T22:06:06+08:00" />
+<meta property="article:modified_time" content="2022-01-12T22:06:06+08:00" />
+<meta itemprop="name" content="Introduction to Object Detection">
+<meta itemprop="description" content="目标检测(Object Detection)的任务是找出图像中所有特定的目标，确定它们的类别和位置。由于各类物体有不同的外观和形状，加上成像时">
+<meta itemprop="datePublished" content="2022-01-12T22:06:06&#43;08:00" />
+<meta itemprop="dateModified" content="2022-01-12T22:06:06&#43;08:00" />
+<meta itemprop="wordCount" content="1385">
 
 
 
-<meta itemprop="keywords" content="Google,GPU," /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Google Colab"/>
-<meta name="twitter:description" content="当我电脑的 RTX2060 带不动，而导师的实验室算力资源还没到位的时候，就必须去花钱租赁额外的计算资源了，需要在 3 月前的这一段时间内先自掏腰包对付一下。无"/>
+<meta itemprop="keywords" content="Object Detection,Deep Learning," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Introduction to Object Detection"/>
+<meta name="twitter:description" content="目标检测(Object Detection)的任务是找出图像中所有特定的目标，确定它们的类别和位置。由于各类物体有不同的外观和形状，加上成像时"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -128,15 +128,15 @@
           <article class="post">
     
     <header class="post-header">
-      <h1 class="post-title">Google Colab</h1>
+      <h1 class="post-title">Introduction to Object Detection</h1>
 
       <div class="post-meta">
-        <span class="post-time"> 2022-01-10 </span>
+        <span class="post-time"> 2022-01-12 </span>
         <div class="post-category">
-            <a href="/categories/gpu/"> GPU </a>
+            <a href="/categories/object-detection/"> Object Detection </a>
             </div>
-          <span class="more-meta"> 650 words </span>
-          <span class="more-meta"> 2 mins read </span>
+          <span class="more-meta"> 1385 words </span>
+          <span class="more-meta"> 3 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
     </header>
@@ -146,52 +146,79 @@
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#google-colab-pro">Google Colab Pro</a></li>
-    <li><a href="#work-with-google-drive">Work with Google Drive</a></li>
+    <li><a href="#algorithm">Algorithm</a></li>
+    <li><a href="#theory">Theory</a>
+      <ul>
+        <li><a href="#generation-of-rp">Generation of RP</a></li>
+      </ul>
+    </li>
     <li><a href="#reference">Reference</a></li>
   </ul>
 </nav>
   </div>
 </div>
     <div class="post-content">
-      <p>当我电脑的 RTX2060 带不动，而导师的实验室算力资源还没到位的时候，就必须去花钱租赁额外的计算资源了，需要在 3 月前的这一段时间内先自掏腰包对付一下。无奈，许多 GPU 虽然性能很棒，也很稳定，但是都是以计算时间计费的，3RMB/h 之类的很常见。</p>
-<h1 id="google-colab-pro">Google Colab Pro</h1>
-<p>朋友介绍说 Google Colab Pro 不仅价格便宜，而且是包月的，随便用。而且 Google Colab 即使不用 Pro 也可以正常使用，就是只能用一张 K80。白嫖党能使用的 K80 就比 CPU 快了一倍而已，而付费用户可使用的 <strong>P100 比 K80 的训练速度快 6.5 倍</strong>，另外 <strong>P100 的显存也比 K80 多了足足 4 G</strong>。经过我的测试之后，我发现 K80 的算力倒和我电脑的差不多了，于是花了 $11 买了一个月，分配到了一片 Tesla P100。</p>
-<div align=center>
-<img src="/img/20220110214328.png" width="600px"/>
-</div>
-<p>可以看到，这个工作环境还是很不错的，符合 jupyter notebook 的一些习惯。而且，用 Google Colab 配置环境那是十分的丝滑，各种 package 和 git repo 的下载速度十分之快，几乎不需要花时间配置环境。但是需要注意的是，Colab Pro 每个 session 的时间上限为 24h，也就是说，如果数据量很大，P100 不够一天跑完一个 session 的时候，就不能用 Colab Pro 了，所以这个只能算是入门级的炼丹炉。</p>
-<div align=center>
-<img src="/img/20220110222236.png" width="800px"/>
-</div>
-<h1 id="work-with-google-drive">Work with Google Drive</h1>
-<p>Google Drive 是 Google 生态中不可或缺的一部分，得益于此，可以和 Google Colab Pro 联动工作。我们知道，训练模型需要给出数据集留出一定的空间，这次我拿到的数据集大概是 3GB 左右，是完全无法每次训练之前都上传到 Colab 的，所以 Google Drive 便派上了用场。我们可以将 Google Drive 与 Google Colab 相连，访问和修改 Drive 中的数据。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">google.colab</span> <span class="kn">import</span> <span class="n">drive</span>
-<span class="n">drive</span><span class="o">.</span><span class="n">mount</span><span class="p">(</span><span class="s1">&#39;/content/gdrive&#39;</span><span class="p">)</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>执行完以上指令之后，会弹出窗口让登录 Google 账号，登陆完毕， 成功 <code>Mounted at /content/gdrive</code>。随后，将 <code>os.chdir</code> 移动至需要的地方即可。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">os</span>
-<span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="s1">&#39;/content/gdrive/MyDrive/{TARGET FOLDER NAME}/&#39;</span><span class="p">)</span>
-<span class="o">%</span><span class="n">ls</span>
-</code></pre></td></tr></table>
-</div>
-</div><h1 id="reference">Reference</h1>
+      <p>目标检测(<em><strong>Object Detection</strong></em>)的任务是找出图像中所有特定的目标，确定它们的类别和位置。由于各类物体有不同的外观和形状，加上成像时光照、遮挡等因素的干扰，目标检测一直是 CV 领域内具有挑战性的问题。</p>
+<p>计算机视觉中关于图像识别有四大类任务：</p>
 <ul>
-<li><a href="https://zhuanlan.zhihu.com/p/218133131">Google Colab 的正确使用姿势</a></li>
+<li>
+<p><em><strong>Classification</strong></em>：给定一张图片或一段视频判断里面包含什么类别的目标。</p>
+</li>
+<li>
+<p><em><strong>Location</strong></em>：定位出这个目标的的位置。</p>
+</li>
+<li>
+<p><em><strong>Detection</strong></em>：定位出这个目标的位置并且知道目标物是什么。</p>
+</li>
+<li>
+<p><em><strong>Segmentation</strong></em>：分为实例的分割(<em><strong>Instance-level</strong></em>)和场景分割(<em><strong>Scene-level</strong></em>)，解决“每一个像素属于哪个目标物或场景”的问题。</p>
+</li>
+</ul>
+<div align=center>
+<img src="/img/20220112222127.png" width="600px"/>
+</div>
+<h1 id="algorithm">Algorithm</h1>
+<p>基于深度学习的目标检测算法主要分为两类：Two stage 和 One stage。</p>
+<ul>
+<li>
+<p><em><strong>Tow Stage</strong></em></p>
+<p>先进行区域生成，该区域称之为 <em><strong>region proposal</strong></em> (简称 <em><strong>RP</strong></em>，一个有可能包含待检物体的预选框)，再通过卷积神经网络进行样本分类。</p>
+</li>
+</ul>
+<div class="mermaid">
+graph LR
+  id1(特征提取)--->id2(生成 RP)--->id3(分类/定位回归);
+</div>
+常见 tow stage 算法有：R-CNN、SPP-Net、Fast R-CNN、Faster R-CNN 和 R-FCN等。
+<ul>
+<li>
+<p><em><strong>One Stage</strong></em></p>
+<p>不用 RP，直接在网络中提取特征来预测物体分类和位置。</p>
+</li>
+</ul>
+<div class="mermaid">
+graph LR
+  id1(特征提取)--->id3(分类/定位回归);
+</div>
+常见的 one stage 算法有：OverFeat、YOLOv1、YOLOv2、YOLOv3、SSD 和 RetinaNet 等。
+<h1 id="theory">Theory</h1>
+<p>目标检测分为两大系列—— <em><strong>RCNN</strong></em> 和 <em><strong>YOLO</strong></em>，RCNN 系列是基于<strong>区域检测</strong>的代表性算法，YOLO 是基于<strong>区域提取</strong>的代表性算法，另外还有著名的 <em><strong>SSD</strong></em> 是基于前两个系列的改进。</p>
+<h2 id="generation-of-rp">Generation of RP</h2>
+<p>很多目标检测技术都会涉及 <strong>候选框(<em>bounding boxes</em>)</strong> 的生成，物体候选框获取当前主要使用图像分割与区域生长技术。区域生长(合并)主要由于检测图像中存在的物体具有局部区域相似性(颜色、纹理等)。目标识别与图像分割技术的发展进一步推动有效提取图像中信息。</p>
+<ul>
+<li>
+<p><em><strong>Sliding Window</strong></em></p>
+<p>首先对输入图像进行不同窗口大小的滑窗进行从左往右、从上到下的滑动。每次滑动时候对当前窗口执行分类器(分类器是事先训练好的)。如果当前窗口得到较高的分类概率，则认为检测到了物体。对每个不同窗口大小的滑窗都进行检测后，会得到不同窗口检测到的物体标记，这些窗口大小会存在重复较高的部分，最后采用<strong>非极大值抑制</strong>(<em><strong>Non-Maximum Suppression, NMS</strong></em>)的方法进行筛选。最终，经过 NMS 筛选后获得检测到的物体。滑窗法简单易于理解，但是<strong>不同窗口大小进行图像全局搜索导致效率低下，而且设计窗口大小时候还需要考虑物体的长宽比</strong>。所以，对于<strong>实时性要求较高</strong>的分类器，不推荐使用滑窗法。</p>
+</li>
+<li>
+<p><em><strong>Selective Search(SS)</strong></em></p>
+<p>滑窗法类似穷举进行图像子区域搜索，但是一般情况下图像中大部分子区域是没有物体的。学者们自然而然想到只对图像中最有可能包含物体的区域进行搜索以此来提高计算效率。<strong>选择搜索方法是当下最为熟知的图像 bounding boxes 提取算法</strong>，由 Koen E.A 于2011年提出。</p>
+<p>主要思想：图像中物体可能存在的区域应该是有某些<strong>相似性或者连续性</strong>区域的。因此，选择搜索基于上面这一想法采用<strong>子区域合并</strong>的方法进行提取 bounding boxes。首先，对输入图像进行分割算法产生许多小的子区域。其次，根据这些子区域之间相似性(相似性标准主要有颜色、纹理、大小等等)进行区域合并，不断的进行区域迭代合并。每次迭代过程中对这些合并的子区域做 bounding boxes(外切矩形)，这些子区域外切矩形就是通常所说的候选框。</p>
+</li>
+</ul>
+<h1 id="reference">Reference</h1>
+<ul>
+<li><a href="https://blog.csdn.net/yegeli/article/details/109861867">目标检测（Object Detection）</a></li>
 </ul>
 
     </div>
@@ -204,7 +231,7 @@
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        2022-01-10
+        2022-01-12
         
     </span>
   </p>
@@ -230,17 +257,13 @@
   </div>
 </div><footer class="post-footer">
       <div class="post-tags">
-          <a href="/tags/google/">Google</a>
-          <a href="/tags/gpu/">GPU</a>
+          <a href="/tags/object-detection/">Object Detection</a>
+          <a href="/tags/deep-learning/">Deep Learning</a>
           </div>
       <nav class="post-nav">
-        <a class="prev" href="/post/2022/01/12/introduction-to-object-detection/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">Introduction to Object Detection</span>
-            <span class="prev-text nav-mobile">Prev</span>
-          </a>
-        <a class="next" href="/post/2022/01/09/cyclegan/">
-            <span class="next-text nav-default">CycleGAN</span>
+        
+        <a class="next" href="/post/2022/01/10/google-colab/">
+            <span class="next-text nav-default">Google Colab</span>
             <span class="next-text nav-mobile">Next</span>
             <i class="iconfont icon-right"></i>
           </a>
@@ -253,8 +276,8 @@
     <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js" crossorigin="anonymous"></script>
     <script type="text/javascript">
       var gitalk = new Gitalk({
-        id: '2022-01-10 21:07:50 \x2b0800 CST',
-        title: 'Google Colab',
+        id: '2022-01-12 22:06:06 \x2b0800 CST',
+        title: 'Introduction to Object Detection',
         clientID: '9d4d5bfb5872b737a756',
         clientSecret: '2677eacb9eedb58e0e8e7463a2c6a5ff70054601',
         repo: 'gitalk',

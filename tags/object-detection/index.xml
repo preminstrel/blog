@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Object Detection on Preminstrel&#39;s Blog</title>
+    <link>https://preminstrel.github.io/tags/object-detection/</link>
+    <description>Recent content in Object Detection on Preminstrel&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Wed, 12 Jan 2022 22:06:06 +0800</lastBuildDate>
+    
+	<atom:link href="https://preminstrel.github.io/tags/object-detection/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Introduction to Object Detection</title>
+      <link>https://preminstrel.github.io/post/2022/01/12/introduction-to-object-detection/</link>
+      <pubDate>Wed, 12 Jan 2022 22:06:06 +0800</pubDate>
+      
+      <guid>https://preminstrel.github.io/post/2022/01/12/introduction-to-object-detection/</guid>
+      <description>目标检测(Object Detection)的任务是找出图像中所有特定的目标，确定它们的类别和位置。由于各类物体有不同的外观和形状，加上成像时</description>
+    </item>
+    
+  </channel>
+</rss>
