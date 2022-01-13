@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>R-CNN - Preminstrel&#39;s Blog</title>
+  <title>SPP-net - Preminstrel&#39;s Blog</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="Hanshi Sun" /><meta name="description" content="R-CNN(Regions with CNN features)，是 R-CNN 系列的第一代算法，其实没有过多的使用“深度学习”思想，而是将 DL 和传统的 CV 的知识相结合。比如 R-CNN pipeline 中的第二步和第四" /><meta name="keywords" content="Preminstrel" />
+<meta name="author" content="Hanshi Sun" /><meta name="description" content="SPP-net 的强大功能在目标检测中也很重要。使用 SPP-net(Spatial Pyramid Pooling-net)，我们只计算整个图像的特征图一次，然后将任意区域(子图像)中的特征池化以生" /><meta name="keywords" content="Preminstrel" />
 
 
 <meta name="robots" content="">
@@ -29,7 +29,7 @@
 <meta name="generator" content="Hugo 0.68.3 with theme even" />
 
 
-<link rel="canonical" href="https://preminstrel.github.io/post/2022/01/13/r-cnn/" />
+<link rel="canonical" href="https://preminstrel.github.io/post/2022/01/13/sppnet/" />
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -42,23 +42,23 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" /><meta property="og:title" content="R-CNN" />
-<meta property="og:description" content="R-CNN(Regions with CNN features)，是 R-CNN 系列的第一代算法，其实没有过多的使用“深度学习”思想，而是将 DL 和传统的 CV 的知识相结合。比如 R-CNN pipeline 中的第二步和第四" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" /><meta property="og:title" content="SPP-net" />
+<meta property="og:description" content="SPP-net 的强大功能在目标检测中也很重要。使用 SPP-net(Spatial Pyramid Pooling-net)，我们只计算整个图像的特征图一次，然后将任意区域(子图像)中的特征池化以生" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://preminstrel.github.io/post/2022/01/13/r-cnn/" />
-<meta property="article:published_time" content="2022-01-13T12:28:23+08:00" />
+<meta property="og:url" content="https://preminstrel.github.io/post/2022/01/13/sppnet/" />
+<meta property="article:published_time" content="2022-01-13T21:56:21+08:00" />
 <meta property="article:modified_time" content="2022-01-13T00:00:00+00:00" />
-<meta itemprop="name" content="R-CNN">
-<meta itemprop="description" content="R-CNN(Regions with CNN features)，是 R-CNN 系列的第一代算法，其实没有过多的使用“深度学习”思想，而是将 DL 和传统的 CV 的知识相结合。比如 R-CNN pipeline 中的第二步和第四">
-<meta itemprop="datePublished" content="2022-01-13T12:28:23&#43;08:00" />
+<meta itemprop="name" content="SPP-net">
+<meta itemprop="description" content="SPP-net 的强大功能在目标检测中也很重要。使用 SPP-net(Spatial Pyramid Pooling-net)，我们只计算整个图像的特征图一次，然后将任意区域(子图像)中的特征池化以生">
+<meta itemprop="datePublished" content="2022-01-13T21:56:21&#43;08:00" />
 <meta itemprop="dateModified" content="2022-01-13T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="974">
+<meta itemprop="wordCount" content="428">
 
 
 
-<meta itemprop="keywords" content="Object Detection,Deep Learning,R-CNN," /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="R-CNN"/>
-<meta name="twitter:description" content="R-CNN(Regions with CNN features)，是 R-CNN 系列的第一代算法，其实没有过多的使用“深度学习”思想，而是将 DL 和传统的 CV 的知识相结合。比如 R-CNN pipeline 中的第二步和第四"/>
+<meta itemprop="keywords" content="Object Detection,Deep Learning," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="SPP-net"/>
+<meta name="twitter:description" content="SPP-net 的强大功能在目标检测中也很重要。使用 SPP-net(Spatial Pyramid Pooling-net)，我们只计算整个图像的特征图一次，然后将任意区域(子图像)中的特征池化以生"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -128,15 +128,15 @@
           <article class="post">
     
     <header class="post-header">
-      <h1 class="post-title">R-CNN</h1>
+      <h1 class="post-title">SPP-net</h1>
 
       <div class="post-meta">
         <span class="post-time"> 2022-01-13 </span>
         <div class="post-category">
             <a href="/categories/object-detection/"> Object Detection </a>
             </div>
-          <span class="more-meta"> 974 words </span>
-          <span class="more-meta"> 2 mins read </span>
+          <span class="more-meta"> 428 words </span>
+          <span class="more-meta"> 1 min read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
     </header>
@@ -146,12 +146,8 @@
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#pipeline">Pipeline</a>
-      <ul>
-        <li><a href="#features">Features</a></li>
-      </ul>
-    </li>
-    <li><a href="#results">Results</a></li>
+    <li><a href="#r-cnn-vs-spp-net">R-CNN v.s. SPP-net</a></li>
+    <li><a href="#advantages">Advantages</a></li>
     <li><a href="#drawbacks">Drawbacks</a></li>
     <li><a href="#reference">Reference</a></li>
   </ul>
@@ -159,46 +155,53 @@
   </div>
 </div>
     <div class="post-content">
-      <p><em><strong>R-CNN(Regions with CNN features)</strong></em>，是 R-CNN 系列的第一代算法，其实没有过多的使用“深度学习”思想，而是将 DL 和传统的 CV 的知识相结合。比如 R-CNN pipeline 中的第二步和第四步其实就属于传统的 CV 技术。使用 selective search 提取 region proposals，使用 SVM 实现分类。</p>
+      <p>SPP-net 的强大功能在目标检测中也很重要。使用 <em><strong>SPP-net(Spatial Pyramid Pooling-net)</strong></em>，我们只计算整个图像的特征图一次，然后将任意区域(子图像)中的特征池化以生成用于训练检测器的固定长度表示。这种方法<strong>避免了重复计算卷积特征</strong>。在处理测试图像时，此方法比 R-CNN 方法快，同时在 Pascal VOC 2007 上实现了更好或相当的准确度。</p>
 <div align=center>
-<img src="/img/20220113124041.png" width="600px"/>
+<img src="/img/20220113221324.png" width="600px"/>
 </div>
-<h1 id="pipeline">Pipeline</h1>
-<p>CNN 具有良好的特征提取和分类性能，采用 RegionProposal  方法实现目标检测问题。算法可以分为三步：</p>
-<div class="mermaid">
-graph LR
-  id1(候选区域选择)--->id2(CNN特征提取)--->id3(分类与边界回归);
-</div>
-<ol>
-<li>利用 Selective Search 找出图片中可能存在目标的侯选区域(默认 2000 个)</li>
-<li>将候选区域调整为了适应 AlexNet 网络的输入图像的大小 $227\times 227$，通过 CNN 对候选区域提取特征向量，2000 个建议框的 CNN 特征组合成网络 AlexNet 最终输出：$2000\times 4096$ 维矩阵</li>
-<li>将 $2000\times 4096$ 维特征经过 SVM 分类器(20 种分类，SVM 是二分类器，则有 20 个 SVM)，获得 $2000\times 20$ 种类别矩阵</li>
-<li>分别对 $2000\times 20$ 维矩阵中进行<strong>非极大值抑制(NMS)剔除重叠建议框</strong>，得到与目标物体最高的一些建议框</li>
-<li>修正 bbox，对 bbox 做<strong>回归</strong>微调</li>
-</ol>
-<h2 id="features">Features</h2>
+<h1 id="r-cnn-vs-spp-net">R-CNN v.s. SPP-net</h1>
 <ul>
-<li>选择一个 pre-trained 神经网络(AlexNet、VGG)</li>
-<li>使用需要检测的目标重新训练(re-train)最后全连接层(connected layer)</li>
-<li>提取 proposals 并计算 CNN 特征。利用选择性搜索(Selective Search)算法提取所有 proposals(大约 2000 幅 images)，调整(resize/warp)它们成固定大小，以满足 CNN 输入要求(因为全连接层的限制)，然后将 feature map 保存到本地磁盘</li>
-<li>利用 feature map 训练 SVM 来对目标和背景进行分类(每个类一个二进制 SVM)</li>
-<li>边界框回归(Bounding boxes Regression)：训练将输出一些校正因子的线性回归分类器</li>
+<li>
+<p><em><strong>R-CNN</strong></em></p>
+<ul>
+<li>
+<p>R-CNN 是让每个候选区域经过 crop/wrap 等操作变换成固定大小的图像</p>
+</li>
+<li>
+<p>固定大小的图像塞给 CNN 传给后面的层做训练回归分类操作</p>
+</li>
 </ul>
-<h1 id="results">Results</h1>
+</li>
+<li>
+<p><em><strong>SPP-net</strong></em></p>
 <ul>
-<li>在 Pascal VOC 2012 的数据集上，能够将目标检测的验证指标 mAP 提升到 53.3%,这相对于之前最好的结果提升了整整 30%.</li>
-<li>这篇论文证明了可以讲神经网络应用在自底向上的候选区域，这样就可以进行目标分类和目标定位。</li>
-<li>这篇论文也带来了一个观点，那就是当你缺乏大量的标注数据时，比较好的可行的手段是，进行神经网络的迁移学习，采用在其他大型数据集训练过后的神经网络，然后在小规模特定的数据集中进行 fine-tune 微调。</li>
+<li>
+<p>SPP-net 把全图塞给 CNN 得到全图的 feature map</p>
+</li>
+<li>
+<p>让 SS 得到<strong>候选区域直接映射特征向量中对应位置</strong></p>
+</li>
+<li>
+<p>映射过来的特征向量，<strong>经过 SPP 层(空间金字塔变换层)，S 输出固定大小的特征向量给 FC 层</strong></p>
+</li>
+</ul>
+</li>
+</ul>
+<div align=center>
+<img src="/img/20220113222248.png" width="600px"/>
+</div>
+<h1 id="advantages">Advantages</h1>
+<ul>
+<li>SPP-net 在 R-CNN 的基础上提出了改进，通过候选区域和 feature map 的映射，配合 SPP 层的使用，从而达到了CNN 层的共享计算，减少了运算时间，后面的 <em><strong>Fast R-CNN</strong></em> 等也是受 SPPNet 的启发</li>
 </ul>
 <h1 id="drawbacks">Drawbacks</h1>
 <ul>
-<li>重复计算，每个 region proposal，都需要经过一个 AlexNet 特征提取，为所有的 RoI(region of interest) 提取特征大约花费 47 秒，占用空间</li>
-<li>selective search 方法生成 region proposal，对一帧图像，需要花费 2 秒</li>
-<li>三个模块(提取、分类、回归)是分别训练的，并且在训练时候，对于存储空间消耗较大</li>
+<li>训练依然过慢、效率低，特征需要写入磁盘(因为 SVM 的存在)</li>
+<li>分阶段训练网络︰选取候选区域、训练 CNN、训练 SVM、训练 bbox 回归器，SPP-net 反向传播效率低</li>
 </ul>
 <h1 id="reference">Reference</h1>
 <ul>
-<li><a href="https://arxiv.org/abs/1311.2524">Rich feature hierarchies for accurate object detection and semantic segmentation</a></li>
+<li><a href="https://arxiv.org/abs/1406.4729">Spatial Pyramid Pooling in Deep Convolutional Networks for Visual Recognition</a></li>
 </ul>
 
     </div>
@@ -239,16 +242,15 @@ graph LR
       <div class="post-tags">
           <a href="/tags/object-detection/">Object Detection</a>
           <a href="/tags/deep-learning/">Deep Learning</a>
-          <a href="/tags/r-cnn/">R-CNN</a>
           </div>
       <nav class="post-nav">
-        <a class="prev" href="/post/2022/01/13/sppnet/">
+        <a class="prev" href="/post/2022/01/13/fast-r-cnn/">
             <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">SPP-net</span>
+            <span class="prev-text nav-default">Fast R-CNN</span>
             <span class="prev-text nav-mobile">Prev</span>
           </a>
-        <a class="next" href="/post/2022/01/12/introduction-to-object-detection/">
-            <span class="next-text nav-default">Introduction to Object Detection</span>
+        <a class="next" href="/post/2022/01/13/r-cnn/">
+            <span class="next-text nav-default">R-CNN</span>
             <span class="next-text nav-mobile">Next</span>
             <i class="iconfont icon-right"></i>
           </a>
@@ -261,8 +263,8 @@ graph LR
     <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js" crossorigin="anonymous"></script>
     <script type="text/javascript">
       var gitalk = new Gitalk({
-        id: '2022-01-13 12:28:23 \x2b0800 CST',
-        title: 'R-CNN',
+        id: '2022-01-13 21:56:21 \x2b0800 CST',
+        title: 'SPP-net',
         clientID: '9d4d5bfb5872b737a756',
         clientSecret: '2677eacb9eedb58e0e8e7463a2c6a5ff70054601',
         repo: 'gitalk',
