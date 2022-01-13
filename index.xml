@@ -12,6 +12,15 @@
     
     
     <item>
+      <title>R-CNN</title>
+      <link>https://preminstrel.github.io/post/2022/01/13/r-cnn/</link>
+      <pubDate>Thu, 13 Jan 2022 12:28:23 +0800</pubDate>
+      
+      <guid>https://preminstrel.github.io/post/2022/01/13/r-cnn/</guid>
+      <description>R-CNN(Regions with CNN features)，是 R-CNN 系列的第一代算法，其实没有过多的使用“深度学习”思想，而是将 DL 和传统的 CV 的知识相结合。比如 R-CNN pipeline 中的第二步和第四</description>
+    </item>
+    
+    <item>
       <title>Introduction to Object Detection</title>
       <link>https://preminstrel.github.io/post/2022/01/12/introduction-to-object-detection/</link>
       <pubDate>Wed, 12 Jan 2022 22:06:06 +0800</pubDate>
