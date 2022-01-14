@@ -16,7 +16,7 @@
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/post/2022/01/13/fast-r-cnn/</loc>
+    <loc>https://preminstrel.github.io/post/2022/01/14/faster-r-cnn/</loc>
     <lastmod>2022-01-14T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
@@ -52,6 +52,13 @@
   
   <url>
     <loc>https://preminstrel.github.io/tags/</loc>
+    <lastmod>2022-01-14T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://preminstrel.github.io/post/2022/01/13/fast-r-cnn/</loc>
     <lastmod>2022-01-14T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>

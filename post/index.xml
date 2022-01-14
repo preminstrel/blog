@@ -6,10 +6,19 @@
     <description>Recent content in Posts on Preminstrel&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 13 Jan 2022 22:31:08 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 14 Jan 2022 13:32:15 +0800</lastBuildDate>
     
 	<atom:link href="https://preminstrel.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Faster R-CNN</title>
+      <link>https://preminstrel.github.io/post/2022/01/14/faster-r-cnn/</link>
+      <pubDate>Fri, 14 Jan 2022 13:32:15 +0800</pubDate>
+      
+      <guid>https://preminstrel.github.io/post/2022/01/14/faster-r-cnn/</guid>
+      <description>Faster R-CNN 可以简单看成是区域生成网络 + Fast R-CNN 的模型，用区域生成网络(Region Proposal Network, RPN)来替代 Fast R-CNN 中的选择性搜索方法，结构如下： # Pipeline 首先向 CNN 网络</description>
+    </item>
     
     <item>
       <title>Fast R-CNN</title>
