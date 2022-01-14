@@ -47,12 +47,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://preminstrel.github.io/post/2022/01/13/fast-r-cnn/" />
 <meta property="article:published_time" content="2022-01-13T22:31:08+08:00" />
-<meta property="article:modified_time" content="2022-01-13T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-01-14T00:00:00+00:00" />
 <meta itemprop="name" content="Fast R-CNN">
 <meta itemprop="description" content="SPP-net 的性能已经得到很大的改善，但是由于网络之间不统一训练，造成很大的麻烦，所以 Fast R-CNN 就是为了解决这样的问题。其改进的之处为：提出一个 Rol pooli">
 <meta itemprop="datePublished" content="2022-01-13T22:31:08&#43;08:00" />
-<meta itemprop="dateModified" content="2022-01-13T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="287">
+<meta itemprop="dateModified" content="2022-01-14T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="818">
 
 
 
@@ -135,8 +135,8 @@
         <div class="post-category">
             <a href="/categories/object-detection/"> Object Detection </a>
             </div>
-          <span class="more-meta"> 287 words </span>
-          <span class="more-meta"> 1 min read </span>
+          <span class="more-meta"> 818 words </span>
+          <span class="more-meta"> 2 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
     </header>
@@ -146,7 +146,15 @@
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#pipeline">Pipeline</a></li>
+    <li><a href="#pipeline">Pipeline</a>
+      <ul>
+        <li><a href="#rol-pooling">Rol Pooling</a></li>
+        <li><a href="#end-to-end-model">End-to-End Model</a></li>
+        <li><a href="#multi-task-loss">Multi-task Loss</a></li>
+      </ul>
+    </li>
+    <li><a href="#results">Results</a></li>
+    <li><a href="#drawbacks">Drawbacks</a></li>
     <li><a href="#reference">Reference</a></li>
   </ul>
 </nav>
@@ -166,12 +174,75 @@
 <p>将选择性搜索算法的结果 region proposal (Rol）映射到 feature map 中</p>
 </li>
 <li>
-<p>Rol pooling layer 提取一个固定长度的特征向量，每个特征会输入到一系列全连接层，得到一个 Rol 特征向量**(此步骤是对每一个候选区域都会进行同样的操作)**</p>
+<p>Rol pooling layer 提取一个固定长度的特征向量，每个特征会输入到一系列全连接层，得到一个 Rol 特征向量 <strong>(此步骤是对每一个候选区域都会进行同样的操作)</strong></p>
 <ul>
 <li>其中一个是传统 <em><strong>softmax</strong></em> 层进行分类，输出类别有 K 个类别加上”背景”类</li>
-<li>另一个是bounding box regressor</li>
+<li>另一个是 <em><strong>bounding box regressor</strong></em></li>
 </ul>
 </li>
+</ul>
+<h2 id="rol-pooling">Rol Pooling</h2>
+<p>首先 Rol pooling 只是一个简单版本的 SSP，目的是为了减少计算时间并得到固定长度的向量。Rol 池化层使用最大池化将任何有效的 Rol 区域内的特征转换为具有 $H\times W$ 的固定空间范围的小 feature map，其中 $H,W$ 是超参数，它们独立于任何特定的 Rol。</p>
+<ul>
+<li><em><strong>single scale</strong></em>：直接将 image 定为某种 scale，直接输入网络来训练即可。（Fast R-CNN）</li>
+<li><em><strong>multi scale</strong></em>：生成一个金字塔，即 SPP-net</li>
+</ul>
+<p>后者比前者更加准确，没有突出很多，但是第一种节省了很多的时间，所以 Fast R-CNN 要比 SPP-net 快很多。</p>
+<h2 id="end-to-end-model">End-to-End Model</h2>
+<p>输出端可以直接进行完整的反向传播，整体优化目标函数。</p>
+<ul>
+<li>特征提取 CNN 和训练 SVM 分类器的训练在时间上是先后顺序，二者训练方式独立，因此 SVMs 的训练 Loss 无法更新之前的卷积层参数，于是去掉 SVM，便可以形成 End-to-End 模型。</li>
+<li>使用了 softmax</li>
+</ul>
+<div align=center>
+<img src="/img/20220114131936.png" width="600px"/>
+</div>
+<h2 id="multi-task-loss">Multi-task Loss</h2>
+<p>两个 loss，分别是：</p>
+<ul>
+<li>对于分类 loss，是一个 N+1 路的 softmax 输出，其中 N 是类别个数，1 是背景，使用<strong>交叉熵损失</strong></li>
+<li>对于回归 loss，是一个 4N 路输出的 regressor，也就是说对于每个类别都会训练一个单独的 regressor 的意思，<strong>使用平均绝对误差(MAE)损失，即 L1 损失</strong></li>
+</ul>
+<p>fine-tuning 训练中：</p>
+<ul>
+<li>调整 CNN + Rol pooling + softmax</li>
+<li>调整 bbox regressor 回归当中的参数</li>
+</ul>
+<h1 id="results">Results</h1>
+<table>
+<thead>
+<tr>
+<th>metrics</th>
+<th>R-CNN</th>
+<th>SPP-net</th>
+<th>Fast R-CNN</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>training time(h)</td>
+<td>84</td>
+<td>25</td>
+<td>9.5</td>
+</tr>
+<tr>
+<td>test time/picture(s)</td>
+<td>47.0</td>
+<td>2.3</td>
+<td>0.32</td>
+</tr>
+<tr>
+<td>mAP</td>
+<td>66.0</td>
+<td>63.1</td>
+<td>66.9</td>
+</tr>
+</tbody>
+</table>
+<h1 id="drawbacks">Drawbacks</h1>
+<ul>
+<li>使用 Selective Search 提取 Region Proposals，没有实现真正意义山东个端对端，操作十分耗时间。</li>
+<li>一个更高效的方法来求出候选框—— <em><strong>Faster R-CNN</strong></em></li>
 </ul>
 <h1 id="reference">Reference</h1>
 <ul>
@@ -188,7 +259,7 @@
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        2022-01-13
+        2022-01-14
         
     </span>
   </p>
