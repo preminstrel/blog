@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>MMDetection on Preminstrel&#39;s Blog</title>
+    <link>https://preminstrel.github.io/tags/mmdetection/</link>
+    <description>Recent content in MMDetection on Preminstrel&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sat, 15 Jan 2022 12:12:07 +0800</lastBuildDate>
+    
+	<atom:link href="https://preminstrel.github.io/tags/mmdetection/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>MMDetection-Overview</title>
+      <link>https://preminstrel.github.io/post/2022/01/15/mmdetection-overview/</link>
+      <pubDate>Sat, 15 Jan 2022 12:12:07 +0800</pubDate>
+      
+      <guid>https://preminstrel.github.io/post/2022/01/15/mmdetection-overview/</guid>
+      <description>MMDetection 是一个基于 PyTorch 的目标检测开源工具箱。它是 OpenMMLab 项目的一部分。目前已经复现了大部分主流和前沿模型，例如 Faster R-CNN 系列、Mask R-CNN 系列、YOLO 系列和比较</description>
+    </item>
+    
+  </channel>
+</rss>

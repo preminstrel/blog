@@ -6,7 +6,7 @@
     <description>Recent content in Tags on Preminstrel&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 14 Jan 2022 13:32:15 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 15 Jan 2022 12:12:07 +0800</lastBuildDate>
     
 	<atom:link href="https://preminstrel.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,16 +14,25 @@
     <item>
       <title>Deep Learning</title>
       <link>https://preminstrel.github.io/tags/deep-learning/</link>
-      <pubDate>Fri, 14 Jan 2022 13:32:15 +0800</pubDate>
+      <pubDate>Sat, 15 Jan 2022 12:12:07 +0800</pubDate>
       
       <guid>https://preminstrel.github.io/tags/deep-learning/</guid>
       <description></description>
     </item>
     
     <item>
+      <title>MMDetection</title>
+      <link>https://preminstrel.github.io/tags/mmdetection/</link>
+      <pubDate>Sat, 15 Jan 2022 12:12:07 +0800</pubDate>
+      
+      <guid>https://preminstrel.github.io/tags/mmdetection/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Object Detection</title>
       <link>https://preminstrel.github.io/tags/object-detection/</link>
-      <pubDate>Fri, 14 Jan 2022 13:32:15 +0800</pubDate>
+      <pubDate>Sat, 15 Jan 2022 12:12:07 +0800</pubDate>
       
       <guid>https://preminstrel.github.io/tags/object-detection/</guid>
       <description></description>

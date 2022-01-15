@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Faster R-CNN - Preminstrel&#39;s Blog</title>
+  <title>MMDetection-Overview - Preminstrel&#39;s Blog</title>
   <meta name="renderer" content="webkit" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
@@ -16,7 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
 
 
-<meta name="author" content="Hanshi Sun" /><meta name="description" content="Faster R-CNN 可以简单看成是区域生成网络 &#43; Fast R-CNN 的模型，用区域生成网络(Region Proposal Network, RPN)来替代 Fast R-CNN 中的选择性搜索方法，结构如下： # Pipeline 首先向 CNN 网络" /><meta name="keywords" content="Preminstrel" />
+<meta name="author" content="Hanshi Sun" /><meta name="description" content="MMDetection 是一个基于 PyTorch 的目标检测开源工具箱。它是 OpenMMLab 项目的一部分。目前已经复现了大部分主流和前沿模型，例如 Faster R-CNN 系列、Mask R-CNN 系列、YOLO 系列和比较" /><meta name="keywords" content="Preminstrel" />
 
 
 <meta name="robots" content="">
@@ -29,7 +29,7 @@
 <meta name="generator" content="Hugo 0.68.3 with theme even" />
 
 
-<link rel="canonical" href="https://preminstrel.github.io/post/2022/01/14/faster-r-cnn/" />
+<link rel="canonical" href="https://preminstrel.github.io/post/2022/01/15/mmdetection-overview/" />
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -42,23 +42,23 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
 
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" /><meta property="og:title" content="Faster R-CNN" />
-<meta property="og:description" content="Faster R-CNN 可以简单看成是区域生成网络 &#43; Fast R-CNN 的模型，用区域生成网络(Region Proposal Network, RPN)来替代 Fast R-CNN 中的选择性搜索方法，结构如下： # Pipeline 首先向 CNN 网络" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" /><meta property="og:title" content="MMDetection-Overview" />
+<meta property="og:description" content="MMDetection 是一个基于 PyTorch 的目标检测开源工具箱。它是 OpenMMLab 项目的一部分。目前已经复现了大部分主流和前沿模型，例如 Faster R-CNN 系列、Mask R-CNN 系列、YOLO 系列和比较" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://preminstrel.github.io/post/2022/01/14/faster-r-cnn/" />
-<meta property="article:published_time" content="2022-01-14T13:32:15+08:00" />
-<meta property="article:modified_time" content="2022-01-14T00:00:00+00:00" />
-<meta itemprop="name" content="Faster R-CNN">
-<meta itemprop="description" content="Faster R-CNN 可以简单看成是区域生成网络 &#43; Fast R-CNN 的模型，用区域生成网络(Region Proposal Network, RPN)来替代 Fast R-CNN 中的选择性搜索方法，结构如下： # Pipeline 首先向 CNN 网络">
-<meta itemprop="datePublished" content="2022-01-14T13:32:15&#43;08:00" />
-<meta itemprop="dateModified" content="2022-01-14T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="799">
+<meta property="og:url" content="https://preminstrel.github.io/post/2022/01/15/mmdetection-overview/" />
+<meta property="article:published_time" content="2022-01-15T12:12:07+08:00" />
+<meta property="article:modified_time" content="2022-01-15T00:00:00+00:00" />
+<meta itemprop="name" content="MMDetection-Overview">
+<meta itemprop="description" content="MMDetection 是一个基于 PyTorch 的目标检测开源工具箱。它是 OpenMMLab 项目的一部分。目前已经复现了大部分主流和前沿模型，例如 Faster R-CNN 系列、Mask R-CNN 系列、YOLO 系列和比较">
+<meta itemprop="datePublished" content="2022-01-15T12:12:07&#43;08:00" />
+<meta itemprop="dateModified" content="2022-01-15T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="865">
 
 
 
-<meta itemprop="keywords" content="Object Detection,Deep Learning,R-CNN," /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Faster R-CNN"/>
-<meta name="twitter:description" content="Faster R-CNN 可以简单看成是区域生成网络 &#43; Fast R-CNN 的模型，用区域生成网络(Region Proposal Network, RPN)来替代 Fast R-CNN 中的选择性搜索方法，结构如下： # Pipeline 首先向 CNN 网络"/>
+<meta itemprop="keywords" content="Object Detection,Deep Learning,MMDetection," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="MMDetection-Overview"/>
+<meta name="twitter:description" content="MMDetection 是一个基于 PyTorch 的目标检测开源工具箱。它是 OpenMMLab 项目的一部分。目前已经复现了大部分主流和前沿模型，例如 Faster R-CNN 系列、Mask R-CNN 系列、YOLO 系列和比较"/>
 
 <!--[if lte IE 9]>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
@@ -128,14 +128,14 @@
           <article class="post">
     
     <header class="post-header">
-      <h1 class="post-title">Faster R-CNN</h1>
+      <h1 class="post-title">MMDetection-Overview</h1>
 
       <div class="post-meta">
-        <span class="post-time"> 2022-01-14 </span>
+        <span class="post-time"> 2022-01-15 </span>
         <div class="post-category">
             <a href="/categories/object-detection/"> Object Detection </a>
             </div>
-          <span class="more-meta"> 799 words </span>
+          <span class="more-meta"> 865 words </span>
           <span class="more-meta"> 2 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
@@ -146,121 +146,68 @@
   <div class="post-toc-content always-active">
     <nav id="TableOfContents">
   <ul>
-    <li><a href="#rpn">RPN</a>
+    <li><a href="#classifications">Classifications</a></li>
+    <li><a href="#pipeline">Pipeline</a>
       <ul>
-        <li><a href="#anchors">Anchors</a></li>
+        <li><a href="#cores">Cores</a>
+          <ul>
+            <li><a href="#backbone">Backbone</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
-    <li><a href="#training">Training</a></li>
-    <li><a href="#results">Results</a></li>
-    <li><a href="#evaluation">Evaluation</a></li>
     <li><a href="#reference">Reference</a></li>
   </ul>
 </nav>
   </div>
 </div>
     <div class="post-content">
-      <p>Faster R-CNN 可以简单看成是<strong>区域生成网络</strong> + Fast R-CNN 的模型，用区域生成网络(<em><strong>Region Proposal Network, RPN</strong></em>)来替代 Fast R-CNN 中的选择性搜索方法，结构如下：</p>
+      <p><a href="https://github.com/open-mmlab/mmdetection">MMDetection</a> 是一个基于 PyTorch 的目标检测开源工具箱。它是 <a href="https://openmmlab.com/">OpenMMLab</a> 项目的一部分。目前已经复现了大部分主流和前沿模型，例如 Faster R-CNN 系列、Mask R-CNN 系列、YOLO 系列和比较新的 DETR 等等，模型库非常丰富，在学术研究和工业落地中应用非常广泛。</p>
 <div align=center>
-<img src="/img/20220114133150.png" width="400px"/>
+<img src="/img/20220115131101.png" width="800px"/>
 </div>
-# Pipeline
+<h1 id="classifications">Classifications</h1>
+<p>按照目前目标检测的发展，可以大概归纳为如下所示：</p>
+<div class="mermaid">
+graph LR
+	id1(Object Detection)---id2(satge);
+	id1---id3(anchor);
+	id1---id4(transformer)-.-id9(DETR, Deformable DETR, ...)
+	id2---id5(two-stage)-.-id11(Faster R-CNN, Cascade R-CNN, Libra R-CNN, ...)
+	id5(two-stage)-.-id12(TridentNet,...)
+	id2---id6(one-stage)-.-id13(RetinaNet, YOLO, FCOS, PrePoints, ...)
+	id3---id7(anchor-based)-.-id14(Faster R-CNN, YOLO, ...)
+	id3---id8(anchor-free)-.-id15(FCOS, ...)
+</div>
+<p>注意上面仅仅写了几个典型算法而已，简单来说目标检测算法可以按照 3 个维度划分：</p>
 <ul>
-<li>
-<p>首先向 CNN 网络(VGG-16)输入图片，Faster R-CNN 使用一组基础的 conv + relu + pooling 层提取 feature map。<strong>该 feature map 被共享用于后续 RPN 层和 fc 层。</strong></p>
-</li>
-<li>
-<p>RPN 网络用于生成 region proposals，Faster R-CNN 中称之为 <em><strong>anchors</strong></em>。</p>
-<ul>
-<li><strong>通过 softmax 判断 anchors 属于 foreground 或者 background</strong></li>
-<li><strong>再利用 bounding box regression 修正 anchors 获得精确的 proposals，输出其 Top-N(默认 300)的区域给 Rol pooling</strong></li>
-<li><strong>生成 anchors -&gt; softmax 分类器提取 fg anchors -&gt; bbox reg 回归 fg anchors -&gt; Proposal Layer 生成proposals</strong></li>
+<li><strong>按照 stage 个数划分</strong>，常规是 one-stage 和 two-stage，但是实际上界限不是特别清晰，例如带 refine 阶段的算法 RepPoints，实际上可以认为是1.5 stage 算法，而 Cascade R-CNN 可以认为是多阶段算法，为了简单，上面图示没有划分如此细致</li>
+<li><strong>按照是否需要预定义 anchor 划分</strong>，常规是 anchor-based 和 anchor-free，当然也有些算法是两者混合的</li>
+<li><strong>按照是否采用了 transformer 结构划分</strong>，目前基于 transformer 结构的目标检测算法发展迅速，也引起了极大的关注，所以这里特意增加了这个类别的划分</li>
 </ul>
-</li>
-<li>
-<p>后续就是 Fast R-CNN 操作</p>
-</li>
-</ul>
-<h1 id="rpn">RPN</h1>
-<p>RPN 网络的主要作用是得到比较准确的候选区域，整个过程分为两步</p>
-<ul>
-<li>用 $n\times n$ (默认 $3\times 3$) 的大小窗口去扫描特征图，每个滑窗位置映射倒一个低维的向量(默认 256 维)，并为每个滑窗位置考虑 $k$ 种(在论文设计中 $k=9$)<strong>可能的参考窗口(论文中称为 anchors)</strong></li>
-</ul>
+<p>不管哪种划分方式，其实都可以分成若干固定模块，然后通过模块堆叠来构建整个检测算法体系。</p>
+<h1 id="pipeline">Pipeline</h1>
+<p>现在这个框架将检测拆解模块化为 <em><strong>backbone</strong></em>，<em><strong>neck</strong></em>，<em><strong>head</strong></em>，无论是单阶段还是双阶段。线索清晰，体系自成。基于目前代码实现，所有目标检测算法都按照以下流程进行划分：</p>
 <div align=center>
-<img src="/img/20220114140503.png" width="600px"/>
+<img src="/img/20220115135201.jpg" width="600px"/>
 </div>
-<h2 id="anchors">Anchors</h2>
-<p>$3\times 3$ 卷积核的中心点对应原图上的位置，将该点作为 anchor 的中心点，在原图中框出多尺度、多种长宽比的 anchors，三种尺度 $\{128,256,512\}$，三种长宽比 $\{1:1,1:2,2:1\}$，每个特征图中的像素点有 9 个框。</p>
-<ul>
-<li>窗口输出 $[N，256]\rightarrow$ 分类：判断是否是背景</li>
-<li>回归位置：N 个候选框与自己对应目标值 GT 做回归，修正位置。得到更好的候选区域提供给 ROl pooling 使用</li>
-</ul>
-<h1 id="training">Training</h1>
-<p>Faster R-CNN 的训练分为两部分，即两个网络的训练。</p>
-<ul>
-<li><strong>RPN 训练</strong>
-<ul>
-<li>从众多的候选区域中提取出 score 较高的，并且经过 regression 调整的候选区域</li>
-</ul>
-</li>
-<li><strong>Fast R-CNN部分的训练</strong>
-<ul>
-<li>Fast R-CNN <em><strong>classification(over classes, softmax)</strong></em>︰所有类别分类 N+1，得到候选区域每个类别概率</li>
-<li>Fast R-CNN <em><strong>regression(bbox regression, MAE)</strong></em>：得到更好的位置</li>
-</ul>
-</li>
-</ul>
-<p>样本准备：正负 anchors 样本比例为 $1:3$</p>
-<div align=center>
-<img src="/img/20220114143457.png" width="600px"/>
-</div>
-<h1 id="results">Results</h1>
-<table>
-<thead>
-<tr>
-<th>metrics</th>
-<th>R-CNN</th>
-<th>Fast R-CNN</th>
-<th>Faster R-CNN</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Test time/image</td>
-<td>50.0s</td>
-<td>2.0s</td>
-<td><strong>0.2s</strong></td>
-</tr>
-<tr>
-<td>mAP(VOC2007)</td>
-<td>66.0</td>
-<td>66.9</td>
-<td><strong>66.9</strong></td>
-</tr>
-</tbody>
-</table>
-<h1 id="evaluation">Evaluation</h1>
-<ul>
-<li><em><strong>Pros:</strong></em>
-<ul>
-<li>RPN</li>
-<li>End-to-End</li>
-</ul>
-</li>
-<li><em><strong>Cons:</strong></em>
-<ul>
-<li>训练参数太大</li>
-</ul>
-</li>
-</ul>
-<p>改进：</p>
-<ul>
-<li>RPN(Region Proposal Networks) 改进对于小目标选择利用多尺度特征信息进行 RPN</li>
-<li>速度提升，如 YOLO 系列算法，删去RPN，直接对 proposal 进行分类回归，极大的提升了网络的速度</li>
-</ul>
+<h2 id="cores">Cores</h2>
+<p>训练部分一般包括 9 个核心组件，总体流程是：</p>
+<ol>
+<li>任何一个 batch 的图片先输入到 backbone 中进行特征提取，典型的骨干网络是 ResNet</li>
+<li>输出的单尺度或者多尺度特征图输入到 neck 模块中进行特征融合或者增强，典型的 neck 是 FPN</li>
+<li>上述多尺度特征最终输入到 head 部分，一般都会包括分类和回归分支输出</li>
+<li>在整个网络构建阶段都可以引入一些即插即用增强算子来增加提取提取能力，典型的例如 SPP、DCN 等等</li>
+<li>目标检测 head 输出一般是特征图，对于分类任务存在严重的正负样本不平衡，可以通过正负样本属性分配和采样控制</li>
+<li>为了方便收敛和平衡多分支，一般都会对 gt bbox 进行编码</li>
+<li>最后一步是计算分类和回归 loss，进行训练</li>
+<li>在训练过程中也包括非常多的 trick，例如优化器选择等，参数调节也非常关键</li>
+</ol>
+<p>注意上述 9 个组件不是每个算法都需要的，下面详细分析。</p>
+<h3 id="backbone">Backbone</h3>
 <h1 id="reference">Reference</h1>
 <ul>
-<li><a href="https://arxiv.org/abs/1506.01497">Faster R-CNN: Towards Real-Time Object Detection with Region Proposal Networks</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/337375549">轻松掌握 MMDetection 整体构建流程</a></li>
 </ul>
 
     </div>
@@ -273,7 +220,7 @@
   <p class="copyright-item">
     <span class="item-title">LastMod</span>
     <span class="item-content">
-        2022-01-14
+        2022-01-15
         
     </span>
   </p>
@@ -301,16 +248,12 @@
       <div class="post-tags">
           <a href="/tags/object-detection/">Object Detection</a>
           <a href="/tags/deep-learning/">Deep Learning</a>
-          <a href="/tags/r-cnn/">R-CNN</a>
+          <a href="/tags/mmdetection/">MMDetection</a>
           </div>
       <nav class="post-nav">
-        <a class="prev" href="/post/2022/01/15/mmdetection-overview/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">MMDetection-Overview</span>
-            <span class="prev-text nav-mobile">Prev</span>
-          </a>
-        <a class="next" href="/post/2022/01/13/fast-r-cnn/">
-            <span class="next-text nav-default">Fast R-CNN</span>
+        
+        <a class="next" href="/post/2022/01/14/faster-r-cnn/">
+            <span class="next-text nav-default">Faster R-CNN</span>
             <span class="next-text nav-mobile">Next</span>
             <i class="iconfont icon-right"></i>
           </a>
@@ -323,8 +266,8 @@
     <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js" crossorigin="anonymous"></script>
     <script type="text/javascript">
       var gitalk = new Gitalk({
-        id: '2022-01-14 13:32:15 \x2b0800 CST',
-        title: 'Faster R-CNN',
+        id: '2022-01-15 12:12:07 \x2b0800 CST',
+        title: 'MMDetection-Overview',
         clientID: '9d4d5bfb5872b737a756',
         clientSecret: '2677eacb9eedb58e0e8e7463a2c6a5ff70054601',
         repo: 'gitalk',
