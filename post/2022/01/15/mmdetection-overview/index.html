@@ -52,7 +52,7 @@
 <meta itemprop="description" content="MMDetection 是一个基于 PyTorch 的目标检测开源工具箱。它是 OpenMMLab 项目的一部分。目前已经复现了大部分主流和前沿模型，例如 Faster R-CNN 系列、Mask R-CNN 系列、YOLO 系列和比较">
 <meta itemprop="datePublished" content="2022-01-15T12:12:07&#43;08:00" />
 <meta itemprop="dateModified" content="2022-01-15T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="865">
+<meta itemprop="wordCount" content="3910">
 
 
 
@@ -135,8 +135,8 @@
         <div class="post-category">
             <a href="/categories/object-detection/"> Object Detection </a>
             </div>
-          <span class="more-meta"> 865 words </span>
-          <span class="more-meta"> 2 mins read </span>
+          <span class="more-meta"> 3910 words </span>
+          <span class="more-meta"> 8 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
     </header>
@@ -149,11 +149,26 @@
     <li><a href="#classifications">Classifications</a></li>
     <li><a href="#pipeline">Pipeline</a>
       <ul>
-        <li><a href="#cores">Cores</a>
+        <li><a href="#train">Train</a>
           <ul>
             <li><a href="#backbone">Backbone</a></li>
+            <li><a href="#neck">Neck</a></li>
+            <li><a href="#head">Head</a></li>
+            <li><a href="#enhance">Enhance</a></li>
+            <li><a href="#bbox-assigner">BBox Assigner</a></li>
+            <li><a href="#bbox-sampler">BBox Sampler</a></li>
+            <li><a href="#training-tricks">Training tricks</a></li>
           </ul>
         </li>
+        <li><a href="#test">Test</a>
+          <ul>
+            <li><a href="#bbox-decoder">BBox Decoder</a></li>
+            <li><a href="#bbox-postprocess">BBox PostProcess</a></li>
+            <li><a href="#testing-tricks">Testing tricks</a></li>
+            <li><a href="#example">Example</a></li>
+          </ul>
+        </li>
+        <li><a href="#conclusion">Conclusion</a></li>
       </ul>
     </li>
     <li><a href="#reference">Reference</a></li>
@@ -191,11 +206,11 @@ graph LR
 <div align=center>
 <img src="/img/20220115135201.jpg" width="600px"/>
 </div>
-<h2 id="cores">Cores</h2>
+<h2 id="train">Train</h2>
 <p>训练部分一般包括 9 个核心组件，总体流程是：</p>
 <ol>
-<li>任何一个 batch 的图片先输入到 backbone 中进行特征提取，典型的骨干网络是 ResNet</li>
-<li>输出的单尺度或者多尺度特征图输入到 neck 模块中进行特征融合或者增强，典型的 neck 是 FPN</li>
+<li>任何一个 batch 的图片先输入到 backbone 中进行特征提取，典型的骨干网络是 <em><strong>ResNet</strong></em></li>
+<li>输出的单尺度或者多尺度特征图输入到 neck 模块中进行特征融合或者增强，典型的 neck 是 <em><strong>FPN</strong></em></li>
 <li>上述多尺度特征最终输入到 head 部分，一般都会包括分类和回归分支输出</li>
 <li>在整个网络构建阶段都可以引入一些即插即用增强算子来增加提取提取能力，典型的例如 SPP、DCN 等等</li>
 <li>目标检测 head 输出一般是特征图，对于分类任务存在严重的正负样本不平衡，可以通过正负样本属性分配和采样控制</li>
@@ -205,6 +220,393 @@ graph LR
 </ol>
 <p>注意上述 9 个组件不是每个算法都需要的，下面详细分析。</p>
 <h3 id="backbone">Backbone</h3>
+<div class="mermaid">
+graph LR
+	id1(ResNet)---id2(ResNext)---id3(Res2Net)---id4(ResNeSt)---id5(DarkNet)---id7(SSD_VGG);
+</div>
+<p>backbone 作用主要是<strong>特征提取</strong>。目前 MMDetection 中已经集成了大部分骨架网络，具体见文件：<code>mmdet/models/backbones</code>，已经实现的骨架有：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;RegNet&#39;</span><span class="p">,</span> <span class="s1">&#39;ResNet&#39;</span><span class="p">,</span> <span class="s1">&#39;ResNetV1d&#39;</span><span class="p">,</span> <span class="s1">&#39;ResNeXt&#39;</span><span class="p">,</span> <span class="s1">&#39;SSDVGG&#39;</span><span class="p">,</span> <span class="s1">&#39;HRNet&#39;</span><span class="p">,</span> <span class="s1">&#39;Res2Net&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;HourglassNet&#39;</span><span class="p">,</span> <span class="s1">&#39;DetectoRS_ResNet&#39;</span><span class="p">,</span> <span class="s1">&#39;DetectoRS_ResNeXt&#39;</span><span class="p">,</span> <span class="s1">&#39;Darknet&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;ResNeSt&#39;</span><span class="p">,</span> <span class="s1">&#39;TridentResNet&#39;</span>
+<span class="p">]</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>最常用的是 ResNet 系列、ResNetV1d 系列和 Res2Net 系列。如果需要对骨架进行扩展，可以继承上述网络，然后通过<strong>注册器机制注册使用</strong>。一个典型用法为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># 骨架的预训练权重路径</span>
+<span class="n">pretrained</span><span class="o">=</span><span class="s1">&#39;torchvision://resnet50&#39;</span><span class="p">,</span>
+<span class="n">backbone</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+    <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;ResNet&#39;</span><span class="p">,</span> <span class="c1"># 骨架类名，后面的参数都是该类的初始化参数</span>
+    <span class="n">depth</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+    <span class="n">num_stages</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="n">out_indices</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
+    <span class="n">frozen_stages</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">norm_cfg</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s1">&#39;BN&#39;</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span> 
+    <span class="n">norm_eval</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">style</span><span class="o">=</span><span class="s1">&#39;pytorch&#39;</span><span class="p">),</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>通过 MMCV 中的注册器机制，<strong>可以通过 dict 形式的配置来实例化任何已经注册的类</strong>，非常方便和灵活。</p>
+<h3 id="neck">Neck</h3>
+<div class="mermaid">
+graph LR
+	id1(FPN)---id2(BFP)---id3(RFP)---id4(PAFPN)---id5(NAS_FPN)---id7(HRFPN);
+</div>
+<p>neck 可以认为是 backbone 和 head 的<strong>连接层</strong>，主要负责<strong>对 backbone 的特征进行高效融合和增强，能够对输入的单尺度或者多尺度特征进行融合、增强输出等</strong>。具体见文件：<code>mmdet/models/necks</code>，已经实现的 neck 如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;FPN&#39;</span><span class="p">,</span> <span class="s1">&#39;BFP&#39;</span><span class="p">,</span> <span class="s1">&#39;ChannelMapper&#39;</span><span class="p">,</span> <span class="s1">&#39;HRFPN&#39;</span><span class="p">,</span> <span class="s1">&#39;NASFPN&#39;</span><span class="p">,</span> <span class="s1">&#39;FPN_CARAFE&#39;</span><span class="p">,</span> <span class="s1">&#39;PAFPN&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;NASFCOS_FPN&#39;</span><span class="p">,</span> <span class="s1">&#39;RFP&#39;</span><span class="p">,</span> <span class="s1">&#39;YOLOV3Neck&#39;</span>
+<span class="p">]</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>最常用的应该是 <em><strong>FPN</strong></em>，一个典型用法是：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">neck</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+    <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;FPN&#39;</span><span class="p">,</span>
+    <span class="n">in_channels</span><span class="o">=</span><span class="p">[</span><span class="mi">256</span><span class="p">,</span> <span class="mi">512</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">2048</span><span class="p">],</span> <span class="c1"># 骨架多尺度特征图输出通道</span>
+    <span class="n">out_channels</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="c1"># 增强后通道输出</span>
+    <span class="n">num_outs</span><span class="o">=</span><span class="mi">5</span><span class="p">),</span> <span class="c1"># 输出num_outs个多尺度特征图</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="head">Head</h3>
+<div class="mermaid">
+graph LR
+	id1(FC Mode)---id2(Conv Mode);
+</div>
+<p>目标检测算法输出一般包括<strong>分类和框坐标回归</strong>两个分支，不同算法 head 模块复杂程度不一样，灵活度比较高。在网络构建方面，理解目标检测算法主要是要理解 head 模块。</p>
+<p>MMDetection 中 head 模块又划分为 <strong>two-stage 所需的 RoIHead 和 one-stage 所需的 DenseHead</strong>，也就是说所有的 one-stage 算法的 head 模块都在<code>mmdet/models/dense_heads</code>中，而 two-stage 算法还包括额外的<code>mmdet/models/roi_heads</code>。</p>
+<p>目前中已经实现的 dense_heads 包括：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;AnchorFreeHead&#39;</span><span class="p">,</span> <span class="s1">&#39;AnchorHead&#39;</span><span class="p">,</span> <span class="s1">&#39;GuidedAnchorHead&#39;</span><span class="p">,</span> <span class="s1">&#39;FeatureAdaption&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;RPNHead&#39;</span><span class="p">,</span> <span class="s1">&#39;GARPNHead&#39;</span><span class="p">,</span> <span class="s1">&#39;RetinaHead&#39;</span><span class="p">,</span> <span class="s1">&#39;RetinaSepBNHead&#39;</span><span class="p">,</span> <span class="s1">&#39;GARetinaHead&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;SSDHead&#39;</span><span class="p">,</span> <span class="s1">&#39;FCOSHead&#39;</span><span class="p">,</span> <span class="s1">&#39;RepPointsHead&#39;</span><span class="p">,</span> <span class="s1">&#39;FoveaHead&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;FreeAnchorRetinaHead&#39;</span><span class="p">,</span> <span class="s1">&#39;ATSSHead&#39;</span><span class="p">,</span> <span class="s1">&#39;FSAFHead&#39;</span><span class="p">,</span> <span class="s1">&#39;NASFCOSHead&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;PISARetinaHead&#39;</span><span class="p">,</span> <span class="s1">&#39;PISASSDHead&#39;</span><span class="p">,</span> <span class="s1">&#39;GFLHead&#39;</span><span class="p">,</span> <span class="s1">&#39;CornerHead&#39;</span><span class="p">,</span> <span class="s1">&#39;YOLACTHead&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;YOLACTSegmHead&#39;</span><span class="p">,</span> <span class="s1">&#39;YOLACTProtonet&#39;</span><span class="p">,</span> <span class="s1">&#39;YOLOV3Head&#39;</span><span class="p">,</span> <span class="s1">&#39;PAAHead&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;SABLRetinaHead&#39;</span><span class="p">,</span> <span class="s1">&#39;CentripetalHead&#39;</span><span class="p">,</span> <span class="s1">&#39;VFNetHead&#39;</span><span class="p">,</span> <span class="s1">&#39;TransformerHead&#39;</span>
+<span class="p">]</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>几乎每个算法都包括一个独立的 head，而 roi_heads 比较杂，就不列出了。</p>
+<p>需要注意的是：<strong>two-stage 或者 mutli-stage 算法，会额外包括一个区域提取器 roi extractor，用于将不同大小的 RoI 特征图统一成相同大小</strong>。</p>
+<p>虽然 head 部分的网络构建比较简单，但是由于正负样本属性定义、正负样本采样和 bbox 编解码模块都在 head 模块中进行组合调用，故 MMDetection <strong>中最复杂的模块就是 head</strong>。在最后的整体流程部分会对该模块进行详细分析。</p>
+<h3 id="enhance">Enhance</h3>
+<div class="mermaid">
+graph LR
+	id1(SPP)---id2(ASP)---id3(Attention);
+</div>
+<p>enhance 是<strong>即插即用、能够对特征进行增强的模块</strong>，其具体代码可以通过 dict 形式注册到 backbone、neck 和 head 中，非常方便。常用的 enhance 模块是 SPP、ASPP、RFB、Dropout、Dropblock、DCN 和各种注意力模块 SeNet、Non_Local、CBA 等。目前 MMDetection 中部分模块支持 enhance 的接入，例如 ResNet 骨架中的 plugins。</p>
+<h3 id="bbox-assigner">BBox Assigner</h3>
+<p>正负样本属性分配模块作用是进行正负样本定义或者正负样本分配（可能也包括忽略样本定义），正样本就是常说的前景样本（可以是任何类别），负样本就是背景样本。因为目标检测是一个同时进行分类和回归的问题，对于分类场景必然需要确定正负样本，否则无法训练。<strong>该模块至关重要，不同的正负样本分配策略会带来显著的性能差异</strong>，目前大部分目标检测算法都会对这个部分进行改进，至关重要。</p>
+<p>对应的代码在<code>mmdet/core/bbox/assigners</code>中，主要包括：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;BaseAssigner&#39;</span><span class="p">,</span> <span class="s1">&#39;MaxIoUAssigner&#39;</span><span class="p">,</span> <span class="s1">&#39;ApproxMaxIoUAssigner&#39;</span><span class="p">,</span> 
+    <span class="s1">&#39;PointAssigner&#39;</span><span class="p">,</span> <span class="s1">&#39;ATSSAssigner&#39;</span><span class="p">,</span> <span class="s1">&#39;CenterRegionAssigner&#39;</span><span class="p">,</span> <span class="s1">&#39;GridAssigner&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;HungarianAssigner&#39;</span>
+<span class="p">]</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="bbox-sampler">BBox Sampler</h3>
+<p>在确定每个样本的正负属性后，可能还需要进行<strong>样本平衡操作</strong>。本模块作用是<strong>对前面定义的正负样本不平衡进行采样，力争克服该问题</strong>。一般在目标检测中 gt bbox 都是非常少的，所以正负样本比是远远小于 1 的。而基于机器学习观点：在数据极度不平衡情况下进行分类会出现预测倾向于样本多的类别，出现过拟合，为了克服该问题，适当的正负样本采样策略是非常必要的。</p>
+<p>对应的代码在<code>mmdet/core/bbox/samplers</code>中，主要包括：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;BaseSampler&#39;</span><span class="p">,</span> <span class="s1">&#39;PseudoSampler&#39;</span><span class="p">,</span> <span class="s1">&#39;RandomSampler&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;InstanceBalancedPosSampler&#39;</span><span class="p">,</span> <span class="s1">&#39;IoUBalancedNegSampler&#39;</span><span class="p">,</span> <span class="s1">&#39;CombinedSampler&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;OHEMSampler&#39;</span><span class="p">,</span> <span class="s1">&#39;SamplingResult&#39;</span><span class="p">,</span> <span class="s1">&#39;ScoreHLRSampler&#39;</span>
+<span class="p">]</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="training-tricks">Training tricks</h3>
+<p>训练技巧非常多，常说的调参很大一部分工作都是在设置这部分超参。这部分内容比较杂乱，很难做到完全统一。</p>
+<h2 id="test">Test</h2>
+<p>测试核心组件和训练非常类似，但是简单很多，除了必备的网络构建部分外( backbone、neck、head 和 enhance )，不需要正负样本定义、正负样本采样和 loss 计算三个最难的部分，但是其额外需要一个 bbox 后处理模块和测试 trick。</p>
+<h3 id="bbox-decoder">BBox Decoder</h3>
+<p>训练时候进行了编码，那么对应的测试环节需要进行解码。根据编码的不同，解码也是不同的。举个简单例子：假设训练时候对宽高是直接除以图片宽高进行归一化的，那么解码过程也仅仅需要乘以图片宽高即可。其代码和 bbox encoder 放在一起，在<code>mmdet/core/bbox/coder</code>中。</p>
+<h3 id="bbox-postprocess">BBox PostProcess</h3>
+<p>在得到原图尺度 bbox 后，由于可能会出现重叠 bbox 现象，故一般都需要进行后处理，最常用的后处理就是非极大值抑制以及其变种。</p>
+<p>其对应的文件在<code>mmdet/core/post_processing</code>中，主要包括：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;multiclass_nms&#39;</span><span class="p">,</span> <span class="s1">&#39;merge_aug_proposals&#39;</span><span class="p">,</span> <span class="s1">&#39;merge_aug_bboxes&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;merge_aug_scores&#39;</span><span class="p">,</span> <span class="s1">&#39;merge_aug_masks&#39;</span><span class="p">,</span> <span class="s1">&#39;fast_nms&#39;</span>
+<span class="p">]</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="testing-tricks">Testing tricks</h3>
+<p>为了提高检测性能，测试阶段也会采用 trick。这个阶段的 tricks 也非常多，难以完全统一，最典型的是多尺度测试以及各种模型集成手段，典型配置如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="nb">dict</span><span class="p">(</span>
+    <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;MultiScaleFlipAug&#39;</span><span class="p">,</span>
+    <span class="n">img_scale</span><span class="o">=</span><span class="p">(</span><span class="mi">1333</span><span class="p">,</span> <span class="mi">800</span><span class="p">),</span>
+    <span class="n">flip</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="n">transforms</span><span class="o">=</span><span class="p">[</span>
+        <span class="nb">dict</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s1">&#39;Resize&#39;</span><span class="p">,</span> <span class="n">keep_ratio</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span>
+        <span class="nb">dict</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s1">&#39;RandomFlip&#39;</span><span class="p">),</span>
+        <span class="nb">dict</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s1">&#39;Normalize&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">img_norm_cfg</span><span class="p">),</span>
+        <span class="nb">dict</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s1">&#39;Pad&#39;</span><span class="p">,</span> <span class="n">size_divisor</span><span class="o">=</span><span class="mi">32</span><span class="p">),</span>
+        <span class="nb">dict</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s1">&#39;ImageToTensor&#39;</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;img&#39;</span><span class="p">]),</span>
+        <span class="nb">dict</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s1">&#39;Collect&#39;</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;img&#39;</span><span class="p">]),</span>
+    <span class="p">])</span>
+</code></pre></td></tr></table>
+</div>
+</div><h3 id="example">Example</h3>
+<p>在分析完每个训练流程的各个核心组件后，为了方便大家理解整个算法构建，下面分析 MMDetection 是如何组合各个组件进行训练的，这里以 one-stage 检测器为例，two-stage 也比较类似。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">SingleStageDetector</span><span class="p">(</span><span class="o">---</span><span class="p">):</span>
+
+   <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="o">...</span><span class="p">):</span>
+        <span class="c1"># 构建骨架、neck和head</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">backbone</span> <span class="o">=</span> <span class="n">build_backbone</span><span class="p">(</span><span class="n">backbone</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">neck</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">neck</span> <span class="o">=</span> <span class="n">build_neck</span><span class="p">(</span><span class="n">neck</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bbox_head</span> <span class="o">=</span> <span class="n">build_head</span><span class="p">(</span><span class="n">bbox_head</span><span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">forward_train</span><span class="p">(</span><span class="o">---</span><span class="p">):</span> 
+        <span class="c1"># 先运行backbone+neck进行特征提取</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">extract_feat</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+        <span class="c1"># 对head进行forward train，输出loss</span>
+        <span class="n">losses</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bbox_head</span><span class="o">.</span><span class="n">forward_train</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">img_metas</span><span class="p">,</span> <span class="n">gt_bboxes</span><span class="p">,</span>
+                                              <span class="n">gt_labels</span><span class="p">,</span> <span class="n">gt_bboxes_ignore</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">losses</span>
+
+  <span class="k">def</span> <span class="nf">simple_test</span><span class="p">(</span><span class="o">---</span><span class="p">):</span>
+        <span class="c1"># 先运行backbone+neck进行特征提取</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">extract_feat</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+        <span class="c1"># head输出预测特征图</span>
+        <span class="n">outs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bbox_head</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="c1"># bbox解码和还原</span>
+        <span class="n">bbox_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bbox_head</span><span class="o">.</span><span class="n">get_bboxes</span><span class="p">(</span>
+            <span class="o">*</span><span class="n">outs</span><span class="p">,</span> <span class="n">img_metas</span><span class="p">,</span> <span class="n">rescale</span><span class="o">=</span><span class="n">rescale</span><span class="p">)</span>
+        <span class="c1"># 重组结果返回</span>
+        <span class="n">bbox_results</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">bbox2result</span><span class="p">(</span><span class="n">det_bboxes</span><span class="p">,</span> <span class="n">det_labels</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bbox_head</span><span class="o">.</span><span class="n">num_classes</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">det_bboxes</span><span class="p">,</span> <span class="n">det_labels</span> <span class="ow">in</span> <span class="n">bbox_list</span>
+        <span class="p">]</span>
+        <span class="k">return</span> <span class="n">bbox_results</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>以上就是整个检测器算法训练和测试最简逻辑，可以发现训练部分最核心的就是<code>bbox_head.forward_train</code>，测试部分最核心的是<code>bbox_head.get_bboxes</code>，下面单独简要分析。</p>
+<h4 id="bbox_headforward_train">bbox_head.forward_train</h4>
+<p><code>forward_train</code> 是通用函数，如下所示：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">forward_train</span><span class="p">(</span><span class="o">...</span><span class="p">):</span>
+    <span class="c1"># 调用每个head自身的forward方法</span>
+    <span class="n">outs</span> <span class="o">=</span> <span class="bp">self</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">gt_labels</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">loss_inputs</span> <span class="o">=</span> <span class="n">outs</span> <span class="o">+</span> <span class="p">(</span><span class="n">gt_bboxes</span><span class="p">,</span> <span class="n">img_metas</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">loss_inputs</span> <span class="o">=</span> <span class="n">outs</span> <span class="o">+</span> <span class="p">(</span><span class="n">gt_bboxes</span><span class="p">,</span> <span class="n">gt_labels</span><span class="p">,</span> <span class="n">img_metas</span><span class="p">)</span>
+    <span class="c1"># 计算每个head自身的loss方法</span>
+    <span class="n">losses</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss</span><span class="p">(</span><span class="o">*</span><span class="n">loss_inputs</span><span class="p">,</span> <span class="n">gt_bboxes_ignore</span><span class="o">=</span><span class="n">gt_bboxes_ignore</span><span class="p">)</span>
+    <span class="c1"># 返回</span>
+    <span class="k">return</span> <span class="n">losses</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>对于不同的 head，虽然 forward 内容不一样，但是依然可以抽象为： <code>outs = self(x)</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feats</span><span class="p">):</span>
+   <span class="c1"># 多尺度特征图，一个一个迭代进行forward_single</span>
+   <span class="k">return</span> <span class="n">multi_apply</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">forward_single</span><span class="p">,</span> <span class="n">feats</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">forward_single</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+   <span class="c1"># 运行各个head独特的head forward方法，得到预测图</span>
+   <span class="o">....</span>
+   <span class="k">return</span> <span class="n">cls_score</span><span class="p">,</span> <span class="n">bbox_pred</span><span class="o">...</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>而对于不同的 head，其 loss 计算部分也比较复杂，可以简单抽象为：<code>losses = self.loss(...)</code></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">loss</span><span class="p">(</span><span class="o">...</span><span class="p">):</span>
+    <span class="c1"># 1 生成anchor-base需要的anchor或者anchor-free需要的points</span>
+    <span class="c1"># 2 利用gt bbox对特征图或者anchor计算其正负和忽略样本属性</span>
+    <span class="c1"># 3 进行正负样本采样</span>
+    <span class="c1"># 4 对gt bbox进行bbox编码</span>
+    <span class="c1"># 5 loss计算，并返回</span>
+    <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">loss_cls</span><span class="o">=</span><span class="n">losses_cls</span><span class="p">,</span> <span class="n">loss_bbox</span><span class="o">=</span><span class="n">losses_bbox</span><span class="p">,</span><span class="o">...</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><h4 id="bbox_headget_bboxes">bbox_head.get_bboxes</h4>
+<p><code>get_bboxes</code> 函数更加简单</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">get_bboxes</span><span class="p">(</span><span class="o">...</span><span class="p">):</span>
+   <span class="c1"># 1 生成anchor-base需要的anchor或者anchor-free需要的points</span>
+   <span class="c1"># 2 遍历每个输出层，遍历batch内部的每张图片，对每张图片先提取指定个数的预测结果，缓解后面后处理压力；对保留的位置进行bbox解码和还原到原图尺度</span>
+   <span class="c1"># 3 统一nms后处理</span>
+   <span class="k">return</span> <span class="n">det_bboxes</span><span class="p">,</span> <span class="n">det_labels</span><span class="o">...</span>
+</code></pre></td></tr></table>
+</div>
+</div><h2 id="conclusion">Conclusion</h2>
+<p>本文重点分析了一个目标检测器是如何通过多个核心组件堆叠而成，不涉及具体代码，其中最应该了解的是：<strong>任何一个目标检测算法都可以分成 n 个核心组件，组件和组件之间是隔离的，方便复用和设计</strong>。当面对一个新算法时候我们可以先分析其主要是改进了哪几个核心组件，然后就可以高效的掌握该算法。</p>
 <h1 id="reference">Reference</h1>
 <ul>
 <li><a href="https://zhuanlan.zhihu.com/p/337375549">轻松掌握 MMDetection 整体构建流程</a></li>
