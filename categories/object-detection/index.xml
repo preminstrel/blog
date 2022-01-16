@@ -6,13 +6,22 @@
     <description>Recent content in Object Detection on Preminstrel&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sat, 15 Jan 2022 12:12:07 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 16 Jan 2022 12:42:21 +0800</lastBuildDate>
     
 	<atom:link href="https://preminstrel.github.io/categories/object-detection/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>MMDetection-Overview</title>
+      <title>MMDetection Framework</title>
+      <link>https://preminstrel.github.io/post/2022/01/16/mmdetection-framework/</link>
+      <pubDate>Sun, 16 Jan 2022 12:42:21 +0800</pubDate>
+      
+      <guid>https://preminstrel.github.io/post/2022/01/16/mmdetection-framework/</guid>
+      <description>本文核心内容是按照抽象到具体方式，从多个层次进行训练和测试流程深入解析，从最抽象层开始，到最后核心代码实现，进一步理解 MMDetection 开源框架整体构建细节</description>
+    </item>
+    
+    <item>
+      <title>MMDetection Overview</title>
       <link>https://preminstrel.github.io/post/2022/01/15/mmdetection-overview/</link>
       <pubDate>Sat, 15 Jan 2022 12:12:07 +0800</pubDate>
       

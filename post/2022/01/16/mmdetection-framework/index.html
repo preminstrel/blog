@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>MMDetection Framework - Preminstrel&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Hanshi Sun" /><meta name="description" content="本文核心内容是按照抽象到具体方式，从多个层次进行训练和测试流程深入解析，从最抽象层开始，到最后核心代码实现，进一步理解 MMDetection 开源框架整体构建细节" /><meta name="keywords" content="Preminstrel" />
+
+
+<meta name="robots" content="">
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.68.3 with theme even" />
+
+
+<link rel="canonical" href="https://preminstrel.github.io/post/2022/01/16/mmdetection-framework/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.75451ad2d2268431f3dfb6289a5d8bc042bd3e23f7ac463fe449ed7872bb8c72.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" /><meta property="og:title" content="MMDetection Framework" />
+<meta property="og:description" content="本文核心内容是按照抽象到具体方式，从多个层次进行训练和测试流程深入解析，从最抽象层开始，到最后核心代码实现，进一步理解 MMDetection 开源框架整体构建细节" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://preminstrel.github.io/post/2022/01/16/mmdetection-framework/" />
+<meta property="article:published_time" content="2022-01-16T12:42:21+08:00" />
+<meta property="article:modified_time" content="2022-01-16T00:00:00+00:00" />
+<meta itemprop="name" content="MMDetection Framework">
+<meta itemprop="description" content="本文核心内容是按照抽象到具体方式，从多个层次进行训练和测试流程深入解析，从最抽象层开始，到最后核心代码实现，进一步理解 MMDetection 开源框架整体构建细节">
+<meta itemprop="datePublished" content="2022-01-16T12:42:21&#43;08:00" />
+<meta itemprop="dateModified" content="2022-01-16T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="4009">
+
+
+
+<meta itemprop="keywords" content="Object Detection,Deep Learning,MMDetection," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="MMDetection Framework"/>
+<meta name="twitter:description" content="本文核心内容是按照抽象到具体方式，从多个层次进行训练和测试流程深入解析，从最抽象层开始，到最后核心代码实现，进一步理解 MMDetection 开源框架整体构建细节"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Preminstrel</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Preminstrel</a>
+</div>
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li>
+  </ul>
+</nav><li style="display:inline-block;margin-left:290px;">
+    <input type="search" class="docsearch-input" placeholder="Search" />
+  </li>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">MMDetection Framework</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2022-01-16 </span>
+        <div class="post-category">
+            <a href="/categories/object-detection/"> Object Detection </a>
+            </div>
+          <span class="more-meta"> 4009 words </span>
+          <span class="more-meta"> 9 mins read </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#first-level">First Level</a></li>
+    <li><a href="#second-level">Second Level</a>
+      <ul>
+        <li><a href="#pipeline">Pipeline</a></li>
+        <li><a href="#dataparallel--model">DataParallel &amp; Model</a></li>
+        <li><a href="#runner-和-hooks">Runner 和 Hooks</a></li>
+      </ul>
+    </li>
+    <li><a href="#third-level">Third Level</a>
+      <ul>
+        <li><a href="#train--test">Train &amp; Test</a></li>
+        <li><a href="#runner">Runner</a></li>
+        <li><a href="#model">Model</a></li>
+        <li><a href="#train--val">Train &amp; Val</a></li>
+        <li><a href="#test">Test</a></li>
+      </ul>
+    </li>
+    <li><a href="#conclusion">Conclusion</a></li>
+    <li><a href="#reference">Reference</a></li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>本文核心内容是<strong>按照抽象到具体方式，从多个层次进行训练和测试流程深入解析</strong>，从最抽象层开始，到最后核心代码实现，进一步理解 MMDetection 开源框架整体构建细节。</p>
+<h1 id="first-level">First Level</h1>
+<div align=center>
+<img src="/img/20220116124701.jpg" width="700px"/>
+</div>
+<p>上图为 MMDetection 框架整体训练和测试抽象流程图。按照数据流过程，训练流程可以简单总结为：</p>
+<ol>
+<li>给定任何一个数据集，首先需要构建 Dataset 类，用于迭代输出数据</li>
+<li>在迭代输出数据的时候需要通过数据 Pipeline 对数据进行各种处理，最典型的处理流是训练中的<strong>数据增强</strong>操作，测试中的<strong>数据预处理</strong>等等</li>
+<li>通过 Sampler 采样器可以控制 Dataset 输出的数据顺序，最常用的是随机采样器 <em><strong>RandomSampler</strong></em>。由于 Dataset 中输出的图片大小不一样，为了尽可能<strong>减少后续组成 batch 时 pad 的像素个数</strong>，MM-Detection 引入了分组采样器 GroupSampler 和 DistributedGroupSampler，相当于在 RandomSampler 基础上额外新增了根据图片宽高比进行 group 功能</li>
+<li>将 Sampler 和 Dataset 都输入给 DataLoader，然后通过 DataLoader 输出已组成 batch 的数据，作为 Model 的输入</li>
+<li>对于任何一个 Model，为了方便处理数据流以及分布式需求，MMDetection 引入了两个 Model 的上层封装：单机版本 MMDataParallel、分布式（单机多卡或多机多卡）版本 MMDistributedDataParallel</li>
+<li>Model 运行后会输出 loss 以及其他一些信息，会通过 <em><strong>logger</strong></em> 进行保存或者可视化</li>
+<li>为了更好地解耦， 方便地获取各个组件之间依赖和灵活扩展，MMDetection 引入了 <em><strong>Runner</strong></em> 类进行全生命周期管理，并且<strong>通过 Hook 方便的获取、修改和拦截任何生命周期数据流</strong>，扩展非常便捷</li>
+</ol>
+<p>而测试流程就比较简单了，直接对 DataLoader 输出的数据进行前向推理即可，还原到最终原图尺度过程也是在 Model 中完成。</p>
+<p>以上就是 MMDetection 框架整体训练和测试抽象流程，上图不仅仅反映了训练和测试数据流，而且还包括了模块和模块之间的调用关系。对于训练而言，最核心部分应该是 Runner，理解了 Runner 的运行流程，也就理解了整个 MMDetection 数据流。</p>
+<h1 id="second-level">Second Level</h1>
+<p>在总体把握了整个 MMDetection 框架训练和测试流程后，下个层次是每个模块内部抽象流程，主要包括 Pipeline、DataParallel、Model、Runner 和 Hooks。</p>
+<h2 id="pipeline">Pipeline</h2>
+<p>Pipeline 实际上由一系列按照插入顺序运行的数据处理模块组成，每个模块完成某个特定功能，例如 Resize，因为其流式顺序运行特性，故叫做 Pipeline。</p>
+<div align=center>
+<img src="/img/20220116130000.jpg" width="800px"/>
+</div>
+<p>上图是一个非常典型的训练流程 Pipeline，每个类都接收字典输入，输出也是字典，顺序执行，其中<strong>绿色表示该类运行后新增字段，橙色表示对该字段可能会进行修改</strong>。如果进一步细分的话，不同算法的 Pipeline 都可以划分为如下部分：</p>
+<ul>
+<li><strong>图片和标签加载</strong>，通常用的类是 LoadImageFromFile 和 LoadAnnotations</li>
+<li><strong>数据前处理</strong>，例如统一 Resize</li>
+<li><strong>数据增强</strong>，典型的例如各种图片几何变换等，这部分是训练流程特有，测试阶段一般不采用(多尺度测试采用其他实现方式)</li>
+<li><strong>数据收集</strong>，例如 Collect</li>
+</ul>
+<p>在 MMDetection 框架中，图片和标签加载和数据后处理流程一般是固定的，用户主要可能修改的是数据增强步骤，目前已经接入了第三方增强库 Albumentations，可以按照示例代码轻松构建属于你自己的数据增强 Pipeline。</p>
+<p><strong>在构建自己的 Pipeline 时候一定要仔细检查修改或者新增的字典 key 和 value，因为一旦错误地覆盖或者修改原先字典里面的内容，代码也可能不会报错，如果出现 bug，则比较难排查</strong>。</p>
+<h2 id="dataparallel--model">DataParallel &amp; Model</h2>
+<p>在 MMDetection 中 DataLoader 输出的内容<strong>不是 PyTorch 能处理的标准格式</strong>，还包括了 <em><strong>DataContainer</strong></em> 对象，该对象的作用是包装不同类型的对象使之能按需组成 batch。在目标检测中，每张图片 gt bbox 个数是不一样的，如果想组成 batch tensor，要么你设置最大长度，要么你自己想办法组成 batch。而考虑到内存和效率，MMDetection 通过引入 DataContainer 模块来解决上述问题，但是随之带来的问题是 PyTorch 无法解析 DataContainer 对象，故需要在 MMDetection 中自行处理。</p>
+<p>解决办法其实非常多，MMDetection 选择了一种比较优雅的实现方式：MMDataParallel 和 MMDistributed-DataParallel。具体来说，这两个类相比 PyTorch 自带的 DataParallel 和 DistributedDataParallel 区别是：</p>
+<ul>
+<li>可以处理 DataContainer 对象</li>
+<li>额外实现了 <code>train_step()</code> 和 <code>val_step()</code> 两个函数，可以被 Runner 调用</li>
+</ul>
+<p>关于这两个类的具体实现后面会描述。</p>
+<h2 id="runner-和-hooks">Runner 和 Hooks</h2>
+<p>对于任何一个目标检测算法，都需要包括<strong>优化器、学习率设置、权重保存</strong>等等组件才能构成完整训练流程，而这些组件是通用的。为了方便 OpenMMLab 体系下的所有框架复用，在 MMCV 框架中引入了 Runner 类来统一管理训练和验证流程，并且通过 Hooks 机制以一种非常灵活、解耦的方式来实现丰富扩展功能。</p>
+<p>关于 Runner 和 Hooks 详细解读会发布在 MMCV 系列解读文章中，简单来说 <strong>Runner 封装了 OpenMMLab 体系下各个框架的训练和验证详细流程，其负责管理训练和验证过程中的整个生命周期，通过预定义回调函数，用户可以插入定制化 Hook ，从而实现各种各样的需求</strong>。下面列出了在 MMDetection 几个非常重要的 hook 以及其作用的生命周期：</p>
+<div align=center>
+<img src="/img/20220116131700.jpg" width="600px"/>
+</div>
+<p>例如 CheckpointHook 在每个训练 epoch 完成后会被调用，从而实现保存权重功能。用户也可以将自己定制实现的 Hook 采用上述方式绘制，对理解整个流程或许有帮助。</p>
+<h1 id="third-level">Third Level</h1>
+<p>前面两层抽象分析流程，基本上把整个 MMDetection 的训练和测试流程分析完了，下面从具体代码层面进行抽象分析。</p>
+<h2 id="train--test">Train &amp; Test</h2>
+<div align=center>
+<img src="/img/20220116131900.jpg" width="600px"/>
+</div>
+上图为训练和验证的和具体代码相关的整体抽象流程，对应到代码上，其核心代码如下：
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1">#=================== tools/train.py ==================</span>
+<span class="c1"># 1.初始化配置</span>
+<span class="n">cfg</span> <span class="o">=</span> <span class="n">Config</span><span class="o">.</span><span class="n">fromfile</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+
+<span class="c1"># 2.判断是否为分布式训练模式</span>
+
+<span class="c1"># 3.初始化 logger</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">get_root_logger</span><span class="p">(</span><span class="n">log_file</span><span class="o">=</span><span class="n">log_file</span><span class="p">,</span> <span class="n">log_level</span><span class="o">=</span><span class="n">cfg</span><span class="o">.</span><span class="n">log_level</span><span class="p">)</span>
+
+<span class="c1"># 4.收集运行环境并且打印，方便排查硬件和软件相关问题</span>
+<span class="n">env_info_dict</span> <span class="o">=</span> <span class="n">collect_env</span><span class="p">()</span>
+
+<span class="c1"># 5.初始化 model</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">build_detector</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
+
+<span class="c1"># 6.初始化 datasets</span>
+
+<span class="c1">#=================== mmdet/apis/train.py ==================</span>
+<span class="c1"># 1.初始化 data_loaders ，内部会初始化 GroupSampler</span>
+<span class="n">data_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span><span class="o">...</span><span class="p">)</span>
+
+<span class="c1"># 2.基于是否使用分布式训练，初始化对应的 DataParallel</span>
+<span class="k">if</span> <span class="n">distributed</span><span class="p">:</span>
+  <span class="n">model</span> <span class="o">=</span> <span class="n">MMDistributedDataParallel</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+  <span class="n">model</span> <span class="o">=</span> <span class="n">MMDataParallel</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+
+<span class="c1"># 3.初始化 runner</span>
+<span class="n">runner</span> <span class="o">=</span> <span class="n">EpochBasedRunner</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+
+<span class="c1"># 4.注册必备 hook</span>
+<span class="n">runner</span><span class="o">.</span><span class="n">register_training_hooks</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">lr_config</span><span class="p">,</span> <span class="n">optimizer_config</span><span class="p">,</span>
+                               <span class="n">cfg</span><span class="o">.</span><span class="n">checkpoint_config</span><span class="p">,</span> <span class="n">cfg</span><span class="o">.</span><span class="n">log_config</span><span class="p">,</span>
+                               <span class="n">cfg</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;momentum_config&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">))</span>
+
+<span class="c1"># 5.如果需要 val，则还需要注册 EvalHook           </span>
+<span class="n">runner</span><span class="o">.</span><span class="n">register_hook</span><span class="p">(</span><span class="n">eval_hook</span><span class="p">(</span><span class="n">val_dataloader</span><span class="p">,</span> <span class="o">**</span><span class="n">eval_cfg</span><span class="p">))</span>
+
+<span class="c1"># 6.注册用户自定义 hook</span>
+<span class="n">runner</span><span class="o">.</span><span class="n">register_hook</span><span class="p">(</span><span class="n">hook</span><span class="p">,</span> <span class="n">priority</span><span class="o">=</span><span class="n">priority</span><span class="p">)</span>
+
+<span class="c1"># 7.权重恢复和加载</span>
+<span class="k">if</span> <span class="n">cfg</span><span class="o">.</span><span class="n">resume_from</span><span class="p">:</span>
+    <span class="n">runner</span><span class="o">.</span><span class="n">resume</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">resume_from</span><span class="p">)</span>
+<span class="k">elif</span> <span class="n">cfg</span><span class="o">.</span><span class="n">load_from</span><span class="p">:</span>
+    <span class="n">runner</span><span class="o">.</span><span class="n">load_checkpoint</span><span class="p">(</span><span class="n">cfg</span><span class="o">.</span><span class="n">load_from</span><span class="p">)</span>
+
+<span class="c1"># 8.运行，开始训练</span>
+<span class="n">runner</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">data_loaders</span><span class="p">,</span> <span class="n">cfg</span><span class="o">.</span><span class="n">workflow</span><span class="p">,</span> <span class="n">cfg</span><span class="o">.</span><span class="n">total_epochs</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>上面的流程比较简单，一般大家比较难以理解的是 <code>runner.run</code> 内部逻辑，下小节进行详细分析，而对于测试逻辑由于比较简单，就不详细描述了，简单来说测试流程下不需要 runner，直接加载训练好的权重，然后进行 model 推理即可。</p>
+<h2 id="runner">Runner</h2>
+<p>runner 对象内部的 run 方式是一个通用方法，可以运行任何 workflow，目前常用的主要是 train 和 val。</p>
+<ul>
+<li>当配置为：workflow = [(&lsquo;train&rsquo;, 1)]，表示仅仅进行 train workflow，也就是迭代训练</li>
+<li>当配置为：workflow = [(&lsquo;train&rsquo;, n),(&lsquo;val&rsquo;, 1)]，表示先进行 n 个 epoch 的训练，然后再进行1个 epoch 的验证，然后循环往复,如果写成 [(&lsquo;val&rsquo;, 1),(&lsquo;train&rsquo;, n)] 表示先进行验证，然后才开始训练</li>
+</ul>
+<p>当进入对应的 workflow，则会调用 runner 里面的 train() 或者 val()，表示进行一次 epoch 迭代。其代码也非常简单，如下所示：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_loader</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;train&#39;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">data_loader</span> <span class="o">=</span> <span class="n">data_loader</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">call_hook</span><span class="p">(</span><span class="s1">&#39;before_train_epoch&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">data_batch</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_loader</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_hook</span><span class="p">(</span><span class="s1">&#39;before_train_iter&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">run_iter</span><span class="p">(</span><span class="n">data_batch</span><span class="p">,</span> <span class="n">train_mode</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_hook</span><span class="p">(</span><span class="s1">&#39;after_train_iter&#39;</span><span class="p">)</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">call_hook</span><span class="p">(</span><span class="s1">&#39;after_train_epoch&#39;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">val</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_loader</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;val&#39;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">data_loader</span> <span class="o">=</span> <span class="n">data_loader</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">call_hook</span><span class="p">(</span><span class="s1">&#39;before_val_epoch&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">data_batch</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_loader</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_hook</span><span class="p">(</span><span class="s1">&#39;before_val_iter&#39;</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">run_iter</span><span class="p">(</span><span class="n">data_batch</span><span class="p">,</span> <span class="n">train_mode</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">call_hook</span><span class="p">(</span><span class="s1">&#39;after_val_iter&#39;</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">call_hook</span><span class="p">(</span><span class="s1">&#39;after_val_epoch&#39;</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>核心函数实际上是 self.run_iter()，如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">run_iter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_batch</span><span class="p">,</span> <span class="n">train_mode</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">train_mode</span><span class="p">:</span>
+        <span class="c1"># 对于每次迭代，最终是调用如下函数</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">train_step</span><span class="p">(</span><span class="n">data_batch</span><span class="p">,</span><span class="o">...</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># 对于每次迭代，最终是调用如下函数</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">val_step</span><span class="p">(</span><span class="n">data_batch</span><span class="p">,</span><span class="o">...</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="s1">&#39;log_vars&#39;</span> <span class="ow">in</span> <span class="n">outputs</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">log_buffer</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">outputs</span><span class="p">[</span><span class="s1">&#39;log_vars&#39;</span><span class="p">],</span><span class="o">...</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">outputs</span> <span class="o">=</span> <span class="n">outputs</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>上述 self.call_hook() 表示在不同生命周期调用所有已经注册进去的 hook，而字符串参数表示对应的生命周期。以 OptimizerHook 为例，其执行反向传播、梯度裁剪和参数更新等核心训练功能：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="nd">@HOOKS.register_module</span><span class="p">()</span>
+<span class="k">class</span> <span class="nc">OptimizerHook</span><span class="p">(</span><span class="n">Hook</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">grad_clip</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">grad_clip</span> <span class="o">=</span> <span class="n">grad_clip</span>
+
+    <span class="k">def</span> <span class="nf">after_train_iter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">runner</span><span class="p">):</span>
+        <span class="n">runner</span><span class="o">.</span><span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+        <span class="n">runner</span><span class="o">.</span><span class="n">outputs</span><span class="p">[</span><span class="s1">&#39;loss&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">grad_clip</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">grad_norm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">clip_grads</span><span class="p">(</span><span class="n">runner</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">())</span>
+        <span class="n">runner</span><span class="o">.</span><span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>可以发现 OptimizerHook 注册到的生命周期是 after_train_iter，故在每次 train() 里面运行到 <code>self.call_hook('after_val_iter')</code> 时候就会被调用，其他 hook 也是同样运行逻辑。</p>
+<h2 id="model">Model</h2>
+<p>前面说个，训练和验证的时候实际上调用了 model 内部的 <code>train_step</code> 和 <code>val_step</code> 函数，<strong>理解了两个函数调用流程就理解了 MMDetection 训练和测试流程</strong>。</p>
+<p>注意，由于 model 对象会被 DataParallel 类包裹，故实际上上此时的 model，是指的 MMDataParallel 或者 MMDistributedDataParallel。以非分布式 train_step 流程为例，其内部完成调用流程图示如下：</p>
+<div align=center>
+<img src="/img/20220116132200.jpg" width="600px"/>
+</div>
+<h2 id="train--val">Train &amp; Val</h2>
+<p><strong>(1) 调用 runner 中的 <code>train_step</code> 或者 <code>val_step</code></strong></p>
+<p>在 runner 中调用 <code>train_step</code> 或者 <code>val_step</code>，代码如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1">#=================== mmcv/runner/epoch_based_runner.py ==================</span>
+<span class="k">if</span> <span class="n">train_mode</span><span class="p">:</span>
+    <span class="n">outputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">train_step</span><span class="p">(</span><span class="n">data_batch</span><span class="p">,</span><span class="o">...</span><span class="p">)</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">outputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">val_step</span><span class="p">(</span><span class="n">data_batch</span><span class="p">,</span><span class="o">...</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>实际上，首先会调用 DataParallel 中的 <code>train_step</code> 或者 <code>val_step</code> ，其具体调用流程为：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># 非分布式训练</span>
+<span class="c1">#=================== mmcv/parallel/data_parallel.py/MMDataParallel ==================</span>
+<span class="k">def</span> <span class="nf">train_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">inputs</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">device_ids</span><span class="p">:</span>
+        <span class="n">inputs</span><span class="p">,</span> <span class="n">kwargs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="c1"># 此时才是调用 model 本身的 train_step</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">module</span><span class="o">.</span><span class="n">train_step</span><span class="p">(</span><span class="o">*</span><span class="n">inputs</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="c1"># 单 gpu 模式</span>
+    <span class="n">inputs</span><span class="p">,</span> <span class="n">kwargs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">device_ids</span><span class="p">)</span>
+    <span class="c1"># 此时才是调用 model 本身的 train_step</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">module</span><span class="o">.</span><span class="n">train_step</span><span class="p">(</span><span class="o">*</span><span class="n">inputs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="c1"># val_step 也是的一样逻辑</span>
+<span class="k">def</span> <span class="nf">val_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">inputs</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="n">inputs</span><span class="p">,</span> <span class="n">kwargs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">device_ids</span><span class="p">)</span>
+    <span class="c1"># 此时才是调用 model 本身的 val_step</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">module</span><span class="o">.</span><span class="n">val_step</span><span class="p">(</span><span class="o">*</span><span class="n">inputs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>可以发现，在调用 model 本身的 train_step 前，需要额外调用 scatter 函数，前面说过该函数的作用是处理 DataContainer 格式数据，使其能够组成 batch，否则程序会报错。</p>
+<p>如果是分布式训练，则调用的实际上是 <code>mmcv/parallel/distributed.py/MMDistributedDataParallel</code>，最终调用的依然是 model 本身的 <code>train_step</code> 或者 <code>val_step</code>。</p>
+<p><strong>(2) 调用 model 中的 <code>train_step</code> 或者 <code>val_step</code></strong></p>
+<p>其核心代码如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1">#=================== mmdet/models/detectors/base.py/BaseDetector ==================</span>
+<span class="k">def</span> <span class="nf">train_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">):</span>
+    <span class="c1"># 调用本类自身的 forward 方法</span>
+    <span class="n">losses</span> <span class="o">=</span> <span class="bp">self</span><span class="p">(</span><span class="o">**</span><span class="n">data</span><span class="p">)</span>
+    <span class="c1"># 解析 loss</span>
+    <span class="n">loss</span><span class="p">,</span> <span class="n">log_vars</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_parse_losses</span><span class="p">(</span><span class="n">losses</span><span class="p">)</span>
+    <span class="c1"># 返回字典对象</span>
+    <span class="n">outputs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+        <span class="n">loss</span><span class="o">=</span><span class="n">loss</span><span class="p">,</span> <span class="n">log_vars</span><span class="o">=</span><span class="n">log_vars</span><span class="p">,</span> <span class="n">num_samples</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;img_metas&#39;</span><span class="p">]))</span>
+    <span class="k">return</span> <span class="n">outputs</span>
+
+<span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">img</span><span class="p">,</span> <span class="n">img_metas</span><span class="p">,</span> <span class="n">return_loss</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">return_loss</span><span class="p">:</span>
+        <span class="c1"># 训练模式</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">forward_train</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">img_metas</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># 测试模式</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">forward_test</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">img_metas</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p><code>forward_train</code> 和 <code>forward_test</code> 需要在不同的算法子类中实现，输出是 Loss 或者 预测结果。</p>
+<p><strong>(3) 调用子类中的 <code>forward_train</code> 方法</strong></p>
+<p>目前提供了两个具体子类，<code>TwoStageDetector</code> 和 <code>SingleStageDetector</code> ，用于实现 two-stage 和 single-stage 算法。</p>
+<p>对于 <code>TwoStageDetector</code> 而言，其核心逻辑是：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1">#============= mmdet/models/detectors/two_stage.py/TwoStageDetector ============</span>
+<span class="k">def</span> <span class="nf">forward_train</span><span class="p">(</span><span class="o">...</span><span class="p">):</span>
+    <span class="c1"># 先进行 backbone+neck 的特征提取</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">extract_feat</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+    <span class="n">losses</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="c1"># RPN forward and loss</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">with_rpn</span><span class="p">:</span>
+        <span class="c1"># 训练 RPN</span>
+        <span class="n">proposal_cfg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">train_cfg</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;rpn_proposal&#39;</span><span class="p">,</span>
+                                          <span class="bp">self</span><span class="o">.</span><span class="n">test_cfg</span><span class="o">.</span><span class="n">rpn</span><span class="p">)</span>
+        <span class="c1"># 主要是调用 rpn_head 内部的 forward_train 方法</span>
+        <span class="n">rpn_losses</span><span class="p">,</span> <span class="n">proposal_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rpn_head</span><span class="o">.</span><span class="n">forward_train</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="o">...</span><span class="p">)</span>
+        <span class="n">losses</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">rpn_losses</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">proposal_list</span> <span class="o">=</span> <span class="n">proposals</span>
+    <span class="c1"># 第二阶段，主要是调用 roi_head 内部的 forward_train 方法</span>
+    <span class="n">roi_losses</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">roi_head</span><span class="o">.</span><span class="n">forward_train</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
+    <span class="n">losses</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">roi_losses</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">losses</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>对于 <code>SingleStageDetector</code> 而言，其核心逻辑是：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1">#============= mmdet/models/detectors/single_stage.py/SingleStageDetector ============</span>
+<span class="k">def</span> <span class="nf">forward_train</span><span class="p">(</span><span class="o">...</span><span class="p">):</span>
+    <span class="nb">super</span><span class="p">(</span><span class="n">SingleStageDetector</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">forward_train</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">img_metas</span><span class="p">)</span>
+    <span class="c1"># 先进行 backbone+neck 的特征提取</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">extract_feat</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
+    <span class="c1"># 主要是调用 bbox_head 内部的 forward_train 方法</span>
+    <span class="n">losses</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bbox_head</span><span class="o">.</span><span class="n">forward_train</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">losses</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>如果再往里分析，那就到各个 Head 模块的训练环节了，这部分内容请读者自行分析，应该不难。</p>
+<h2 id="test">Test</h2>
+<p>由于没有 runner 对象，测试流程简单很多，下面简要概述：</p>
+<ol>
+<li>调用 MMDataParallel 或 MMDistributedDataParallel 中的 <code>forward</code> 方法</li>
+<li>调用 base.py 中的 <code>forward</code> 方法</li>
+<li>调用 base.py 中的 <code>self.forward_test</code> 方法</li>
+<li>如果是单尺度测试，则会调用 TwoStageDetector 或 SingleStageDetector 中的 <code>simple_test</code> 方法，如果是多尺度测试，则调用 <code>aug_test</code> 方法</li>
+<li>最终调用的是每个具体算法 Head 模块的 <code>simple_test</code> 或者 <code>aug_test</code> 方法</li>
+</ol>
+<h1 id="conclusion">Conclusion</h1>
+<p>本文从三个层面全面解读了 MMDetection 框架，对 MMDetection 框架设计思想、组件间关系和整体代码实现流程有一定的了解。</p>
+<h1 id="reference">Reference</h1>
+<ul>
+<li><a href="https://zhuanlan.zhihu.com/p/341954021">轻松掌握 MMDetection 整体构建流程</a></li>
+</ul>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">Hanshi Sun</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2022-01-16
+        
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
+  </p>
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">Reward</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/wechat.jpg">
+        <span>wechat</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/alipay.jpg">
+        <span>alipay</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/object-detection/">Object Detection</a>
+          <a href="/tags/deep-learning/">Deep Learning</a>
+          <a href="/tags/mmdetection/">MMDetection</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/2022/01/15/mmdetection-overview/">
+            <span class="next-text nav-default">MMDetection Overview</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        <div id="gitalk-container"></div>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+      var gitalk = new Gitalk({
+        id: '2022-01-16 12:42:21 \x2b0800 CST',
+        title: 'MMDetection Framework',
+        clientID: '9d4d5bfb5872b737a756',
+        clientSecret: '2677eacb9eedb58e0e8e7463a2c6a5ff70054601',
+        repo: 'gitalk',
+        owner: 'preminstrel',
+        admin: ['preminstrel'],
+        body: decodeURI(location.href)
+      });
+      gitalk.render('gitalk-container');
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/gitalk/gitalk">comments powered by gitalk.</a></noscript>
+
+  
+
+  
+
+  
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:preminstrel@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://twitter.com/preminstrel" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="https://github.com/preminstrel" class="iconfont icon-github" title="github"></a>
+      <a href="https://www.zhihu.com/people/pawn-85-95" class="iconfont icon-zhihu" title="zhihu"></a>
+      <a href="https://space.bilibili.com/23354645" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="https://preminstrel.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    
+    
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021 - 
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>Hanshi Sun</span>
+  </span>
+  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/mermaid/8.8.3/mermaid.min.js"></script>
+  <script>
+    $(".language-mermaid").addClass("mermaid");
+  </script>
+</div>
+
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+<script>
+docsearch({
+    apiKey: "67ddc142183934ec2d0aa925bf40c09a",
+    indexName: "blog",
+    appId: "RQO6N4CQFD",
+    inputSelector: '.docsearch-input',
+    debug: false,
+});
+</script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+
+<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/algoliasearch.min.js"></script>
+<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/autocomplete.min.js"></script>
+
+
+ 
+<script src= "/js/search.js" type="text/javascript"></script>
+
+</script>
+
+
+  
+  
+</body>
+</html>
