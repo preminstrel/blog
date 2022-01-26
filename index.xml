@@ -12,6 +12,15 @@
     
     
     <item>
+      <title>Self-Attention</title>
+      <link>https://preminstrel.github.io/post/2022/01/26/self-attention/</link>
+      <pubDate>Wed, 26 Jan 2022 16:36:51 +0800</pubDate>
+      
+      <guid>https://preminstrel.github.io/post/2022/01/26/self-attention/</guid>
+      <description>Attention is all you need. 最近刚接触到 Transformer，感觉其模型比 CNNs 要复杂了不少，看了一些论文也仅仅是草草看过，不理解其原理，在网上读了一些 blog</description>
+    </item>
+    
+    <item>
       <title>MMDetection Head</title>
       <link>https://preminstrel.github.io/post/2022/01/17/mmdetection-head/</link>
       <pubDate>Mon, 17 Jan 2022 13:21:36 +0800</pubDate>

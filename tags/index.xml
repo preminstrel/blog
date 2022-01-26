@@ -6,7 +6,7 @@
     <description>Recent content in Tags on Preminstrel&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 17 Jan 2022 13:21:36 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 26 Jan 2022 16:36:51 +0800</lastBuildDate>
     
 	<atom:link href="https://preminstrel.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,9 +14,18 @@
     <item>
       <title>Deep Learning</title>
       <link>https://preminstrel.github.io/tags/deep-learning/</link>
-      <pubDate>Mon, 17 Jan 2022 13:21:36 +0800</pubDate>
+      <pubDate>Wed, 26 Jan 2022 16:36:51 +0800</pubDate>
       
       <guid>https://preminstrel.github.io/tags/deep-learning/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Transformer</title>
+      <link>https://preminstrel.github.io/tags/transformer/</link>
+      <pubDate>Wed, 26 Jan 2022 16:36:51 +0800</pubDate>
+      
+      <guid>https://preminstrel.github.io/tags/transformer/</guid>
       <description></description>
     </item>
     
