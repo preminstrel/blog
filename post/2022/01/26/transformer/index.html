@@ -52,7 +52,7 @@
 <meta itemprop="description" content="《Attention Is All You Need》是 Google 团队在 2017 年提出的一篇论文。该论文以“attention”为核心，提出了 Transformer 模型。Transformer">
 <meta itemprop="datePublished" content="2022-01-26T17:47:40&#43;08:00" />
 <meta itemprop="dateModified" content="2022-01-26T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="2520">
+<meta itemprop="wordCount" content="3061">
 
 
 
@@ -135,8 +135,8 @@
         <div class="post-category">
             <a href="/categories/transformer/"> Transformer </a>
             </div>
-          <span class="more-meta"> 2520 words </span>
-          <span class="more-meta"> 6 mins read </span>
+          <span class="more-meta"> 3061 words </span>
+          <span class="more-meta"> 7 mins read </span>
         <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
       </div>
     </header>
@@ -155,8 +155,10 @@
         <li><a href="#layer-normalization">Layer Normalization</a></li>
         <li><a href="#positional-encoding">Positional Encoding</a></li>
         <li><a href="#mask">Mask</a></li>
+        <li><a href="#linear--softmax">Linear &amp; Softmax</a></li>
       </ul>
     </li>
+    <li><a href="#conclusion">Conclusion</a></li>
     <li><a href="#reference">Reference</a></li>
   </ul>
 </nav>
@@ -235,14 +237,26 @@ P E_{(p o s+k, 2 i+1)}=\cos \left((p o s+k) / 10000^{2 i / d_{\text {model }}}\r
 \end{gathered}
 $$</p>
 <h2 id="mask">Mask</h2>
-<p><em><strong>Mask</strong></em> 表示掩码，它对某些值进行掩盖，使其在参数更新时不产生效果。Transformer 模型里面涉及两种 Mask，分别是 Padding Mask 和 Sequence Mask。其中，Padding Mask 在所有的 scaled dot-product attention 里面都需要用到，而 sequence mask 只有在 decoder 的 self-attention 里面用到。</p>
+<p><em><strong>Mask</strong></em> 表示掩码，它<strong>对某些值进行掩盖，使其在参数更新时不产生效果</strong>。Transformer 模型里面涉及两种 Mask，分别是 Padding Mask 和 Sequence Mask。其中，Padding Mask 在所有的 scaled dot-product attention 里面都需要用到，而 Sequence Mask 只有在 Decoder 的 Self-Attention 里面用到。</p>
 <ul>
-<li>Padding Mask
-什么是 padding mask 呢？因为每个批次输入序列长度是不一样的也就是说，我们要对输入序列进行对齐。具体来说，就是给在较短的序列后面填充 0。但是如果输入的序列太长，则是截取左边的内容，把多余的直接舍弃。因为这些填充的位置，其实是没什么意义的，所以我们的attention机制不应该把注意力放在这些位置上，所以我们需要进行一些处理。
-具体的做法是，把这些位置的值加上一个非常大的负数(负无穷)，这样的话，经过 softmax，这些位置的概率就会接近0！
-而我们的 padding mask 实际上是一个张量，每个值都是一个Boolean，值为 false 的地方就是我们要进行处理的地方。
-Sequence mask</li>
+<li>
+<p><em><strong>Padding Mask</strong></em></p>
+<p>什么是 Padding mask 呢？因为每个批次输入序列长度是不一样的也就是说，我们要对输入序列进行对齐。具体来说，就是给在较短的序列后面填充 0。但是如果输入的序列太长，则是截取左边的内容，把多余的直接舍弃。因为这些填充的位置，其实是没什么意义的，所以我们的 Attention 机制不应该把注意力放在这些位置上，所以我们需要进行一些处理。</p>
+<p>具体的做法是，把这些位置的值加上一个非常大的负数(负无穷)，这样的话，经过 softmax，这些位置的概率就会接近0！</p>
+<p>而我们的 Padding mask 实际上是一个张量，每个值都是一个Boolean，值为 False 的地方就是我们要进行处理的地方。</p>
+</li>
+<li>
+<p><em><strong>Sequence mask</strong></em></p>
+<p>Sequence Mask 是为了使得 Decoder 不能看见未来的信息。也就是对于一个序列，在 time_step 为 t 的时刻，我们的解码输出应该只能依赖于 t 时刻之前的输出，而不能依赖 t 之后的输出。因此我们需要想一个办法，把 t 之后的信息给隐藏起来。</p>
+<p>具体办法是：<strong>产生一个上三角矩阵，上三角的值全为 0。把这个矩阵作用在每一个序列上，就可以达到我们的目的。</strong></p>
+</li>
 </ul>
+<p>对于 Decoder 的 Self-Attention，里面使用到的 scaled dot-product attention，同时需要 Padding Mask 和 Sequence mask 作为 attn_mask，具体实现就是两个 Mask 相加作为 attn_mask。其他情况，attn_mask 一律等于 Padding mask。</p>
+<h2 id="linear--softmax">Linear &amp; Softmax</h2>
+<p>Decoder 最后是一个线性变换和 Softmax 层。解码组件最后会输出一个实数向量。我们如何把浮点数变成一个单词？这便是线性变换层要做的工作，它之后就是 Softmax 层。</p>
+<p>线性变换层是一个简单的全连接神经网络，它可以<strong>把解码组件产生的向量投射到一个比它大得多的、被称作对数几率（logits）的向量里</strong>。不妨假设我们的模型从训练集中学习一万个不同的英语单词（我们模型的“输出词表”）。因此对数几率向量为一万个单元格长度的向量——每个单元格对应某一个单词的分数（<strong>相当于做 vocaburary_size 大小的分类</strong>）。接下来的 Softmax 层便会把那些分数变成概率（都为正数、上限 1.0）。<strong>概率最高的单元格被选中，并且它对应的单词被作为这个时间步的输出。</strong></p>
+<h1 id="conclusion">Conclusion</h1>
+<p>整体运行效果图如下：</p>
 <div align=center>
 <video autoplay="true" loop="true" src="/video/20220126190500.mp4" />
 </div>
