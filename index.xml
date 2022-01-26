@@ -12,6 +12,15 @@
     
     
     <item>
+      <title>Transformer</title>
+      <link>https://preminstrel.github.io/post/2022/01/26/transformer/</link>
+      <pubDate>Wed, 26 Jan 2022 17:47:40 +0800</pubDate>
+      
+      <guid>https://preminstrel.github.io/post/2022/01/26/transformer/</guid>
+      <description>《Attention Is All You Need》是 Google 团队在 2017 年提出的一篇论文。该论文以“attention”为核心，提出了 Transformer 模型。Transformer</description>
+    </item>
+    
+    <item>
       <title>Self-Attention</title>
       <link>https://preminstrel.github.io/post/2022/01/26/self-attention/</link>
       <pubDate>Wed, 26 Jan 2022 16:36:51 +0800</pubDate>

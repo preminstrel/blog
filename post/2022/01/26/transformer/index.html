@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Transformer - Preminstrel&#39;s Blog</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="Hanshi Sun" /><meta name="description" content="《Attention Is All You Need》是 Google 团队在 2017 年提出的一篇论文。该论文以“attention”为核心，提出了 Transformer 模型。Transformer" /><meta name="keywords" content="Preminstrel" />
+
+
+<meta name="robots" content="">
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.68.3 with theme even" />
+
+
+<link rel="canonical" href="https://preminstrel.github.io/post/2022/01/26/transformer/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<link href="/sass/main.min.75451ad2d2268431f3dfb6289a5d8bc042bd3e23f7ac463fe449ed7872bb8c72.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" /><meta property="og:title" content="Transformer" />
+<meta property="og:description" content="《Attention Is All You Need》是 Google 团队在 2017 年提出的一篇论文。该论文以“attention”为核心，提出了 Transformer 模型。Transformer" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://preminstrel.github.io/post/2022/01/26/transformer/" />
+<meta property="article:published_time" content="2022-01-26T17:47:40+08:00" />
+<meta property="article:modified_time" content="2022-01-26T00:00:00+00:00" />
+<meta itemprop="name" content="Transformer">
+<meta itemprop="description" content="《Attention Is All You Need》是 Google 团队在 2017 年提出的一篇论文。该论文以“attention”为核心，提出了 Transformer 模型。Transformer">
+<meta itemprop="datePublished" content="2022-01-26T17:47:40&#43;08:00" />
+<meta itemprop="dateModified" content="2022-01-26T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="2520">
+
+
+
+<meta itemprop="keywords" content="Deep Learning,Transformer," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Transformer"/>
+<meta name="twitter:description" content="《Attention Is All You Need》是 Google 团队在 2017 年提出的一篇论文。该论文以“attention”为核心，提出了 Transformer 模型。Transformer"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Preminstrel</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="/about/">
+        <li class="mobile-menu-item">About</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Preminstrel</a>
+</div>
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/about/">About</a>
+      </li>
+  </ul>
+</nav><li style="display:inline-block;margin-left:290px;">
+    <input type="search" class="docsearch-input" placeholder="Search" />
+  </li>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">Transformer</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2022-01-26 </span>
+        <div class="post-category">
+            <a href="/categories/transformer/"> Transformer </a>
+            </div>
+          <span class="more-meta"> 2520 words </span>
+          <span class="more-meta"> 6 mins read </span>
+        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">Contents</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#theory">Theory</a>
+      <ul>
+        <li><a href="#structure">Structure</a></li>
+        <li><a href="#multi-head-attention">Multi-Head Attention</a></li>
+        <li><a href="#position-wise-feed-forward">Position-wise Feed Forward</a></li>
+        <li><a href="#layer-normalization">Layer Normalization</a></li>
+        <li><a href="#positional-encoding">Positional Encoding</a></li>
+        <li><a href="#mask">Mask</a></li>
+      </ul>
+    </li>
+    <li><a href="#reference">Reference</a></li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>《Attention Is All You Need》是 Google 团队在 2017 年提出的一篇论文。该论文以“attention”为核心，提出了 Transformer 模型。Transformer 基于 Encoder-Decoder，摒弃了 CNNs，完全由 Attention mechanism 实现。</p>
+<h1 id="features">Features</h1>
+<p>传统 seq2seq 最大的问题在于将 Encoder 端的<strong>所有信息压缩到一个固定长度的向量</strong>中，并将其作为 Decoder 端首个隐藏状态的输入，来预测 Decoder 端第一个单词(token)的隐藏状态。在输入序列比较长的时候，这样做显然会损失 Encoder 端的很多信息，而且这样一股脑的把该固定向量送入 Decoder 端，Decoder 端不能够关注到其想要关注的信息。并且模型计算不可并行，计算隐层状态 $h_t$ 依赖于 $h_{t-1}$ 以及状态 $t$ 时刻的输入，因此需要耗费大量时间。</p>
+<p>Transformer 完全依赖于 Attention Mechanism，解决了输入输出的长期依赖问题，并且拥有并行计算的能力，大大减少了计算资源的消耗。Self-Attention模块，让源序列和目标序列首先“自关联”起来，这样的话，源序列和目标序列自身的 embedding 表示所蕴含的信息更加丰富，而且后续的 FFN 层也增强了模型的表达能力。Muti-Head Attention 模块使得 Encoder 端拥有并行计算的能力。</p>
+<h1 id="theory">Theory</h1>
+<h2 id="structure">Structure</h2>
+<p>Transformer 采用 Encoder-Decoder 架构，如下图所示。Encoder 层和 Decoder 层分别由 6 个相同的 Encoder 和decoder堆叠而成，模型架构更加复杂。其中，Encoder 层引入了 <em><strong>Multi-Head</strong></em> 机制，可以并行计算，Decoder 层仍旧需要串行计算。</p>
+<div align=center>
+<img src="/img/20220126181556.png" width="500px"/>
+</div>
+<p>Encoder 层和 Decoder 层内部结构如下图所示。</p>
+<div align=center>
+<img src="/img/20220126181925.png" width="500px"/>
+</div>
+<ul>
+<li>Encoder 具有两层结构，<strong>Self-Attention 和前馈神经网络</strong>。Self-Attention 计算句子中的每个词都和其他词的关联，从而帮助模型更好地理解上下文语义，引入 Muti-Head Attention 后，每个头关注句子的不同位置，增强了Attention 机制关注句子内部单词之间作用的表达能力。前馈神经网络为 Encoder 引入非线性变换，增强了模型的拟合能力。</li>
+<li>Decoder 接受 output 输入的<strong>同时接受 Encoder 的输入</strong>，帮助当前节点获取到需要重点关注的内容。</li>
+</ul>
+<h2 id="multi-head-attention">Multi-Head Attention</h2>
+<p>Multi-Head Attention 计算过程如下图，在讲解Multi-Head Attention 之前，我们需要了解Self-Attention。</p>
+<div align=center>
+<img src="/img/20220126182618.png" width="500px"/>
+</div>
+<p><strong>Query 与 Key 作用得到 Attention 的权值，之后这个权值作用在 Value 上得到 Attention值。</strong> 这种通过 Query 和 Key 的相似性程度来确定 value 的权重分布的方法被称为 <em><strong>scaled dot-product attention</strong></em>。</p>
+<p>$$\text{Attention}(Q,K,V)=\text{softmax}(\frac{QK^T}{\sqrt{D_k}})V$$</p>
+<p>这里给出我在知乎上看到的一个很不错的帖子里面的图片解释 scaled dot-product attention：</p>
+<div align=center>
+<img src="/img/20220126183300.jpg" width="500px"/>
+</div>
+<p>但是，在 Transformer 模型中，作者使用了 Muti-Head 机制代替了 single self-attention。</p>
+<p>$$
+\text{MultiHead}(Q,K,V) =\text{Concat}\left(\text {head}_1, \ldots, \text{head}_h \right) W^{O}
+$$</p>
+<p>$$
+\text{where head}_{\mathrm{i}} =\operatorname{Attention}\left(QW_i^Q, KW_i^K, VW_i^V \right)
+$$</p>
+<p>Where the projections are parameter matrices $W_{i}^{Q} \in \mathbb{R}^{d_{model} \times d_{k}}, W_{i}^{K} \in \mathbb{R}^{d_{model} \times d_{k}}, W_{i}^{V} \in \mathbb{R}^{d_{model} \times d_{v}}$ and $W^{O} \in \mathbb{R}^{h d_{v} \times d_{model}}$.</p>
+<p>论文中采用 8 个头，$h=8,d_{k}=d_{v}=d_{model} / h=64$。通过权重矩阵 $W_{i}^{Q},W_{i}^{K},W_{i}^{V}$ 将 $Q,K,V$ 分割，每个头分别计算 single self-attention，因为权重矩阵 $W_{i}^{Q},W_{i}^{K},W_{i}^{V}$ 不相同，$QW_i^Q,KW_i^K,VW_i^V$ 的结果各不相同，因此我们说每个头的关注点各有侧重。最后，将每个头计算出的 single self-attention 进行 concat，通过总的权重矩阵 $W^O$ 决定对每个头的关注程度，从而能够做到在不同语境下对相同句子进行不同理解。</p>
+<p><strong>Attention 是将 Query 和 Key 映射到同一高维空间中去计算相似度，而对应的 Multi-head Attention 把 Query 和 Key 映射到高维空间 $\alpha$ 的不同子空间 $(\alpha_1,\alpha_2,\dots, \alpha_h)$ 中去计算相似度。</strong></p>
+<h2 id="position-wise-feed-forward">Position-wise Feed Forward</h2>
+<p>$$\text{FFN}(x)=\max(0,xW_1+b_1)W_2+b_2$$</p>
+<p>每一层经过 Attention 之后，还会有一个 FFN，这个 FFN 的作用就是<strong>空间变换</strong>。FFN 包含了 2 层 Linear Transformation 层，中间的激活函数是 ReLU。</p>
+<p>Attention 层的 output 最后会和 $W^O$ 相乘，为什么这里又要增加一个 2 层的 FFN 网络？其实，FFN 的加入<strong>引入了非线性(ReLu激活函数)，变换了 Attention Output 的空间, 从而增加了模型的表现能力</strong>。把 FFN 去掉模型也是可以用的，但是效果差了很多。</p>
+<h2 id="layer-normalization">Layer Normalization</h2>
+<p>在每个 block 中，最后出现的是 Layer Normalization，其作用是规范优化空间，加速收敛。</p>
+<p>$$\text{LN}(x_i)=\alpha\frac{x_i-\mu_i}{\sqrt{\sigma^2+\xi}}+\beta$$</p>
+<p>当我们使用梯度下降算法做优化时，我们可能会对输入数据进行归一化，但是经过网络层作用后，我们的数据已经不是归一化的了。随着网络层数的增加，数据分布不断发生变化，偏差越来越大，导致我们不得不使用<strong>更小的学习率</strong>来稳定梯度。Layer Normalization 的作用就是<strong>保证数据特征分布的稳定性</strong>，将数据标准化到 ReLU 激活函数的作用区域，可以使得激活函数更好的发挥作用</p>
+<h2 id="positional-encoding">Positional Encoding</h2>
+<p>位置信息编码位于 Encoder 和 Decoder 的 Embedding 之后，每个 block 之前。它非常重要，没有这部分模型就无法运行。Positional Encoding 是 Transformer 的特有机制，弥补了 Attention 机制无法捕捉 sequence 中 token 位置信息的缺点。</p>
+<p>$$
+PE_{(pos, 2i)}=\sin\left(pos/10000^{2i/d_{\text{model}}}\right)
+$$</p>
+<p>$$
+PE_{(pos,2i+1)}=\cos\left(pos/10000^{2i/d_{\text{model}}}\right)
+$$</p>
+<p>Positional Embedding 的成分直接叠加于 Embedding 之上，使得每个 token 的<strong>位置信息</strong>和它的<strong>语义信息</strong>(embedding)充分融合，并被传递到后续所有经过复杂变换的序列表达中去。</p>
+<p><strong>Advantages</strong></p>
+<ul>
+<li>
+<p>Transformer 中，模型输入 Encoder 的每个 token 向量由两部分加和而成：Position Encoding + Input Embedding。Transformer 的特性使得输入 Encoder 的向量之间完全平等（不存在 RNN 的 recurrent 结构），token 的实际位置于位置信息编码唯一绑定。Positional Encoding 的引入使得模型能够充分利用 token 在 sequence 中的位置信息。</p>
+</li>
+<li>
+<p>论文中使用的 Positional Encoding(PE) 是正余弦函数，位置(pos)越小，波长越长，每一个位置对应的 PE 都是唯一的。同时作者也提到，之所以选用正余弦函数作为 PE，是因为这可以使得模型学习到 token 之间的相对位置关系：因为对于任意的偏移量 $k$，$PE_{pos+k}$ 可以由 $PE_{pos}$ 的线性表示，也就是 $PE_{pos}$ 乘上某个线性变换矩阵就得到了 $PE_{pos+k}$。</p>
+</li>
+</ul>
+<p>$$
+\begin{gathered}
+P E_{(p o s+k, 2 i)}=\sin \left((p o s+k) / 10000^{2 i / d_{\text {model }}}\right) \<br>
+P E_{(p o s+k, 2 i+1)}=\cos \left((p o s+k) / 10000^{2 i / d_{\text {model }}}\right)
+\end{gathered}
+$$</p>
+<h2 id="mask">Mask</h2>
+<p><em><strong>Mask</strong></em> 表示掩码，它对某些值进行掩盖，使其在参数更新时不产生效果。Transformer 模型里面涉及两种 Mask，分别是 Padding Mask 和 Sequence Mask。其中，Padding Mask 在所有的 scaled dot-product attention 里面都需要用到，而 sequence mask 只有在 decoder 的 self-attention 里面用到。</p>
+<ul>
+<li>Padding Mask
+什么是 padding mask 呢？因为每个批次输入序列长度是不一样的也就是说，我们要对输入序列进行对齐。具体来说，就是给在较短的序列后面填充 0。但是如果输入的序列太长，则是截取左边的内容，把多余的直接舍弃。因为这些填充的位置，其实是没什么意义的，所以我们的attention机制不应该把注意力放在这些位置上，所以我们需要进行一些处理。
+具体的做法是，把这些位置的值加上一个非常大的负数(负无穷)，这样的话，经过 softmax，这些位置的概率就会接近0！
+而我们的 padding mask 实际上是一个张量，每个值都是一个Boolean，值为 false 的地方就是我们要进行处理的地方。
+Sequence mask</li>
+</ul>
+<div align=center>
+<video autoplay="true" loop="true" src="/video/20220126190500.mp4" />
+</div>
+<h1 id="reference">Reference</h1>
+<ul>
+<li><a href="https://zhuanlan.zhihu.com/p/311156298">Transformer - Attention is all you need</a></li>
+</ul>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">Author</span>
+    <span class="item-content">Hanshi Sun</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">LastMod</span>
+    <span class="item-content">
+        2022-01-26
+        
+    </span>
+  </p>
+  
+  <p class="copyright-item">
+    <span class="item-title">License</span>
+    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
+  </p>
+</div>
+<div class="post-reward">
+  <input type="checkbox" name="reward" id="reward" hidden />
+  <label class="reward-button" for="reward">Reward</label>
+  <div class="qr-code">
+    
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/wechat.jpg">
+        <span>wechat</span>
+      </label>
+    <label class="qr-code-image" for="reward">
+        <img class="image" src="/img/alipay.jpg">
+        <span>alipay</span>
+      </label>
+  </div>
+</div><footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/deep-learning/">Deep Learning</a>
+          <a href="/tags/transformer/">Transformer</a>
+          </div>
+      <nav class="post-nav">
+        
+        <a class="next" href="/post/2022/01/26/self-attention/">
+            <span class="next-text nav-default">Self-Attention</span>
+            <span class="next-text nav-mobile">Next</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        <div id="gitalk-container"></div>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+      var gitalk = new Gitalk({
+        id: '2022-01-26 17:47:40 \x2b0800 CST',
+        title: 'Transformer',
+        clientID: '9d4d5bfb5872b737a756',
+        clientSecret: '2677eacb9eedb58e0e8e7463a2c6a5ff70054601',
+        repo: 'gitalk',
+        owner: 'preminstrel',
+        admin: ['preminstrel'],
+        body: decodeURI(location.href)
+      });
+      gitalk.render('gitalk-container');
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/gitalk/gitalk">comments powered by gitalk.</a></noscript>
+
+  
+
+  
+
+  
+  
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:preminstrel@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://twitter.com/preminstrel" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="https://github.com/preminstrel" class="iconfont icon-github" title="github"></a>
+      <a href="https://www.zhihu.com/people/pawn-85-95" class="iconfont icon-zhihu" title="zhihu"></a>
+      <a href="https://space.bilibili.com/23354645" class="iconfont icon-bilibili" title="bilibili"></a>
+  <a href="https://preminstrel.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    Theme - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  <div class="busuanzi-footer">
+    
+    
+  </div>
+
+  <span class="copyright-year">
+    &copy; 
+    2021 - 
+    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>Hanshi Sun</span>
+  </span>
+  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js"></script>
+  <script src="https://cdn.bootcdn.net/ajax/libs/mermaid/8.8.3/mermaid.min.js"></script>
+  <script>
+    $(".language-mermaid").addClass("mermaid");
+  </script>
+</div>
+
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
+  <script type="text/javascript">
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        }
+    };
+  </script>
+  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+<script>
+docsearch({
+    apiKey: "67ddc142183934ec2d0aa925bf40c09a",
+    indexName: "blog",
+    appId: "RQO6N4CQFD",
+    inputSelector: '.docsearch-input',
+    debug: false,
+});
+</script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+
+<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/algoliasearch.min.js"></script>
+<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/autocomplete.min.js"></script>
+
+
+ 
+<script src= "/js/search.js" type="text/javascript"></script>
+
+</script>
+
+
+  
+  
+</body>
+</html>

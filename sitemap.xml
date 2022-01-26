@@ -23,13 +23,6 @@
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/post/2022/01/26/self-attention/</loc>
-    <lastmod>2022-01-26T00:00:00+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.5</priority>
-  </url>
-  
-  <url>
     <loc>https://preminstrel.github.io/tags/</loc>
     <lastmod>2022-01-26T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -45,6 +38,20 @@
   
   <url>
     <loc>https://preminstrel.github.io/categories/transformer/</loc>
+    <lastmod>2022-01-26T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://preminstrel.github.io/post/2022/01/26/transformer/</loc>
+    <lastmod>2022-01-26T00:00:00+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  
+  <url>
+    <loc>https://preminstrel.github.io/post/2022/01/26/self-attention/</loc>
     <lastmod>2022-01-26T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
