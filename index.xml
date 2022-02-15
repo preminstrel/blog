@@ -12,6 +12,15 @@
     
     
     <item>
+      <title>Vision Transformer (ViT)</title>
+      <link>https://preminstrel.github.io/post/2022/01/28/vision-transformer/</link>
+      <pubDate>Fri, 28 Jan 2022 17:59:08 +0800</pubDate>
+      
+      <guid>https://preminstrel.github.io/post/2022/01/28/vision-transformer/</guid>
+      <description>我们的模型数据量和运算量都不够大，没有 locality 和 translation equivalence，无法达到很好的效果？</description>
+    </item>
+    
+    <item>
       <title>Transformer</title>
       <link>https://preminstrel.github.io/post/2022/01/26/transformer/</link>
       <pubDate>Wed, 26 Jan 2022 17:47:40 +0800</pubDate>
