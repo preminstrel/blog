@@ -2,39 +2,39 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>FPGA on Preminstrel&#39;s Blog</title>
-    <link>https://preminstrel.github.io/blog/categories/fpga/</link>
+    <link>https://preminstrel.github.io/categories/fpga/</link>
     <description>Recent content in FPGA on Preminstrel&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Mon, 18 Oct 2021 20:05:26 +0800</lastBuildDate>
     
-	<atom:link href="https://preminstrel.github.io/blog/categories/fpga/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://preminstrel.github.io/categories/fpga/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Vivado ILA</title>
-      <link>https://preminstrel.github.io/blog/post/2021/10/18/vivado-ila/</link>
+      <link>https://preminstrel.github.io/post/2021/10/18/vivado-ila/</link>
       <pubDate>Mon, 18 Oct 2021 20:05:26 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/blog/post/2021/10/18/vivado-ila/</guid>
+      <guid>https://preminstrel.github.io/post/2021/10/18/vivado-ila/</guid>
       <description>进行 FPGA 开发的过程中，在逻辑代码上板运行前都会进行仿真验证，而 EDA 仿真工具（如Modelsim等）的使用更是可以可以让工程师提早发现工程中出现的</description>
     </item>
     
     <item>
       <title>Vivado Basics</title>
-      <link>https://preminstrel.github.io/blog/post/2021/10/17/vivado-basics/</link>
+      <link>https://preminstrel.github.io/post/2021/10/17/vivado-basics/</link>
       <pubDate>Sun, 17 Oct 2021 17:03:41 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/blog/post/2021/10/17/vivado-basics/</guid>
+      <guid>https://preminstrel.github.io/post/2021/10/17/vivado-basics/</guid>
       <description>在学习 FPGA 的过程中，我们需要用到 Vivado软件，这里我用的是 Vivado2021.1版本的软件。一般来说， FPGA 开发的流程分为以下几个部分来实现</description>
     </item>
     
     <item>
       <title>Verilog Basic Syntax</title>
-      <link>https://preminstrel.github.io/blog/post/2021/10/16/verilog-basic-syntax/</link>
+      <link>https://preminstrel.github.io/post/2021/10/16/verilog-basic-syntax/</link>
       <pubDate>Sat, 16 Oct 2021 11:39:41 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/blog/post/2021/10/16/verilog-basic-syntax/</guid>
+      <guid>https://preminstrel.github.io/post/2021/10/16/verilog-basic-syntax/</guid>
       <description>数据类型 Verilog HDL 区分大小写 Verilog HDL 的关键字（如 always、and、input等）都采用小写 Verilog HDL 的注释符和C++一样 数字 Syntax: &amp;lt;bitwidth&amp;gt;&#39;&amp;lt;basis&amp;gt;&amp;lt;value&amp;gt; 数制 进制符号 值 Example Binary b/B 0,1, x,</description>
     </item>
     

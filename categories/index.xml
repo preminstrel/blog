@@ -2,156 +2,156 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories on Preminstrel&#39;s Blog</title>
-    <link>https://preminstrel.github.io/blog/categories/</link>
+    <link>https://preminstrel.github.io/categories/</link>
     <description>Recent content in Categories on Preminstrel&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Fri, 28 Jan 2022 17:59:08 +0800</lastBuildDate>
     
-	<atom:link href="https://preminstrel.github.io/blog/categories/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://preminstrel.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Transformer</title>
-      <link>https://preminstrel.github.io/blog/categories/transformer/</link>
+      <link>https://preminstrel.github.io/categories/transformer/</link>
       <pubDate>Fri, 28 Jan 2022 17:59:08 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/blog/categories/transformer/</guid>
+      <guid>https://preminstrel.github.io/categories/transformer/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Object Detection</title>
-      <link>https://preminstrel.github.io/blog/categories/object-detection/</link>
+      <link>https://preminstrel.github.io/categories/object-detection/</link>
       <pubDate>Mon, 17 Jan 2022 13:21:36 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/blog/categories/object-detection/</guid>
+      <guid>https://preminstrel.github.io/categories/object-detection/</guid>
       <description></description>
     </item>
     
     <item>
       <title>GPU</title>
-      <link>https://preminstrel.github.io/blog/categories/gpu/</link>
+      <link>https://preminstrel.github.io/categories/gpu/</link>
       <pubDate>Mon, 10 Jan 2022 21:07:50 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/blog/categories/gpu/</guid>
+      <guid>https://preminstrel.github.io/categories/gpu/</guid>
       <description></description>
     </item>
     
     <item>
       <title>GAN</title>
-      <link>https://preminstrel.github.io/blog/categories/gan/</link>
+      <link>https://preminstrel.github.io/categories/gan/</link>
       <pubDate>Sun, 09 Jan 2022 13:50:22 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/blog/categories/gan/</guid>
+      <guid>https://preminstrel.github.io/categories/gan/</guid>
       <description></description>
     </item>
     
     <item>
       <title>ZYNQ</title>
-      <link>https://preminstrel.github.io/blog/categories/zynq/</link>
+      <link>https://preminstrel.github.io/categories/zynq/</link>
       <pubDate>Thu, 04 Nov 2021 20:28:55 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/blog/categories/zynq/</guid>
+      <guid>https://preminstrel.github.io/categories/zynq/</guid>
       <description></description>
     </item>
     
     <item>
       <title>MCU</title>
-      <link>https://preminstrel.github.io/blog/categories/mcu/</link>
+      <link>https://preminstrel.github.io/categories/mcu/</link>
       <pubDate>Fri, 29 Oct 2021 17:40:03 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/blog/categories/mcu/</guid>
+      <guid>https://preminstrel.github.io/categories/mcu/</guid>
       <description></description>
     </item>
     
     <item>
       <title>FPGA</title>
-      <link>https://preminstrel.github.io/blog/categories/fpga/</link>
+      <link>https://preminstrel.github.io/categories/fpga/</link>
       <pubDate>Mon, 18 Oct 2021 20:05:26 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/blog/categories/fpga/</guid>
+      <guid>https://preminstrel.github.io/categories/fpga/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Productivity</title>
-      <link>https://preminstrel.github.io/blog/categories/productivity/</link>
+      <link>https://preminstrel.github.io/categories/productivity/</link>
       <pubDate>Sun, 17 Oct 2021 13:46:08 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/blog/categories/productivity/</guid>
+      <guid>https://preminstrel.github.io/categories/productivity/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Linux</title>
-      <link>https://preminstrel.github.io/blog/categories/linux/</link>
+      <link>https://preminstrel.github.io/categories/linux/</link>
       <pubDate>Sun, 17 Oct 2021 13:42:45 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/blog/categories/linux/</guid>
+      <guid>https://preminstrel.github.io/categories/linux/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Publication</title>
-      <link>https://preminstrel.github.io/blog/categories/publication/</link>
+      <link>https://preminstrel.github.io/categories/publication/</link>
       <pubDate>Sun, 17 Oct 2021 13:37:23 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/blog/categories/publication/</guid>
+      <guid>https://preminstrel.github.io/categories/publication/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Model Compression</title>
-      <link>https://preminstrel.github.io/blog/categories/model-compression/</link>
+      <link>https://preminstrel.github.io/categories/model-compression/</link>
       <pubDate>Sun, 17 Oct 2021 10:48:26 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/blog/categories/model-compression/</guid>
+      <guid>https://preminstrel.github.io/categories/model-compression/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Pytorch</title>
-      <link>https://preminstrel.github.io/blog/categories/pytorch/</link>
+      <link>https://preminstrel.github.io/categories/pytorch/</link>
       <pubDate>Sun, 17 Oct 2021 00:25:41 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/blog/categories/pytorch/</guid>
+      <guid>https://preminstrel.github.io/categories/pytorch/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Git</title>
-      <link>https://preminstrel.github.io/blog/categories/git/</link>
+      <link>https://preminstrel.github.io/categories/git/</link>
       <pubDate>Sat, 16 Oct 2021 23:53:14 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/blog/categories/git/</guid>
+      <guid>https://preminstrel.github.io/categories/git/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Blog</title>
-      <link>https://preminstrel.github.io/blog/categories/blog/</link>
+      <link>https://preminstrel.github.io/categories/blog/</link>
       <pubDate>Sat, 16 Oct 2021 10:06:26 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/blog/categories/blog/</guid>
+      <guid>https://preminstrel.github.io/categories/blog/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Manim</title>
-      <link>https://preminstrel.github.io/blog/categories/manim/</link>
+      <link>https://preminstrel.github.io/categories/manim/</link>
       <pubDate>Fri, 23 Jul 2021 23:53:14 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/blog/categories/manim/</guid>
+      <guid>https://preminstrel.github.io/categories/manim/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Animation</title>
-      <link>https://preminstrel.github.io/blog/categories/animation/</link>
+      <link>https://preminstrel.github.io/categories/animation/</link>
       <pubDate>Tue, 20 Jul 2021 23:53:14 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/blog/categories/animation/</guid>
+      <guid>https://preminstrel.github.io/categories/animation/</guid>
       <description></description>
     </item>
     

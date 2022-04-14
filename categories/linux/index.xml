@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Linux on Preminstrel&#39;s Blog</title>
-    <link>https://preminstrel.github.io/blog/categories/linux/</link>
+    <link>https://preminstrel.github.io/categories/linux/</link>
     <description>Recent content in Linux on Preminstrel&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Sun, 17 Oct 2021 13:42:45 +0800</lastBuildDate>
     
-	<atom:link href="https://preminstrel.github.io/blog/categories/linux/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://preminstrel.github.io/categories/linux/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Deep Learning on WSL</title>
-      <link>https://preminstrel.github.io/blog/post/2021/10/17/deep-learning-on-wsl/</link>
+      <link>https://preminstrel.github.io/post/2021/10/17/deep-learning-on-wsl/</link>
       <pubDate>Sun, 17 Oct 2021 13:42:45 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/blog/post/2021/10/17/deep-learning-on-wsl/</guid>
+      <guid>https://preminstrel.github.io/post/2021/10/17/deep-learning-on-wsl/</guid>
       <description>Pytorch环境搭建 Install Anaconda3 最近在用WSL，因为比双系统方便且想直接在WSL里面写代码，于是就在WSL环境下进行了配置。首先安装Anacond</description>
     </item>
     

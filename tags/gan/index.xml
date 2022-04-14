@@ -2,30 +2,30 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>GAN on Preminstrel&#39;s Blog</title>
-    <link>https://preminstrel.github.io/blog/tags/gan/</link>
+    <link>https://preminstrel.github.io/tags/gan/</link>
     <description>Recent content in GAN on Preminstrel&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Sun, 09 Jan 2022 13:50:22 +0800</lastBuildDate>
     
-	<atom:link href="https://preminstrel.github.io/blog/tags/gan/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://preminstrel.github.io/tags/gan/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>CycleGAN</title>
-      <link>https://preminstrel.github.io/blog/post/2022/01/09/cyclegan/</link>
+      <link>https://preminstrel.github.io/post/2022/01/09/cyclegan/</link>
       <pubDate>Sun, 09 Jan 2022 13:50:22 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/blog/post/2022/01/09/cyclegan/</guid>
+      <guid>https://preminstrel.github.io/post/2022/01/09/cyclegan/</guid>
       <description>在科研过程中，需要用到 CycleGAN 对眼底图象进行 CFP 和 FFA 的 translation。CycleGAN 的功能，通俗来讲就是在数据集 unpaired 的情况下风格迁移，原论文</description>
     </item>
     
     <item>
       <title>Introduction to GAN</title>
-      <link>https://preminstrel.github.io/blog/post/2022/01/06/introduction-to-gan/</link>
+      <link>https://preminstrel.github.io/post/2022/01/06/introduction-to-gan/</link>
       <pubDate>Thu, 06 Jan 2022 23:12:33 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/blog/post/2022/01/06/introduction-to-gan/</guid>
+      <guid>https://preminstrel.github.io/post/2022/01/06/introduction-to-gan/</guid>
       <description>最近科研要用到 CycleGAN，借此机会，便对 GAN(Generative Adversarial Networks) 进行一个学习。Ian Goodfellow 大牛的 Generative Adversarial Networks（arxiv：https://arxiv</description>
     </item>
     

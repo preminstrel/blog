@@ -1,2 +1,2 @@
 User-agent: *
-Sitemap: https://preminstrel.github.io/blog/sitemap.xml
+Sitemap: https://preminstrel.github.io/sitemap.xml
