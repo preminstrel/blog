@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Publication on Preminstrel&#39;s Blog</title>
-    <link>https://preminstrel.github.io/tags/publication/</link>
+    <link>https://preminstrel.github.io/blog/tags/publication/</link>
     <description>Recent content in Publication on Preminstrel&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Sun, 17 Oct 2021 13:37:23 +0800</lastBuildDate>
     
-	<atom:link href="https://preminstrel.github.io/tags/publication/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://preminstrel.github.io/blog/tags/publication/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Arrhythmia Classifier Using CNN With ALQ</title>
-      <link>https://preminstrel.github.io/post/2021/10/17/arrhythmia-classifier-using-cnn-with-alq/</link>
+      <link>https://preminstrel.github.io/blog/post/2021/10/17/arrhythmia-classifier-using-cnn-with-alq/</link>
       <pubDate>Sun, 17 Oct 2021 13:37:23 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2021/10/17/arrhythmia-classifier-using-cnn-with-alq/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2021/10/17/arrhythmia-classifier-using-cnn-with-alq/</guid>
       <description>Introduction 在许多医疗保健方案中，患者被诊断出患有各种各样的疾病，包括心血管疾病（CVDs），这是一种普遍的致命疾病。 心电图描述了人的心电活动，对准确</description>
     </item>
     

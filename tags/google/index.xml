@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Google on Preminstrel&#39;s Blog</title>
-    <link>https://preminstrel.github.io/tags/google/</link>
+    <link>https://preminstrel.github.io/blog/tags/google/</link>
     <description>Recent content in Google on Preminstrel&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Mon, 10 Jan 2022 21:07:50 +0800</lastBuildDate>
     
-	<atom:link href="https://preminstrel.github.io/tags/google/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://preminstrel.github.io/blog/tags/google/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Google Colab</title>
-      <link>https://preminstrel.github.io/post/2022/01/10/google-colab/</link>
+      <link>https://preminstrel.github.io/blog/post/2022/01/10/google-colab/</link>
       <pubDate>Mon, 10 Jan 2022 21:07:50 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2022/01/10/google-colab/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2022/01/10/google-colab/</guid>
       <description>当我电脑的 RTX2060 带不动，而导师的实验室算力资源还没到位的时候，就必须去花钱租赁额外的计算资源了，需要在 3 月前的这一段时间内先自掏腰包对付一下。无</description>
     </item>
     

@@ -2,57 +2,57 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Protocol on Preminstrel&#39;s Blog</title>
-    <link>https://preminstrel.github.io/tags/protocol/</link>
+    <link>https://preminstrel.github.io/blog/tags/protocol/</link>
     <description>Recent content in Protocol on Preminstrel&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Thu, 28 Oct 2021 23:20:54 +0800</lastBuildDate>
     
-	<atom:link href="https://preminstrel.github.io/tags/protocol/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://preminstrel.github.io/blog/tags/protocol/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>I2S</title>
-      <link>https://preminstrel.github.io/post/2021/10/28/i2s/</link>
+      <link>https://preminstrel.github.io/blog/post/2021/10/28/i2s/</link>
       <pubDate>Thu, 28 Oct 2021 23:20:54 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2021/10/28/i2s/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2021/10/28/i2s/</guid>
       <description>I2S（Inter-IC Sound）总线, 又称集成电路内置音频总线，是飞利浦半导体公司(现为恩智浦半导体公司)针对数字音频设备之间的音频数据</description>
     </item>
     
     <item>
       <title>I2C</title>
-      <link>https://preminstrel.github.io/post/2021/10/28/i2c/</link>
+      <link>https://preminstrel.github.io/blog/post/2021/10/28/i2c/</link>
       <pubDate>Thu, 28 Oct 2021 23:12:31 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2021/10/28/i2c/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2021/10/28/i2c/</guid>
       <description>I2C 通讯协议（Inter-Integrated Circuit）是由 Phiilps 公司开发的，由于它引脚少，硬件实现简单，可扩展性强，不需要 USART、CA</description>
     </item>
     
     <item>
       <title>SPI</title>
-      <link>https://preminstrel.github.io/post/2021/10/28/spi/</link>
+      <link>https://preminstrel.github.io/blog/post/2021/10/28/spi/</link>
       <pubDate>Thu, 28 Oct 2021 22:58:28 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2021/10/28/spi/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2021/10/28/spi/</guid>
       <description>SPI（Serial Peripheral Interface）总线是主要应用于嵌入式系统内部通信的串行同步传输总线协议。通常为四线制的SPI总线支持全双工通信。</description>
     </item>
     
     <item>
       <title>UART</title>
-      <link>https://preminstrel.github.io/post/2021/10/28/uart/</link>
+      <link>https://preminstrel.github.io/blog/post/2021/10/28/uart/</link>
       <pubDate>Thu, 28 Oct 2021 22:34:38 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2021/10/28/uart/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2021/10/28/uart/</guid>
       <description>UART 通用异步收发传输器（Universal Asynchronous Receiver/Transmitter），通常称作 UART，是一种通用的串行异步全双工数据收发传</description>
     </item>
     
     <item>
       <title>Introduction to Communication Protocol</title>
-      <link>https://preminstrel.github.io/post/2021/10/28/introduction-to-communication-protocol/</link>
+      <link>https://preminstrel.github.io/blog/post/2021/10/28/introduction-to-communication-protocol/</link>
       <pubDate>Thu, 28 Oct 2021 17:01:24 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2021/10/28/introduction-to-communication-protocol/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2021/10/28/introduction-to-communication-protocol/</guid>
       <description>通讯的基本概念 串行通讯和并行通讯 特性 串行通讯 并行通讯 通讯距离 较远 较近 抗干扰能力 较强 较弱 传输速率 较慢 较高 成本 较低 较高 全双工、半双工及单工通讯 通</description>
     </item>
     

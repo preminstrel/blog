@@ -2,165 +2,165 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Deep Learning on Preminstrel&#39;s Blog</title>
-    <link>https://preminstrel.github.io/tags/deep-learning/</link>
+    <link>https://preminstrel.github.io/blog/tags/deep-learning/</link>
     <description>Recent content in Deep Learning on Preminstrel&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Fri, 28 Jan 2022 17:59:08 +0800</lastBuildDate>
     
-	<atom:link href="https://preminstrel.github.io/tags/deep-learning/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://preminstrel.github.io/blog/tags/deep-learning/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Vision Transformer (ViT)</title>
-      <link>https://preminstrel.github.io/post/2022/01/28/vision-transformer/</link>
+      <link>https://preminstrel.github.io/blog/post/2022/01/28/vision-transformer/</link>
       <pubDate>Fri, 28 Jan 2022 17:59:08 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2022/01/28/vision-transformer/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2022/01/28/vision-transformer/</guid>
       <description>我们的模型数据量和运算量都不够大，没有 locality 和 translation equivalence，无法达到很好的效果？</description>
     </item>
     
     <item>
       <title>Transformer</title>
-      <link>https://preminstrel.github.io/post/2022/01/26/transformer/</link>
+      <link>https://preminstrel.github.io/blog/post/2022/01/26/transformer/</link>
       <pubDate>Wed, 26 Jan 2022 17:47:40 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2022/01/26/transformer/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2022/01/26/transformer/</guid>
       <description>《Attention Is All You Need》是 Google 团队在 2017 年提出的一篇论文。该论文以“attention”为核心，提出了 Transformer 模型。Transformer</description>
     </item>
     
     <item>
       <title>Self-Attention</title>
-      <link>https://preminstrel.github.io/post/2022/01/26/self-attention/</link>
+      <link>https://preminstrel.github.io/blog/post/2022/01/26/self-attention/</link>
       <pubDate>Wed, 26 Jan 2022 16:36:51 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2022/01/26/self-attention/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2022/01/26/self-attention/</guid>
       <description>Attention is all you need. 最近刚接触到 Transformer，感觉其模型比 CNNs 要复杂了不少，看了一些论文也仅仅是草草看过，不理解其原理，在网上读了一些 blog</description>
     </item>
     
     <item>
       <title>MMDetection Head</title>
-      <link>https://preminstrel.github.io/post/2022/01/17/mmdetection-head/</link>
+      <link>https://preminstrel.github.io/blog/post/2022/01/17/mmdetection-head/</link>
       <pubDate>Mon, 17 Jan 2022 13:21:36 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2022/01/17/mmdetection-head/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2022/01/17/mmdetection-head/</guid>
       <description>目前 MMDetection 中 Head 模块主要是按照 stage 来划分，主要包括两个 package: dense_heads 和 roi_heads ，分别对应 two-stage 算法中的第一和第二个 stage 模块，如果是 one-stage 算法则仅仅有 dense_heads 而已。 dense_heads dense_heads 部分主要是按照</description>
     </item>
     
     <item>
       <title>MMDetection Framework</title>
-      <link>https://preminstrel.github.io/post/2022/01/16/mmdetection-framework/</link>
+      <link>https://preminstrel.github.io/blog/post/2022/01/16/mmdetection-framework/</link>
       <pubDate>Sun, 16 Jan 2022 12:42:21 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2022/01/16/mmdetection-framework/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2022/01/16/mmdetection-framework/</guid>
       <description>本文核心内容是按照抽象到具体方式，从多个层次进行训练和测试流程深入解析，从最抽象层开始，到最后核心代码实现，进一步理解 MMDetection 开源框架整体构建细节</description>
     </item>
     
     <item>
       <title>MMDetection Overview</title>
-      <link>https://preminstrel.github.io/post/2022/01/15/mmdetection-overview/</link>
+      <link>https://preminstrel.github.io/blog/post/2022/01/15/mmdetection-overview/</link>
       <pubDate>Sat, 15 Jan 2022 12:12:07 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2022/01/15/mmdetection-overview/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2022/01/15/mmdetection-overview/</guid>
       <description>MMDetection 是一个基于 PyTorch 的目标检测开源工具箱。它是 OpenMMLab 项目的一部分。目前已经复现了大部分主流和前沿模型，例如 Faster R-CNN 系列、Mask R-CNN 系列、YOLO 系列和比较</description>
     </item>
     
     <item>
       <title>Faster R-CNN</title>
-      <link>https://preminstrel.github.io/post/2022/01/14/faster-r-cnn/</link>
+      <link>https://preminstrel.github.io/blog/post/2022/01/14/faster-r-cnn/</link>
       <pubDate>Fri, 14 Jan 2022 13:32:15 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2022/01/14/faster-r-cnn/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2022/01/14/faster-r-cnn/</guid>
       <description>Faster R-CNN 可以简单看成是区域生成网络 + Fast R-CNN 的模型，用区域生成网络(Region Proposal Network, RPN)来替代 Fast R-CNN 中的选择性搜索方法，结构如下： # Pipeline 首先向 CNN 网络</description>
     </item>
     
     <item>
       <title>Fast R-CNN</title>
-      <link>https://preminstrel.github.io/post/2022/01/13/fast-r-cnn/</link>
+      <link>https://preminstrel.github.io/blog/post/2022/01/13/fast-r-cnn/</link>
       <pubDate>Thu, 13 Jan 2022 22:31:08 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2022/01/13/fast-r-cnn/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2022/01/13/fast-r-cnn/</guid>
       <description>SPP-net 的性能已经得到很大的改善，但是由于网络之间不统一训练，造成很大的麻烦，所以 Fast R-CNN 就是为了解决这样的问题。其改进的之处为：提出一个 Rol pooli</description>
     </item>
     
     <item>
       <title>SPP-net</title>
-      <link>https://preminstrel.github.io/post/2022/01/13/sppnet/</link>
+      <link>https://preminstrel.github.io/blog/post/2022/01/13/sppnet/</link>
       <pubDate>Thu, 13 Jan 2022 21:56:21 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2022/01/13/sppnet/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2022/01/13/sppnet/</guid>
       <description>SPP-net 的强大功能在目标检测中也很重要。使用 SPP-net(Spatial Pyramid Pooling-net)，我们只计算整个图像的特征图一次，然后将任意区域(子图像)中的特征池化以生</description>
     </item>
     
     <item>
       <title>R-CNN</title>
-      <link>https://preminstrel.github.io/post/2022/01/13/r-cnn/</link>
+      <link>https://preminstrel.github.io/blog/post/2022/01/13/r-cnn/</link>
       <pubDate>Thu, 13 Jan 2022 12:28:23 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2022/01/13/r-cnn/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2022/01/13/r-cnn/</guid>
       <description>R-CNN(Regions with CNN features)，是 R-CNN 系列的第一代算法，其实没有过多的使用“深度学习”思想，而是将 DL 和传统的 CV 的知识相结合。比如 R-CNN pipeline 中的第二步和第四</description>
     </item>
     
     <item>
       <title>Introduction to Object Detection</title>
-      <link>https://preminstrel.github.io/post/2022/01/12/introduction-to-object-detection/</link>
+      <link>https://preminstrel.github.io/blog/post/2022/01/12/introduction-to-object-detection/</link>
       <pubDate>Wed, 12 Jan 2022 22:06:06 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2022/01/12/introduction-to-object-detection/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2022/01/12/introduction-to-object-detection/</guid>
       <description>目标检测(Object Detection)的任务是找出图像中所有特定的目标，确定它们的类别和位置。由于各类物体有不同的外观和形状，加上成像时</description>
     </item>
     
     <item>
       <title>CycleGAN</title>
-      <link>https://preminstrel.github.io/post/2022/01/09/cyclegan/</link>
+      <link>https://preminstrel.github.io/blog/post/2022/01/09/cyclegan/</link>
       <pubDate>Sun, 09 Jan 2022 13:50:22 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2022/01/09/cyclegan/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2022/01/09/cyclegan/</guid>
       <description>在科研过程中，需要用到 CycleGAN 对眼底图象进行 CFP 和 FFA 的 translation。CycleGAN 的功能，通俗来讲就是在数据集 unpaired 的情况下风格迁移，原论文</description>
     </item>
     
     <item>
       <title>Introduction to GAN</title>
-      <link>https://preminstrel.github.io/post/2022/01/06/introduction-to-gan/</link>
+      <link>https://preminstrel.github.io/blog/post/2022/01/06/introduction-to-gan/</link>
       <pubDate>Thu, 06 Jan 2022 23:12:33 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2022/01/06/introduction-to-gan/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2022/01/06/introduction-to-gan/</guid>
       <description>最近科研要用到 CycleGAN，借此机会，便对 GAN(Generative Adversarial Networks) 进行一个学习。Ian Goodfellow 大牛的 Generative Adversarial Networks（arxiv：https://arxiv</description>
     </item>
     
     <item>
       <title>Deep Learning on WSL</title>
-      <link>https://preminstrel.github.io/post/2021/10/17/deep-learning-on-wsl/</link>
+      <link>https://preminstrel.github.io/blog/post/2021/10/17/deep-learning-on-wsl/</link>
       <pubDate>Sun, 17 Oct 2021 13:42:45 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2021/10/17/deep-learning-on-wsl/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2021/10/17/deep-learning-on-wsl/</guid>
       <description>Pytorch环境搭建 Install Anaconda3 最近在用WSL，因为比双系统方便且想直接在WSL里面写代码，于是就在WSL环境下进行了配置。首先安装Anacond</description>
     </item>
     
     <item>
       <title>Arrhythmia Classifier Using CNN With ALQ</title>
-      <link>https://preminstrel.github.io/post/2021/10/17/arrhythmia-classifier-using-cnn-with-alq/</link>
+      <link>https://preminstrel.github.io/blog/post/2021/10/17/arrhythmia-classifier-using-cnn-with-alq/</link>
       <pubDate>Sun, 17 Oct 2021 13:37:23 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2021/10/17/arrhythmia-classifier-using-cnn-with-alq/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2021/10/17/arrhythmia-classifier-using-cnn-with-alq/</guid>
       <description>Introduction 在许多医疗保健方案中，患者被诊断出患有各种各样的疾病，包括心血管疾病（CVDs），这是一种普遍的致命疾病。 心电图描述了人的心电活动，对准确</description>
     </item>
     
     <item>
       <title>Quantization Compression</title>
-      <link>https://preminstrel.github.io/post/2021/10/17/quantization-compression/</link>
+      <link>https://preminstrel.github.io/blog/post/2021/10/17/quantization-compression/</link>
       <pubDate>Sun, 17 Oct 2021 10:48:26 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2021/10/17/quantization-compression/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2021/10/17/quantization-compression/</guid>
       <description>本文参考此博客 量化有若干相似的术语。低精度（Low precision）可能是最通用的概念。常规精度一般使用 FP32（32位浮点，单精度）存储</description>
     </item>
     
     <item>
       <title>Pytorch Basics</title>
-      <link>https://preminstrel.github.io/post/2021/10/17/pytorch-basics/</link>
+      <link>https://preminstrel.github.io/blog/post/2021/10/17/pytorch-basics/</link>
       <pubDate>Sun, 17 Oct 2021 00:25:41 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2021/10/17/pytorch-basics/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2021/10/17/pytorch-basics/</guid>
       <description>01. Overview DL &amp;amp; ML 维度诅咒：维度越高，需要的训练集越大 深度学习和机器学习的区别：多了一层用来提取特征的层。传统的机器学习中（无标签），Feature</description>
     </item>
     

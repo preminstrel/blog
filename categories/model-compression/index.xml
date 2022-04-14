@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Model Compression on Preminstrel&#39;s Blog</title>
-    <link>https://preminstrel.github.io/categories/model-compression/</link>
+    <link>https://preminstrel.github.io/blog/categories/model-compression/</link>
     <description>Recent content in Model Compression on Preminstrel&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Sun, 17 Oct 2021 10:48:26 +0800</lastBuildDate>
     
-	<atom:link href="https://preminstrel.github.io/categories/model-compression/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://preminstrel.github.io/blog/categories/model-compression/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Quantization Compression</title>
-      <link>https://preminstrel.github.io/post/2021/10/17/quantization-compression/</link>
+      <link>https://preminstrel.github.io/blog/post/2021/10/17/quantization-compression/</link>
       <pubDate>Sun, 17 Oct 2021 10:48:26 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2021/10/17/quantization-compression/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2021/10/17/quantization-compression/</guid>
       <description>本文参考此博客 量化有若干相似的术语。低精度（Low precision）可能是最通用的概念。常规精度一般使用 FP32（32位浮点，单精度）存储</description>
     </item>
     

@@ -2,66 +2,66 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>FPGA on Preminstrel&#39;s Blog</title>
-    <link>https://preminstrel.github.io/tags/fpga/</link>
+    <link>https://preminstrel.github.io/blog/tags/fpga/</link>
     <description>Recent content in FPGA on Preminstrel&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Thu, 04 Nov 2021 20:28:55 +0800</lastBuildDate>
     
-	<atom:link href="https://preminstrel.github.io/tags/fpga/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://preminstrel.github.io/blog/tags/fpga/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>ZYBO Z7 Basics: PS 端裸机实现 Hello World</title>
-      <link>https://preminstrel.github.io/post/2021/11/04/zybo-z7-basics-4/</link>
+      <link>https://preminstrel.github.io/blog/post/2021/11/04/zybo-z7-basics-4/</link>
       <pubDate>Thu, 04 Nov 2021 20:28:55 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2021/11/04/zybo-z7-basics-4/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2021/11/04/zybo-z7-basics-4/</guid>
       <description>我们已经学会了纯 PL 端的 LED 点灯实验，也学会了如何建立一个空的项目，现在我们来学习一下 PS 端的裸机运行 Hello World。 建立新工程 首先，建立一个新工程</description>
     </item>
     
     <item>
       <title>ZYBO Z7 Basics: PL 端点亮 LED</title>
-      <link>https://preminstrel.github.io/post/2021/10/31/zybo-z7-basics-3/</link>
+      <link>https://preminstrel.github.io/blog/post/2021/10/31/zybo-z7-basics-3/</link>
       <pubDate>Sun, 31 Oct 2021 14:08:22 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2021/10/31/zybo-z7-basics-3/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2021/10/31/zybo-z7-basics-3/</guid>
       <description>硬件连接与上电验证 PC 与 ZYBO 之间通过 micro USB 线连接，ZYBO 端连接到 PROG-UART 接口上。 打开电源开关，确认电源供电正常。如果是第一次将 ZYBO 与 PC 相连，那么 PC 端会自</description>
     </item>
     
     <item>
       <title>ZYBO Z7 Basics: 编程模式配置与上电</title>
-      <link>https://preminstrel.github.io/post/2021/10/31/zybo-z7-basics-2/</link>
+      <link>https://preminstrel.github.io/blog/post/2021/10/31/zybo-z7-basics-2/</link>
       <pubDate>Sun, 31 Oct 2021 11:26:50 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2021/10/31/zybo-z7-basics-2/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2021/10/31/zybo-z7-basics-2/</guid>
       <description>ZYBO编程模式配置 ZYBO支持3种默认编程模式，分别是： JTAG 编程模式：上电启动时，默认从 PROG-UART USB 接口编程 QSPI 编程模式：上电启动时，默认从板载 QSPI Flash 中</description>
     </item>
     
     <item>
       <title>ZYBO Z7 Basics: Overview</title>
-      <link>https://preminstrel.github.io/post/2021/10/29/zybo-z7-basics-1/</link>
+      <link>https://preminstrel.github.io/blog/post/2021/10/29/zybo-z7-basics-1/</link>
       <pubDate>Fri, 29 Oct 2021 23:51:59 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2021/10/29/zybo-z7-basics-1/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2021/10/29/zybo-z7-basics-1/</guid>
       <description>最近要在 FPGA 上部署之前的 ECGNet，所以导师给了我一块 Digilent 的 ZYBO Z7-20，搭载 ZYNQ 7020 芯片，让我们自学并实现硬件部署。 Overview Zybo Z7是一款功能丰富、随时</description>
     </item>
     
     <item>
       <title>Vivado ILA</title>
-      <link>https://preminstrel.github.io/post/2021/10/18/vivado-ila/</link>
+      <link>https://preminstrel.github.io/blog/post/2021/10/18/vivado-ila/</link>
       <pubDate>Mon, 18 Oct 2021 20:05:26 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2021/10/18/vivado-ila/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2021/10/18/vivado-ila/</guid>
       <description>进行 FPGA 开发的过程中，在逻辑代码上板运行前都会进行仿真验证，而 EDA 仿真工具（如Modelsim等）的使用更是可以可以让工程师提早发现工程中出现的</description>
     </item>
     
     <item>
       <title>Vivado Basics</title>
-      <link>https://preminstrel.github.io/post/2021/10/17/vivado-basics/</link>
+      <link>https://preminstrel.github.io/blog/post/2021/10/17/vivado-basics/</link>
       <pubDate>Sun, 17 Oct 2021 17:03:41 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2021/10/17/vivado-basics/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2021/10/17/vivado-basics/</guid>
       <description>在学习 FPGA 的过程中，我们需要用到 Vivado软件，这里我用的是 Vivado2021.1版本的软件。一般来说， FPGA 开发的流程分为以下几个部分来实现</description>
     </item>
     
