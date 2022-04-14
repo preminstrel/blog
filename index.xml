@@ -2,381 +2,381 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Preminstrel&#39;s Blog</title>
-    <link>https://preminstrel.github.io/</link>
+    <link>https://preminstrel.github.io/blog/</link>
     <description>Recent content on Preminstrel&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Sat, 16 Oct 2021 10:40:02 +0800</lastBuildDate>
     
-	<atom:link href="https://preminstrel.github.io/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://preminstrel.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Vision Transformer (ViT)</title>
-      <link>https://preminstrel.github.io/post/2022/01/28/vision-transformer/</link>
+      <link>https://preminstrel.github.io/blog/post/2022/01/28/vision-transformer/</link>
       <pubDate>Fri, 28 Jan 2022 17:59:08 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2022/01/28/vision-transformer/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2022/01/28/vision-transformer/</guid>
       <description>我们的模型数据量和运算量都不够大，没有 locality 和 translation equivalence，无法达到很好的效果？</description>
     </item>
     
     <item>
       <title>Transformer</title>
-      <link>https://preminstrel.github.io/post/2022/01/26/transformer/</link>
+      <link>https://preminstrel.github.io/blog/post/2022/01/26/transformer/</link>
       <pubDate>Wed, 26 Jan 2022 17:47:40 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2022/01/26/transformer/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2022/01/26/transformer/</guid>
       <description>《Attention Is All You Need》是 Google 团队在 2017 年提出的一篇论文。该论文以“attention”为核心，提出了 Transformer 模型。Transformer</description>
     </item>
     
     <item>
       <title>Self-Attention</title>
-      <link>https://preminstrel.github.io/post/2022/01/26/self-attention/</link>
+      <link>https://preminstrel.github.io/blog/post/2022/01/26/self-attention/</link>
       <pubDate>Wed, 26 Jan 2022 16:36:51 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2022/01/26/self-attention/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2022/01/26/self-attention/</guid>
       <description>Attention is all you need. 最近刚接触到 Transformer，感觉其模型比 CNNs 要复杂了不少，看了一些论文也仅仅是草草看过，不理解其原理，在网上读了一些 blog</description>
     </item>
     
     <item>
       <title>MMDetection Head</title>
-      <link>https://preminstrel.github.io/post/2022/01/17/mmdetection-head/</link>
+      <link>https://preminstrel.github.io/blog/post/2022/01/17/mmdetection-head/</link>
       <pubDate>Mon, 17 Jan 2022 13:21:36 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2022/01/17/mmdetection-head/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2022/01/17/mmdetection-head/</guid>
       <description>目前 MMDetection 中 Head 模块主要是按照 stage 来划分，主要包括两个 package: dense_heads 和 roi_heads ，分别对应 two-stage 算法中的第一和第二个 stage 模块，如果是 one-stage 算法则仅仅有 dense_heads 而已。 dense_heads dense_heads 部分主要是按照</description>
     </item>
     
     <item>
       <title>MMDetection Framework</title>
-      <link>https://preminstrel.github.io/post/2022/01/16/mmdetection-framework/</link>
+      <link>https://preminstrel.github.io/blog/post/2022/01/16/mmdetection-framework/</link>
       <pubDate>Sun, 16 Jan 2022 12:42:21 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2022/01/16/mmdetection-framework/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2022/01/16/mmdetection-framework/</guid>
       <description>本文核心内容是按照抽象到具体方式，从多个层次进行训练和测试流程深入解析，从最抽象层开始，到最后核心代码实现，进一步理解 MMDetection 开源框架整体构建细节</description>
     </item>
     
     <item>
       <title>MMDetection Overview</title>
-      <link>https://preminstrel.github.io/post/2022/01/15/mmdetection-overview/</link>
+      <link>https://preminstrel.github.io/blog/post/2022/01/15/mmdetection-overview/</link>
       <pubDate>Sat, 15 Jan 2022 12:12:07 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2022/01/15/mmdetection-overview/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2022/01/15/mmdetection-overview/</guid>
       <description>MMDetection 是一个基于 PyTorch 的目标检测开源工具箱。它是 OpenMMLab 项目的一部分。目前已经复现了大部分主流和前沿模型，例如 Faster R-CNN 系列、Mask R-CNN 系列、YOLO 系列和比较</description>
     </item>
     
     <item>
       <title>Faster R-CNN</title>
-      <link>https://preminstrel.github.io/post/2022/01/14/faster-r-cnn/</link>
+      <link>https://preminstrel.github.io/blog/post/2022/01/14/faster-r-cnn/</link>
       <pubDate>Fri, 14 Jan 2022 13:32:15 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2022/01/14/faster-r-cnn/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2022/01/14/faster-r-cnn/</guid>
       <description>Faster R-CNN 可以简单看成是区域生成网络 + Fast R-CNN 的模型，用区域生成网络(Region Proposal Network, RPN)来替代 Fast R-CNN 中的选择性搜索方法，结构如下： # Pipeline 首先向 CNN 网络</description>
     </item>
     
     <item>
       <title>Fast R-CNN</title>
-      <link>https://preminstrel.github.io/post/2022/01/13/fast-r-cnn/</link>
+      <link>https://preminstrel.github.io/blog/post/2022/01/13/fast-r-cnn/</link>
       <pubDate>Thu, 13 Jan 2022 22:31:08 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2022/01/13/fast-r-cnn/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2022/01/13/fast-r-cnn/</guid>
       <description>SPP-net 的性能已经得到很大的改善，但是由于网络之间不统一训练，造成很大的麻烦，所以 Fast R-CNN 就是为了解决这样的问题。其改进的之处为：提出一个 Rol pooli</description>
     </item>
     
     <item>
       <title>SPP-net</title>
-      <link>https://preminstrel.github.io/post/2022/01/13/sppnet/</link>
+      <link>https://preminstrel.github.io/blog/post/2022/01/13/sppnet/</link>
       <pubDate>Thu, 13 Jan 2022 21:56:21 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2022/01/13/sppnet/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2022/01/13/sppnet/</guid>
       <description>SPP-net 的强大功能在目标检测中也很重要。使用 SPP-net(Spatial Pyramid Pooling-net)，我们只计算整个图像的特征图一次，然后将任意区域(子图像)中的特征池化以生</description>
     </item>
     
     <item>
       <title>R-CNN</title>
-      <link>https://preminstrel.github.io/post/2022/01/13/r-cnn/</link>
+      <link>https://preminstrel.github.io/blog/post/2022/01/13/r-cnn/</link>
       <pubDate>Thu, 13 Jan 2022 12:28:23 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2022/01/13/r-cnn/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2022/01/13/r-cnn/</guid>
       <description>R-CNN(Regions with CNN features)，是 R-CNN 系列的第一代算法，其实没有过多的使用“深度学习”思想，而是将 DL 和传统的 CV 的知识相结合。比如 R-CNN pipeline 中的第二步和第四</description>
     </item>
     
     <item>
       <title>Introduction to Object Detection</title>
-      <link>https://preminstrel.github.io/post/2022/01/12/introduction-to-object-detection/</link>
+      <link>https://preminstrel.github.io/blog/post/2022/01/12/introduction-to-object-detection/</link>
       <pubDate>Wed, 12 Jan 2022 22:06:06 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2022/01/12/introduction-to-object-detection/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2022/01/12/introduction-to-object-detection/</guid>
       <description>目标检测(Object Detection)的任务是找出图像中所有特定的目标，确定它们的类别和位置。由于各类物体有不同的外观和形状，加上成像时</description>
     </item>
     
     <item>
       <title>Google Colab</title>
-      <link>https://preminstrel.github.io/post/2022/01/10/google-colab/</link>
+      <link>https://preminstrel.github.io/blog/post/2022/01/10/google-colab/</link>
       <pubDate>Mon, 10 Jan 2022 21:07:50 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2022/01/10/google-colab/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2022/01/10/google-colab/</guid>
       <description>当我电脑的 RTX2060 带不动，而导师的实验室算力资源还没到位的时候，就必须去花钱租赁额外的计算资源了，需要在 3 月前的这一段时间内先自掏腰包对付一下。无</description>
     </item>
     
     <item>
       <title>CycleGAN</title>
-      <link>https://preminstrel.github.io/post/2022/01/09/cyclegan/</link>
+      <link>https://preminstrel.github.io/blog/post/2022/01/09/cyclegan/</link>
       <pubDate>Sun, 09 Jan 2022 13:50:22 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2022/01/09/cyclegan/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2022/01/09/cyclegan/</guid>
       <description>在科研过程中，需要用到 CycleGAN 对眼底图象进行 CFP 和 FFA 的 translation。CycleGAN 的功能，通俗来讲就是在数据集 unpaired 的情况下风格迁移，原论文</description>
     </item>
     
     <item>
       <title>Introduction to GAN</title>
-      <link>https://preminstrel.github.io/post/2022/01/06/introduction-to-gan/</link>
+      <link>https://preminstrel.github.io/blog/post/2022/01/06/introduction-to-gan/</link>
       <pubDate>Thu, 06 Jan 2022 23:12:33 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2022/01/06/introduction-to-gan/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2022/01/06/introduction-to-gan/</guid>
       <description>最近科研要用到 CycleGAN，借此机会，便对 GAN(Generative Adversarial Networks) 进行一个学习。Ian Goodfellow 大牛的 Generative Adversarial Networks（arxiv：https://arxiv</description>
     </item>
     
     <item>
       <title>ZYBO Z7 Basics: PS 端裸机实现 Hello World</title>
-      <link>https://preminstrel.github.io/post/2021/11/04/zybo-z7-basics-4/</link>
+      <link>https://preminstrel.github.io/blog/post/2021/11/04/zybo-z7-basics-4/</link>
       <pubDate>Thu, 04 Nov 2021 20:28:55 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2021/11/04/zybo-z7-basics-4/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2021/11/04/zybo-z7-basics-4/</guid>
       <description>我们已经学会了纯 PL 端的 LED 点灯实验，也学会了如何建立一个空的项目，现在我们来学习一下 PS 端的裸机运行 Hello World。 建立新工程 首先，建立一个新工程</description>
     </item>
     
     <item>
       <title>ZYBO Z7 Basics: PL 端点亮 LED</title>
-      <link>https://preminstrel.github.io/post/2021/10/31/zybo-z7-basics-3/</link>
+      <link>https://preminstrel.github.io/blog/post/2021/10/31/zybo-z7-basics-3/</link>
       <pubDate>Sun, 31 Oct 2021 14:08:22 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2021/10/31/zybo-z7-basics-3/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2021/10/31/zybo-z7-basics-3/</guid>
       <description>硬件连接与上电验证 PC 与 ZYBO 之间通过 micro USB 线连接，ZYBO 端连接到 PROG-UART 接口上。 打开电源开关，确认电源供电正常。如果是第一次将 ZYBO 与 PC 相连，那么 PC 端会自</description>
     </item>
     
     <item>
       <title>ZYBO Z7 Basics: 编程模式配置与上电</title>
-      <link>https://preminstrel.github.io/post/2021/10/31/zybo-z7-basics-2/</link>
+      <link>https://preminstrel.github.io/blog/post/2021/10/31/zybo-z7-basics-2/</link>
       <pubDate>Sun, 31 Oct 2021 11:26:50 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2021/10/31/zybo-z7-basics-2/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2021/10/31/zybo-z7-basics-2/</guid>
       <description>ZYBO编程模式配置 ZYBO支持3种默认编程模式，分别是： JTAG 编程模式：上电启动时，默认从 PROG-UART USB 接口编程 QSPI 编程模式：上电启动时，默认从板载 QSPI Flash 中</description>
     </item>
     
     <item>
       <title>ZYBO Z7 Basics: Overview</title>
-      <link>https://preminstrel.github.io/post/2021/10/29/zybo-z7-basics-1/</link>
+      <link>https://preminstrel.github.io/blog/post/2021/10/29/zybo-z7-basics-1/</link>
       <pubDate>Fri, 29 Oct 2021 23:51:59 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2021/10/29/zybo-z7-basics-1/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2021/10/29/zybo-z7-basics-1/</guid>
       <description>最近要在 FPGA 上部署之前的 ECGNet，所以导师给了我一块 Digilent 的 ZYBO Z7-20，搭载 ZYNQ 7020 芯片，让我们自学并实现硬件部署。 Overview Zybo Z7是一款功能丰富、随时</description>
     </item>
     
     <item>
       <title>DC/DC 开关电源</title>
-      <link>https://preminstrel.github.io/post/2021/10/29/dcdc-%E5%BC%80%E5%85%B3%E7%94%B5%E6%BA%90/</link>
+      <link>https://preminstrel.github.io/blog/post/2021/10/29/dcdc-%E5%BC%80%E5%85%B3%E7%94%B5%E6%BA%90/</link>
       <pubDate>Fri, 29 Oct 2021 17:40:03 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2021/10/29/dcdc-%E5%BC%80%E5%85%B3%E7%94%B5%E6%BA%90/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2021/10/29/dcdc-%E5%BC%80%E5%85%B3%E7%94%B5%E6%BA%90/</guid>
       <description>开关电源是一种高频化电能转换装置，其主要利用电力电子开关器件(如晶体管、MOS管、可控晶闸管等)，通过控制电路，使电子开关器件周期性地&amp;qu</description>
     </item>
     
     <item>
       <title>LDO</title>
-      <link>https://preminstrel.github.io/post/2021/10/29/ldo/</link>
+      <link>https://preminstrel.github.io/blog/post/2021/10/29/ldo/</link>
       <pubDate>Fri, 29 Oct 2021 13:03:54 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2021/10/29/ldo/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2021/10/29/ldo/</guid>
       <description>LDO (Low Dropout Regulator) 低压差稳压器在电源设计中用途十分广泛。相比于 DC-DC 稳压器，LDO 具有噪声小，芯片尺寸小，外围器件少且设计简单等优点；也存在输入输出电压压</description>
     </item>
     
     <item>
       <title>I2S</title>
-      <link>https://preminstrel.github.io/post/2021/10/28/i2s/</link>
+      <link>https://preminstrel.github.io/blog/post/2021/10/28/i2s/</link>
       <pubDate>Thu, 28 Oct 2021 23:20:54 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2021/10/28/i2s/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2021/10/28/i2s/</guid>
       <description>I2S（Inter-IC Sound）总线, 又称集成电路内置音频总线，是飞利浦半导体公司(现为恩智浦半导体公司)针对数字音频设备之间的音频数据</description>
     </item>
     
     <item>
       <title>I2C</title>
-      <link>https://preminstrel.github.io/post/2021/10/28/i2c/</link>
+      <link>https://preminstrel.github.io/blog/post/2021/10/28/i2c/</link>
       <pubDate>Thu, 28 Oct 2021 23:12:31 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2021/10/28/i2c/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2021/10/28/i2c/</guid>
       <description>I2C 通讯协议（Inter-Integrated Circuit）是由 Phiilps 公司开发的，由于它引脚少，硬件实现简单，可扩展性强，不需要 USART、CA</description>
     </item>
     
     <item>
       <title>SPI</title>
-      <link>https://preminstrel.github.io/post/2021/10/28/spi/</link>
+      <link>https://preminstrel.github.io/blog/post/2021/10/28/spi/</link>
       <pubDate>Thu, 28 Oct 2021 22:58:28 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2021/10/28/spi/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2021/10/28/spi/</guid>
       <description>SPI（Serial Peripheral Interface）总线是主要应用于嵌入式系统内部通信的串行同步传输总线协议。通常为四线制的SPI总线支持全双工通信。</description>
     </item>
     
     <item>
       <title>UART</title>
-      <link>https://preminstrel.github.io/post/2021/10/28/uart/</link>
+      <link>https://preminstrel.github.io/blog/post/2021/10/28/uart/</link>
       <pubDate>Thu, 28 Oct 2021 22:34:38 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2021/10/28/uart/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2021/10/28/uart/</guid>
       <description>UART 通用异步收发传输器（Universal Asynchronous Receiver/Transmitter），通常称作 UART，是一种通用的串行异步全双工数据收发传</description>
     </item>
     
     <item>
       <title>Introduction to Communication Protocol</title>
-      <link>https://preminstrel.github.io/post/2021/10/28/introduction-to-communication-protocol/</link>
+      <link>https://preminstrel.github.io/blog/post/2021/10/28/introduction-to-communication-protocol/</link>
       <pubDate>Thu, 28 Oct 2021 17:01:24 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2021/10/28/introduction-to-communication-protocol/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2021/10/28/introduction-to-communication-protocol/</guid>
       <description>通讯的基本概念 串行通讯和并行通讯 特性 串行通讯 并行通讯 通讯距离 较远 较近 抗干扰能力 较强 较弱 传输速率 较慢 较高 成本 较低 较高 全双工、半双工及单工通讯 通</description>
     </item>
     
     <item>
       <title>MCS 51 Basics (3)</title>
-      <link>https://preminstrel.github.io/post/2021/10/25/mcs-51-basics-3/</link>
+      <link>https://preminstrel.github.io/blog/post/2021/10/25/mcs-51-basics-3/</link>
       <pubDate>Mon, 25 Oct 2021 22:59:29 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2021/10/25/mcs-51-basics-3/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2021/10/25/mcs-51-basics-3/</guid>
       <description>独立按键 前面介绍的都是 IO 口输出的使用，这一章我们通过独立按键实验来介绍 IO 口作为输入的使用。开发板上板载 4 个独立按键。我们所要实现的功能是：通</description>
     </item>
     
     <item>
       <title>MCS 51 Basics (2)</title>
-      <link>https://preminstrel.github.io/post/2021/10/24/mcs-51-basics-2/</link>
+      <link>https://preminstrel.github.io/blog/post/2021/10/24/mcs-51-basics-2/</link>
       <pubDate>Sun, 24 Oct 2021 22:18:50 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2021/10/24/mcs-51-basics-2/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2021/10/24/mcs-51-basics-2/</guid>
       <description>Buzzer 前面我们已经介绍了如何控制 51 单片机的 IO 口输出高低电平，这次我们通过另外一个实验来讲述 51 单片机 IO 口的输出。通过单片机的一个 IO 口控制板载无源蜂</description>
     </item>
     
     <item>
       <title>MCS 51 Basics (1)</title>
-      <link>https://preminstrel.github.io/post/2021/10/18/mcs-51-basics-1/</link>
+      <link>https://preminstrel.github.io/blog/post/2021/10/18/mcs-51-basics-1/</link>
       <pubDate>Mon, 18 Oct 2021 22:45:32 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2021/10/18/mcs-51-basics-1/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2021/10/18/mcs-51-basics-1/</guid>
       <description>最近因为在上微机原理课，所以买了51单片机（MCS 51）来进行实验学习。 Introduction to MCU 一台能够工作的计算机要有这样几个部件构成：CPU（进行运算、控</description>
     </item>
     
     <item>
       <title>Vivado ILA</title>
-      <link>https://preminstrel.github.io/post/2021/10/18/vivado-ila/</link>
+      <link>https://preminstrel.github.io/blog/post/2021/10/18/vivado-ila/</link>
       <pubDate>Mon, 18 Oct 2021 20:05:26 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2021/10/18/vivado-ila/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2021/10/18/vivado-ila/</guid>
       <description>进行 FPGA 开发的过程中，在逻辑代码上板运行前都会进行仿真验证，而 EDA 仿真工具（如Modelsim等）的使用更是可以可以让工程师提早发现工程中出现的</description>
     </item>
     
     <item>
       <title>Vivado Basics</title>
-      <link>https://preminstrel.github.io/post/2021/10/17/vivado-basics/</link>
+      <link>https://preminstrel.github.io/blog/post/2021/10/17/vivado-basics/</link>
       <pubDate>Sun, 17 Oct 2021 17:03:41 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2021/10/17/vivado-basics/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2021/10/17/vivado-basics/</guid>
       <description>在学习 FPGA 的过程中，我们需要用到 Vivado软件，这里我用的是 Vivado2021.1版本的软件。一般来说， FPGA 开发的流程分为以下几个部分来实现</description>
     </item>
     
     <item>
       <title>Scoop</title>
-      <link>https://preminstrel.github.io/post/2021/10/17/scoop/</link>
+      <link>https://preminstrel.github.io/blog/post/2021/10/17/scoop/</link>
       <pubDate>Sun, 17 Oct 2021 13:46:08 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2021/10/17/scoop/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2021/10/17/scoop/</guid>
       <description>在windows环境下，显然无法像Linux环境一样一开始就有现成的包管理，于是我看到了Scoop，Scoop可以用PowerShell安装</description>
     </item>
     
     <item>
       <title>Deep Learning on WSL</title>
-      <link>https://preminstrel.github.io/post/2021/10/17/deep-learning-on-wsl/</link>
+      <link>https://preminstrel.github.io/blog/post/2021/10/17/deep-learning-on-wsl/</link>
       <pubDate>Sun, 17 Oct 2021 13:42:45 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2021/10/17/deep-learning-on-wsl/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2021/10/17/deep-learning-on-wsl/</guid>
       <description>Pytorch环境搭建 Install Anaconda3 最近在用WSL，因为比双系统方便且想直接在WSL里面写代码，于是就在WSL环境下进行了配置。首先安装Anacond</description>
     </item>
     
     <item>
       <title>Arrhythmia Classifier Using CNN With ALQ</title>
-      <link>https://preminstrel.github.io/post/2021/10/17/arrhythmia-classifier-using-cnn-with-alq/</link>
+      <link>https://preminstrel.github.io/blog/post/2021/10/17/arrhythmia-classifier-using-cnn-with-alq/</link>
       <pubDate>Sun, 17 Oct 2021 13:37:23 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2021/10/17/arrhythmia-classifier-using-cnn-with-alq/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2021/10/17/arrhythmia-classifier-using-cnn-with-alq/</guid>
       <description>Introduction 在许多医疗保健方案中，患者被诊断出患有各种各样的疾病，包括心血管疾病（CVDs），这是一种普遍的致命疾病。 心电图描述了人的心电活动，对准确</description>
     </item>
     
     <item>
       <title>Quantization Compression</title>
-      <link>https://preminstrel.github.io/post/2021/10/17/quantization-compression/</link>
+      <link>https://preminstrel.github.io/blog/post/2021/10/17/quantization-compression/</link>
       <pubDate>Sun, 17 Oct 2021 10:48:26 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2021/10/17/quantization-compression/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2021/10/17/quantization-compression/</guid>
       <description>本文参考此博客 量化有若干相似的术语。低精度（Low precision）可能是最通用的概念。常规精度一般使用 FP32（32位浮点，单精度）存储</description>
     </item>
     
     <item>
       <title>Pytorch Basics</title>
-      <link>https://preminstrel.github.io/post/2021/10/17/pytorch-basics/</link>
+      <link>https://preminstrel.github.io/blog/post/2021/10/17/pytorch-basics/</link>
       <pubDate>Sun, 17 Oct 2021 00:25:41 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2021/10/17/pytorch-basics/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2021/10/17/pytorch-basics/</guid>
       <description>01. Overview DL &amp;amp; ML 维度诅咒：维度越高，需要的训练集越大 深度学习和机器学习的区别：多了一层用来提取特征的层。传统的机器学习中（无标签），Feature</description>
     </item>
     
     <item>
       <title>Vim Basics</title>
-      <link>https://preminstrel.github.io/post/2021/10/17/vim-basics/</link>
+      <link>https://preminstrel.github.io/blog/post/2021/10/17/vim-basics/</link>
       <pubDate>Sun, 17 Oct 2021 00:19:58 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2021/10/17/vim-basics/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2021/10/17/vim-basics/</guid>
       <description>光标的移动 使用hjkl作为方向键 h左l右，k上j下 快速移动光标至行首和行尾 1）行首：在命令模式中使用快捷键&amp;quot;^&amp;rdquo;（即S</description>
     </item>
     
     <item>
       <title>Git Basics</title>
-      <link>https://preminstrel.github.io/post/2021/10/16/git-basic/</link>
+      <link>https://preminstrel.github.io/blog/post/2021/10/16/git-basic/</link>
       <pubDate>Sat, 16 Oct 2021 23:53:14 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2021/10/16/git-basic/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2021/10/16/git-basic/</guid>
       <description>之前也是接触过，用过Git和GitHub，但是并没有完全系统地对它进行学习，所以借此机会，我想对Git进行一次系统全面的学习。 Installation 首先，安装G</description>
     </item>
     
     <item>
       <title>Obsidian Review</title>
-      <link>https://preminstrel.github.io/post/2021/10/16/obsidian-review/</link>
+      <link>https://preminstrel.github.io/blog/post/2021/10/16/obsidian-review/</link>
       <pubDate>Sat, 16 Oct 2021 23:20:55 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2021/10/16/obsidian-review/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2021/10/16/obsidian-review/</guid>
       <description>Obsidian 使用体验 A second brain, for you, forever. Obsidian.md Obsidian 是一款拥支持markdown语法的双链笔记，很好的一点是，区别于Notion、印象笔记等软件，Obsidian做到</description>
     </item>
     
     <item>
       <title>Verilog Basic Syntax</title>
-      <link>https://preminstrel.github.io/post/2021/10/16/verilog-basic-syntax/</link>
+      <link>https://preminstrel.github.io/blog/post/2021/10/16/verilog-basic-syntax/</link>
       <pubDate>Sat, 16 Oct 2021 11:39:41 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2021/10/16/verilog-basic-syntax/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2021/10/16/verilog-basic-syntax/</guid>
       <description>数据类型 Verilog HDL 区分大小写 Verilog HDL 的关键字（如 always、and、input等）都采用小写 Verilog HDL 的注释符和C++一样 数字 Syntax: &amp;lt;bitwidth&amp;gt;&#39;&amp;lt;basis&amp;gt;&amp;lt;value&amp;gt; 数制 进制符号 值 Example Binary b/B 0,1, x,</description>
     </item>
     
     <item>
       <title>About</title>
-      <link>https://preminstrel.github.io/about/</link>
+      <link>https://preminstrel.github.io/blog/about/</link>
       <pubDate>Sat, 16 Oct 2021 10:40:02 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/about/</guid>
+      <guid>https://preminstrel.github.io/blog/about/</guid>
       <description>Hanshi Sun (孙寒石) Currently I&amp;rsquo;m a 2019 undergraduate majoring in Electronic Science and Technology at Southeast University, 🇨🇳, expected to graduate in 2023. My research interest lies on Artificial Intelligence and Computer Vision, etc. Email: preminstrel@gmail.com Education Southeast University&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;2019.09&amp;nbsp;-&amp;nbsp;2023.06 Major: Electronic Science and Technology Research Experience Southeast University 2020.11 - 2021.11 Topic: Analysis of Energy-Efficient DNN Algorithm for Heart Rhythm Recognition Supervisor: Prof. Hao</description>
     </item>
     
     <item>
       <title>Hello Hugo</title>
-      <link>https://preminstrel.github.io/post/2021/10/16/hello_world/</link>
+      <link>https://preminstrel.github.io/blog/post/2021/10/16/hello_world/</link>
       <pubDate>Sat, 16 Oct 2021 10:06:26 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2021/10/16/hello_world/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2021/10/16/hello_world/</guid>
       <description>This is my first blog on Hugo, based on even theme.
 Why Hugo again?  Simple is best.
  Actually, I am familiar with Hexo, Wordpress. I have used hugo themes before, such as Introduction, Docs, which are really wonderful themes as well. Before, I was fascinated by a beatiful and complicate Wordpress theme named Sakura. I pay over 1000 RMB to buy a cloud server to deploy my Wordpress theme.</description>
@@ -384,29 +384,29 @@ Why Hugo again?  Simple is best.
     
     <item>
       <title>Manim</title>
-      <link>https://preminstrel.github.io/post/2021/07/23/manim/</link>
+      <link>https://preminstrel.github.io/blog/post/2021/07/23/manim/</link>
       <pubDate>Fri, 23 Jul 2021 23:53:14 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2021/07/23/manim/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2021/07/23/manim/</guid>
       <description>Video rendering Command line flags 1  $ manim scene.py test -s -pql   -p means preview/play, which can display the rendered video. -ql means low quality (480P15) -qm means medium quality (720P30) -qh means high quality (1080P60) DEFAULT -qp (1440P60) -qk (2160P60) -s means saving the last frame  Mobjects Mobjects are the basic building block for all manim animations. For an instance, Circle, Arrow and Rectangle are mojects.</description>
     </item>
     
     <item>
       <title>Conan M24 The Scarlet Bullet  Review</title>
-      <link>https://preminstrel.github.io/post/2021/07/20/conan-m24-rreview/</link>
+      <link>https://preminstrel.github.io/blog/post/2021/07/20/conan-m24-rreview/</link>
       <pubDate>Tue, 20 Jul 2021 23:53:14 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2021/07/20/conan-m24-rreview/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2021/07/20/conan-m24-rreview/</guid>
       <description>Actually, M24 is similar to other recent releases, which reasoning element is highly reduced while some unscientific and unbelievable phenomenon may happen. To be frank, I clearly know that it is a convert to cater more audience’s demand, including someone who is not interested in mystery stories. Although maybe it is an irreversible transformation, I still hope that M25’s performance can be better in this aspect.
 Let&amp;rsquo;s discuss M24 itself. The background of M24 is the 2020 Tokyo Olympic Games, which was not successfully hold in the real world.</description>
     </item>
     
     <item>
       <title>Uma Musume Review</title>
-      <link>https://preminstrel.github.io/post/2021/07/15/uma-musume/</link>
+      <link>https://preminstrel.github.io/blog/post/2021/07/15/uma-musume/</link>
       <pubDate>Thu, 15 Jul 2021 23:53:14 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2021/07/15/uma-musume/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2021/07/15/uma-musume/</guid>
       <description>Eclipse First, the Rest Nowhere. Overview Uma Musume Pretty Derby has two seasons, I prefer the later season, adaption based on true story of Tokai Teio (トウカイテイオー). The plot is ordinary, even you can preview the next race’s result. However, Cygames, the producer of Uma Musume anime, made it remarkably extraordinary through its expressive pictures.</description>
     </item>
     

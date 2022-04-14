@@ -1,638 +1,638 @@
-<?xml-stylesheet type="text/xsl" href="https://preminstrel.github.io/sitemap.xsl"?>
+<?xml-stylesheet type="text/xsl" href="https://preminstrel.github.io/blog/sitemap.xsl"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://preminstrel.github.io/categories/</loc>
+    <loc>https://preminstrel.github.io/blog/categories/</loc>
     <lastmod>2022-01-28T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/tags/deep-learning/</loc>
+    <loc>https://preminstrel.github.io/blog/tags/deep-learning/</loc>
     <lastmod>2022-01-28T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/post/</loc>
+    <loc>https://preminstrel.github.io/blog/post/</loc>
     <lastmod>2022-01-28T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/tags/</loc>
+    <loc>https://preminstrel.github.io/blog/tags/</loc>
     <lastmod>2022-01-28T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/tags/transformer/</loc>
+    <loc>https://preminstrel.github.io/blog/tags/transformer/</loc>
     <lastmod>2022-01-28T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/categories/transformer/</loc>
+    <loc>https://preminstrel.github.io/blog/categories/transformer/</loc>
     <lastmod>2022-01-28T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/post/2022/01/28/vision-transformer/</loc>
+    <loc>https://preminstrel.github.io/blog/post/2022/01/28/vision-transformer/</loc>
     <lastmod>2022-01-28T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/post/2022/01/26/transformer/</loc>
+    <loc>https://preminstrel.github.io/blog/post/2022/01/26/transformer/</loc>
     <lastmod>2022-01-26T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/post/2022/01/26/self-attention/</loc>
+    <loc>https://preminstrel.github.io/blog/post/2022/01/26/self-attention/</loc>
     <lastmod>2022-01-26T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/tags/mmdetection/</loc>
+    <loc>https://preminstrel.github.io/blog/tags/mmdetection/</loc>
     <lastmod>2022-01-17T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/post/2022/01/17/mmdetection-head/</loc>
+    <loc>https://preminstrel.github.io/blog/post/2022/01/17/mmdetection-head/</loc>
     <lastmod>2022-01-17T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/tags/object-detection/</loc>
+    <loc>https://preminstrel.github.io/blog/tags/object-detection/</loc>
     <lastmod>2022-01-17T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/categories/object-detection/</loc>
+    <loc>https://preminstrel.github.io/blog/categories/object-detection/</loc>
     <lastmod>2022-01-17T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/post/2022/01/16/mmdetection-framework/</loc>
+    <loc>https://preminstrel.github.io/blog/post/2022/01/16/mmdetection-framework/</loc>
     <lastmod>2022-01-16T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/post/2022/01/15/mmdetection-overview/</loc>
+    <loc>https://preminstrel.github.io/blog/post/2022/01/15/mmdetection-overview/</loc>
     <lastmod>2022-01-15T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/post/2022/01/14/faster-r-cnn/</loc>
+    <loc>https://preminstrel.github.io/blog/post/2022/01/14/faster-r-cnn/</loc>
     <lastmod>2022-01-14T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/tags/r-cnn/</loc>
+    <loc>https://preminstrel.github.io/blog/tags/r-cnn/</loc>
     <lastmod>2022-01-14T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/post/2022/01/13/fast-r-cnn/</loc>
+    <loc>https://preminstrel.github.io/blog/post/2022/01/13/fast-r-cnn/</loc>
     <lastmod>2022-01-14T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/post/2022/01/13/sppnet/</loc>
+    <loc>https://preminstrel.github.io/blog/post/2022/01/13/sppnet/</loc>
     <lastmod>2022-01-13T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/post/2022/01/13/r-cnn/</loc>
+    <loc>https://preminstrel.github.io/blog/post/2022/01/13/r-cnn/</loc>
     <lastmod>2022-01-13T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/post/2022/01/12/introduction-to-object-detection/</loc>
+    <loc>https://preminstrel.github.io/blog/post/2022/01/12/introduction-to-object-detection/</loc>
     <lastmod>2022-01-13T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/tags/google/</loc>
+    <loc>https://preminstrel.github.io/blog/tags/google/</loc>
     <lastmod>2022-01-10T21:07:50+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/post/2022/01/10/google-colab/</loc>
+    <loc>https://preminstrel.github.io/blog/post/2022/01/10/google-colab/</loc>
     <lastmod>2022-01-10T21:07:50+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/tags/gpu/</loc>
+    <loc>https://preminstrel.github.io/blog/tags/gpu/</loc>
     <lastmod>2022-01-10T21:07:50+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/categories/gpu/</loc>
+    <loc>https://preminstrel.github.io/blog/categories/gpu/</loc>
     <lastmod>2022-01-10T21:07:50+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/post/2022/01/09/cyclegan/</loc>
+    <loc>https://preminstrel.github.io/blog/post/2022/01/09/cyclegan/</loc>
     <lastmod>2022-01-10T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/tags/gan/</loc>
+    <loc>https://preminstrel.github.io/blog/tags/gan/</loc>
     <lastmod>2022-01-10T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/categories/gan/</loc>
+    <loc>https://preminstrel.github.io/blog/categories/gan/</loc>
     <lastmod>2022-01-10T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/post/2022/01/06/introduction-to-gan/</loc>
+    <loc>https://preminstrel.github.io/blog/post/2022/01/06/introduction-to-gan/</loc>
     <lastmod>2022-01-09T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/tags/fpga/</loc>
+    <loc>https://preminstrel.github.io/blog/tags/fpga/</loc>
     <lastmod>2021-11-04T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/post/2021/11/04/zybo-z7-basics-4/</loc>
+    <loc>https://preminstrel.github.io/blog/post/2021/11/04/zybo-z7-basics-4/</loc>
     <lastmod>2021-11-04T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/tags/zynq/</loc>
+    <loc>https://preminstrel.github.io/blog/tags/zynq/</loc>
     <lastmod>2021-11-04T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/categories/zynq/</loc>
+    <loc>https://preminstrel.github.io/blog/categories/zynq/</loc>
     <lastmod>2021-11-04T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/post/2021/10/31/zybo-z7-basics-3/</loc>
+    <loc>https://preminstrel.github.io/blog/post/2021/10/31/zybo-z7-basics-3/</loc>
     <lastmod>2021-11-01T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/post/2021/10/31/zybo-z7-basics-2/</loc>
+    <loc>https://preminstrel.github.io/blog/post/2021/10/31/zybo-z7-basics-2/</loc>
     <lastmod>2021-10-31T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/post/2021/10/29/zybo-z7-basics-1/</loc>
+    <loc>https://preminstrel.github.io/blog/post/2021/10/29/zybo-z7-basics-1/</loc>
     <lastmod>2021-10-30T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/post/2021/10/29/dcdc-%E5%BC%80%E5%85%B3%E7%94%B5%E6%BA%90/</loc>
+    <loc>https://preminstrel.github.io/blog/post/2021/10/29/dcdc-%E5%BC%80%E5%85%B3%E7%94%B5%E6%BA%90/</loc>
     <lastmod>2021-10-29T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/tags/mcu/</loc>
+    <loc>https://preminstrel.github.io/blog/tags/mcu/</loc>
     <lastmod>2021-10-29T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/categories/mcu/</loc>
+    <loc>https://preminstrel.github.io/blog/categories/mcu/</loc>
     <lastmod>2021-10-29T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/tags/power/</loc>
+    <loc>https://preminstrel.github.io/blog/tags/power/</loc>
     <lastmod>2021-10-29T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/post/2021/10/29/ldo/</loc>
+    <loc>https://preminstrel.github.io/blog/post/2021/10/29/ldo/</loc>
     <lastmod>2021-10-29T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/post/2021/10/28/i2s/</loc>
+    <loc>https://preminstrel.github.io/blog/post/2021/10/28/i2s/</loc>
     <lastmod>2021-10-28T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/tags/protocol/</loc>
+    <loc>https://preminstrel.github.io/blog/tags/protocol/</loc>
     <lastmod>2021-10-28T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/post/2021/10/28/i2c/</loc>
+    <loc>https://preminstrel.github.io/blog/post/2021/10/28/i2c/</loc>
     <lastmod>2021-10-28T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/post/2021/10/28/spi/</loc>
+    <loc>https://preminstrel.github.io/blog/post/2021/10/28/spi/</loc>
     <lastmod>2021-10-28T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/post/2021/10/28/uart/</loc>
+    <loc>https://preminstrel.github.io/blog/post/2021/10/28/uart/</loc>
     <lastmod>2021-10-28T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/post/2021/10/28/introduction-to-communication-protocol/</loc>
+    <loc>https://preminstrel.github.io/blog/post/2021/10/28/introduction-to-communication-protocol/</loc>
     <lastmod>2021-10-28T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/tags/mcs-51/</loc>
+    <loc>https://preminstrel.github.io/blog/tags/mcs-51/</loc>
     <lastmod>2021-10-25T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/post/2021/10/25/mcs-51-basics-3/</loc>
+    <loc>https://preminstrel.github.io/blog/post/2021/10/25/mcs-51-basics-3/</loc>
     <lastmod>2021-10-25T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/post/2021/10/24/mcs-51-basics-2/</loc>
+    <loc>https://preminstrel.github.io/blog/post/2021/10/24/mcs-51-basics-2/</loc>
     <lastmod>2021-10-25T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/post/2021/10/18/mcs-51-basics-1/</loc>
+    <loc>https://preminstrel.github.io/blog/post/2021/10/18/mcs-51-basics-1/</loc>
     <lastmod>2021-10-24T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/categories/fpga/</loc>
+    <loc>https://preminstrel.github.io/blog/categories/fpga/</loc>
     <lastmod>2021-10-18T20:05:26+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/tags/vivado/</loc>
+    <loc>https://preminstrel.github.io/blog/tags/vivado/</loc>
     <lastmod>2021-10-18T20:05:26+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/post/2021/10/18/vivado-ila/</loc>
+    <loc>https://preminstrel.github.io/blog/post/2021/10/18/vivado-ila/</loc>
     <lastmod>2021-10-18T20:05:26+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/post/2021/10/17/vivado-basics/</loc>
+    <loc>https://preminstrel.github.io/blog/post/2021/10/17/vivado-basics/</loc>
     <lastmod>2021-10-17T17:03:41+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/categories/productivity/</loc>
+    <loc>https://preminstrel.github.io/blog/categories/productivity/</loc>
     <lastmod>2021-10-17T13:46:08+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/tags/scoop/</loc>
+    <loc>https://preminstrel.github.io/blog/tags/scoop/</loc>
     <lastmod>2021-10-17T13:46:08+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/post/2021/10/17/scoop/</loc>
+    <loc>https://preminstrel.github.io/blog/post/2021/10/17/scoop/</loc>
     <lastmod>2021-10-17T13:46:08+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/tags/windows/</loc>
+    <loc>https://preminstrel.github.io/blog/tags/windows/</loc>
     <lastmod>2021-10-17T13:46:08+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/post/2021/10/17/deep-learning-on-wsl/</loc>
+    <loc>https://preminstrel.github.io/blog/post/2021/10/17/deep-learning-on-wsl/</loc>
     <lastmod>2021-10-17T13:42:45+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/categories/linux/</loc>
+    <loc>https://preminstrel.github.io/blog/categories/linux/</loc>
     <lastmod>2021-10-17T13:42:45+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/post/2021/10/17/arrhythmia-classifier-using-cnn-with-alq/</loc>
+    <loc>https://preminstrel.github.io/blog/post/2021/10/17/arrhythmia-classifier-using-cnn-with-alq/</loc>
     <lastmod>2021-10-24T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/tags/publication/</loc>
+    <loc>https://preminstrel.github.io/blog/tags/publication/</loc>
     <lastmod>2021-10-24T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/categories/publication/</loc>
+    <loc>https://preminstrel.github.io/blog/categories/publication/</loc>
     <lastmod>2021-10-24T00:00:00+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/categories/model-compression/</loc>
+    <loc>https://preminstrel.github.io/blog/categories/model-compression/</loc>
     <lastmod>2021-10-17T10:48:26+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/tags/quantization/</loc>
+    <loc>https://preminstrel.github.io/blog/tags/quantization/</loc>
     <lastmod>2021-10-17T10:48:26+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/post/2021/10/17/quantization-compression/</loc>
+    <loc>https://preminstrel.github.io/blog/post/2021/10/17/quantization-compression/</loc>
     <lastmod>2021-10-17T10:48:26+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/tags/pytorch/</loc>
+    <loc>https://preminstrel.github.io/blog/tags/pytorch/</loc>
     <lastmod>2021-10-17T00:25:41+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/categories/pytorch/</loc>
+    <loc>https://preminstrel.github.io/blog/categories/pytorch/</loc>
     <lastmod>2021-10-17T00:25:41+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/post/2021/10/17/pytorch-basics/</loc>
+    <loc>https://preminstrel.github.io/blog/post/2021/10/17/pytorch-basics/</loc>
     <lastmod>2021-10-17T00:25:41+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/tags/vim/</loc>
+    <loc>https://preminstrel.github.io/blog/tags/vim/</loc>
     <lastmod>2021-10-17T00:19:58+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/post/2021/10/17/vim-basics/</loc>
+    <loc>https://preminstrel.github.io/blog/post/2021/10/17/vim-basics/</loc>
     <lastmod>2021-10-17T00:19:58+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/tags/git/</loc>
+    <loc>https://preminstrel.github.io/blog/tags/git/</loc>
     <lastmod>2021-10-16T23:53:14+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/categories/git/</loc>
+    <loc>https://preminstrel.github.io/blog/categories/git/</loc>
     <lastmod>2021-10-16T23:53:14+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/post/2021/10/16/git-basic/</loc>
+    <loc>https://preminstrel.github.io/blog/post/2021/10/16/git-basic/</loc>
     <lastmod>2021-10-16T23:53:14+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/tags/obsidian/</loc>
+    <loc>https://preminstrel.github.io/blog/tags/obsidian/</loc>
     <lastmod>2021-10-16T23:20:55+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/post/2021/10/16/obsidian-review/</loc>
+    <loc>https://preminstrel.github.io/blog/post/2021/10/16/obsidian-review/</loc>
     <lastmod>2021-10-16T23:20:55+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/tags/verilog/</loc>
+    <loc>https://preminstrel.github.io/blog/tags/verilog/</loc>
     <lastmod>2021-10-16T11:39:41+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/post/2021/10/16/verilog-basic-syntax/</loc>
+    <loc>https://preminstrel.github.io/blog/post/2021/10/16/verilog-basic-syntax/</loc>
     <lastmod>2021-10-16T11:39:41+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/about/</loc>
+    <loc>https://preminstrel.github.io/blog/about/</loc>
     <lastmod>2021-10-16T10:40:02+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/</loc>
+    <loc>https://preminstrel.github.io/blog/</loc>
     <lastmod>2021-10-16T10:40:02+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/categories/blog/</loc>
+    <loc>https://preminstrel.github.io/blog/categories/blog/</loc>
     <lastmod>2021-10-16T10:06:26+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/post/2021/10/16/hello_world/</loc>
+    <loc>https://preminstrel.github.io/blog/post/2021/10/16/hello_world/</loc>
     <lastmod>2021-10-16T10:06:26+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/tags/hugo/</loc>
+    <loc>https://preminstrel.github.io/blog/tags/hugo/</loc>
     <lastmod>2021-10-16T10:06:26+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/tags/manim/</loc>
+    <loc>https://preminstrel.github.io/blog/tags/manim/</loc>
     <lastmod>2021-07-23T23:53:14+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/categories/manim/</loc>
+    <loc>https://preminstrel.github.io/blog/categories/manim/</loc>
     <lastmod>2021-07-23T23:53:14+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/post/2021/07/23/manim/</loc>
+    <loc>https://preminstrel.github.io/blog/post/2021/07/23/manim/</loc>
     <lastmod>2021-07-23T23:53:14+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/categories/animation/</loc>
+    <loc>https://preminstrel.github.io/blog/categories/animation/</loc>
     <lastmod>2021-07-20T23:53:14+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/tags/conan/</loc>
+    <loc>https://preminstrel.github.io/blog/tags/conan/</loc>
     <lastmod>2021-07-20T23:53:14+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/post/2021/07/20/conan-m24-rreview/</loc>
+    <loc>https://preminstrel.github.io/blog/post/2021/07/20/conan-m24-rreview/</loc>
     <lastmod>2021-07-20T23:53:14+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/post/2021/07/15/uma-musume/</loc>
+    <loc>https://preminstrel.github.io/blog/post/2021/07/15/uma-musume/</loc>
     <lastmod>2021-07-15T23:53:14+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>

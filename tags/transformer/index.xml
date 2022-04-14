@@ -2,39 +2,39 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Transformer on Preminstrel&#39;s Blog</title>
-    <link>https://preminstrel.github.io/tags/transformer/</link>
+    <link>https://preminstrel.github.io/blog/tags/transformer/</link>
     <description>Recent content in Transformer on Preminstrel&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Fri, 28 Jan 2022 17:59:08 +0800</lastBuildDate>
     
-	<atom:link href="https://preminstrel.github.io/tags/transformer/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://preminstrel.github.io/blog/tags/transformer/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Vision Transformer (ViT)</title>
-      <link>https://preminstrel.github.io/post/2022/01/28/vision-transformer/</link>
+      <link>https://preminstrel.github.io/blog/post/2022/01/28/vision-transformer/</link>
       <pubDate>Fri, 28 Jan 2022 17:59:08 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2022/01/28/vision-transformer/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2022/01/28/vision-transformer/</guid>
       <description>我们的模型数据量和运算量都不够大，没有 locality 和 translation equivalence，无法达到很好的效果？</description>
     </item>
     
     <item>
       <title>Transformer</title>
-      <link>https://preminstrel.github.io/post/2022/01/26/transformer/</link>
+      <link>https://preminstrel.github.io/blog/post/2022/01/26/transformer/</link>
       <pubDate>Wed, 26 Jan 2022 17:47:40 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2022/01/26/transformer/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2022/01/26/transformer/</guid>
       <description>《Attention Is All You Need》是 Google 团队在 2017 年提出的一篇论文。该论文以“attention”为核心，提出了 Transformer 模型。Transformer</description>
     </item>
     
     <item>
       <title>Self-Attention</title>
-      <link>https://preminstrel.github.io/post/2022/01/26/self-attention/</link>
+      <link>https://preminstrel.github.io/blog/post/2022/01/26/self-attention/</link>
       <pubDate>Wed, 26 Jan 2022 16:36:51 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2022/01/26/self-attention/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2022/01/26/self-attention/</guid>
       <description>Attention is all you need. 最近刚接触到 Transformer，感觉其模型比 CNNs 要复杂了不少，看了一些论文也仅仅是草草看过，不理解其原理，在网上读了一些 blog</description>
     </item>
     

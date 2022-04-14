@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Git on Preminstrel&#39;s Blog</title>
-    <link>https://preminstrel.github.io/categories/git/</link>
+    <link>https://preminstrel.github.io/blog/categories/git/</link>
     <description>Recent content in Git on Preminstrel&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <lastBuildDate>Sat, 16 Oct 2021 23:53:14 +0800</lastBuildDate>
     
-	<atom:link href="https://preminstrel.github.io/categories/git/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://preminstrel.github.io/blog/categories/git/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Git Basics</title>
-      <link>https://preminstrel.github.io/post/2021/10/16/git-basic/</link>
+      <link>https://preminstrel.github.io/blog/post/2021/10/16/git-basic/</link>
       <pubDate>Sat, 16 Oct 2021 23:53:14 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/post/2021/10/16/git-basic/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2021/10/16/git-basic/</guid>
       <description>之前也是接触过，用过Git和GitHub，但是并没有完全系统地对它进行学习，所以借此机会，我想对Git进行一次系统全面的学习。 Installation 首先，安装G</description>
     </item>
     
