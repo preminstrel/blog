@@ -138,11 +138,20 @@
     </summary>
     <div class="toc"><nav id="TableOfContents">
   <ul>
-    <li>
+    <li><a href="#数据类型">数据类型</a>
       <ul>
-        <li><a href="#数据类型">数据类型</a></li>
-        <li><a href="#运算符">运算符</a></li>
-        <li><a href="#语句">语句</a></li>
+        <li><a href="#数字">数字</a></li>
+        <li><a href="#常量">常量</a></li>
+        <li><a href="#变量">变量</a></li>
+      </ul>
+    </li>
+    <li><a href="#运算符">运算符</a></li>
+    <li><a href="#语句">语句</a>
+      <ul>
+        <li><a href="#过程块">过程块</a></li>
+        <li><a href="#赋值语句">赋值语句</a></li>
+        <li><a href="#语法要点">语法要点</a></li>
+        <li><a href="#coding-要点">Coding 要点</a></li>
       </ul>
     </li>
   </ul>
@@ -152,11 +161,11 @@
   
   <article class="content">
     
-    <h3 id="数据类型">数据类型</h3>
+    <h2 id="数据类型">数据类型</h2>
 <p>Verilog HDL 区分大小写
 Verilog HDL 的关键字（如 always、and、input等）都采用小写
 Verilog HDL 的注释符和C++一样</p>
-<h4 id="数字">数字</h4>
+<h3 id="数字">数字</h3>
 <ul>
 <li>Syntax: <code>&lt;bitwidth&gt;'&lt;basis&gt;&lt;value&gt;</code></li>
 </ul>
@@ -196,7 +205,7 @@ Verilog HDL 的注释符和C++一样</p>
 </tr>
 </tbody>
 </table>
-<h4 id="常量">常量</h4>
+<h3 id="常量">常量</h3>
 <ul>
 <li>Syntax: <code>parameter 参数名1=表达式, 参数名2=表达式, ...;</code></li>
 </ul>
@@ -205,9 +214,9 @@ Verilog HDL 的注释符和C++一样</p>
 <span style="color:#a2f;font-weight:bold">parameter</span> sel <span style="color:#666">=</span> <span style="color:#666">8</span>, code <span style="color:#666">=</span> <span style="color:#666">8&#39;ha3</span>;
 <span style="color:#a2f;font-weight:bold">parameter</span> datawidth <span style="color:#666">=</span> <span style="color:#666">8</span>; addrwidth <span style="color:#666">=</span> datawidth <span style="color:#666">*</span> <span style="color:#666">2</span>
 </code></pre></div><p>好处：便于阅读、修改、增强 module 的通用性</p>
-<h4 id="变量">变量</h4>
-<h5 id="category">Category</h5>
-<h6 id="网络型nets-type">网络型（nets type）：</h6>
+<h3 id="变量">变量</h3>
+<h4 id="category">Category</h4>
+<h5 id="网络型nets-type">网络型（nets type）：</h5>
 <ul>
 <li>硬件电路中各种连接</li>
 <li>输出始终根据输入的变化而更新其值的变化</li>
@@ -254,7 +263,7 @@ Example:</p>
 <li>取值为 0，1，x，z</li>
 <li>Verilog HDL 模块中的输入/输出信号<strong class=chinese>类型缺省</strong>时，自动定义为<em>wire</em>型变量</li>
 </ul>
-<h6 id="寄存器型register-type">寄存器型（register type）：</h6>
+<h5 id="寄存器型register-type">寄存器型（register type）：</h5>
 <ul>
 <li>硬件电路中具有状态保持作用的器件，如触发器和寄存器</li>
 </ul>
@@ -294,7 +303,7 @@ Example:</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-verilog" data-lang="verilog"><span style="color:#0b0;font-weight:bold">reg</span> a, b, c
 <span style="color:#0b0;font-weight:bold">reg</span> [<span style="color:#666">8</span><span style="color:#666">:</span><span style="color:#666">1</span>] databus  	        <span style="color:#080;font-style:italic">//define 8 bits register
 </span><span style="color:#080;font-style:italic"></span><span style="color:#0b0;font-weight:bold">reg</span> [<span style="color:#666">7</span><span style="color:#666">:</span><span style="color:#666">0</span>] mymem[<span style="color:#666">1023</span><span style="color:#666">:</span><span style="color:#666">0</span>] 	<span style="color:#080;font-style:italic">//define 1k bytes memory
-</span></code></pre></div><h3 id="运算符">运算符</h3>
+</span></code></pre></div><h2 id="运算符">运算符</h2>
 <table>
 <thead>
 <tr>
@@ -354,14 +363,14 @@ Example:</p>
 <ul>
 <li>== 和 ==== 的区别：前者结果可能为 x，而后者只有 0 和 1 两种。</li>
 </ul>
-<h3 id="语句">语句</h3>
-<h4 id="过程块">过程块</h4>
-<h5 id="always-过程块">always 过程块</h5>
+<h2 id="语句">语句</h2>
+<h3 id="过程块">过程块</h3>
+<h4 id="always-过程块">always 过程块</h4>
 <p>当表达式的值发生改变时，就执行一遍块内语句</p>
 <ul>
 <li>always 过程块是<strong class=chinese>不能嵌套使用的</strong></li>
 </ul>
-<h6 id="template">Template</h6>
+<h5 id="template">Template</h5>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-verilog" data-lang="verilog"><span style="color:#a2f;font-weight:bold">always</span> @(<span style="color:#666">&lt;</span>signal<span style="color:#666">&gt;</span>)
 <span style="color:#a2f;font-weight:bold">begin</span>
 	<span style="color:#080;font-style:italic">//过程赋值
@@ -369,12 +378,12 @@ Example:</p>
 </span><span style="color:#080;font-style:italic"></span>	<span style="color:#080;font-style:italic">//case 语句
 </span><span style="color:#080;font-style:italic"></span>	<span style="color:#080;font-style:italic">//while, repeat, for 语句
 </span><span style="color:#080;font-style:italic"></span>	<span style="color:#080;font-style:italic">// task, functiony 调用
-</span></code></pre></div><h6 id="posedge-和-negedge-关键字">posedge 和 negedge 关键字</h6>
+</span></code></pre></div><h5 id="posedge-和-negedge-关键字">posedge 和 negedge 关键字</h5>
 <p>clk 为同步时序电路的时钟信号，而 clear 为异步清零信号</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-verilog" data-lang="verilog"><span style="color:#080;font-style:italic">//上升沿触发、高电平清零有效
 </span><span style="color:#080;font-style:italic"></span><span style="color:#a2f;font-weight:bold">always</span> @(<span style="color:#a2f;font-weight:bold">posedge</span> clk <span style="color:#a2f;font-weight:bold">or</span> <span style="color:#a2f;font-weight:bold">posedge</span> clear)
-</code></pre></div><h5 id="initial-过程块">initial 过程块</h5>
-<h6 id="template-1">Template</h6>
+</code></pre></div><h4 id="initial-过程块">initial 过程块</h4>
+<h5 id="template-1">Template</h5>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-verilog" data-lang="verilog"><span style="color:#a2f;font-weight:bold">initial</span>
 	<span style="color:#a2f;font-weight:bold">begin</span>
 		sentence1;
@@ -388,20 +397,20 @@ Example:</p>
 		<span style="color:#a2f;font-weight:bold">for</span> (addr <span style="color:#666">=</span> <span style="color:#666">0</span>; addr <span style="color:#666">&lt;</span> size; addr <span style="color:#666">=</span> addr <span style="color:#666">+</span> <span style="color:#666">1</span>)
 			memory[addr] <span style="color:#666">=</span> <span style="color:#666">0</span>;
 	<span style="color:#a2f;font-weight:bold">end</span>
-</code></pre></div><h6 id="说明">说明</h6>
+</code></pre></div><h5 id="说明">说明</h5>
 <ul>
 <li>主要面向功能模拟，通常不具有可综合性，只用于测试文件（testbench）</li>
 <li>模拟 0 时刻开始执行，<strong class=chinese>只执行一次</strong></li>
 <li>同一模块内的多个 initial 过程块，模拟 0 时刻开始<strong class=chinese>并行</strong>执行</li>
 <li>initial 过程块<strong class=chinese>不能嵌套使用</strong></li>
 </ul>
-<h4 id="赋值语句">赋值语句</h4>
-<h5 id="连续赋值语句assign">连续赋值语句（assign）</h5>
+<h3 id="赋值语句">赋值语句</h3>
+<h4 id="连续赋值语句assign">连续赋值语句（assign）</h4>
 <p>常用于对 wire 型变量进行赋值</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-verilog" data-lang="verilog"><span style="color:#a2f;font-weight:bold">input</span> a, b;
 <span style="color:#a2f;font-weight:bold">output</span> c;
 <span style="color:#a2f;font-weight:bold">assign</span> c <span style="color:#666">=</span> a <span style="color:#666">&amp;</span> b;
-</code></pre></div><h5 id="过程赋值语句">过程赋值语句</h5>
+</code></pre></div><h4 id="过程赋值语句">过程赋值语句</h4>
 <p>常用于 reg 型变量进行赋值
 <strong class=chinese>非阻塞赋值</strong>：一条非阻塞赋值语句的执行是不会阻塞下一条语句的执行，在本条非阻塞赋值语句执行完毕前，下一条语句也可开始执行</p>
 <ul>
@@ -413,7 +422,7 @@ Example:</p>
 <li>该语句结束时就完成赋值操作，前面的语句没有完成前，后面无法执行，所以在一个过程块中，多个阻塞赋值语句是顺序执行的</li>
 <li>赋值符号 <code>=</code></li>
 </ul>
-<h4 id="语法要点">语法要点</h4>
+<h3 id="语法要点">语法要点</h3>
 <ol>
 <li>always 里面赋值左边必须声明为 reg</li>
 <li>assign 表达式左边必须声明 wire</li>
@@ -422,7 +431,7 @@ Example:</p>
 <li>电平触发，条件不完整，生成锁存器的时序逻辑</li>
 <li>声明成 reg，不一定得到寄存器；声明成 reg，也可能得到锁存器</li>
 </ol>
-<h4 id="coding-要点">Coding 要点</h4>
+<h3 id="coding-要点">Coding 要点</h3>
 <ul>
 <li>如果是边沿触发的逻辑，比如 <code>always@(posedge clk)</code>，里面一律使用 <code>&lt;=</code> 赋值</li>
 <li>如果是电平触发的逻辑，一律使用 <code>=</code> 赋值，逻辑简单用 assign 语句；逻辑复杂，用 always 语句；分支条件写完整，防止出现锁存器</li>

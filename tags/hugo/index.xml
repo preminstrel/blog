@@ -17,12 +17,12 @@
       <guid>https://preminstrel.github.io/blog/post/2021/10/16/hello_world/</guid>
       
       <description>&lt;p&gt;This is my first blog on Hugo, based on even theme.&lt;/p&gt;
-&lt;h3 id=&#34;why-hugo-again&#34;&gt;Why Hugo again?&lt;/h3&gt;
+&lt;h2 id=&#34;why-hugo-again&#34;&gt;Why Hugo again?&lt;/h2&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Simple is best.&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;Actually, I am familiar with Hexo, Wordpress. I have used hugo themes before, such as &lt;em&gt;Introduction&lt;/em&gt;, &lt;em&gt;Docs&lt;/em&gt;, which are really wonderful themes as well. Before, I was fascinated by a beatiful and complicate Wordpress theme named &lt;em&gt;Sakura&lt;/em&gt;. I pay over 1000 RMB to buy a cloud server to deploy my Wordpress theme. However, you konw, due to the fact that I am a student so that I cannot pay such amout of money every year. Moreover, I notice that I have spent too much time just on the framework and appearance of the blog site, resulting in less time and attention to writing, which is terrible.&lt;/p&gt;
-&lt;h3 id=&#34;how-it-works&#34;&gt;How it works?&lt;/h3&gt;
+&lt;h2 id=&#34;how-it-works&#34;&gt;How it works?&lt;/h2&gt;
 &lt;p&gt;The site is powered by Hugo and deployed on GiHub Pages for free.&lt;/p&gt;
 </description>
       

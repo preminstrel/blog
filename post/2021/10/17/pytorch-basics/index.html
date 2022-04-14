@@ -189,13 +189,13 @@
     
     <h2 id="01-overview">01. Overview</h2>
 <h3 id="dl--ml">DL &amp; ML</h3>
-<p><img src="/img/20210913192607.png" alt=""></p>
+<p><a href="https://sm.ms/image/waqHslfANR42hpy" target="_blank"><img src="https://s2.loli.net/2022/04/14/waqHslfANR42hpy.png" ></a></p>
 <ul>
 <li>维度诅咒：维度越高，需要的训练集越大</li>
 <li>深度学习和机器学习的区别：多了一层用来提取特征的层。传统的机器学习中（无标签），Feature是单独做训练的，后面的Mapping from features和它是分开的。但是在深度学习中，这个是统一的。所以深度学习也称为 <strong>End to End</strong> 的学习方式。</li>
 </ul>
 <h3 id="route">Route</h3>
-<p><img src="/img/20210913193312.png" alt=""></p>
+<p><a href="https://sm.ms/image/sBkG98xylAX3SLv" target="_blank"><img src="https://s2.loli.net/2022/04/14/sBkG98xylAX3SLv.png" ></a></p>
 <h3 id="gradient-descent">Gradient Descent</h3>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">x_data <span style="color:#666">=</span> [<span style="color:#666">1</span>,<span style="color:#666">2</span>,<span style="color:#666">3</span>]
 y_data <span style="color:#666">=</span> [<span style="color:#666">2</span>,<span style="color:#666">4</span>,<span style="color:#666">6</span>]
@@ -224,14 +224,14 @@ w<span style="color:#666">=</span><span style="color:#666">1</span>
     w <span style="color:#666">-=</span> <span style="color:#666">0.01</span><span style="color:#666">*</span>grad_val
     <span style="color:#a2f;font-weight:bold">print</span>(<span style="color:#b44">&#39;Epoch:&#39;</span>, epoch, <span style="color:#b44">&#39;w=&#39;</span>,w,<span style="color:#b44">&#39;loss=&#39;</span>,loss_val)
 <span style="color:#a2f;font-weight:bold">print</span>(<span style="color:#b44">&#39;Predict(After training)&#39;</span>,<span style="color:#666">4</span>, forward(<span style="color:#666">4</span>))
-</code></pre></div><p><img src="/img/20210913203403.png" alt=""></p>
+</code></pre></div><p><a href="https://sm.ms/image/eRJhsuFPBN6EmpS" target="_blank"><img src="https://s2.loli.net/2022/04/14/eRJhsuFPBN6EmpS.png" ></a></p>
 <ul>
 <li>随机梯度下降的计算无法并行，计算中是有依赖的</li>
 <li>随机梯度下降的性能更好，但是无法并行，所以速度比较慢</li>
 <li>所以我们用<strong>mini-batch</strong>，批量随机梯度下降，这是一种折中的方法</li>
 </ul>
 <h3 id="前向传播和反向传播">前向传播和反向传播</h3>
-<p><img src="/img/20210913220248.png" alt=""></p>
+<p><a href="https://sm.ms/image/L7qQ6NhfiS8WOKt" target="_blank"><img src="https://s2.loli.net/2022/04/14/L7qQ6NhfiS8WOKt.png" ></a></p>
 <h2 id="02-linear-model">02. Linear Model</h2>
 <h3 id="tensor--linear-model">Tensor &amp; Linear Model</h3>
 <p>In PyTorch, Tensor is the important component in <strong>constructing dynamic
@@ -334,7 +334,7 @@ y_test <span style="color:#666">=</span> model(x_test)
 <span style="color:#a2f;font-weight:bold">print</span>(<span style="color:#b44">&#39;y_pred=&#39;</span>, y_test<span style="color:#666">.</span>data)
 </code></pre></div><h2 id="03-logistic-regression">03. Logistic Regression</h2>
 <h3 id="one-dimension">One Dimension</h3>
-<p><img src="/img/20210914162303.png" alt="">
+<p><a href="https://sm.ms/image/RfLNkZoim74CDsu" target="_blank"><img src="https://s2.loli.net/2022/04/14/RfLNkZoim74CDsu.png" ></a>
 Logistic function can guarantee that the output is in $[0,1]$, and loss function is $$loss=-(y\log \hat{y}+(1-y)\log (1-\hat{y}))$$
 此时误差计算的是分布的差异 <strong>(BCE)</strong>，而不是几何上的距离。</p>
 <blockquote>
@@ -371,7 +371,7 @@ optimizer <span style="color:#666">=</span> torch<span style="color:#666">.</spa
 </code></pre></div><h3 id="multi-dimension">Multi Dimension</h3>
 <p>二维数据中，一般来说列对应的是feature，行对应的是sample，一行为一条record</p>
 <h4 id="mini-batchn-samples">Mini-Batch（N samples）</h4>
-<p><img src="/img/20210914165040.png" alt=""></p>
+<p><a href="https://sm.ms/image/5xqKyhOoinIVuHl" target="_blank"><img src="https://s2.loli.net/2022/04/14/5xqKyhOoinIVuHl.png" ></a></p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a2f;font-weight:bold">class</span> <span style="color:#00f">Model</span>(torch<span style="color:#666">.</span>nn<span style="color:#666">.</span>Module):
     <span style="color:#a2f;font-weight:bold">def</span> __init__(self):
         <span style="color:#a2f">super</span>(Model, self)<span style="color:#666">.</span>__init__()
@@ -451,7 +451,7 @@ Number of passes, each pass using <strong>batch size</strong> number of examples
 </ul>
 <p>比如，1000个样本，我们分成10个Batch，Batch-Size=100，Iteration=10</p>
 <h3 id="dataloader">DataLoader</h3>
-<p><img src="/img/20210914182044.png" alt=""></p>
+<p><a href="https://sm.ms/image/gvSpaB4MeVfuDrs" target="_blank"><img src="https://s2.loli.net/2022/04/14/gvSpaB4MeVfuDrs.png" ></a></p>
 <p><strong>Define Dataset</strong></p>
 <ul>
 <li>Dataset 是一个抽象类，不可以实例化；而 DataLoader 是可以实例化的</li>
@@ -626,7 +626,7 @@ optimizer <span style="color:#666">=</span> optim<span style="color:#666">.</spa
 <p>我们在打标签的时候需要从0开始，否则是有问题的。</p>
 <h2 id="06-cnn">06. CNN</h2>
 <p>卷积神经网络可以做到保留原始的空间信息，而全连接层是展开成一个，无法保留空间信息。</p>
-<p><img src="/img/20210915121409.png" alt=""></p>
+<p><a href="https://sm.ms/image/wXULltfeIF5RNpQ" target="_blank"><img src="https://s2.loli.net/2022/04/14/wXULltfeIF5RNpQ.png" ></a></p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a2f;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">torch</span>
 in_channels, out_channels<span style="color:#666">=</span> <span style="color:#666">5</span>, <span style="color:#666">10</span>
 width, height <span style="color:#666">=</span> <span style="color:#666">100</span>, <span style="color:#666">100</span>
@@ -652,7 +652,7 @@ output <span style="color:#666">=</span> conv_layer(<span style="color:#a2f">inp
 torch<span style="color:#666">.</span>Size([<span style="color:#666">1</span>, <span style="color:#666">10</span>, <span style="color:#666">98</span>, <span style="color:#666">98</span>])
 torch<span style="color:#666">.</span>Size([<span style="color:#666">10</span>, <span style="color:#666">5</span>, <span style="color:#666">3</span>, <span style="color:#666">3</span>])
 </code></pre></div><h3 id="mnist-example">MNIST Example</h3>
-<p><img src="/img/20210915122114.png" alt=""></p>
+<p><a href="https://sm.ms/image/i7NS3OYJl5tIupf" target="_blank"><img src="https://s2.loli.net/2022/04/14/i7NS3OYJl5tIupf.png" ></a></p>
 <h4 id="move-model-to-gpu">Move Model to GPU</h4>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">device <span style="color:#666">=</span> torch<span style="color:#666">.</span>device(<span style="color:#b44">&#34;cuda:0&#34;</span> <span style="color:#a2f;font-weight:bold">if</span> torch<span style="color:#666">.</span>cuda<span style="color:#666">.</span>is_available() <span style="color:#a2f;font-weight:bold">else</span> <span style="color:#b44">&#34;cpu&#34;</span>)
 model<span style="color:#666">.</span>to(device)
@@ -688,12 +688,12 @@ model<span style="color:#666">.</span>to(device)
     <span style="color:#a2f;font-weight:bold">print</span>(<span style="color:#b44">&#39;Accuracy on test set: </span><span style="color:#b68;font-weight:bold">%d</span><span style="color:#b44"> </span><span style="color:#b68;font-weight:bold">%%</span><span style="color:#b44"> [</span><span style="color:#b68;font-weight:bold">%d</span><span style="color:#b44">/</span><span style="color:#b68;font-weight:bold">%d</span><span style="color:#b44">]&#39;</span> <span style="color:#666">%</span> (<span style="color:#666">100</span> <span style="color:#666">*</span> correct <span style="color:#666">/</span> total, correct, total))
 
 </code></pre></div><h3 id="inception-module">Inception Module</h3>
-<p><img src="/img/20210915173840.png" alt=""></p>
+<p><a href="https://sm.ms/image/yC6RYmPA4qFVi3g" target="_blank"><img src="https://s2.loli.net/2022/04/14/yC6RYmPA4qFVi3g.png" ></a></p>
 <h4 id="1x1-convolution">1x1 convolution</h4>
 <p>可以<strong class=chinese>改变通道数量</strong>，可以跨越不同通道相同像素的值，做到了信息融合的目的。
 卷积核的数量就代表了通道的数量。
 作用：降低运算量</p>
-<p><img src="/img/20210915175019.png" alt=""></p>
+<p><a href="https://sm.ms/image/OJaXnTPIi29pxBZ" target="_blank"><img src="https://s2.loli.net/2022/04/14/OJaXnTPIi29pxBZ.png" ></a></p>
 
     
   </article>
