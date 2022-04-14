@@ -1,183 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>MMDetection Overview - Preminstrel&#39;s Blog</title>
-  <meta name="renderer" content="webkit" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
+  
+  <meta name="author" content="Hanshi Sun">
 
-<meta name="theme-color" content="#f8f5ec" />
-<meta name="msapplication-navbutton-color" content="#f8f5ec">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+  
+  
+  <meta name="description" content="MMDetection 是一个基于 PyTorch 的目标检测开源工具箱。它是 OpenMMLab 项目的一部分。目前已经复现了大部分主流和前沿模型，例如 Faster R-CNN 系列、Mask R-CNN 系列、YOLO 系列和比较">
+  
+
+  
+  <link rel="icon" href="https://preminstrel.github.io/blog/favicon.ico">
+
+  
+  
+  <meta name="keywords" content=" hugo  latex  theme ">
+  
+
+  
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css"
+  integrity="sha384-KiWOvVjnN8qwAZbuQyWDIbfCLFhLXNETzBQjA/92pIowpC0d2O3nppDGQVgwd2nB" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+  integrity="sha384-0fdwu/T/EQMsQlrHCCHoH10pkPLlKA1jL5dFyUOvB3lfeT2540/2g6YgSi2BL14p" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/contrib/auto-render.min.js"
+  integrity="sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR" crossorigin="anonymous"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: '$$', right: '$$', display: true },
+        { left: '\\[', right: '\\]', display: true },
+        { left: '$', right: '$', display: false },
+        { left: '\\(', right: '\\)', display: false }
+      ],
+      ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code', 'option'],
+      throwOnError: false
+    });
+  });
+</script>
 
 
-<meta name="author" content="Hanshi Sun" /><meta name="description" content="MMDetection 是一个基于 PyTorch 的目标检测开源工具箱。它是 OpenMMLab 项目的一部分。目前已经复现了大部分主流和前沿模型，例如 Faster R-CNN 系列、Mask R-CNN 系列、YOLO 系列和比较" /><meta name="keywords" content="Preminstrel" />
+  
 
-
-<meta name="robots" content="">
-
-
-
-
-
-
-<meta name="generator" content="Hugo 0.68.3 with theme even" />
-
-
-<link rel="canonical" href="https://preminstrel.github.io/blog/post/2022/01/15/mmdetection-overview/" />
-<link rel="apple-touch-icon" sizes="180x180" href="/blog/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/blog/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/blog/favicon-16x16.png">
-<link rel="manifest" href="/blog/manifest.json">
-<link rel="mask-icon" href="/blog/safari-pinned-tab.svg" color="#5bbad5">
-
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-<link href="/blog/sass/main.min.75451ad2d2268431f3dfb6289a5d8bc042bd3e23f7ac463fe449ed7872bb8c72.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
-
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" /><meta property="og:title" content="MMDetection Overview" />
+  
+  <meta property="og:title" content="MMDetection Overview" />
 <meta property="og:description" content="MMDetection 是一个基于 PyTorch 的目标检测开源工具箱。它是 OpenMMLab 项目的一部分。目前已经复现了大部分主流和前沿模型，例如 Faster R-CNN 系列、Mask R-CNN 系列、YOLO 系列和比较" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://preminstrel.github.io/blog/post/2022/01/15/mmdetection-overview/" />
 <meta property="article:published_time" content="2022-01-15T12:12:07+08:00" />
 <meta property="article:modified_time" content="2022-01-15T00:00:00+00:00" />
-<meta itemprop="name" content="MMDetection Overview">
+
+
+  
+  <link rel="canonical" href="https://preminstrel.github.io/blog/post/2022/01/15/mmdetection-overview/">
+
+  
+  
+  <meta itemprop="name" content="MMDetection Overview">
 <meta itemprop="description" content="MMDetection 是一个基于 PyTorch 的目标检测开源工具箱。它是 OpenMMLab 项目的一部分。目前已经复现了大部分主流和前沿模型，例如 Faster R-CNN 系列、Mask R-CNN 系列、YOLO 系列和比较">
 <meta itemprop="datePublished" content="2022-01-15T12:12:07&#43;08:00" />
 <meta itemprop="dateModified" content="2022-01-15T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="3913">
+<meta itemprop="wordCount" content="3791">
 
 
 
-<meta itemprop="keywords" content="Object Detection,Deep Learning,MMDetection," /><meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="Object Detection,Deep Learning,MMDetection," />
+
+  
+  <link media="screen" rel="stylesheet" href='https://preminstrel.github.io/blog/css/common.css'>
+  <link media="screen" rel="stylesheet" href='https://preminstrel.github.io/blog/css/content.css'>
+
+  
+  
+  <title>MMDetection Overview - Blog de Preminstrel</title>
+  
+
+  
+  <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="MMDetection Overview"/>
 <meta name="twitter:description" content="MMDetection 是一个基于 PyTorch 的目标检测开源工具箱。它是 OpenMMLab 项目的一部分。目前已经复现了大部分主流和前沿模型，例如 Faster R-CNN 系列、Mask R-CNN 系列、YOLO 系列和比较"/>
 
-<!--[if lte IE 9]>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
-<![endif]-->
 
-<!--[if lt IE 9]>
-  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
-<![endif]-->
+  
+<link rel="stylesheet" href='https://preminstrel.github.io/blog/css/single.css'>
 
 </head>
+
 <body>
-  <div id="mobile-navbar" class="mobile-navbar">
-  <div class="mobile-header-logo">
-    <a href="/blog/" class="logo">Preminstrel</a>
-  </div>
-  <div class="mobile-navbar-icon">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
-</div>
-<nav id="mobile-menu" class="mobile-menu slideout-menu">
-  <ul class="mobile-menu-list">
-    <a href="/blog/">
-        <li class="mobile-menu-item">Home</li>
-      </a><a href="/blog/post/">
-        <li class="mobile-menu-item">Archives</li>
-      </a><a href="/blog/tags/">
-        <li class="mobile-menu-item">Tags</li>
-      </a><a href="/blog/categories/">
-        <li class="mobile-menu-item">Categories</li>
-      </a><a href="/blog/about/">
-        <li class="mobile-menu-item">About</li>
-      </a>
-  </ul>
-</nav>
-  <div class="container" id="mobile-panel">
-    <header id="header" class="header">
-        <div class="logo-wrapper">
-  <a href="/blog/" class="logo">Preminstrel</a>
-</div>
+  <div id="wrapper">
+    <header id="header">
+  <h1>
+    <a href="https://preminstrel.github.io/blog/">Blog de Preminstrel</a>
+  </h1>
 
-
-<nav class="site-navbar">
-  <ul id="menu" class="menu">
-    <li class="menu-item">
-        <a class="menu-item-link" href="/blog/">Home</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/blog/post/">Archives</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/blog/tags/">Tags</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/blog/categories/">Categories</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/blog/about/">About</a>
-      </li>
-  </ul>
-</nav><li style="display:inline-block;margin-left:290px;">
-    <input type="search" class="docsearch-input" placeholder="Search" />
-  </li>
-    </header>
-
-    <main id="main" class="main">
-      <div class="content-wrapper">
-        <div id="content" class="content">
-          <article class="post">
+  <nav>
     
-    <header class="post-header">
-      <h1 class="post-title">MMDetection Overview</h1>
+    <span class="nav-bar-item">
+      <a class="link" href="/blog/">Post</a>
+    </span>
+    
+    <span class="nav-bar-item">
+      <a class="link" href="/blog/post/">Archives</a>
+    </span>
+    
+    <span class="nav-bar-item">
+      <a class="link" href="/blog/about/">About</a>
+    </span>
+    
+  </nav>
+</header>
 
-      <div class="post-meta">
-        <span class="post-time"> 2022-01-15 </span>
-        <div class="post-category">
-            <a href="/blog/categories/object-detection/"> Object Detection </a>
-            </div>
-          <span class="more-meta"> 3913 words </span>
-          <span class="more-meta"> 8 mins read </span>
-        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/blog/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
-      </div>
-    </header>
-
-    <div class="post-toc" id="post-toc">
-  <h2 class="post-toc-title">Contents</h2>
-  <div class="post-toc-content always-active">
-    <nav id="TableOfContents">
-  <ul>
-    <li><a href="#classifications">Classifications</a></li>
-    <li><a href="#pipeline">Pipeline</a>
-      <ul>
-        <li><a href="#train">Train</a>
-          <ul>
-            <li><a href="#backbone">Backbone</a></li>
-            <li><a href="#neck">Neck</a></li>
-            <li><a href="#head">Head</a></li>
-            <li><a href="#enhance">Enhance</a></li>
-            <li><a href="#bbox-assigner">BBox Assigner</a></li>
-            <li><a href="#bbox-sampler">BBox Sampler</a></li>
-            <li><a href="#training-tricks">Training tricks</a></li>
-          </ul>
-        </li>
-        <li><a href="#test">Test</a>
-          <ul>
-            <li><a href="#bbox-decoder">BBox Decoder</a></li>
-            <li><a href="#bbox-postprocess">BBox PostProcess</a></li>
-            <li><a href="#testing-tricks">Testing tricks</a></li>
-            <li><a href="#example">Example</a></li>
-          </ul>
-        </li>
-        <li><a href="#conclusion">Conclusion</a></li>
-      </ul>
-    </li>
-    <li><a href="#reference">Reference</a></li>
-  </ul>
-</nav>
+    
+<main id="main" class="post">
+  
+  
+  <h1>MMDetection Overview</h1>
+  
+  <div>
+    <b>Keywords: </b>
+    
+    <a class="link" href='https://preminstrel.github.io/blog/tags/object-detection'>#Object Detection</a>
+    
+    <a class="link" href='https://preminstrel.github.io/blog/tags/deep-learning'>#Deep Learning</a>
+    
+    <a class="link" href='https://preminstrel.github.io/blog/tags/mmdetection'>#MMDetection</a>
+    
   </div>
-</div>
-    <div class="post-content">
-      <p><a href="https://github.com/open-mmlab/mmdetection">MMDetection</a> 是一个基于 PyTorch 的目标检测开源工具箱。它是 <a href="https://openmmlab.com/">OpenMMLab</a> 项目的一部分。目前已经复现了大部分主流和前沿模型，例如 Faster R-CNN 系列、Mask R-CNN 系列、YOLO 系列和比较新的 DETR 等等，模型库非常丰富，在学术研究和工业落地中应用非常广泛。</p>
+  
+  
+  <article class="content">
+    
+    <p><a href="https://github.com/open-mmlab/mmdetection">MMDetection</a> 是一个基于 PyTorch 的目标检测开源工具箱。它是 <a href="https://openmmlab.com/">OpenMMLab</a> 项目的一部分。目前已经复现了大部分主流和前沿模型，例如 Faster R-CNN 系列、Mask R-CNN 系列、YOLO 系列和比较新的 DETR 等等，模型库非常丰富，在学术研究和工业落地中应用非常广泛。</p>
 <div align=center>
 <img src="/img/20220115131101.png" width="800px"/>
 </div>
@@ -224,123 +184,59 @@ graph LR
 graph LR
 	id1(ResNet)---id2(ResNext)---id3(Res2Net)---id4(ResNeSt)---id5(DarkNet)---id7(SSD_VGG);
 </div>
-<p>backbone 作用主要是<strong>特征提取</strong>。目前 MMDetection 中已经集成了大部分骨架网络，具体见文件：<code>mmdet/models/backbones</code>，已经实现的骨架有：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s1">&#39;RegNet&#39;</span><span class="p">,</span> <span class="s1">&#39;ResNet&#39;</span><span class="p">,</span> <span class="s1">&#39;ResNetV1d&#39;</span><span class="p">,</span> <span class="s1">&#39;ResNeXt&#39;</span><span class="p">,</span> <span class="s1">&#39;SSDVGG&#39;</span><span class="p">,</span> <span class="s1">&#39;HRNet&#39;</span><span class="p">,</span> <span class="s1">&#39;Res2Net&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;HourglassNet&#39;</span><span class="p">,</span> <span class="s1">&#39;DetectoRS_ResNet&#39;</span><span class="p">,</span> <span class="s1">&#39;DetectoRS_ResNeXt&#39;</span><span class="p">,</span> <span class="s1">&#39;Darknet&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;ResNeSt&#39;</span><span class="p">,</span> <span class="s1">&#39;TridentResNet&#39;</span>
-<span class="p">]</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>最常用的是 ResNet 系列、ResNetV1d 系列和 Res2Net 系列。如果需要对骨架进行扩展，可以继承上述网络，然后通过<strong>注册器机制注册使用</strong>。一个典型用法为：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># 骨架的预训练权重路径</span>
-<span class="n">pretrained</span><span class="o">=</span><span class="s1">&#39;torchvision://resnet50&#39;</span><span class="p">,</span>
-<span class="n">backbone</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
-    <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;ResNet&#39;</span><span class="p">,</span> <span class="c1"># 骨架类名，后面的参数都是该类的初始化参数</span>
-    <span class="n">depth</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
-    <span class="n">num_stages</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
-    <span class="n">out_indices</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span>
-    <span class="n">frozen_stages</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-    <span class="n">norm_cfg</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s1">&#39;BN&#39;</span><span class="p">,</span> <span class="n">requires_grad</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span> 
-    <span class="n">norm_eval</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-    <span class="n">style</span><span class="o">=</span><span class="s1">&#39;pytorch&#39;</span><span class="p">),</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>通过 MMCV 中的注册器机制，<strong>可以通过 dict 形式的配置来实例化任何已经注册的类</strong>，非常方便和灵活。</p>
+<p>backbone 作用主要是<strong class=chinese>特征提取</strong>。目前 MMDetection 中已经集成了大部分骨架网络，具体见文件：<code>mmdet/models/backbones</code>，已经实现的骨架有：</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">__all__ <span style="color:#666">=</span> [
+    <span style="color:#b44">&#39;RegNet&#39;</span>, <span style="color:#b44">&#39;ResNet&#39;</span>, <span style="color:#b44">&#39;ResNetV1d&#39;</span>, <span style="color:#b44">&#39;ResNeXt&#39;</span>, <span style="color:#b44">&#39;SSDVGG&#39;</span>, <span style="color:#b44">&#39;HRNet&#39;</span>, <span style="color:#b44">&#39;Res2Net&#39;</span>,
+    <span style="color:#b44">&#39;HourglassNet&#39;</span>, <span style="color:#b44">&#39;DetectoRS_ResNet&#39;</span>, <span style="color:#b44">&#39;DetectoRS_ResNeXt&#39;</span>, <span style="color:#b44">&#39;Darknet&#39;</span>,
+    <span style="color:#b44">&#39;ResNeSt&#39;</span>, <span style="color:#b44">&#39;TridentResNet&#39;</span>
+]
+</code></pre></div><p>最常用的是 ResNet 系列、ResNetV1d 系列和 Res2Net 系列。如果需要对骨架进行扩展，可以继承上述网络，然后通过<strong class=chinese>注册器机制注册使用</strong>。一个典型用法为：</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#080;font-style:italic"># 骨架的预训练权重路径</span>
+pretrained<span style="color:#666">=</span><span style="color:#b44">&#39;torchvision://resnet50&#39;</span>,
+backbone<span style="color:#666">=</span><span style="color:#a2f">dict</span>(
+    <span style="color:#a2f">type</span><span style="color:#666">=</span><span style="color:#b44">&#39;ResNet&#39;</span>, <span style="color:#080;font-style:italic"># 骨架类名，后面的参数都是该类的初始化参数</span>
+    depth<span style="color:#666">=</span><span style="color:#666">50</span>,
+    num_stages<span style="color:#666">=</span><span style="color:#666">4</span>,
+    out_indices<span style="color:#666">=</span>(<span style="color:#666">0</span>, <span style="color:#666">1</span>, <span style="color:#666">2</span>, <span style="color:#666">3</span>),
+    frozen_stages<span style="color:#666">=</span><span style="color:#666">1</span>,
+    norm_cfg<span style="color:#666">=</span><span style="color:#a2f">dict</span>(<span style="color:#a2f">type</span><span style="color:#666">=</span><span style="color:#b44">&#39;BN&#39;</span>, requires_grad<span style="color:#666">=</span>True), 
+    norm_eval<span style="color:#666">=</span>True,
+    style<span style="color:#666">=</span><span style="color:#b44">&#39;pytorch&#39;</span>),
+</code></pre></div><p>通过 MMCV 中的注册器机制，<strong>可以通过 dict 形式的配置来实例化任何已经注册的类</strong>，非常方便和灵活。</p>
 <h3 id="neck">Neck</h3>
 <div class="mermaid">
 graph LR
 	id1(FPN)---id2(BFP)---id3(RFP)---id4(PAFPN)---id5(NAS_FPN)---id7(HRFPN);
 </div>
-<p>neck 可以认为是 backbone 和 head 的<strong>连接层</strong>，主要负责<strong>对 backbone 的特征进行高效融合和增强，能够对输入的单尺度或者多尺度特征进行融合、增强输出等</strong>。具体见文件：<code>mmdet/models/necks</code>，已经实现的 neck 如下：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s1">&#39;FPN&#39;</span><span class="p">,</span> <span class="s1">&#39;BFP&#39;</span><span class="p">,</span> <span class="s1">&#39;ChannelMapper&#39;</span><span class="p">,</span> <span class="s1">&#39;HRFPN&#39;</span><span class="p">,</span> <span class="s1">&#39;NASFPN&#39;</span><span class="p">,</span> <span class="s1">&#39;FPN_CARAFE&#39;</span><span class="p">,</span> <span class="s1">&#39;PAFPN&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;NASFCOS_FPN&#39;</span><span class="p">,</span> <span class="s1">&#39;RFP&#39;</span><span class="p">,</span> <span class="s1">&#39;YOLOV3Neck&#39;</span>
-<span class="p">]</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>最常用的应该是 <em><strong>FPN</strong></em>，一个典型用法是：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">neck</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
-    <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;FPN&#39;</span><span class="p">,</span>
-    <span class="n">in_channels</span><span class="o">=</span><span class="p">[</span><span class="mi">256</span><span class="p">,</span> <span class="mi">512</span><span class="p">,</span> <span class="mi">1024</span><span class="p">,</span> <span class="mi">2048</span><span class="p">],</span> <span class="c1"># 骨架多尺度特征图输出通道</span>
-    <span class="n">out_channels</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="c1"># 增强后通道输出</span>
-    <span class="n">num_outs</span><span class="o">=</span><span class="mi">5</span><span class="p">),</span> <span class="c1"># 输出num_outs个多尺度特征图</span>
-</code></pre></td></tr></table>
-</div>
-</div><h3 id="head">Head</h3>
+<p>neck 可以认为是 backbone 和 head 的<strong class=chinese>连接层</strong>，主要负责<strong>对 backbone 的特征进行高效融合和增强，能够对输入的单尺度或者多尺度特征进行融合、增强输出等</strong>。具体见文件：<code>mmdet/models/necks</code>，已经实现的 neck 如下：</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">__all__ <span style="color:#666">=</span> [
+    <span style="color:#b44">&#39;FPN&#39;</span>, <span style="color:#b44">&#39;BFP&#39;</span>, <span style="color:#b44">&#39;ChannelMapper&#39;</span>, <span style="color:#b44">&#39;HRFPN&#39;</span>, <span style="color:#b44">&#39;NASFPN&#39;</span>, <span style="color:#b44">&#39;FPN_CARAFE&#39;</span>, <span style="color:#b44">&#39;PAFPN&#39;</span>,
+    <span style="color:#b44">&#39;NASFCOS_FPN&#39;</span>, <span style="color:#b44">&#39;RFP&#39;</span>, <span style="color:#b44">&#39;YOLOV3Neck&#39;</span>
+]
+</code></pre></div><p>最常用的应该是 <em><strong>FPN</strong></em>，一个典型用法是：</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">neck<span style="color:#666">=</span><span style="color:#a2f">dict</span>(
+    <span style="color:#a2f">type</span><span style="color:#666">=</span><span style="color:#b44">&#39;FPN&#39;</span>,
+    in_channels<span style="color:#666">=</span>[<span style="color:#666">256</span>, <span style="color:#666">512</span>, <span style="color:#666">1024</span>, <span style="color:#666">2048</span>], <span style="color:#080;font-style:italic"># 骨架多尺度特征图输出通道</span>
+    out_channels<span style="color:#666">=</span><span style="color:#666">256</span>, <span style="color:#080;font-style:italic"># 增强后通道输出</span>
+    num_outs<span style="color:#666">=</span><span style="color:#666">5</span>), <span style="color:#080;font-style:italic"># 输出num_outs个多尺度特征图</span>
+</code></pre></div><h3 id="head">Head</h3>
 <div class="mermaid">
 graph LR
 	id1(FC Mode)---id2(Conv Mode);
 </div>
-<p>目标检测算法输出一般包括<strong>分类和框坐标回归</strong>两个分支，不同算法 head 模块复杂程度不一样，灵活度比较高。在网络构建方面，理解目标检测算法主要是要理解 head 模块。</p>
+<p>目标检测算法输出一般包括<strong class=chinese>分类和框坐标回归</strong>两个分支，不同算法 head 模块复杂程度不一样，灵活度比较高。在网络构建方面，理解目标检测算法主要是要理解 head 模块。</p>
 <p>MMDetection 中 head 模块又划分为 <strong>two-stage 所需的 RoIHead 和 one-stage 所需的 DenseHead</strong>，也就是说所有的 one-stage 算法的 head 模块都在<code>mmdet/models/dense_heads</code>中，而 two-stage 算法还包括额外的<code>mmdet/models/roi_heads</code>。</p>
 <p>目前中已经实现的 dense_heads 包括：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span><span class="lnt">8
-</span><span class="lnt">9
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s1">&#39;AnchorFreeHead&#39;</span><span class="p">,</span> <span class="s1">&#39;AnchorHead&#39;</span><span class="p">,</span> <span class="s1">&#39;GuidedAnchorHead&#39;</span><span class="p">,</span> <span class="s1">&#39;FeatureAdaption&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;RPNHead&#39;</span><span class="p">,</span> <span class="s1">&#39;GARPNHead&#39;</span><span class="p">,</span> <span class="s1">&#39;RetinaHead&#39;</span><span class="p">,</span> <span class="s1">&#39;RetinaSepBNHead&#39;</span><span class="p">,</span> <span class="s1">&#39;GARetinaHead&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;SSDHead&#39;</span><span class="p">,</span> <span class="s1">&#39;FCOSHead&#39;</span><span class="p">,</span> <span class="s1">&#39;RepPointsHead&#39;</span><span class="p">,</span> <span class="s1">&#39;FoveaHead&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;FreeAnchorRetinaHead&#39;</span><span class="p">,</span> <span class="s1">&#39;ATSSHead&#39;</span><span class="p">,</span> <span class="s1">&#39;FSAFHead&#39;</span><span class="p">,</span> <span class="s1">&#39;NASFCOSHead&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;PISARetinaHead&#39;</span><span class="p">,</span> <span class="s1">&#39;PISASSDHead&#39;</span><span class="p">,</span> <span class="s1">&#39;GFLHead&#39;</span><span class="p">,</span> <span class="s1">&#39;CornerHead&#39;</span><span class="p">,</span> <span class="s1">&#39;YOLACTHead&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;YOLACTSegmHead&#39;</span><span class="p">,</span> <span class="s1">&#39;YOLACTProtonet&#39;</span><span class="p">,</span> <span class="s1">&#39;YOLOV3Head&#39;</span><span class="p">,</span> <span class="s1">&#39;PAAHead&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;SABLRetinaHead&#39;</span><span class="p">,</span> <span class="s1">&#39;CentripetalHead&#39;</span><span class="p">,</span> <span class="s1">&#39;VFNetHead&#39;</span><span class="p">,</span> <span class="s1">&#39;TransformerHead&#39;</span>
-<span class="p">]</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>几乎每个算法都包括一个独立的 head，而 roi_heads 比较杂，就不列出了。</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">__all__ <span style="color:#666">=</span> [
+    <span style="color:#b44">&#39;AnchorFreeHead&#39;</span>, <span style="color:#b44">&#39;AnchorHead&#39;</span>, <span style="color:#b44">&#39;GuidedAnchorHead&#39;</span>, <span style="color:#b44">&#39;FeatureAdaption&#39;</span>,
+    <span style="color:#b44">&#39;RPNHead&#39;</span>, <span style="color:#b44">&#39;GARPNHead&#39;</span>, <span style="color:#b44">&#39;RetinaHead&#39;</span>, <span style="color:#b44">&#39;RetinaSepBNHead&#39;</span>, <span style="color:#b44">&#39;GARetinaHead&#39;</span>,
+    <span style="color:#b44">&#39;SSDHead&#39;</span>, <span style="color:#b44">&#39;FCOSHead&#39;</span>, <span style="color:#b44">&#39;RepPointsHead&#39;</span>, <span style="color:#b44">&#39;FoveaHead&#39;</span>,
+    <span style="color:#b44">&#39;FreeAnchorRetinaHead&#39;</span>, <span style="color:#b44">&#39;ATSSHead&#39;</span>, <span style="color:#b44">&#39;FSAFHead&#39;</span>, <span style="color:#b44">&#39;NASFCOSHead&#39;</span>,
+    <span style="color:#b44">&#39;PISARetinaHead&#39;</span>, <span style="color:#b44">&#39;PISASSDHead&#39;</span>, <span style="color:#b44">&#39;GFLHead&#39;</span>, <span style="color:#b44">&#39;CornerHead&#39;</span>, <span style="color:#b44">&#39;YOLACTHead&#39;</span>,
+    <span style="color:#b44">&#39;YOLACTSegmHead&#39;</span>, <span style="color:#b44">&#39;YOLACTProtonet&#39;</span>, <span style="color:#b44">&#39;YOLOV3Head&#39;</span>, <span style="color:#b44">&#39;PAAHead&#39;</span>,
+    <span style="color:#b44">&#39;SABLRetinaHead&#39;</span>, <span style="color:#b44">&#39;CentripetalHead&#39;</span>, <span style="color:#b44">&#39;VFNetHead&#39;</span>, <span style="color:#b44">&#39;TransformerHead&#39;</span>
+]
+</code></pre></div><p>几乎每个算法都包括一个独立的 head，而 roi_heads 比较杂，就不列出了。</p>
 <p>需要注意的是：<strong>two-stage 或者 mutli-stage 算法，会额外包括一个区域提取器 roi extractor，用于将不同大小的 RoI 特征图统一成相同大小</strong>。</p>
 <p>虽然 head 部分的网络构建比较简单，但是由于正负样本属性定义、正负样本采样和 bbox 编解码模块都在 head 模块中进行组合调用，故 MMDetection <strong>中最复杂的模块就是 head</strong>。在最后的整体流程部分会对该模块进行详细分析。</p>
 <h3 id="enhance">Enhance</h3>
@@ -352,42 +248,20 @@ graph LR
 <h3 id="bbox-assigner">BBox Assigner</h3>
 <p>正负样本属性分配模块作用是进行正负样本定义或者正负样本分配（可能也包括忽略样本定义），正样本就是常说的前景样本（可以是任何类别），负样本就是背景样本。因为目标检测是一个同时进行分类和回归的问题，对于分类场景必然需要确定正负样本，否则无法训练。<strong>该模块至关重要，不同的正负样本分配策略会带来显著的性能差异</strong>，目前大部分目标检测算法都会对这个部分进行改进，至关重要。</p>
 <p>对应的代码在<code>mmdet/core/bbox/assigners</code>中，主要包括：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s1">&#39;BaseAssigner&#39;</span><span class="p">,</span> <span class="s1">&#39;MaxIoUAssigner&#39;</span><span class="p">,</span> <span class="s1">&#39;ApproxMaxIoUAssigner&#39;</span><span class="p">,</span> 
-    <span class="s1">&#39;PointAssigner&#39;</span><span class="p">,</span> <span class="s1">&#39;ATSSAssigner&#39;</span><span class="p">,</span> <span class="s1">&#39;CenterRegionAssigner&#39;</span><span class="p">,</span> <span class="s1">&#39;GridAssigner&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;HungarianAssigner&#39;</span>
-<span class="p">]</span>
-</code></pre></td></tr></table>
-</div>
-</div><h3 id="bbox-sampler">BBox Sampler</h3>
-<p>在确定每个样本的正负属性后，可能还需要进行<strong>样本平衡操作</strong>。本模块作用是<strong>对前面定义的正负样本不平衡进行采样，力争克服该问题</strong>。一般在目标检测中 gt bbox 都是非常少的，所以正负样本比是远远小于 1 的。而基于机器学习观点：在数据极度不平衡情况下进行分类会出现预测倾向于样本多的类别，出现过拟合，为了克服该问题，适当的正负样本采样策略是非常必要的。</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">__all__ <span style="color:#666">=</span> [
+    <span style="color:#b44">&#39;BaseAssigner&#39;</span>, <span style="color:#b44">&#39;MaxIoUAssigner&#39;</span>, <span style="color:#b44">&#39;ApproxMaxIoUAssigner&#39;</span>, 
+    <span style="color:#b44">&#39;PointAssigner&#39;</span>, <span style="color:#b44">&#39;ATSSAssigner&#39;</span>, <span style="color:#b44">&#39;CenterRegionAssigner&#39;</span>, <span style="color:#b44">&#39;GridAssigner&#39;</span>,
+    <span style="color:#b44">&#39;HungarianAssigner&#39;</span>
+]
+</code></pre></div><h3 id="bbox-sampler">BBox Sampler</h3>
+<p>在确定每个样本的正负属性后，可能还需要进行<strong class=chinese>样本平衡操作</strong>。本模块作用是<strong>对前面定义的正负样本不平衡进行采样，力争克服该问题</strong>。一般在目标检测中 gt bbox 都是非常少的，所以正负样本比是远远小于 1 的。而基于机器学习观点：在数据极度不平衡情况下进行分类会出现预测倾向于样本多的类别，出现过拟合，为了克服该问题，适当的正负样本采样策略是非常必要的。</p>
 <p>对应的代码在<code>mmdet/core/bbox/samplers</code>中，主要包括：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s1">&#39;BaseSampler&#39;</span><span class="p">,</span> <span class="s1">&#39;PseudoSampler&#39;</span><span class="p">,</span> <span class="s1">&#39;RandomSampler&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;InstanceBalancedPosSampler&#39;</span><span class="p">,</span> <span class="s1">&#39;IoUBalancedNegSampler&#39;</span><span class="p">,</span> <span class="s1">&#39;CombinedSampler&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;OHEMSampler&#39;</span><span class="p">,</span> <span class="s1">&#39;SamplingResult&#39;</span><span class="p">,</span> <span class="s1">&#39;ScoreHLRSampler&#39;</span>
-<span class="p">]</span>
-</code></pre></td></tr></table>
-</div>
-</div><h3 id="training-tricks">Training tricks</h3>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">__all__ <span style="color:#666">=</span> [
+    <span style="color:#b44">&#39;BaseSampler&#39;</span>, <span style="color:#b44">&#39;PseudoSampler&#39;</span>, <span style="color:#b44">&#39;RandomSampler&#39;</span>,
+    <span style="color:#b44">&#39;InstanceBalancedPosSampler&#39;</span>, <span style="color:#b44">&#39;IoUBalancedNegSampler&#39;</span>, <span style="color:#b44">&#39;CombinedSampler&#39;</span>,
+    <span style="color:#b44">&#39;OHEMSampler&#39;</span>, <span style="color:#b44">&#39;SamplingResult&#39;</span>, <span style="color:#b44">&#39;ScoreHLRSampler&#39;</span>
+]
+</code></pre></div><h3 id="training-tricks">Training tricks</h3>
 <p>训练技巧非常多，常说的调参很大一部分工作都是在设置这部分超参。这部分内容比较杂乱，很难做到完全统一。</p>
 <h2 id="test">Test</h2>
 <p>测试核心组件和训练非常类似，但是简单很多，除了必备的网络构建部分外( backbone、neck、head 和 enhance )，不需要正负样本定义、正负样本采样和 loss 计算三个最难的部分，但是其额外需要一个 bbox 后处理模块和测试 trick。</p>
@@ -396,395 +270,155 @@ graph LR
 <h3 id="bbox-postprocess">BBox PostProcess</h3>
 <p>在得到原图尺度 bbox 后，由于可能会出现重叠 bbox 现象，故一般都需要进行后处理，最常用的后处理就是非极大值抑制以及其变种。</p>
 <p>其对应的文件在<code>mmdet/core/post_processing</code>中，主要包括：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s1">&#39;multiclass_nms&#39;</span><span class="p">,</span> <span class="s1">&#39;merge_aug_proposals&#39;</span><span class="p">,</span> <span class="s1">&#39;merge_aug_bboxes&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;merge_aug_scores&#39;</span><span class="p">,</span> <span class="s1">&#39;merge_aug_masks&#39;</span><span class="p">,</span> <span class="s1">&#39;fast_nms&#39;</span>
-<span class="p">]</span>
-</code></pre></td></tr></table>
-</div>
-</div><h3 id="testing-tricks">Testing tricks</h3>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">__all__ <span style="color:#666">=</span> [
+    <span style="color:#b44">&#39;multiclass_nms&#39;</span>, <span style="color:#b44">&#39;merge_aug_proposals&#39;</span>, <span style="color:#b44">&#39;merge_aug_bboxes&#39;</span>,
+    <span style="color:#b44">&#39;merge_aug_scores&#39;</span>, <span style="color:#b44">&#39;merge_aug_masks&#39;</span>, <span style="color:#b44">&#39;fast_nms&#39;</span>
+]
+</code></pre></div><h3 id="testing-tricks">Testing tricks</h3>
 <p>为了提高检测性能，测试阶段也会采用 trick。这个阶段的 tricks 也非常多，难以完全统一，最典型的是多尺度测试以及各种模型集成手段，典型配置如下：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="nb">dict</span><span class="p">(</span>
-    <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;MultiScaleFlipAug&#39;</span><span class="p">,</span>
-    <span class="n">img_scale</span><span class="o">=</span><span class="p">(</span><span class="mi">1333</span><span class="p">,</span> <span class="mi">800</span><span class="p">),</span>
-    <span class="n">flip</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-    <span class="n">transforms</span><span class="o">=</span><span class="p">[</span>
-        <span class="nb">dict</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s1">&#39;Resize&#39;</span><span class="p">,</span> <span class="n">keep_ratio</span><span class="o">=</span><span class="bp">True</span><span class="p">),</span>
-        <span class="nb">dict</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s1">&#39;RandomFlip&#39;</span><span class="p">),</span>
-        <span class="nb">dict</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s1">&#39;Normalize&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">img_norm_cfg</span><span class="p">),</span>
-        <span class="nb">dict</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s1">&#39;Pad&#39;</span><span class="p">,</span> <span class="n">size_divisor</span><span class="o">=</span><span class="mi">32</span><span class="p">),</span>
-        <span class="nb">dict</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s1">&#39;ImageToTensor&#39;</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;img&#39;</span><span class="p">]),</span>
-        <span class="nb">dict</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s1">&#39;Collect&#39;</span><span class="p">,</span> <span class="n">keys</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;img&#39;</span><span class="p">]),</span>
-    <span class="p">])</span>
-</code></pre></td></tr></table>
-</div>
-</div><h3 id="example">Example</h3>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a2f">dict</span>(
+    <span style="color:#a2f">type</span><span style="color:#666">=</span><span style="color:#b44">&#39;MultiScaleFlipAug&#39;</span>,
+    img_scale<span style="color:#666">=</span>(<span style="color:#666">1333</span>, <span style="color:#666">800</span>),
+    flip<span style="color:#666">=</span>True,
+    transforms<span style="color:#666">=</span>[
+        <span style="color:#a2f">dict</span>(<span style="color:#a2f">type</span><span style="color:#666">=</span><span style="color:#b44">&#39;Resize&#39;</span>, keep_ratio<span style="color:#666">=</span>True),
+        <span style="color:#a2f">dict</span>(<span style="color:#a2f">type</span><span style="color:#666">=</span><span style="color:#b44">&#39;RandomFlip&#39;</span>),
+        <span style="color:#a2f">dict</span>(<span style="color:#a2f">type</span><span style="color:#666">=</span><span style="color:#b44">&#39;Normalize&#39;</span>, <span style="color:#666">**</span>img_norm_cfg),
+        <span style="color:#a2f">dict</span>(<span style="color:#a2f">type</span><span style="color:#666">=</span><span style="color:#b44">&#39;Pad&#39;</span>, size_divisor<span style="color:#666">=</span><span style="color:#666">32</span>),
+        <span style="color:#a2f">dict</span>(<span style="color:#a2f">type</span><span style="color:#666">=</span><span style="color:#b44">&#39;ImageToTensor&#39;</span>, keys<span style="color:#666">=</span>[<span style="color:#b44">&#39;img&#39;</span>]),
+        <span style="color:#a2f">dict</span>(<span style="color:#a2f">type</span><span style="color:#666">=</span><span style="color:#b44">&#39;Collect&#39;</span>, keys<span style="color:#666">=</span>[<span style="color:#b44">&#39;img&#39;</span>]),
+    ])
+</code></pre></div><h3 id="example">Example</h3>
 <p>在分析完每个训练流程的各个核心组件后，为了方便大家理解整个算法构建，下面分析 MMDetection 是如何组合各个组件进行训练的，这里以 one-stage 检测器为例，two-stage 也比较类似。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span><span class="lnt">31
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">SingleStageDetector</span><span class="p">(</span><span class="o">---</span><span class="p">):</span>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a2f;font-weight:bold">class</span> <span style="color:#00f">SingleStageDetector</span>(<span style="color:#666">---</span>):
 
-   <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="o">...</span><span class="p">):</span>
-        <span class="c1"># 构建骨架、neck和head</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">backbone</span> <span class="o">=</span> <span class="n">build_backbone</span><span class="p">(</span><span class="n">backbone</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">neck</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">neck</span> <span class="o">=</span> <span class="n">build_neck</span><span class="p">(</span><span class="n">neck</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">bbox_head</span> <span class="o">=</span> <span class="n">build_head</span><span class="p">(</span><span class="n">bbox_head</span><span class="p">)</span>
+   <span style="color:#a2f;font-weight:bold">def</span> __init__(<span style="color:#666">...</span>):
+        <span style="color:#080;font-style:italic"># 构建骨架、neck和head</span>
+        self<span style="color:#666">.</span>backbone <span style="color:#666">=</span> build_backbone(backbone)
+        <span style="color:#a2f;font-weight:bold">if</span> neck <span style="color:#a2f;font-weight:bold">is</span> <span style="color:#a2f;font-weight:bold">not</span> None:
+            self<span style="color:#666">.</span>neck <span style="color:#666">=</span> build_neck(neck)
+        self<span style="color:#666">.</span>bbox_head <span style="color:#666">=</span> build_head(bbox_head)
 
-  <span class="k">def</span> <span class="nf">forward_train</span><span class="p">(</span><span class="o">---</span><span class="p">):</span> 
-        <span class="c1"># 先运行backbone+neck进行特征提取</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">extract_feat</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
-        <span class="c1"># 对head进行forward train，输出loss</span>
-        <span class="n">losses</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bbox_head</span><span class="o">.</span><span class="n">forward_train</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">img_metas</span><span class="p">,</span> <span class="n">gt_bboxes</span><span class="p">,</span>
-                                              <span class="n">gt_labels</span><span class="p">,</span> <span class="n">gt_bboxes_ignore</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">losses</span>
+  <span style="color:#a2f;font-weight:bold">def</span> <span style="color:#00a000">forward_train</span>(<span style="color:#666">---</span>): 
+        <span style="color:#080;font-style:italic"># 先运行backbone+neck进行特征提取</span>
+        x <span style="color:#666">=</span> self<span style="color:#666">.</span>extract_feat(img)
+        <span style="color:#080;font-style:italic"># 对head进行forward train，输出loss</span>
+        losses <span style="color:#666">=</span> self<span style="color:#666">.</span>bbox_head<span style="color:#666">.</span>forward_train(x, img_metas, gt_bboxes,
+                                              gt_labels, gt_bboxes_ignore)
+        <span style="color:#a2f;font-weight:bold">return</span> losses
 
-  <span class="k">def</span> <span class="nf">simple_test</span><span class="p">(</span><span class="o">---</span><span class="p">):</span>
-        <span class="c1"># 先运行backbone+neck进行特征提取</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">extract_feat</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
-        <span class="c1"># head输出预测特征图</span>
-        <span class="n">outs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bbox_head</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="c1"># bbox解码和还原</span>
-        <span class="n">bbox_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bbox_head</span><span class="o">.</span><span class="n">get_bboxes</span><span class="p">(</span>
-            <span class="o">*</span><span class="n">outs</span><span class="p">,</span> <span class="n">img_metas</span><span class="p">,</span> <span class="n">rescale</span><span class="o">=</span><span class="n">rescale</span><span class="p">)</span>
-        <span class="c1"># 重组结果返回</span>
-        <span class="n">bbox_results</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="n">bbox2result</span><span class="p">(</span><span class="n">det_bboxes</span><span class="p">,</span> <span class="n">det_labels</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bbox_head</span><span class="o">.</span><span class="n">num_classes</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">det_bboxes</span><span class="p">,</span> <span class="n">det_labels</span> <span class="ow">in</span> <span class="n">bbox_list</span>
-        <span class="p">]</span>
-        <span class="k">return</span> <span class="n">bbox_results</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>以上就是整个检测器算法训练和测试最简逻辑，可以发现训练部分最核心的就是<code>bbox_head.forward_train</code>，测试部分最核心的是<code>bbox_head.get_bboxes</code>，下面单独简要分析。</p>
+  <span style="color:#a2f;font-weight:bold">def</span> <span style="color:#00a000">simple_test</span>(<span style="color:#666">---</span>):
+        <span style="color:#080;font-style:italic"># 先运行backbone+neck进行特征提取</span>
+        x <span style="color:#666">=</span> self<span style="color:#666">.</span>extract_feat(img)
+        <span style="color:#080;font-style:italic"># head输出预测特征图</span>
+        outs <span style="color:#666">=</span> self<span style="color:#666">.</span>bbox_head(x)
+        <span style="color:#080;font-style:italic"># bbox解码和还原</span>
+        bbox_list <span style="color:#666">=</span> self<span style="color:#666">.</span>bbox_head<span style="color:#666">.</span>get_bboxes(
+            <span style="color:#666">*</span>outs, img_metas, rescale<span style="color:#666">=</span>rescale)
+        <span style="color:#080;font-style:italic"># 重组结果返回</span>
+        bbox_results <span style="color:#666">=</span> [
+            bbox2result(det_bboxes, det_labels, self<span style="color:#666">.</span>bbox_head<span style="color:#666">.</span>num_classes)
+            <span style="color:#a2f;font-weight:bold">for</span> det_bboxes, det_labels <span style="color:#a2f;font-weight:bold">in</span> bbox_list
+        ]
+        <span style="color:#a2f;font-weight:bold">return</span> bbox_results
+</code></pre></div><p>以上就是整个检测器算法训练和测试最简逻辑，可以发现训练部分最核心的就是<code>bbox_head.forward_train</code>，测试部分最核心的是<code>bbox_head.get_bboxes</code>，下面单独简要分析。</p>
 <h4 id="bbox_headforward_train">bbox_head.forward_train</h4>
 <p><code>forward_train</code> 是通用函数，如下所示：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">forward_train</span><span class="p">(</span><span class="o">...</span><span class="p">):</span>
-    <span class="c1"># 调用每个head自身的forward方法</span>
-    <span class="n">outs</span> <span class="o">=</span> <span class="bp">self</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">gt_labels</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="n">loss_inputs</span> <span class="o">=</span> <span class="n">outs</span> <span class="o">+</span> <span class="p">(</span><span class="n">gt_bboxes</span><span class="p">,</span> <span class="n">img_metas</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">loss_inputs</span> <span class="o">=</span> <span class="n">outs</span> <span class="o">+</span> <span class="p">(</span><span class="n">gt_bboxes</span><span class="p">,</span> <span class="n">gt_labels</span><span class="p">,</span> <span class="n">img_metas</span><span class="p">)</span>
-    <span class="c1"># 计算每个head自身的loss方法</span>
-    <span class="n">losses</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss</span><span class="p">(</span><span class="o">*</span><span class="n">loss_inputs</span><span class="p">,</span> <span class="n">gt_bboxes_ignore</span><span class="o">=</span><span class="n">gt_bboxes_ignore</span><span class="p">)</span>
-    <span class="c1"># 返回</span>
-    <span class="k">return</span> <span class="n">losses</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>对于不同的 head，虽然 forward 内容不一样，但是依然可以抽象为： <code>outs = self(x)</code></p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span><span class="lnt">8
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feats</span><span class="p">):</span>
-   <span class="c1"># 多尺度特征图，一个一个迭代进行forward_single</span>
-   <span class="k">return</span> <span class="n">multi_apply</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">forward_single</span><span class="p">,</span> <span class="n">feats</span><span class="p">)</span>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a2f;font-weight:bold">def</span> <span style="color:#00a000">forward_train</span>(<span style="color:#666">...</span>):
+    <span style="color:#080;font-style:italic"># 调用每个head自身的forward方法</span>
+    outs <span style="color:#666">=</span> self(x)
+    <span style="color:#a2f;font-weight:bold">if</span> gt_labels <span style="color:#a2f;font-weight:bold">is</span> None:
+        loss_inputs <span style="color:#666">=</span> outs <span style="color:#666">+</span> (gt_bboxes, img_metas)
+    <span style="color:#a2f;font-weight:bold">else</span>:
+        loss_inputs <span style="color:#666">=</span> outs <span style="color:#666">+</span> (gt_bboxes, gt_labels, img_metas)
+    <span style="color:#080;font-style:italic"># 计算每个head自身的loss方法</span>
+    losses <span style="color:#666">=</span> self<span style="color:#666">.</span>loss(<span style="color:#666">*</span>loss_inputs, gt_bboxes_ignore<span style="color:#666">=</span>gt_bboxes_ignore)
+    <span style="color:#080;font-style:italic"># 返回</span>
+    <span style="color:#a2f;font-weight:bold">return</span> losses
+</code></pre></div><p>对于不同的 head，虽然 forward 内容不一样，但是依然可以抽象为： <code>outs = self(x)</code></p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a2f;font-weight:bold">def</span> <span style="color:#00a000">forward</span>(self, feats):
+   <span style="color:#080;font-style:italic"># 多尺度特征图，一个一个迭代进行forward_single</span>
+   <span style="color:#a2f;font-weight:bold">return</span> multi_apply(self<span style="color:#666">.</span>forward_single, feats)
 
-<span class="k">def</span> <span class="nf">forward_single</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-   <span class="c1"># 运行各个head独特的head forward方法，得到预测图</span>
-   <span class="o">....</span>
-   <span class="k">return</span> <span class="n">cls_score</span><span class="p">,</span> <span class="n">bbox_pred</span><span class="o">...</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>而对于不同的 head，其 loss 计算部分也比较复杂，可以简单抽象为：<code>losses = self.loss(...)</code></p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">loss</span><span class="p">(</span><span class="o">...</span><span class="p">):</span>
-    <span class="c1"># 1 生成anchor-base需要的anchor或者anchor-free需要的points</span>
-    <span class="c1"># 2 利用gt bbox对特征图或者anchor计算其正负和忽略样本属性</span>
-    <span class="c1"># 3 进行正负样本采样</span>
-    <span class="c1"># 4 对gt bbox进行bbox编码</span>
-    <span class="c1"># 5 loss计算，并返回</span>
-    <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">loss_cls</span><span class="o">=</span><span class="n">losses_cls</span><span class="p">,</span> <span class="n">loss_bbox</span><span class="o">=</span><span class="n">losses_bbox</span><span class="p">,</span><span class="o">...</span><span class="p">)</span>
-</code></pre></td></tr></table>
-</div>
-</div><h4 id="bbox_headget_bboxes">bbox_head.get_bboxes</h4>
+<span style="color:#a2f;font-weight:bold">def</span> <span style="color:#00a000">forward_single</span>(self, x):
+   <span style="color:#080;font-style:italic"># 运行各个head独特的head forward方法，得到预测图</span>
+   <span style="color:#666">....</span>
+   <span style="color:#a2f;font-weight:bold">return</span> cls_score, bbox_pred<span style="color:#666">...</span>
+</code></pre></div><p>而对于不同的 head，其 loss 计算部分也比较复杂，可以简单抽象为：<code>losses = self.loss(...)</code></p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a2f;font-weight:bold">def</span> <span style="color:#00a000">loss</span>(<span style="color:#666">...</span>):
+    <span style="color:#080;font-style:italic"># 1 生成anchor-base需要的anchor或者anchor-free需要的points</span>
+    <span style="color:#080;font-style:italic"># 2 利用gt bbox对特征图或者anchor计算其正负和忽略样本属性</span>
+    <span style="color:#080;font-style:italic"># 3 进行正负样本采样</span>
+    <span style="color:#080;font-style:italic"># 4 对gt bbox进行bbox编码</span>
+    <span style="color:#080;font-style:italic"># 5 loss计算，并返回</span>
+    <span style="color:#a2f;font-weight:bold">return</span> <span style="color:#a2f">dict</span>(loss_cls<span style="color:#666">=</span>losses_cls, loss_bbox<span style="color:#666">=</span>losses_bbox,<span style="color:#666">...</span>)
+</code></pre></div><h4 id="bbox_headget_bboxes">bbox_head.get_bboxes</h4>
 <p><code>get_bboxes</code> 函数更加简单</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">get_bboxes</span><span class="p">(</span><span class="o">...</span><span class="p">):</span>
-   <span class="c1"># 1 生成anchor-base需要的anchor或者anchor-free需要的points</span>
-   <span class="c1"># 2 遍历每个输出层，遍历batch内部的每张图片，对每张图片先提取指定个数的预测结果，缓解后面后处理压力；对保留的位置进行bbox解码和还原到原图尺度</span>
-   <span class="c1"># 3 统一nms后处理</span>
-   <span class="k">return</span> <span class="n">det_bboxes</span><span class="p">,</span> <span class="n">det_labels</span><span class="o">...</span>
-</code></pre></td></tr></table>
-</div>
-</div><h2 id="conclusion">Conclusion</h2>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a2f;font-weight:bold">def</span> <span style="color:#00a000">get_bboxes</span>(<span style="color:#666">...</span>):
+   <span style="color:#080;font-style:italic"># 1 生成anchor-base需要的anchor或者anchor-free需要的points</span>
+   <span style="color:#080;font-style:italic"># 2 遍历每个输出层，遍历batch内部的每张图片，对每张图片先提取指定个数的预测结果，缓解后面后处理压力；对保留的位置进行bbox解码和还原到原图尺度</span>
+   <span style="color:#080;font-style:italic"># 3 统一nms后处理</span>
+   <span style="color:#a2f;font-weight:bold">return</span> det_bboxes, det_labels<span style="color:#666">...</span>
+</code></pre></div><h2 id="conclusion">Conclusion</h2>
 <p>本文重点分析了一个目标检测器是如何通过多个核心组件堆叠而成，不涉及具体代码，其中最应该了解的是：<strong>任何一个目标检测算法都可以分成 n 个核心组件，组件和组件之间是隔离的，方便复用和设计</strong>。当面对一个新算法时候我们可以先分析其主要是改进了哪几个核心组件，然后就可以高效的掌握该算法。</p>
 <h1 id="reference">Reference</h1>
 <ul>
 <li>原文：<a href="https://zhuanlan.zhihu.com/p/337375549">轻松掌握 MMDetection 整体构建流程</a></li>
 </ul>
 
-    </div>
-
-    <div class="post-copyright">
-  <p class="copyright-item">
-    <span class="item-title">Author</span>
-    <span class="item-content">Hanshi Sun</span>
-  </p>
-  <p class="copyright-item">
-    <span class="item-title">LastMod</span>
-    <span class="item-content">
-        2022-01-15
-        
-    </span>
-  </p>
-  
-  <p class="copyright-item">
-    <span class="item-title">License</span>
-    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
-  </p>
-</div>
-<div class="post-reward">
-  <input type="checkbox" name="reward" id="reward" hidden />
-  <label class="reward-button" for="reward">Reward</label>
-  <div class="qr-code">
     
-    <label class="qr-code-image" for="reward">
-        <img class="image" src="/img/wechat.jpg">
-        <span>wechat</span>
-      </label>
-    <label class="qr-code-image" for="reward">
-        <img class="image" src="/img/alipay.jpg">
-        <span>alipay</span>
-      </label>
-  </div>
-</div><footer class="post-footer">
-      <div class="post-tags">
-          <a href="/blog/tags/object-detection/">Object Detection</a>
-          <a href="/blog/tags/deep-learning/">Deep Learning</a>
-          <a href="/blog/tags/mmdetection/">MMDetection</a>
-          </div>
-      <nav class="post-nav">
-        <a class="prev" href="/blog/post/2022/01/16/mmdetection-framework/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">MMDetection Framework</span>
-            <span class="prev-text nav-mobile">Prev</span>
-          </a>
-        <a class="next" href="/blog/post/2022/01/14/faster-r-cnn/">
-            <span class="next-text nav-default">Faster R-CNN</span>
-            <span class="next-text nav-mobile">Next</span>
-            <i class="iconfont icon-right"></i>
-          </a>
-      </nav>
-    </footer>
   </article>
-        </div>
-        <div id="gitalk-container"></div>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js" crossorigin="anonymous"></script>
-    <script type="text/javascript">
-      var gitalk = new Gitalk({
-        id: '2022-01-15 12:12:07 \x2b0800 CST',
-        title: 'MMDetection Overview',
-        clientID: '9d4d5bfb5872b737a756',
-        clientSecret: '2677eacb9eedb58e0e8e7463a2c6a5ff70054601',
-        repo: 'gitalk',
-        owner: 'preminstrel',
-        admin: ['preminstrel'],
-        body: decodeURI(location.href)
-      });
-      gitalk.render('gitalk-container');
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="https://github.com/gitalk/gitalk">comments powered by gitalk.</a></noscript>
-
-  
-
-  
-
-  
-  
-
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="social-links">
-      <a href="mailto:preminstrel@gmail.com" class="iconfont icon-email" title="email"></a>
-      <a href="https://twitter.com/preminstrel" class="iconfont icon-twitter" title="twitter"></a>
-      <a href="https://github.com/preminstrel" class="iconfont icon-github" title="github"></a>
-      <a href="https://www.zhihu.com/people/preminstrel" class="iconfont icon-zhihu" title="zhihu"></a>
-      <a href="https://space.bilibili.com/23354645" class="iconfont icon-bilibili" title="bilibili"></a>
-  <a href="https://preminstrel.github.io/blog/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
-</div>
-
-<div class="copyright">
-  <span class="power-by">
-    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
-  </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-    Theme - 
-    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
-  </span>
-
-  <div class="busuanzi-footer">
+  <div class="paginator">
+    
+    <a class="link" href="https://preminstrel.github.io/blog/post/2022/01/14/faster-r-cnn/">← prev</a>
+    
+    
+    <a class="link" href="https://preminstrel.github.io/blog/post/2022/01/16/mmdetection-framework/">next →</a>
+    
+  </div>
+  <div class="comment">
+    
+    
+    
+    
     
     
   </div>
+  
+</main>
 
-  <span class="copyright-year">
-    &copy; 
-    2021 - 
-    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>Hanshi Sun</span>
-  </span>
-  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js"></script>
-  <script src="https://cdn.bootcdn.net/ajax/libs/mermaid/8.8.3/mermaid.min.js"></script>
-  <script>
-    $(".language-mermaid").addClass("mermaid");
-  </script>
-</div>
-
-
-    </footer>
-
-    <div class="back-to-top" id="back-to-top">
-      <i class="iconfont icon-up"></i>
-    </div>
+    <footer id="footer">
+  <div>
+    <span>© 2021</span> - <span>2022</span>
   </div>
-  
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
 
+  <div>
+    <span>Powered by </span>
+    <a class="link" href="https://gohugo.io/">Hugo</a>
+    <span> 🍦 Theme </span>
+    <a class="link" href="https://github.com/queensferryme/hugo-theme-texify">TeXify</a>
+  </div>
 
+  <div class="footnote">
+    <span>Follow me on <a class=link href=https://github.com/preminstrel>GitHub</a>,
+<a class=link href=https://twitter.com/preminstrel>Twitter</a> or
+<a class=link href=/index.xml>RSS</a> |
+<a class=link href=https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh target=_blank rel=noopener>CC BY-NC-SA 4.0</a>
+</span>
+  </div>
+</footer>
 
-<script type="text/javascript" src="/blog/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
-  <script type="text/javascript">
-    window.MathJax = {
-      tex: {
-        inlineMath: [['$','$'], ['\\(','\\)']],
-        }
-    };
-  </script>
-  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
-
-
-
-
-
-<script src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
-<script>
-docsearch({
-    apiKey: "67ddc142183934ec2d0aa925bf40c09a",
-    indexName: "blog",
-    appId: "RQO6N4CQFD",
-    inputSelector: '.docsearch-input',
-    debug: false,
-});
-</script>
-
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
-
-<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/algoliasearch.min.js"></script>
-<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/autocomplete.min.js"></script>
-
-
- 
-<script src= "/blog/js/search.js" type="text/javascript"></script>
-
-</script>
-
+  </div>
 
   
   
+
+  
+  
+
+  
+  
+
 </body>
+
 </html>

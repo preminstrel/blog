@@ -1,164 +1,141 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>MCS 51 Basics (3) - Preminstrel&#39;s Blog</title>
-  <meta name="renderer" content="webkit" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
+  
+  <meta name="author" content="Hanshi Sun">
 
-<meta name="theme-color" content="#f8f5ec" />
-<meta name="msapplication-navbutton-color" content="#f8f5ec">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+  
+  
+  <meta name="description" content="独立按键 前面介绍的都是 IO 口输出的使用，这一章我们通过独立按键实验来介绍 IO 口作为输入的使用。开发板上板载 4 个独立按键。我们所要实现的功能是：通">
+  
+
+  
+  <link rel="icon" href="https://preminstrel.github.io/blog/favicon.ico">
+
+  
+  
+  <meta name="keywords" content=" hugo  latex  theme ">
+  
+
+  
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css"
+  integrity="sha384-KiWOvVjnN8qwAZbuQyWDIbfCLFhLXNETzBQjA/92pIowpC0d2O3nppDGQVgwd2nB" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+  integrity="sha384-0fdwu/T/EQMsQlrHCCHoH10pkPLlKA1jL5dFyUOvB3lfeT2540/2g6YgSi2BL14p" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/contrib/auto-render.min.js"
+  integrity="sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR" crossorigin="anonymous"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: '$$', right: '$$', display: true },
+        { left: '\\[', right: '\\]', display: true },
+        { left: '$', right: '$', display: false },
+        { left: '\\(', right: '\\)', display: false }
+      ],
+      ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code', 'option'],
+      throwOnError: false
+    });
+  });
+</script>
 
 
-<meta name="author" content="Hanshi Sun" /><meta name="description" content="独立按键 前面介绍的都是 IO 口输出的使用，这一章我们通过独立按键实验来介绍 IO 口作为输入的使用。开发板上板载 4 个独立按键。我们所要实现的功能是：通" /><meta name="keywords" content="Preminstrel" />
+  
 
-
-<meta name="robots" content="">
-
-
-
-
-
-
-<meta name="generator" content="Hugo 0.68.3 with theme even" />
-
-
-<link rel="canonical" href="https://preminstrel.github.io/blog/post/2021/10/25/mcs-51-basics-3/" />
-<link rel="apple-touch-icon" sizes="180x180" href="/blog/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/blog/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/blog/favicon-16x16.png">
-<link rel="manifest" href="/blog/manifest.json">
-<link rel="mask-icon" href="/blog/safari-pinned-tab.svg" color="#5bbad5">
-
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-<link href="/blog/sass/main.min.75451ad2d2268431f3dfb6289a5d8bc042bd3e23f7ac463fe449ed7872bb8c72.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
-
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" /><meta property="og:title" content="MCS 51 Basics (3)" />
+  
+  <meta property="og:title" content="MCS 51 Basics (3)" />
 <meta property="og:description" content="独立按键 前面介绍的都是 IO 口输出的使用，这一章我们通过独立按键实验来介绍 IO 口作为输入的使用。开发板上板载 4 个独立按键。我们所要实现的功能是：通" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://preminstrel.github.io/blog/post/2021/10/25/mcs-51-basics-3/" />
 <meta property="article:published_time" content="2021-10-25T22:59:29+08:00" />
 <meta property="article:modified_time" content="2021-10-25T00:00:00+00:00" />
-<meta itemprop="name" content="MCS 51 Basics (3)">
+
+
+  
+  <link rel="canonical" href="https://preminstrel.github.io/blog/post/2021/10/25/mcs-51-basics-3/">
+
+  
+  
+  <meta itemprop="name" content="MCS 51 Basics (3)">
 <meta itemprop="description" content="独立按键 前面介绍的都是 IO 口输出的使用，这一章我们通过独立按键实验来介绍 IO 口作为输入的使用。开发板上板载 4 个独立按键。我们所要实现的功能是：通">
 <meta itemprop="datePublished" content="2021-10-25T22:59:29&#43;08:00" />
 <meta itemprop="dateModified" content="2021-10-25T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="1447">
+<meta itemprop="wordCount" content="1374">
 
 
 
-<meta itemprop="keywords" content="MCU,MCS 51," /><meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="MCU,MCS 51," />
+
+  
+  <link media="screen" rel="stylesheet" href='https://preminstrel.github.io/blog/css/common.css'>
+  <link media="screen" rel="stylesheet" href='https://preminstrel.github.io/blog/css/content.css'>
+
+  
+  
+  <title>MCS 51 Basics (3) - Blog de Preminstrel</title>
+  
+
+  
+  <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="MCS 51 Basics (3)"/>
 <meta name="twitter:description" content="独立按键 前面介绍的都是 IO 口输出的使用，这一章我们通过独立按键实验来介绍 IO 口作为输入的使用。开发板上板载 4 个独立按键。我们所要实现的功能是：通"/>
 
-<!--[if lte IE 9]>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
-<![endif]-->
 
-<!--[if lt IE 9]>
-  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
-<![endif]-->
+  
+<link rel="stylesheet" href='https://preminstrel.github.io/blog/css/single.css'>
 
 </head>
+
 <body>
-  <div id="mobile-navbar" class="mobile-navbar">
-  <div class="mobile-header-logo">
-    <a href="/blog/" class="logo">Preminstrel</a>
-  </div>
-  <div class="mobile-navbar-icon">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
-</div>
-<nav id="mobile-menu" class="mobile-menu slideout-menu">
-  <ul class="mobile-menu-list">
-    <a href="/blog/">
-        <li class="mobile-menu-item">Home</li>
-      </a><a href="/blog/post/">
-        <li class="mobile-menu-item">Archives</li>
-      </a><a href="/blog/tags/">
-        <li class="mobile-menu-item">Tags</li>
-      </a><a href="/blog/categories/">
-        <li class="mobile-menu-item">Categories</li>
-      </a><a href="/blog/about/">
-        <li class="mobile-menu-item">About</li>
-      </a>
-  </ul>
-</nav>
-  <div class="container" id="mobile-panel">
-    <header id="header" class="header">
-        <div class="logo-wrapper">
-  <a href="/blog/" class="logo">Preminstrel</a>
-</div>
+  <div id="wrapper">
+    <header id="header">
+  <h1>
+    <a href="https://preminstrel.github.io/blog/">Blog de Preminstrel</a>
+  </h1>
 
-
-<nav class="site-navbar">
-  <ul id="menu" class="menu">
-    <li class="menu-item">
-        <a class="menu-item-link" href="/blog/">Home</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/blog/post/">Archives</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/blog/tags/">Tags</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/blog/categories/">Categories</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/blog/about/">About</a>
-      </li>
-  </ul>
-</nav><li style="display:inline-block;margin-left:290px;">
-    <input type="search" class="docsearch-input" placeholder="Search" />
-  </li>
-    </header>
-
-    <main id="main" class="main">
-      <div class="content-wrapper">
-        <div id="content" class="content">
-          <article class="post">
+  <nav>
     
-    <header class="post-header">
-      <h1 class="post-title">MCS 51 Basics (3)</h1>
+    <span class="nav-bar-item">
+      <a class="link" href="/blog/">Post</a>
+    </span>
+    
+    <span class="nav-bar-item">
+      <a class="link" href="/blog/post/">Archives</a>
+    </span>
+    
+    <span class="nav-bar-item">
+      <a class="link" href="/blog/about/">About</a>
+    </span>
+    
+  </nav>
+</header>
 
-      <div class="post-meta">
-        <span class="post-time"> 2021-10-25 </span>
-        <div class="post-category">
-            <a href="/blog/categories/mcu/"> MCU </a>
-            </div>
-          <span class="more-meta"> 1447 words </span>
-          <span class="more-meta"> 3 mins read </span>
-        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/blog/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
-      </div>
-    </header>
-
-    <div class="post-toc" id="post-toc">
-  <h2 class="post-toc-title">Contents</h2>
-  <div class="post-toc-content always-active">
-    <nav id="TableOfContents">
-  <ul>
-    <li><a href="#独立按键">独立按键</a>
-      <ul>
-        <li><a href="#按键介绍">按键介绍</a></li>
-        <li><a href="#hardware-design">Hardware Design</a></li>
-        <li><a href="#software-design">Software Design</a></li>
-      </ul>
-    </li>
-  </ul>
-</nav>
+    
+<main id="main" class="post">
+  
+  
+  <h1>MCS 51 Basics (3)</h1>
+  
+  <div>
+    <b>Keywords: </b>
+    
+    <a class="link" href='https://preminstrel.github.io/blog/tags/mcu'>#MCU</a>
+    
+    <a class="link" href='https://preminstrel.github.io/blog/tags/mcs-51'>#MCS 51</a>
+    
   </div>
-</div>
-    <div class="post-content">
-      <h1 id="独立按键">独立按键</h1>
+  
+  
+  <article class="content">
+    
+    <h1 id="独立按键">独立按键</h1>
 <p>前面介绍的都是 IO 口输出的使用，这一章我们通过独立按键实验来介绍 IO 口作为输入的使用。开发板上板载 4 个独立按键。我们所要实现的功能是：通过开发板上的独立按键 K1 控制 D1 指示灯亮灭。</p>
 <h2 id="按键介绍">按键介绍</h2>
 <p>按键是一种电子开关，使用时轻轻按开关按钮就可使开关接通，当松开手时, 开关断开。开发板上使用的按键及内部简易图如下图所示：</p>
@@ -166,7 +143,7 @@
 <img src="/img/20211025230539.png" width="300px" />
 </div>
 <p>按键管脚两端距离长的表示默认是导通状态，距离短的默认是断开状态，如果按键按下，初始导通状态变为断开，初始断开状态变为导通。通常的按键所用开关为机械弹性开关，当机械触点断开、闭合时，电压信号如下图所示：</p>
-<p>由于机械点的弹性作用，按键开关在闭合时不会马上稳定的接通，在断开时也不会一下子断开，因而在闭合和断开的瞬间均伴随着一连串的抖动。抖动时间的长短由按键的机械特性决定的，一般为 5ms 到 10ms。按键稳定闭合时间的长短则由操作人员的按键动作决定的，一般为零点几秒至数秒。按键抖动会引起按键被误读多次。为了确保 CPU 对按键的一次闭合仅作一次处理，必须进行消抖。按键消抖有两种方式，一种是<strong>硬件消抖</strong>，另一种是<strong>软件消抖</strong>。为了使电路更加简单，通常采用软件消抖。我们开发板也是采用软件消抖，一般来说一个简单的按键消抖就是先读取按键的状态，如果得到按键按下之后，延时 10ms，再次读取按键的状态，如果按键还是按下状态，那么说明按键已经按下。其中延时 10ms 就是软件消抖处理，至于硬件消抖，网上都有非常详细的介绍。
+<p>由于机械点的弹性作用，按键开关在闭合时不会马上稳定的接通，在断开时也不会一下子断开，因而在闭合和断开的瞬间均伴随着一连串的抖动。抖动时间的长短由按键的机械特性决定的，一般为 5ms 到 10ms。按键稳定闭合时间的长短则由操作人员的按键动作决定的，一般为零点几秒至数秒。按键抖动会引起按键被误读多次。为了确保 CPU 对按键的一次闭合仅作一次处理，必须进行消抖。按键消抖有两种方式，一种是<strong class=chinese>硬件消抖</strong>，另一种是<strong class=chinese>软件消抖</strong>。为了使电路更加简单，通常采用软件消抖。我们开发板也是采用软件消抖，一般来说一个简单的按键消抖就是先读取按键的状态，如果得到按键按下之后，延时 10ms，再次读取按键的状态，如果按键还是按下状态，那么说明按键已经按下。其中延时 10ms 就是软件消抖处理，至于硬件消抖，网上都有非常详细的介绍。
 这里给大家列出单片机常用的软件去抖动方法：</p>
 <ol>
 <li>先设置 IO 口为高电平（由于开发板 IO 都有上拉电阻，所以默认 IO 为高电平）。</li>
@@ -179,331 +156,133 @@
 <p>我们知道单片机的 IO 口既可作为输出也可作为输入使用，当检测按键时用的是它的输入功能，独立按键的一端接地，另一端与单片机的 I/O 口相连，开始时先给该 IO 口赋一高电平，然后让单片机不断地检测该 I/O 口是否变为低电平，当按键闭合时，即相当于该 I/O 口通过按键与地相连，变成低电平，程序一旦检测到 I/O 口变为低电平则说明按键被按下，然后执行相应的指令。</p>
 <h2 id="hardware-design">Hardware Design</h2>
 <h2 id="software-design">Software Design</h2>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span><span class="lnt">31
-</span><span class="lnt">32
-</span><span class="lnt">33
-</span><span class="lnt">34
-</span><span class="lnt">35
-</span><span class="lnt">36
-</span><span class="lnt">37
-</span><span class="lnt">38
-</span><span class="lnt">39
-</span><span class="lnt">40
-</span><span class="lnt">41
-</span><span class="lnt">42
-</span><span class="lnt">43
-</span><span class="lnt">44
-</span><span class="lnt">45
-</span><span class="lnt">46
-</span><span class="lnt">47
-</span><span class="lnt">48
-</span><span class="lnt">49
-</span><span class="lnt">50
-</span><span class="lnt">51
-</span><span class="lnt">52
-</span><span class="lnt">53
-</span><span class="lnt">54
-</span><span class="lnt">55
-</span><span class="lnt">56
-</span><span class="lnt">57
-</span><span class="lnt">58
-</span><span class="lnt">59
-</span><span class="lnt">60
-</span><span class="lnt">61
-</span><span class="lnt">62
-</span><span class="lnt">63
-</span><span class="lnt">64
-</span><span class="lnt">65
-</span><span class="lnt">66
-</span><span class="lnt">67
-</span><span class="lnt">68
-</span><span class="lnt">69
-</span><span class="lnt">70
-</span><span class="lnt">71
-</span><span class="lnt">72
-</span><span class="lnt">73
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="cp">#include</span> <span class="cpf">&#34;reg52.h&#34;</span><span class="cp">
-</span><span class="cp"></span>
-<span class="k">typedef</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">u16</span><span class="p">;</span>    <span class="c1">//对系统默认数据类型进行重定义
-</span><span class="c1"></span><span class="k">typedef</span> <span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">u8</span><span class="p">;</span>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#080">#include</span> <span style="color:#080">&#34;reg52.h&#34;</span><span style="color:#080">
+</span><span style="color:#080"></span>
+<span style="color:#a2f;font-weight:bold">typedef</span> <span style="color:#0b0;font-weight:bold">unsigned</span> <span style="color:#0b0;font-weight:bold">int</span> u16;    <span style="color:#080;font-style:italic">//对系统默认数据类型进行重定义
+</span><span style="color:#080;font-style:italic"></span><span style="color:#a2f;font-weight:bold">typedef</span> <span style="color:#0b0;font-weight:bold">unsigned</span> <span style="color:#0b0;font-weight:bold">char</span> u8;
 
-<span class="c1">//定义独立按键控制脚
-</span><span class="c1"></span><span class="n">sbit</span> <span class="n">KEY1</span><span class="o">=</span><span class="n">P3</span><span class="o">^</span><span class="mi">1</span><span class="p">;</span>
-<span class="n">sbit</span> <span class="n">KEY2</span><span class="o">=</span><span class="n">P3</span><span class="o">^</span><span class="mi">0</span><span class="p">;</span>
-<span class="n">sbit</span> <span class="n">KEY3</span><span class="o">=</span><span class="n">P3</span><span class="o">^</span><span class="mi">2</span><span class="p">;</span>
-<span class="n">sbit</span> <span class="n">KEY4</span><span class="o">=</span><span class="n">P3</span><span class="o">^</span><span class="mi">3</span><span class="p">;</span>
+<span style="color:#080;font-style:italic">//定义独立按键控制脚
+</span><span style="color:#080;font-style:italic"></span>sbit KEY1<span style="color:#666">=</span>P3<span style="color:#666">^</span><span style="color:#666">1</span>;
+sbit KEY2<span style="color:#666">=</span>P3<span style="color:#666">^</span><span style="color:#666">0</span>;
+sbit KEY3<span style="color:#666">=</span>P3<span style="color:#666">^</span><span style="color:#666">2</span>;
+sbit KEY4<span style="color:#666">=</span>P3<span style="color:#666">^</span><span style="color:#666">3</span>;
 
-<span class="c1">//定义LED1控制脚
-</span><span class="c1"></span><span class="n">sbit</span> <span class="n">LED1</span><span class="o">=</span><span class="n">P2</span><span class="o">^</span><span class="mi">0</span><span class="p">;</span>
+<span style="color:#080;font-style:italic">//定义LED1控制脚
+</span><span style="color:#080;font-style:italic"></span>sbit LED1<span style="color:#666">=</span>P2<span style="color:#666">^</span><span style="color:#666">0</span>;
 
-<span class="c1">//使用宏定义独立按键按下的键值
-</span><span class="c1"></span><span class="cp">#define KEY1_PRESS    1
-</span><span class="cp">#define KEY2_PRESS    2
-</span><span class="cp">#define KEY3_PRESS    3
-</span><span class="cp">#define KEY4_PRESS    4
-</span><span class="cp">#define KEY_UNPRESS    0    
-</span><span class="cp"></span>
-<span class="kt">void</span> <span class="nf">delay_10us</span><span class="p">(</span><span class="n">u16</span> <span class="n">ten_us</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="k">while</span><span class="p">(</span><span class="n">ten_us</span><span class="o">--</span><span class="p">);</span>    
-<span class="p">}</span>
+<span style="color:#080;font-style:italic">//使用宏定义独立按键按下的键值
+</span><span style="color:#080;font-style:italic"></span><span style="color:#080">#define KEY1_PRESS    1
+</span><span style="color:#080">#define KEY2_PRESS    2
+</span><span style="color:#080">#define KEY3_PRESS    3
+</span><span style="color:#080">#define KEY4_PRESS    4
+</span><span style="color:#080">#define KEY_UNPRESS    0    
+</span><span style="color:#080"></span>
+<span style="color:#0b0;font-weight:bold">void</span> <span style="color:#00a000">delay_10us</span>(u16 ten_us)
+{
+    <span style="color:#a2f;font-weight:bold">while</span>(ten_us<span style="color:#666">--</span>);    
+}
 
-<span class="cm">/***********************************************************
-</span><span class="cm">* 函 数 名       : key_scan
-</span><span class="cm">* 函数功能         : 检测独立按键是否按下，按下则返回对应键值
-</span><span class="cm">* 输    入       : mode=0：单次扫描按键
-</span><span class="cm">                   mode=1：连续扫描按键
-</span><span class="cm">* 输    出         : KEY1_PRESS：K1按下
-</span><span class="cm">                   KEY2_PRESS：K2按下
-</span><span class="cm">                   KEY3_PRESS：K3按下
-</span><span class="cm">                   KEY4_PRESS：K4按下
-</span><span class="cm">                   KEY_UNPRESS：未有按键按下
-</span><span class="cm">************************************************************/</span>
-<span class="n">u8</span> <span class="nf">key_scan</span><span class="p">(</span><span class="n">u8</span> <span class="n">mode</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="k">static</span> <span class="n">u8</span> <span class="n">key</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+<span style="color:#080;font-style:italic">/***********************************************************
+</span><span style="color:#080;font-style:italic">* 函 数 名       : key_scan
+</span><span style="color:#080;font-style:italic">* 函数功能         : 检测独立按键是否按下，按下则返回对应键值
+</span><span style="color:#080;font-style:italic">* 输    入       : mode=0：单次扫描按键
+</span><span style="color:#080;font-style:italic">                   mode=1：连续扫描按键
+</span><span style="color:#080;font-style:italic">* 输    出         : KEY1_PRESS：K1按下
+</span><span style="color:#080;font-style:italic">                   KEY2_PRESS：K2按下
+</span><span style="color:#080;font-style:italic">                   KEY3_PRESS：K3按下
+</span><span style="color:#080;font-style:italic">                   KEY4_PRESS：K4按下
+</span><span style="color:#080;font-style:italic">                   KEY_UNPRESS：未有按键按下
+</span><span style="color:#080;font-style:italic">************************************************************/</span>
+u8 <span style="color:#00a000">key_scan</span>(u8 mode)
+{
+    <span style="color:#a2f;font-weight:bold">static</span> u8 key<span style="color:#666">=</span><span style="color:#666">1</span>;
 
-    <span class="k">if</span><span class="p">(</span><span class="n">mode</span><span class="p">)</span><span class="n">key</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="c1">//连续扫描按键
-</span><span class="c1"></span>    <span class="k">if</span><span class="p">(</span><span class="n">key</span><span class="o">==</span><span class="mi">1</span><span class="o">&amp;&amp;</span><span class="p">(</span><span class="n">KEY1</span><span class="o">==</span><span class="mi">0</span><span class="o">||</span><span class="n">KEY2</span><span class="o">==</span><span class="mi">0</span><span class="o">||</span><span class="n">KEY3</span><span class="o">==</span><span class="mi">0</span><span class="o">||</span><span class="n">KEY4</span><span class="o">==</span><span class="mi">0</span><span class="p">))</span><span class="c1">//任意按键按下
-</span><span class="c1"></span>    <span class="p">{</span>
-        <span class="n">delay_10us</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span><span class="c1">//消抖
-</span><span class="c1"></span>        <span class="n">key</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
-        <span class="k">if</span><span class="p">(</span><span class="n">KEY1</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">KEY1_PRESS</span><span class="p">;</span>
-        <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">KEY2</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">KEY2_PRESS</span><span class="p">;</span>
-        <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">KEY3</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">KEY3_PRESS</span><span class="p">;</span>
-        <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">KEY4</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">KEY4_PRESS</span><span class="p">;</span>    
-    <span class="p">}</span>
-    <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">KEY1</span><span class="o">==</span><span class="mi">1</span><span class="o">&amp;&amp;</span><span class="n">KEY2</span><span class="o">==</span><span class="mi">1</span><span class="o">&amp;&amp;</span><span class="n">KEY3</span><span class="o">==</span><span class="mi">1</span><span class="o">&amp;&amp;</span><span class="n">KEY4</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span>    <span class="c1">//无按键按下
-</span><span class="c1"></span>    <span class="p">{</span>
-        <span class="n">key</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>            
-    <span class="p">}</span>
-    <span class="k">return</span> <span class="n">KEY_UNPRESS</span><span class="p">;</span>        
-<span class="p">}</span>
+    <span style="color:#a2f;font-weight:bold">if</span>(mode)key<span style="color:#666">=</span><span style="color:#666">1</span>;<span style="color:#080;font-style:italic">//连续扫描按键
+</span><span style="color:#080;font-style:italic"></span>    <span style="color:#a2f;font-weight:bold">if</span>(key<span style="color:#666">==</span><span style="color:#666">1</span><span style="color:#666">&amp;&amp;</span>(KEY1<span style="color:#666">==</span><span style="color:#666">0</span><span style="color:#666">||</span>KEY2<span style="color:#666">==</span><span style="color:#666">0</span><span style="color:#666">||</span>KEY3<span style="color:#666">==</span><span style="color:#666">0</span><span style="color:#666">||</span>KEY4<span style="color:#666">==</span><span style="color:#666">0</span>))<span style="color:#080;font-style:italic">//任意按键按下
+</span><span style="color:#080;font-style:italic"></span>    {
+        delay_10us(<span style="color:#666">1000</span>);<span style="color:#080;font-style:italic">//消抖
+</span><span style="color:#080;font-style:italic"></span>        key<span style="color:#666">=</span><span style="color:#666">0</span>;
+        <span style="color:#a2f;font-weight:bold">if</span>(KEY1<span style="color:#666">==</span><span style="color:#666">0</span>)
+            <span style="color:#a2f;font-weight:bold">return</span> KEY1_PRESS;
+        <span style="color:#a2f;font-weight:bold">else</span> <span style="color:#a2f;font-weight:bold">if</span>(KEY2<span style="color:#666">==</span><span style="color:#666">0</span>)
+            <span style="color:#a2f;font-weight:bold">return</span> KEY2_PRESS;
+        <span style="color:#a2f;font-weight:bold">else</span> <span style="color:#a2f;font-weight:bold">if</span>(KEY3<span style="color:#666">==</span><span style="color:#666">0</span>)
+            <span style="color:#a2f;font-weight:bold">return</span> KEY3_PRESS;
+        <span style="color:#a2f;font-weight:bold">else</span> <span style="color:#a2f;font-weight:bold">if</span>(KEY4<span style="color:#666">==</span><span style="color:#666">0</span>)
+            <span style="color:#a2f;font-weight:bold">return</span> KEY4_PRESS;    
+    }
+    <span style="color:#a2f;font-weight:bold">else</span> <span style="color:#a2f;font-weight:bold">if</span>(KEY1<span style="color:#666">==</span><span style="color:#666">1</span><span style="color:#666">&amp;&amp;</span>KEY2<span style="color:#666">==</span><span style="color:#666">1</span><span style="color:#666">&amp;&amp;</span>KEY3<span style="color:#666">==</span><span style="color:#666">1</span><span style="color:#666">&amp;&amp;</span>KEY4<span style="color:#666">==</span><span style="color:#666">1</span>)    <span style="color:#080;font-style:italic">//无按键按下
+</span><span style="color:#080;font-style:italic"></span>    {
+        key<span style="color:#666">=</span><span style="color:#666">1</span>;            
+    }
+    <span style="color:#a2f;font-weight:bold">return</span> KEY_UNPRESS;        
+}
 
-<span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
-<span class="p">{</span>    
-    <span class="n">u8</span> <span class="n">key</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+<span style="color:#0b0;font-weight:bold">void</span> <span style="color:#00a000">main</span>()
+{    
+    u8 key<span style="color:#666">=</span><span style="color:#666">0</span>;
 
-    <span class="k">while</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="n">key</span><span class="o">=</span><span class="n">key_scan</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
-        <span class="k">if</span><span class="p">(</span><span class="n">key</span><span class="o">==</span><span class="n">KEY1_PRESS</span><span class="p">)</span><span class="c1">//检测按键K1是否按下
-</span><span class="c1"></span>            <span class="n">LED1</span><span class="o">=!</span><span class="n">LED1</span><span class="p">;</span><span class="c1">//LED1状态翻转    
-</span><span class="c1"></span>    <span class="p">}</span>        
-<span class="p">}</span>
-</code></pre></td></tr></table>
-</div>
-</div>
-    </div>
-
-    <div class="post-copyright">
-  <p class="copyright-item">
-    <span class="item-title">Author</span>
-    <span class="item-content">Hanshi Sun</span>
-  </p>
-  <p class="copyright-item">
-    <span class="item-title">LastMod</span>
-    <span class="item-content">
-        2021-10-25
-        
-    </span>
-  </p>
-  
-  <p class="copyright-item">
-    <span class="item-title">License</span>
-    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
-  </p>
-</div>
-<div class="post-reward">
-  <input type="checkbox" name="reward" id="reward" hidden />
-  <label class="reward-button" for="reward">Reward</label>
-  <div class="qr-code">
+    <span style="color:#a2f;font-weight:bold">while</span>(<span style="color:#666">1</span>)
+    {
+        key<span style="color:#666">=</span>key_scan(<span style="color:#666">0</span>);
+        <span style="color:#a2f;font-weight:bold">if</span>(key<span style="color:#666">==</span>KEY1_PRESS)<span style="color:#080;font-style:italic">//检测按键K1是否按下
+</span><span style="color:#080;font-style:italic"></span>            LED1<span style="color:#666">=!</span>LED1;<span style="color:#080;font-style:italic">//LED1状态翻转    
+</span><span style="color:#080;font-style:italic"></span>    }        
+}
+</code></pre></div>
     
-    <label class="qr-code-image" for="reward">
-        <img class="image" src="/img/wechat.jpg">
-        <span>wechat</span>
-      </label>
-    <label class="qr-code-image" for="reward">
-        <img class="image" src="/img/alipay.jpg">
-        <span>alipay</span>
-      </label>
-  </div>
-</div><footer class="post-footer">
-      <div class="post-tags">
-          <a href="/blog/tags/mcu/">MCU</a>
-          <a href="/blog/tags/mcs-51/">MCS 51</a>
-          </div>
-      <nav class="post-nav">
-        <a class="prev" href="/blog/post/2021/10/28/introduction-to-communication-protocol/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">Introduction to Communication Protocol</span>
-            <span class="prev-text nav-mobile">Prev</span>
-          </a>
-        <a class="next" href="/blog/post/2021/10/24/mcs-51-basics-2/">
-            <span class="next-text nav-default">MCS 51 Basics (2)</span>
-            <span class="next-text nav-mobile">Next</span>
-            <i class="iconfont icon-right"></i>
-          </a>
-      </nav>
-    </footer>
   </article>
-        </div>
-        <div id="gitalk-container"></div>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js" crossorigin="anonymous"></script>
-    <script type="text/javascript">
-      var gitalk = new Gitalk({
-        id: '2021-10-25 22:59:29 \x2b0800 CST',
-        title: 'MCS 51 Basics (3)',
-        clientID: '9d4d5bfb5872b737a756',
-        clientSecret: '2677eacb9eedb58e0e8e7463a2c6a5ff70054601',
-        repo: 'gitalk',
-        owner: 'preminstrel',
-        admin: ['preminstrel'],
-        body: decodeURI(location.href)
-      });
-      gitalk.render('gitalk-container');
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="https://github.com/gitalk/gitalk">comments powered by gitalk.</a></noscript>
-
-  
-
-  
-
-  
-  
-
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="social-links">
-      <a href="mailto:preminstrel@gmail.com" class="iconfont icon-email" title="email"></a>
-      <a href="https://twitter.com/preminstrel" class="iconfont icon-twitter" title="twitter"></a>
-      <a href="https://github.com/preminstrel" class="iconfont icon-github" title="github"></a>
-      <a href="https://www.zhihu.com/people/preminstrel" class="iconfont icon-zhihu" title="zhihu"></a>
-      <a href="https://space.bilibili.com/23354645" class="iconfont icon-bilibili" title="bilibili"></a>
-  <a href="https://preminstrel.github.io/blog/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
-</div>
-
-<div class="copyright">
-  <span class="power-by">
-    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
-  </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-    Theme - 
-    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
-  </span>
-
-  <div class="busuanzi-footer">
+  <div class="paginator">
+    
+    <a class="link" href="https://preminstrel.github.io/blog/post/2021/10/24/mcs-51-basics-2/">← prev</a>
+    
+    
+    <a class="link" href="https://preminstrel.github.io/blog/post/2021/10/28/introduction-to-communication-protocol/">next →</a>
+    
+  </div>
+  <div class="comment">
+    
+    
+    
+    
     
     
   </div>
+  
+</main>
 
-  <span class="copyright-year">
-    &copy; 
-    2021 - 
-    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>Hanshi Sun</span>
-  </span>
-  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js"></script>
-  <script src="https://cdn.bootcdn.net/ajax/libs/mermaid/8.8.3/mermaid.min.js"></script>
-  <script>
-    $(".language-mermaid").addClass("mermaid");
-  </script>
-</div>
-
-
-    </footer>
-
-    <div class="back-to-top" id="back-to-top">
-      <i class="iconfont icon-up"></i>
-    </div>
+    <footer id="footer">
+  <div>
+    <span>© 2021</span> - <span>2022</span>
   </div>
-  
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
 
+  <div>
+    <span>Powered by </span>
+    <a class="link" href="https://gohugo.io/">Hugo</a>
+    <span> 🍦 Theme </span>
+    <a class="link" href="https://github.com/queensferryme/hugo-theme-texify">TeXify</a>
+  </div>
 
+  <div class="footnote">
+    <span>Follow me on <a class=link href=https://github.com/preminstrel>GitHub</a>,
+<a class=link href=https://twitter.com/preminstrel>Twitter</a> or
+<a class=link href=/index.xml>RSS</a> |
+<a class=link href=https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh target=_blank rel=noopener>CC BY-NC-SA 4.0</a>
+</span>
+  </div>
+</footer>
 
-<script type="text/javascript" src="/blog/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
-  <script type="text/javascript">
-    window.MathJax = {
-      tex: {
-        inlineMath: [['$','$'], ['\\(','\\)']],
-        }
-    };
-  </script>
-  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
-
-
-
-
-
-<script src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
-<script>
-docsearch({
-    apiKey: "67ddc142183934ec2d0aa925bf40c09a",
-    indexName: "blog",
-    appId: "RQO6N4CQFD",
-    inputSelector: '.docsearch-input',
-    debug: false,
-});
-</script>
-
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
-
-<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/algoliasearch.min.js"></script>
-<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/autocomplete.min.js"></script>
-
-
- 
-<script src= "/blog/js/search.js" type="text/javascript"></script>
-
-</script>
-
+  </div>
 
   
   
+
+  
+  
+
+  
+  
+
 </body>
+
 </html>

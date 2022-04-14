@@ -1,23 +1,80 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Vim on Preminstrel&#39;s Blog</title>
+    <title>Vim on Blog de Preminstrel</title>
     <link>https://preminstrel.github.io/blog/tags/vim/</link>
-    <description>Recent content in Vim on Preminstrel&#39;s Blog</description>
+    <description>Recent content in Vim on Blog de Preminstrel</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 17 Oct 2021 00:19:58 +0800</lastBuildDate>
-    
-	<atom:link href="https://preminstrel.github.io/blog/tags/vim/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <managingEditor>preminstrel@gmail.com (Hanshi Sun)</managingEditor>
+    <webMaster>preminstrel@gmail.com (Hanshi Sun)</webMaster>
+    <lastBuildDate>Sun, 17 Oct 2021 00:19:58 +0800</lastBuildDate><atom:link href="https://preminstrel.github.io/blog/tags/vim/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Vim Basics</title>
       <link>https://preminstrel.github.io/blog/post/2021/10/17/vim-basics/</link>
       <pubDate>Sun, 17 Oct 2021 00:19:58 +0800</pubDate>
-      
+      <author>preminstrel@gmail.com (Hanshi Sun)</author>
       <guid>https://preminstrel.github.io/blog/post/2021/10/17/vim-basics/</guid>
-      <description>光标的移动 使用hjkl作为方向键 h左l右，k上j下 快速移动光标至行首和行尾 1）行首：在命令模式中使用快捷键&amp;quot;^&amp;rdquo;（即S</description>
+      
+      <description>&lt;h2 id=&#34;光标的移动&#34;&gt;光标的移动&lt;/h2&gt;
+&lt;h3 id=&#34;使用hjkl作为方向键&#34;&gt;使用hjkl作为方向键&lt;/h3&gt;
+&lt;p&gt;h左l右，k上j下&lt;/p&gt;
+&lt;h3 id=&#34;快速移动光标至行首和行尾&#34;&gt;快速移动光标至行首和行尾&lt;/h3&gt;
+&lt;p&gt;1）行首：在命令模式中使用快捷键&amp;quot;^&amp;rdquo;（即Shift+6）或0（数字0）。
+2）行尾：使用编辑键End；
+也可以在命令模式中使用快捷键&amp;quot;$&amp;rdquo;（Shift+4）。
+快捷键&amp;rdquo;$&amp;quot;前可以加上数字表示移动的行数。例如使用&amp;quot;1$&amp;quot;表示当前行的行尾，&amp;ldquo;25$&amp;quot;表示当前行的下25的行尾。
+3）I是定位到行首，A是定位到行末。&lt;/p&gt;
+&lt;h3 id=&#34;向下移动100行适合小范围移动&#34;&gt;向下移动100行（适合小范围移动）&lt;/h3&gt;
+&lt;p&gt;100j表示向下移动100行（从当前位置开始）&lt;/p&gt;
+&lt;h3 id=&#34;查找某字符串适合大范围移动&#34;&gt;查找某字符串（适合大范围移动）&lt;/h3&gt;
+&lt;p&gt;/hello
+向后查找关键词hello，回车就到了后面第一个hello处。
+?hello
+向前查找关键词hello
+&lt;em&gt;&lt;em&gt;shift+&lt;/em&gt; 向后查找当前光标处的单词
+shift+# 向前查找当前光标处的单词&lt;/em&gt;*&lt;/p&gt;
+&lt;h3 id=&#34;行内快速移动&#34;&gt;行内快速移动&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;以字符为准（适合行内移动）
+利用f命令搜索某字符方式 ，f表示向后移动到某字符：  比如fa表示向后移动到字符a处，Fa表示向前移动到字符a处：&lt;/li&gt;
+&lt;li&gt;以word为“单位”（适合小范围移动）
+同理，利用w，b，配合数字。
+2w表示向后移动2个word；
+2b表示向前移动2个word；
+2e表示向后移动2个word，但是会移动到word字符之后。
+如果想忽略标点符号的word，就用大写 W 、B 、E&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;移动到文本开头或结尾适合大范围移动&#34;&gt;移动到文本开头或结尾（适合大范围移动）&lt;/h3&gt;
+&lt;p&gt;gg表示移动到文本开头；
+G表示移动到文本结尾;&lt;/p&gt;
+&lt;h3 id=&#34;利用行号移动到某一行适合大范围移动&#34;&gt;利用行号移动到某一行（适合大范围移动）&lt;/h3&gt;
+&lt;p&gt;:123表示移动到第123行&lt;/p&gt;
+&lt;h3 id=&#34;翻页适合大范围移动&#34;&gt;翻页（适合大范围移动）&lt;/h3&gt;
+&lt;p&gt;ctrl+f表示向下翻页
+ctrl+b表示向上翻页&lt;/p&gt;
+&lt;h3 id=&#34;利用标记mark命令&#34;&gt;利用标记mark命令&lt;/h3&gt;
+&lt;p&gt;ma表示标记该行为a；包括第几列的信息，都在标记a里。
+‘a表示跳转到标记a处；会跳转到标记a的行首。单引号’
+`a表示跳转到标记a处；会跳转到标记a的行，包括第几列。更精准。按键在波浪号处。&lt;/p&gt;
+&lt;h3 id=&#34;复制删除同行一段文字&#34;&gt;复制、删除同行一段文字&lt;/h3&gt;
+&lt;p&gt;比如复制一部分文字，从time到tutor之间的内容。
+The approximate &lt;strong&gt;time required to complete the tutor&lt;/strong&gt; is 25-30 minutes.
+最基本的就是用hjkl移动到time处，v命令，用hjkl移动到tutor，选中后，按y。命令结束。&lt;/p&gt;
+&lt;p&gt;熟悉&lt;strong&gt;快速移动&lt;/strong&gt;后，/time回车，y/tutor。命令结束。
+同理，如果delete，一样。/time回车，d/tutor。命令结束。
+同理，如果change，一样。/time回车，c/tutor。命令结束。
+change命令，适合修改代码。很有用。具体介绍可以输入命令:help c
+比如cc表示删除本行并开始重写。删除本行同时执行insert模式。&lt;/p&gt;
+&lt;h3 id=&#34;用ctags命令对当前目录下的c源程序扫描生成tags文件未验证&#34;&gt;用ctags命令对当前目录下的c源程序扫描，生成tags文件（未验证）&lt;/h3&gt;
+&lt;p&gt;$ ctags *.c
+这样，在vi里通过命令 &lt;code&gt;:ta fun_name &lt;/code&gt;就可以直接打开函数fun_name所在的文件，并将光标置于函数开头&lt;/p&gt;
+&lt;h3 id=&#34;在多个文件间复制粘贴内容&#34;&gt;在多个文件间复制粘贴内容&lt;/h3&gt;
+&lt;p&gt;vi多文件时，文件之间的拷贝复制只能通过命名缓存进行，如：
+&amp;ldquo;a3yy  把3行内容复制到命名为a的缓冲区
+&amp;ldquo;ap 把名字为a的缓冲区内容拷贝到当前位置（注意：此时，不是输入冒号，而是输入“）&lt;/p&gt;
+</description>
+      
     </item>
     
   </channel>

@@ -1,176 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>MMDetection Head - Preminstrel&#39;s Blog</title>
-  <meta name="renderer" content="webkit" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
+  
+  <meta name="author" content="Hanshi Sun">
 
-<meta name="theme-color" content="#f8f5ec" />
-<meta name="msapplication-navbutton-color" content="#f8f5ec">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+  
+  
+  <meta name="description" content="目前 MMDetection 中 Head 模块主要是按照 stage 来划分，主要包括两个 package: dense_heads 和 roi_heads ，分别对应 two-stage 算法中的第一和第二个 stage 模块，如果是 one-stage 算法则仅仅有 dense_heads 而已。 dense_heads dense_heads 部分主要是按照">
+  
+
+  
+  <link rel="icon" href="https://preminstrel.github.io/blog/favicon.ico">
+
+  
+  
+  <meta name="keywords" content=" hugo  latex  theme ">
+  
+
+  
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css"
+  integrity="sha384-KiWOvVjnN8qwAZbuQyWDIbfCLFhLXNETzBQjA/92pIowpC0d2O3nppDGQVgwd2nB" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+  integrity="sha384-0fdwu/T/EQMsQlrHCCHoH10pkPLlKA1jL5dFyUOvB3lfeT2540/2g6YgSi2BL14p" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/contrib/auto-render.min.js"
+  integrity="sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR" crossorigin="anonymous"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: '$$', right: '$$', display: true },
+        { left: '\\[', right: '\\]', display: true },
+        { left: '$', right: '$', display: false },
+        { left: '\\(', right: '\\)', display: false }
+      ],
+      ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code', 'option'],
+      throwOnError: false
+    });
+  });
+</script>
 
 
-<meta name="author" content="Hanshi Sun" /><meta name="description" content="目前 MMDetection 中 Head 模块主要是按照 stage 来划分，主要包括两个 package: dense_heads 和 roi_heads ，分别对应 two-stage 算法中的第一和第二个 stage 模块，如果是 one-stage 算法则仅仅有 dense_heads 而已。 dense_heads dense_heads 部分主要是按照" /><meta name="keywords" content="Preminstrel" />
+  
 
-
-<meta name="robots" content="">
-
-
-
-
-
-
-<meta name="generator" content="Hugo 0.68.3 with theme even" />
-
-
-<link rel="canonical" href="https://preminstrel.github.io/blog/post/2022/01/17/mmdetection-head/" />
-<link rel="apple-touch-icon" sizes="180x180" href="/blog/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/blog/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/blog/favicon-16x16.png">
-<link rel="manifest" href="/blog/manifest.json">
-<link rel="mask-icon" href="/blog/safari-pinned-tab.svg" color="#5bbad5">
-
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-<link href="/blog/sass/main.min.75451ad2d2268431f3dfb6289a5d8bc042bd3e23f7ac463fe449ed7872bb8c72.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
-
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" /><meta property="og:title" content="MMDetection Head" />
+  
+  <meta property="og:title" content="MMDetection Head" />
 <meta property="og:description" content="目前 MMDetection 中 Head 模块主要是按照 stage 来划分，主要包括两个 package: dense_heads 和 roi_heads ，分别对应 two-stage 算法中的第一和第二个 stage 模块，如果是 one-stage 算法则仅仅有 dense_heads 而已。 dense_heads dense_heads 部分主要是按照" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://preminstrel.github.io/blog/post/2022/01/17/mmdetection-head/" />
 <meta property="article:published_time" content="2022-01-17T13:21:36+08:00" />
 <meta property="article:modified_time" content="2022-01-17T00:00:00+00:00" />
-<meta itemprop="name" content="MMDetection Head">
+
+
+  
+  <link rel="canonical" href="https://preminstrel.github.io/blog/post/2022/01/17/mmdetection-head/">
+
+  
+  
+  <meta itemprop="name" content="MMDetection Head">
 <meta itemprop="description" content="目前 MMDetection 中 Head 模块主要是按照 stage 来划分，主要包括两个 package: dense_heads 和 roi_heads ，分别对应 two-stage 算法中的第一和第二个 stage 模块，如果是 one-stage 算法则仅仅有 dense_heads 而已。 dense_heads dense_heads 部分主要是按照">
 <meta itemprop="datePublished" content="2022-01-17T13:21:36&#43;08:00" />
 <meta itemprop="dateModified" content="2022-01-17T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="3037">
+<meta itemprop="wordCount" content="2877">
 
 
 
-<meta itemprop="keywords" content="Object Detection,Deep Learning,MMDetection," /><meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="Object Detection,Deep Learning,MMDetection," />
+
+  
+  <link media="screen" rel="stylesheet" href='https://preminstrel.github.io/blog/css/common.css'>
+  <link media="screen" rel="stylesheet" href='https://preminstrel.github.io/blog/css/content.css'>
+
+  
+  
+  <title>MMDetection Head - Blog de Preminstrel</title>
+  
+
+  
+  <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="MMDetection Head"/>
 <meta name="twitter:description" content="目前 MMDetection 中 Head 模块主要是按照 stage 来划分，主要包括两个 package: dense_heads 和 roi_heads ，分别对应 two-stage 算法中的第一和第二个 stage 模块，如果是 one-stage 算法则仅仅有 dense_heads 而已。 dense_heads dense_heads 部分主要是按照"/>
 
-<!--[if lte IE 9]>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
-<![endif]-->
 
-<!--[if lt IE 9]>
-  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
-<![endif]-->
+  
+<link rel="stylesheet" href='https://preminstrel.github.io/blog/css/single.css'>
 
 </head>
+
 <body>
-  <div id="mobile-navbar" class="mobile-navbar">
-  <div class="mobile-header-logo">
-    <a href="/blog/" class="logo">Preminstrel</a>
-  </div>
-  <div class="mobile-navbar-icon">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
-</div>
-<nav id="mobile-menu" class="mobile-menu slideout-menu">
-  <ul class="mobile-menu-list">
-    <a href="/blog/">
-        <li class="mobile-menu-item">Home</li>
-      </a><a href="/blog/post/">
-        <li class="mobile-menu-item">Archives</li>
-      </a><a href="/blog/tags/">
-        <li class="mobile-menu-item">Tags</li>
-      </a><a href="/blog/categories/">
-        <li class="mobile-menu-item">Categories</li>
-      </a><a href="/blog/about/">
-        <li class="mobile-menu-item">About</li>
-      </a>
-  </ul>
-</nav>
-  <div class="container" id="mobile-panel">
-    <header id="header" class="header">
-        <div class="logo-wrapper">
-  <a href="/blog/" class="logo">Preminstrel</a>
-</div>
+  <div id="wrapper">
+    <header id="header">
+  <h1>
+    <a href="https://preminstrel.github.io/blog/">Blog de Preminstrel</a>
+  </h1>
 
-
-<nav class="site-navbar">
-  <ul id="menu" class="menu">
-    <li class="menu-item">
-        <a class="menu-item-link" href="/blog/">Home</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/blog/post/">Archives</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/blog/tags/">Tags</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/blog/categories/">Categories</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/blog/about/">About</a>
-      </li>
-  </ul>
-</nav><li style="display:inline-block;margin-left:290px;">
-    <input type="search" class="docsearch-input" placeholder="Search" />
-  </li>
-    </header>
-
-    <main id="main" class="main">
-      <div class="content-wrapper">
-        <div id="content" class="content">
-          <article class="post">
+  <nav>
     
-    <header class="post-header">
-      <h1 class="post-title">MMDetection Head</h1>
+    <span class="nav-bar-item">
+      <a class="link" href="/blog/">Post</a>
+    </span>
+    
+    <span class="nav-bar-item">
+      <a class="link" href="/blog/post/">Archives</a>
+    </span>
+    
+    <span class="nav-bar-item">
+      <a class="link" href="/blog/about/">About</a>
+    </span>
+    
+  </nav>
+</header>
 
-      <div class="post-meta">
-        <span class="post-time"> 2022-01-17 </span>
-        <div class="post-category">
-            <a href="/blog/categories/object-detection/"> Object Detection </a>
-            </div>
-          <span class="more-meta"> 3037 words </span>
-          <span class="more-meta"> 7 mins read </span>
-        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/blog/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
-      </div>
-    </header>
-
-    <div class="post-toc" id="post-toc">
-  <h2 class="post-toc-title">Contents</h2>
-  <div class="post-toc-content always-active">
-    <nav id="TableOfContents">
-  <ul>
-    <li><a href="#head-模块构建流程">Head 模块构建流程</a>
-      <ul>
-        <li><a href="#train--test-of-mmd">Train &amp; Test of MMD</a></li>
-        <li><a href="#dense_heads">dense_heads</a>
-          <ul>
-            <li><a href="#train">Train</a></li>
-            <li><a href="#test">Test</a></li>
-          </ul>
-        </li>
-        <li><a href="#roi_heads">roi_heads</a>
-          <ul>
-            <li><a href="#train-1">Train</a></li>
-            <li><a href="#test-1">Test</a></li>
-          </ul>
-        </li>
-      </ul>
-    </li>
-    <li><a href="#conclusion">Conclusion</a></li>
-    <li><a href="#reference">Reference</a></li>
-  </ul>
-</nav>
+    
+<main id="main" class="post">
+  
+  
+  <h1>MMDetection Head</h1>
+  
+  <div>
+    <b>Keywords: </b>
+    
+    <a class="link" href='https://preminstrel.github.io/blog/tags/object-detection'>#Object Detection</a>
+    
+    <a class="link" href='https://preminstrel.github.io/blog/tags/deep-learning'>#Deep Learning</a>
+    
+    <a class="link" href='https://preminstrel.github.io/blog/tags/mmdetection'>#MMDetection</a>
+    
   </div>
-</div>
-    <div class="post-content">
-      <div align=center>
+  
+  
+  <article class="content">
+    
+    <div align=center>
 <img src="/img/20220117132300.jpg" width="700px"/>
 </div>
 <p>目前 MMDetection 中 Head 模块主要是按照 stage 来划分，主要包括两个 package: <code>dense_heads</code> 和 <code>roi_heads</code> ，分别对应 two-stage 算法中的第一和第二个 stage 模块，如果是 one-stage 算法则仅仅有 <code>dense_heads</code> 而已。</p>
@@ -192,87 +159,48 @@
 <li>bbox 分类回归模块 <code>bbox_heads</code></li>
 <li>mask 预测模块 <code>mask_heads</code></li>
 </ol>
-<p>其中 1、3是<strong>必备模块</strong>。</p>
+<p>其中 1、3是<strong class=chinese>必备模块</strong>。</p>
 <h1 id="head-模块构建流程">Head 模块构建流程</h1>
 <p>为了方便理解，首先需要回顾下 MMDetection 训练和测试流程，然后再对每个 Head 模块进行深入分析。</p>
 <h2 id="train--test-of-mmd">Train &amp; Test of MMD</h2>
 <ul>
 <li>
-<p><strong>训练流程</strong></p>
+<p><strong class=chinese>训练流程</strong></p>
 <p>对应 two-stage 而言，具体如下所示：</p>
 </li>
 </ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1">#============= mmdet/models/detectors/two_stage.py/TwoStageDetector ============</span>
-<span class="k">def</span> <span class="nf">forward_train</span><span class="p">(</span><span class="o">...</span><span class="p">):</span>
-    <span class="c1"># 先进行 backbone+neck 的特征提取</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">extract_feat</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
-    <span class="n">losses</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-    <span class="c1"># RPN forward and loss</span>
-    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">with_rpn</span><span class="p">:</span>
-        <span class="c1"># 训练 RPN</span>
-        <span class="n">proposal_cfg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">train_cfg</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;rpn_proposal&#39;</span><span class="p">,</span>
-                                        <span class="bp">self</span><span class="o">.</span><span class="n">test_cfg</span><span class="o">.</span><span class="n">rpn</span><span class="p">)</span>
-        <span class="c1"># 主要是调用 rpn_head 内部的 forward_train 方法</span>
-        <span class="n">rpn_losses</span><span class="p">,</span> <span class="n">proposal_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rpn_head</span><span class="o">.</span><span class="n">forward_train</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="o">...</span><span class="p">)</span>
-        <span class="n">losses</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">rpn_losses</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">proposal_list</span> <span class="o">=</span> <span class="n">proposals</span>
-    <span class="c1"># 第二阶段，主要是调用 roi_head 内部的 forward_train 方法</span>
-    <span class="n">roi_losses</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">roi_head</span><span class="o">.</span><span class="n">forward_train</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
-    <span class="n">losses</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">roi_losses</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">losses</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>Head 模块核心是调用 <code>self.rpn_head.forward_train</code> 和 <code>self.roi_head.forward_train</code> 函数，输出 losses 和其他相关数据。</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#080;font-style:italic">#============= mmdet/models/detectors/two_stage.py/TwoStageDetector ============</span>
+<span style="color:#a2f;font-weight:bold">def</span> <span style="color:#00a000">forward_train</span>(<span style="color:#666">...</span>):
+    <span style="color:#080;font-style:italic"># 先进行 backbone+neck 的特征提取</span>
+    x <span style="color:#666">=</span> self<span style="color:#666">.</span>extract_feat(img)
+    losses <span style="color:#666">=</span> <span style="color:#a2f">dict</span>()
+    <span style="color:#080;font-style:italic"># RPN forward and loss</span>
+    <span style="color:#a2f;font-weight:bold">if</span> self<span style="color:#666">.</span>with_rpn:
+        <span style="color:#080;font-style:italic"># 训练 RPN</span>
+        proposal_cfg <span style="color:#666">=</span> self<span style="color:#666">.</span>train_cfg<span style="color:#666">.</span>get(<span style="color:#b44">&#39;rpn_proposal&#39;</span>,
+                                        self<span style="color:#666">.</span>test_cfg<span style="color:#666">.</span>rpn)
+        <span style="color:#080;font-style:italic"># 主要是调用 rpn_head 内部的 forward_train 方法</span>
+        rpn_losses, proposal_list <span style="color:#666">=</span> self<span style="color:#666">.</span>rpn_head<span style="color:#666">.</span>forward_train(x,<span style="color:#666">...</span>)
+        losses<span style="color:#666">.</span>update(rpn_losses)
+    <span style="color:#a2f;font-weight:bold">else</span>:
+        proposal_list <span style="color:#666">=</span> proposals
+    <span style="color:#080;font-style:italic"># 第二阶段，主要是调用 roi_head 内部的 forward_train 方法</span>
+    roi_losses <span style="color:#666">=</span> self<span style="color:#666">.</span>roi_head<span style="color:#666">.</span>forward_train(x, <span style="color:#666">...</span>)
+    losses<span style="color:#666">.</span>update(roi_losses)
+    <span style="color:#a2f;font-weight:bold">return</span> losses
+</code></pre></div><p>Head 模块核心是调用 <code>self.rpn_head.forward_train</code> 和 <code>self.roi_head.forward_train</code> 函数，输出 losses 和其他相关数据。</p>
 <p>对于 one-stage 而言，具体如下所示：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span><span class="lnt">8
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1">#============= mmdet/models/detectors/single_stage.py/SingleStageDetector ============</span>
-<span class="k">def</span> <span class="nf">forward_train</span><span class="p">(</span><span class="o">...</span><span class="p">):</span>
-    <span class="nb">super</span><span class="p">(</span><span class="n">SingleStageDetector</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">forward_train</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">img_metas</span><span class="p">)</span>
-    <span class="c1"># 先进行 backbone+neck 的特征提取</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">extract_feat</span><span class="p">(</span><span class="n">img</span><span class="p">)</span>
-    <span class="c1"># 主要是调用 bbox_head 内部的 forward_train 方法</span>
-    <span class="n">losses</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bbox_head</span><span class="o">.</span><span class="n">forward_train</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">losses</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>这个比 two-stage Head 模块简单，因为其只有第一个 stage，对应的函数是 <code>self.bbox_head.forward_train</code>。</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#080;font-style:italic">#============= mmdet/models/detectors/single_stage.py/SingleStageDetector ============</span>
+<span style="color:#a2f;font-weight:bold">def</span> <span style="color:#00a000">forward_train</span>(<span style="color:#666">...</span>):
+    <span style="color:#a2f">super</span>(SingleStageDetector, self)<span style="color:#666">.</span>forward_train(img, img_metas)
+    <span style="color:#080;font-style:italic"># 先进行 backbone+neck 的特征提取</span>
+    x <span style="color:#666">=</span> self<span style="color:#666">.</span>extract_feat(img)
+    <span style="color:#080;font-style:italic"># 主要是调用 bbox_head 内部的 forward_train 方法</span>
+    losses <span style="color:#666">=</span> self<span style="color:#666">.</span>bbox_head<span style="color:#666">.</span>forward_train(x, <span style="color:#666">...</span>)
+    <span style="color:#a2f;font-weight:bold">return</span> losses
+</code></pre></div><p>这个比 two-stage Head 模块简单，因为其只有第一个 stage，对应的函数是 <code>self.bbox_head.forward_train</code>。</p>
 <ul>
-<li><strong>测试流程</strong></li>
+<li><strong class=chinese>测试流程</strong></li>
 </ul>
 <ol>
 <li>调用 MMDataParallel 或 MMDistributedDataParallel 中的 <code>forward</code> 方法</li>
@@ -285,92 +213,46 @@
 <h2 id="dense_heads">dense_heads</h2>
 <h3 id="train">Train</h3>
 <p><code>dense_heads</code> 训练流程最外层函数是 <code>forward_train</code>, 其实现是在 <code>mmdet/models/dense_heads/base_dense_head.py/BaseDenseHead</code> 中，如下所示：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">forward_train</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                  <span class="n">x</span><span class="p">,</span>
-                  <span class="n">img_metas</span><span class="p">,</span>
-                  <span class="n">gt_bboxes</span><span class="p">,</span>
-                  <span class="n">gt_labels</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
-                  <span class="n">gt_bboxes_ignore</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
-                  <span class="n">proposal_cfg</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
-                  <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="c1"># 调用各个子类实现的 forward 方法</span>
-    <span class="n">outs</span> <span class="o">=</span> <span class="bp">self</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">gt_labels</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="n">loss_inputs</span> <span class="o">=</span> <span class="n">outs</span> <span class="o">+</span> <span class="p">(</span><span class="n">gt_bboxes</span><span class="p">,</span> <span class="n">img_metas</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">loss_inputs</span> <span class="o">=</span> <span class="n">outs</span> <span class="o">+</span> <span class="p">(</span><span class="n">gt_bboxes</span><span class="p">,</span> <span class="n">gt_labels</span><span class="p">,</span> <span class="n">img_metas</span><span class="p">)</span>
-    <span class="c1"># 调用各个子类实现的 loss 计算方法</span>
-    <span class="n">losses</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss</span><span class="p">(</span><span class="o">*</span><span class="n">loss_inputs</span><span class="p">,</span> <span class="n">gt_bboxes_ignore</span><span class="o">=</span><span class="n">gt_bboxes_ignore</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">proposal_cfg</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">losses</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="c1"># two-stage 算法还需要返回 proposal</span>
-        <span class="n">proposal_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_bboxes</span><span class="p">(</span><span class="o">*</span><span class="n">outs</span><span class="p">,</span> <span class="n">img_metas</span><span class="p">,</span> <span class="n">cfg</span><span class="o">=</span><span class="n">proposal_cfg</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">losses</span><span class="p">,</span> <span class="n">proposal_list</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>每个算法的 Head 子类一般不会重写上述方法，<strong>但是每个 Head 子类都会重写 <code>forward</code> 和 <code>loss</code> 方法</strong>，其中 <code>forward</code> 方法用于运行 Head 网络部分输出分类回归分支的特征图，而 <code>loss</code> 方法接收 <code>forward</code> 输出，并且结合 label 计算 loss。</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a2f;font-weight:bold">def</span> <span style="color:#00a000">forward_train</span>(self,
+                  x,
+                  img_metas,
+                  gt_bboxes,
+                  gt_labels<span style="color:#666">=</span>None,
+                  gt_bboxes_ignore<span style="color:#666">=</span>None,
+                  proposal_cfg<span style="color:#666">=</span>None,
+                  <span style="color:#666">**</span>kwargs):
+    <span style="color:#080;font-style:italic"># 调用各个子类实现的 forward 方法</span>
+    outs <span style="color:#666">=</span> self(x)
+    <span style="color:#a2f;font-weight:bold">if</span> gt_labels <span style="color:#a2f;font-weight:bold">is</span> None:
+        loss_inputs <span style="color:#666">=</span> outs <span style="color:#666">+</span> (gt_bboxes, img_metas)
+    <span style="color:#a2f;font-weight:bold">else</span>:
+        loss_inputs <span style="color:#666">=</span> outs <span style="color:#666">+</span> (gt_bboxes, gt_labels, img_metas)
+    <span style="color:#080;font-style:italic"># 调用各个子类实现的 loss 计算方法</span>
+    losses <span style="color:#666">=</span> self<span style="color:#666">.</span>loss(<span style="color:#666">*</span>loss_inputs, gt_bboxes_ignore<span style="color:#666">=</span>gt_bboxes_ignore)
+    <span style="color:#a2f;font-weight:bold">if</span> proposal_cfg <span style="color:#a2f;font-weight:bold">is</span> None:
+        <span style="color:#a2f;font-weight:bold">return</span> losses
+    <span style="color:#a2f;font-weight:bold">else</span>:
+        <span style="color:#080;font-style:italic"># two-stage 算法还需要返回 proposal</span>
+        proposal_list <span style="color:#666">=</span> self<span style="color:#666">.</span>get_bboxes(<span style="color:#666">*</span>outs, img_metas, cfg<span style="color:#666">=</span>proposal_cfg)
+        <span style="color:#a2f;font-weight:bold">return</span> losses, proposal_list
+</code></pre></div><p>每个算法的 Head 子类一般不会重写上述方法，<strong>但是每个 Head 子类都会重写 <code>forward</code> 和 <code>loss</code> 方法</strong>，其中 <code>forward</code> 方法用于运行 Head 网络部分输出分类回归分支的特征图，而 <code>loss</code> 方法接收 <code>forward</code> 输出，并且结合 label 计算 loss。</p>
 <p><strong>(1) BaseDenseHead</strong></p>
 <p><code>BaseDenseHead</code> 基类过于简单，对于 anchor-based 和 anchor-free 算法又进一步进行了继承，得到 <code>AnchorHead</code> 或者 <code>AnchorFreeHead</code> 类。在目前的各类算法实现中，绝大部分子类都是继承自 <code>AnchorHead</code> 或者 <code>AnchorFreeHead</code>，其提供了一些相关的默认操作，如果直接继承 <code>BaseDenseHead</code> 则子类需要重写大部分算法逻辑。</p>
 <p><strong>(2) AnchorHead</strong></p>
 <p>首先分析 <code>AnchorHead</code>，其主要是封装了 anchor 生成过程。下面对 <code>forward</code> 和 <code>loss</code> 函数进行分析</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># BBoxTestMixin 是多尺度测试时候调用</span>
-<span class="k">class</span> <span class="nc">AnchorHead</span><span class="p">(</span><span class="n">BaseDenseHead</span><span class="p">,</span> <span class="n">BBoxTestMixin</span><span class="p">):</span>
-    <span class="c1"># feats 是 backbone+neck 输出的多个尺度图</span>
-    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feats</span><span class="p">):</span>
-        <span class="c1"># 对每张特征图单独计算预测输出</span>
-        <span class="k">return</span> <span class="n">multi_apply</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">forward_single</span><span class="p">,</span> <span class="n">feats</span><span class="p">)</span>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#080;font-style:italic"># BBoxTestMixin 是多尺度测试时候调用</span>
+<span style="color:#a2f;font-weight:bold">class</span> <span style="color:#00f">AnchorHead</span>(BaseDenseHead, BBoxTestMixin):
+    <span style="color:#080;font-style:italic"># feats 是 backbone+neck 输出的多个尺度图</span>
+    <span style="color:#a2f;font-weight:bold">def</span> <span style="color:#00a000">forward</span>(self, feats):
+        <span style="color:#080;font-style:italic"># 对每张特征图单独计算预测输出</span>
+        <span style="color:#a2f;font-weight:bold">return</span> multi_apply(self<span style="color:#666">.</span>forward_single, feats)
 
-    <span class="c1"># head 模块分类回归分支输出</span>
-    <span class="k">def</span> <span class="nf">forward_single</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        <span class="n">cls_score</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv_cls</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="n">bbox_pred</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv_reg</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">cls_score</span><span class="p">,</span> <span class="n">bbox_pred</span>
-</code></pre></td></tr></table>
-</div>
-</div><p><code>forward</code> 函数比较简单，就是对多尺度特征图中每个特征图分别计算分类和回归输出即可，主要复杂度在 loss 函数中，其运行流程图如下所示：</p>
+    <span style="color:#080;font-style:italic"># head 模块分类回归分支输出</span>
+    <span style="color:#a2f;font-weight:bold">def</span> <span style="color:#00a000">forward_single</span>(self, x):
+        cls_score <span style="color:#666">=</span> self<span style="color:#666">.</span>conv_cls(x)
+        bbox_pred <span style="color:#666">=</span> self<span style="color:#666">.</span>conv_reg(x)
+        <span style="color:#a2f;font-weight:bold">return</span> cls_score, bbox_pred
+</code></pre></div><p><code>forward</code> 函数比较简单，就是对多尺度特征图中每个特征图分别计算分类和回归输出即可，主要复杂度在 loss 函数中，其运行流程图如下所示：</p>
 <div align=center>
 <img src="/img/20220117135200.jpg" width="700px"/>
 </div>
@@ -392,248 +274,119 @@
 <li>如果需要进行 nms，则对所有分支预测保留结果进行统一 nms 即可，否则直接属于多尺度预测结果</li>
 </ol>
 <p>对于 two-stage 而言，其第一阶段 Head 推理是直接调用了 <code>simple_test_rpn</code> 方法，该方法内部最终也是调用了 <code>AnchorHead</code> 中的<code>get_bboxes</code> 方法。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># mmdet/models/dense_heads/rpn_test_mixin.py/RPNTestMixin</span>
-<span class="k">def</span> <span class="nf">simple_test_rpn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">img_metas</span><span class="p">):</span>
-    <span class="n">rpn_outs</span> <span class="o">=</span> <span class="bp">self</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-    <span class="n">proposal_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_bboxes</span><span class="p">(</span><span class="o">*</span><span class="n">rpn_outs</span><span class="p">,</span> <span class="n">img_metas</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">proposal_list</span>
-</code></pre></td></tr></table>
-</div>
-</div><p><strong>(2) AnchorFreeHead</strong></p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#080;font-style:italic"># mmdet/models/dense_heads/rpn_test_mixin.py/RPNTestMixin</span>
+<span style="color:#a2f;font-weight:bold">def</span> <span style="color:#00a000">simple_test_rpn</span>(self, x, img_metas):
+    rpn_outs <span style="color:#666">=</span> self(x)
+    proposal_list <span style="color:#666">=</span> self<span style="color:#666">.</span>get_bboxes(<span style="color:#666">*</span>rpn_outs, img_metas)
+    <span style="color:#a2f;font-weight:bold">return</span> proposal_list
+</code></pre></div><p><strong>(2) AnchorFreeHead</strong></p>
 <p><code>AnchorFreeHead</code> 比较灵活， <code>get_bboxes</code> 都是由具体算法子类实现。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">get_bboxes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-               <span class="n">cls_scores</span><span class="p">,</span>
-               <span class="n">bbox_preds</span><span class="p">,</span>
-               <span class="n">img_metas</span><span class="p">,</span>
-               <span class="n">cfg</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
-               <span class="n">rescale</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-    <span class="k">raise</span> <span class="ne">NotImplementedError</span>
-</code></pre></td></tr></table>
-</div>
-</div><p><strong>(3) 多尺度测试</strong></p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a2f;font-weight:bold">def</span> <span style="color:#00a000">get_bboxes</span>(self,
+               cls_scores,
+               bbox_preds,
+               img_metas,
+               cfg<span style="color:#666">=</span>None,
+               rescale<span style="color:#666">=</span>None):
+    <span style="color:#a2f;font-weight:bold">raise</span> <span style="color:#d2413a;font-weight:bold">NotImplementedError</span>
+</code></pre></div><p><strong>(3) 多尺度测试</strong></p>
 <p>除了 RPN 算法的多尺度测试是在<code>mmdet/models/dense_heads/rpn_test_mixin.py</code>，其余 Head 多尺度测试都是在 <code>mmdet/models/dense_heads/dense_test_mixins.py/BBoxTestMixin</code> 中实现，其思路是对多尺度图片中每张图片单独运行 <code>get_bboxes</code>，然后还原到原图尺度，最后把多尺度图片预测结果合并进行统一 nms。</p>
 <h2 id="roi_heads">roi_heads</h2>
 <p>以最常用的 StandardRoIHead 为例进行分析。</p>
 <h3 id="train-1">Train</h3>
 <p>训练流程最外层依然是调用 <code>forward_train</code>, 其核心代码如下所示：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span><span class="lnt">31
-</span><span class="lnt">32
-</span><span class="lnt">33
-</span><span class="lnt">34
-</span><span class="lnt">35
-</span><span class="lnt">36
-</span><span class="lnt">37
-</span><span class="lnt">38
-</span><span class="lnt">39
-</span><span class="lnt">40
-</span><span class="lnt">41
-</span><span class="lnt">42
-</span><span class="lnt">43
-</span><span class="lnt">44
-</span><span class="lnt">45
-</span><span class="lnt">46
-</span><span class="lnt">47
-</span><span class="lnt">48
-</span><span class="lnt">49
-</span><span class="lnt">50
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">forward_train</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                  <span class="n">x</span><span class="p">,</span>
-                  <span class="n">img_metas</span><span class="p">,</span>
-                  <span class="n">proposal_list</span><span class="p">,</span>
-                  <span class="n">gt_bboxes</span><span class="p">,</span>
-                  <span class="n">gt_labels</span><span class="p">,</span>
-                  <span class="o">...</span><span class="p">):</span>
-    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">with_bbox</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">with_mask</span><span class="p">:</span>
-        <span class="n">num_imgs</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">img_metas</span><span class="p">)</span>
-        <span class="n">sampling_results</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_imgs</span><span class="p">):</span>
-            <span class="c1"># 对每张图片进行 bbox 正负样本属性分配</span>
-            <span class="n">assign_result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bbox_assigner</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span>
-                <span class="n">proposal_list</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="o">...</span><span class="p">)</span>
-            <span class="c1"># 然后进行正负样本采样</span>
-            <span class="n">sampling_result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bbox_sampler</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span>
-                <span class="n">assign_result</span><span class="p">,</span>
-                <span class="n">proposal_list</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
-                <span class="o">...</span><span class="p">)</span>
-            <span class="n">sampling_results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sampling_result</span><span class="p">)</span>
-    <span class="n">losses</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a2f;font-weight:bold">def</span> <span style="color:#00a000">forward_train</span>(self,
+                  x,
+                  img_metas,
+                  proposal_list,
+                  gt_bboxes,
+                  gt_labels,
+                  <span style="color:#666">...</span>):
+    <span style="color:#a2f;font-weight:bold">if</span> self<span style="color:#666">.</span>with_bbox <span style="color:#a2f;font-weight:bold">or</span> self<span style="color:#666">.</span>with_mask:
+        num_imgs <span style="color:#666">=</span> <span style="color:#a2f">len</span>(img_metas)
+        sampling_results <span style="color:#666">=</span> []
+        <span style="color:#a2f;font-weight:bold">for</span> i <span style="color:#a2f;font-weight:bold">in</span> <span style="color:#a2f">range</span>(num_imgs):
+            <span style="color:#080;font-style:italic"># 对每张图片进行 bbox 正负样本属性分配</span>
+            assign_result <span style="color:#666">=</span> self<span style="color:#666">.</span>bbox_assigner<span style="color:#666">.</span>assign(
+                proposal_list[i], <span style="color:#666">...</span>)
+            <span style="color:#080;font-style:italic"># 然后进行正负样本采样</span>
+            sampling_result <span style="color:#666">=</span> self<span style="color:#666">.</span>bbox_sampler<span style="color:#666">.</span>sample(
+                assign_result,
+                proposal_list[i],
+                <span style="color:#666">...</span>)
+            sampling_results<span style="color:#666">.</span>append(sampling_result)
+    losses <span style="color:#666">=</span> <span style="color:#a2f">dict</span>()
 
-    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">with_bbox</span><span class="p">:</span>
-        <span class="c1"># bbox 分支 forward，返回 loss</span>
-        <span class="n">bbox_results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bbox_forward_train</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
-        <span class="n">losses</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">bbox_results</span><span class="p">[</span><span class="s1">&#39;loss_bbox&#39;</span><span class="p">])</span>
+    <span style="color:#a2f;font-weight:bold">if</span> self<span style="color:#666">.</span>with_bbox:
+        <span style="color:#080;font-style:italic"># bbox 分支 forward，返回 loss</span>
+        bbox_results <span style="color:#666">=</span> self<span style="color:#666">.</span>_bbox_forward_train(<span style="color:#666">...</span>)
+        losses<span style="color:#666">.</span>update(bbox_results[<span style="color:#b44">&#39;loss_bbox&#39;</span>])
 
-    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">with_mask</span><span class="p">:</span>
-        <span class="c1"># mask 分支 forward,返回 loss</span>
-    <span class="k">return</span> <span class="n">losses</span>
+    <span style="color:#a2f;font-weight:bold">if</span> self<span style="color:#666">.</span>with_mask:
+        <span style="color:#080;font-style:italic"># mask 分支 forward,返回 loss</span>
+    <span style="color:#a2f;font-weight:bold">return</span> losses
 
 
-<span class="k">def</span> <span class="nf">_bbox_forward_train</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">sampling_results</span><span class="p">,</span> <span class="n">gt_bboxes</span><span class="p">,</span> <span class="n">gt_labels</span><span class="p">,</span>
-                        <span class="n">img_metas</span><span class="p">):</span>
-    <span class="n">rois</span> <span class="o">=</span> <span class="n">bbox2roi</span><span class="p">([</span><span class="n">res</span><span class="o">.</span><span class="n">bboxes</span> <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">sampling_results</span><span class="p">])</span>
-    <span class="c1"># forward</span>
-    <span class="n">bbox_results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bbox_forward</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">rois</span><span class="p">)</span>
-    <span class="c1"># 计算 target</span>
-    <span class="n">bbox_targets</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bbox_head</span><span class="o">.</span><span class="n">get_targets</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>  
-    <span class="c1"># 计算 loss                                          </span>
-    <span class="n">loss_bbox</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bbox_head</span><span class="o">.</span><span class="n">loss</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
-    <span class="k">return</span> <span class="o">...</span>    
+<span style="color:#a2f;font-weight:bold">def</span> <span style="color:#00a000">_bbox_forward_train</span>(self, x, sampling_results, gt_bboxes, gt_labels,
+                        img_metas):
+    rois <span style="color:#666">=</span> bbox2roi([res<span style="color:#666">.</span>bboxes <span style="color:#a2f;font-weight:bold">for</span> res <span style="color:#a2f;font-weight:bold">in</span> sampling_results])
+    <span style="color:#080;font-style:italic"># forward</span>
+    bbox_results <span style="color:#666">=</span> self<span style="color:#666">.</span>_bbox_forward(x, rois)
+    <span style="color:#080;font-style:italic"># 计算 target</span>
+    bbox_targets <span style="color:#666">=</span> self<span style="color:#666">.</span>bbox_head<span style="color:#666">.</span>get_targets(<span style="color:#666">...</span>)  
+    <span style="color:#080;font-style:italic"># 计算 loss                                          </span>
+    loss_bbox <span style="color:#666">=</span> self<span style="color:#666">.</span>bbox_head<span style="color:#666">.</span>loss(<span style="color:#666">...</span>)
+    <span style="color:#a2f;font-weight:bold">return</span> <span style="color:#666">...</span>    
 
-<span class="k">def</span> <span class="nf">_bbox_forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">rois</span><span class="p">):</span>
-    <span class="c1"># roi 提取</span>
-    <span class="n">bbox_feats</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bbox_roi_extractor</span><span class="p">(</span>
-        <span class="n">x</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">bbox_roi_extractor</span><span class="o">.</span><span class="n">num_inputs</span><span class="p">],</span> <span class="n">rois</span><span class="p">)</span>
-    <span class="c1"># bbox head 网络前向</span>
-    <span class="n">cls_score</span><span class="p">,</span> <span class="n">bbox_pred</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bbox_head</span><span class="p">(</span><span class="n">bbox_feats</span><span class="p">)</span>
-    <span class="k">return</span> <span class="o">...</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>从上述逻辑可以看出，<code>StandardRoIHead</code> 中 <code>forward_train</code> 函数仅仅是对内部的 <code>bbox_head</code> 相关函数进行调用，例如 <code>get_targets</code> 和 <code>loss</code>，本身 StandardRoIHead 类不做具体算法逻辑计算。</p>
+<span style="color:#a2f;font-weight:bold">def</span> <span style="color:#00a000">_bbox_forward</span>(self, x, rois):
+    <span style="color:#080;font-style:italic"># roi 提取</span>
+    bbox_feats <span style="color:#666">=</span> self<span style="color:#666">.</span>bbox_roi_extractor(
+        x[:self<span style="color:#666">.</span>bbox_roi_extractor<span style="color:#666">.</span>num_inputs], rois)
+    <span style="color:#080;font-style:italic"># bbox head 网络前向</span>
+    cls_score, bbox_pred <span style="color:#666">=</span> self<span style="color:#666">.</span>bbox_head(bbox_feats)
+    <span style="color:#a2f;font-weight:bold">return</span> <span style="color:#666">...</span>
+</code></pre></div><p>从上述逻辑可以看出，<code>StandardRoIHead</code> 中 <code>forward_train</code> 函数仅仅是对内部的 <code>bbox_head</code> 相关函数进行调用，例如 <code>get_targets</code> 和 <code>loss</code>，本身 StandardRoIHead 类不做具体算法逻辑计算。</p>
 <p>可以参考 Faster R-CNN 配置文件理解 <code>StandardRoIHead</code> 和 <code>bbox_head</code> 的关系：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">roi_head</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
-    <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;StandardRoIHead&#39;</span><span class="p">,</span>
-    <span class="n">bbox_roi_extractor</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
-        <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;SingleRoIExtractor&#39;</span><span class="p">,</span>
-        <span class="n">roi_layer</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s1">&#39;RoIAlign&#39;</span><span class="p">,</span> <span class="n">output_size</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">sampling_ratio</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
-        <span class="n">out_channels</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span>
-        <span class="n">featmap_strides</span><span class="o">=</span><span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">32</span><span class="p">]),</span>
-    <span class="n">bbox_head</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
-        <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;Shared2FCBBoxHead&#39;</span><span class="p">,</span>
-        <span class="n">in_channels</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span>
-        <span class="n">fc_out_channels</span><span class="o">=</span><span class="mi">1024</span><span class="p">,</span>
-        <span class="n">roi_feat_size</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span>
-        <span class="n">num_classes</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span>
-        <span class="n">bbox_coder</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
-            <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;DeltaXYWHBBoxCoder&#39;</span><span class="p">,</span>
-            <span class="n">target_means</span><span class="o">=</span><span class="p">[</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">],</span>
-            <span class="n">target_stds</span><span class="o">=</span><span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">]),</span>
-        <span class="n">reg_class_agnostic</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
-        <span class="n">loss_cls</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
-            <span class="nb">type</span><span class="o">=</span><span class="s1">&#39;CrossEntropyLoss&#39;</span><span class="p">,</span> <span class="n">use_sigmoid</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">loss_weight</span><span class="o">=</span><span class="mf">1.0</span><span class="p">),</span>
-        <span class="n">loss_bbox</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s1">&#39;L1Loss&#39;</span><span class="p">,</span> <span class="n">loss_weight</span><span class="o">=</span><span class="mf">1.0</span><span class="p">))))</span>
-</code></pre></td></tr></table>
-</div>
-</div><p><code>StandardRoIHead</code> 类包装了 <code>bbox_roi_extractor</code> 和 <code>bbox_head</code> 的实例，前者用于 RoI 特征提取，后者才是真正计算分类和回归的逻辑。在 <code>bbox_head</code> 中除了网络模型有些变换外，loss计算过程是非常类似的，其 <code>get_targets</code> 和 <code>loss</code> 计算过程都是封装在基类 <code>mmdet/models/roi_heads/bbox_heads/bbox_head.py</code> 中。</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">roi_head<span style="color:#666">=</span><span style="color:#a2f">dict</span>(
+    <span style="color:#a2f">type</span><span style="color:#666">=</span><span style="color:#b44">&#39;StandardRoIHead&#39;</span>,
+    bbox_roi_extractor<span style="color:#666">=</span><span style="color:#a2f">dict</span>(
+        <span style="color:#a2f">type</span><span style="color:#666">=</span><span style="color:#b44">&#39;SingleRoIExtractor&#39;</span>,
+        roi_layer<span style="color:#666">=</span><span style="color:#a2f">dict</span>(<span style="color:#a2f">type</span><span style="color:#666">=</span><span style="color:#b44">&#39;RoIAlign&#39;</span>, output_size<span style="color:#666">=</span><span style="color:#666">7</span>, sampling_ratio<span style="color:#666">=</span><span style="color:#666">0</span>),
+        out_channels<span style="color:#666">=</span><span style="color:#666">256</span>,
+        featmap_strides<span style="color:#666">=</span>[<span style="color:#666">4</span>, <span style="color:#666">8</span>, <span style="color:#666">16</span>, <span style="color:#666">32</span>]),
+    bbox_head<span style="color:#666">=</span><span style="color:#a2f">dict</span>(
+        <span style="color:#a2f">type</span><span style="color:#666">=</span><span style="color:#b44">&#39;Shared2FCBBoxHead&#39;</span>,
+        in_channels<span style="color:#666">=</span><span style="color:#666">256</span>,
+        fc_out_channels<span style="color:#666">=</span><span style="color:#666">1024</span>,
+        roi_feat_size<span style="color:#666">=</span><span style="color:#666">7</span>,
+        num_classes<span style="color:#666">=</span><span style="color:#666">80</span>,
+        bbox_coder<span style="color:#666">=</span><span style="color:#a2f">dict</span>(
+            <span style="color:#a2f">type</span><span style="color:#666">=</span><span style="color:#b44">&#39;DeltaXYWHBBoxCoder&#39;</span>,
+            target_means<span style="color:#666">=</span>[<span style="color:#666">0.</span>, <span style="color:#666">0.</span>, <span style="color:#666">0.</span>, <span style="color:#666">0.</span>],
+            target_stds<span style="color:#666">=</span>[<span style="color:#666">0.1</span>, <span style="color:#666">0.1</span>, <span style="color:#666">0.2</span>, <span style="color:#666">0.2</span>]),
+        reg_class_agnostic<span style="color:#666">=</span>False,
+        loss_cls<span style="color:#666">=</span><span style="color:#a2f">dict</span>(
+            <span style="color:#a2f">type</span><span style="color:#666">=</span><span style="color:#b44">&#39;CrossEntropyLoss&#39;</span>, use_sigmoid<span style="color:#666">=</span>False, loss_weight<span style="color:#666">=</span><span style="color:#666">1.0</span>),
+        loss_bbox<span style="color:#666">=</span><span style="color:#a2f">dict</span>(<span style="color:#a2f">type</span><span style="color:#666">=</span><span style="color:#b44">&#39;L1Loss&#39;</span>, loss_weight<span style="color:#666">=</span><span style="color:#666">1.0</span>))))
+</code></pre></div><p><code>StandardRoIHead</code> 类包装了 <code>bbox_roi_extractor</code> 和 <code>bbox_head</code> 的实例，前者用于 RoI 特征提取，后者才是真正计算分类和回归的逻辑。在 <code>bbox_head</code> 中除了网络模型有些变换外，loss计算过程是非常类似的，其 <code>get_targets</code> 和 <code>loss</code> 计算过程都是封装在基类 <code>mmdet/models/roi_heads/bbox_heads/bbox_head.py</code> 中。</p>
 <h3 id="test-1">Test</h3>
 <p>测试流程是调用 Head 模块的 <code>simple_test</code> 和 <code>aug_test</code> 函数，单尺度测试 bbox 相关实现代码在 <code>mmdet/models/roi_heads/test_mixins.py/BBoxTestMixin</code> 的 <code>simple_test_bboxes</code> 函数中。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">simple_test_bboxes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
-                       <span class="n">x</span><span class="p">,</span>
-                       <span class="o">...</span><span class="p">):</span>
-    <span class="n">rois</span> <span class="o">=</span> <span class="n">bbox2roi</span><span class="p">(</span><span class="n">proposals</span><span class="p">)</span>
-    <span class="c1"># roi 提取+ forward，输出预测结果</span>
-    <span class="n">bbox_results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bbox_forward</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">rois</span><span class="p">)</span>
-    <span class="n">cls_score</span> <span class="o">=</span> <span class="n">bbox_results</span><span class="p">[</span><span class="s1">&#39;cls_score&#39;</span><span class="p">]</span>
-    <span class="n">bbox_pred</span> <span class="o">=</span> <span class="n">bbox_results</span><span class="p">[</span><span class="s1">&#39;bbox_pred&#39;</span><span class="p">]</span>
-    <span class="n">det_bboxes</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">det_labels</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">proposals</span><span class="p">)):</span>
-        <span class="c1"># 对预测结果进行解码输出 bbox 和对应 label</span>
-        <span class="n">det_bbox</span><span class="p">,</span> <span class="n">det_label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bbox_head</span><span class="o">.</span><span class="n">get_bboxes</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
-        <span class="n">det_bboxes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">det_bbox</span><span class="p">)</span>
-        <span class="n">det_labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">det_label</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">det_bboxes</span><span class="p">,</span> <span class="n">det_labels</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>实际上依然是调用了 Head 模块内部的 <code>get_bboxes</code> 函数，处理逻辑和 dense_head 差不多( 解码+还原尺度+ nms)。</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a2f;font-weight:bold">def</span> <span style="color:#00a000">simple_test_bboxes</span>(self,
+                       x,
+                       <span style="color:#666">...</span>):
+    rois <span style="color:#666">=</span> bbox2roi(proposals)
+    <span style="color:#080;font-style:italic"># roi 提取+ forward，输出预测结果</span>
+    bbox_results <span style="color:#666">=</span> self<span style="color:#666">.</span>_bbox_forward(x, rois)
+    cls_score <span style="color:#666">=</span> bbox_results[<span style="color:#b44">&#39;cls_score&#39;</span>]
+    bbox_pred <span style="color:#666">=</span> bbox_results[<span style="color:#b44">&#39;bbox_pred&#39;</span>]
+    det_bboxes <span style="color:#666">=</span> []
+    det_labels <span style="color:#666">=</span> []
+    <span style="color:#a2f;font-weight:bold">for</span> i <span style="color:#a2f;font-weight:bold">in</span> <span style="color:#a2f">range</span>(<span style="color:#a2f">len</span>(proposals)):
+        <span style="color:#080;font-style:italic"># 对预测结果进行解码输出 bbox 和对应 label</span>
+        det_bbox, det_label <span style="color:#666">=</span> self<span style="color:#666">.</span>bbox_head<span style="color:#666">.</span>get_bboxes(<span style="color:#666">...</span>)
+        det_bboxes<span style="color:#666">.</span>append(det_bbox)
+        det_labels<span style="color:#666">.</span>append(det_label)
+    <span style="color:#a2f;font-weight:bold">return</span> det_bboxes, det_labels
+</code></pre></div><p>实际上依然是调用了 Head 模块内部的 <code>get_bboxes</code> 函数，处理逻辑和 dense_head 差不多( 解码+还原尺度+ nms)。</p>
 <h1 id="conclusion">Conclusion</h1>
 <p>本文对最复杂的 Head 模块进行深入详细解读，我们应该掌握：</p>
 <ul>
@@ -647,179 +400,59 @@
 <li>原文：<a href="https://zhuanlan.zhihu.com/p/343433169">轻松掌握 MMDetection 中 Head 流程</a></li>
 </ul>
 
-    </div>
-
-    <div class="post-copyright">
-  <p class="copyright-item">
-    <span class="item-title">Author</span>
-    <span class="item-content">Hanshi Sun</span>
-  </p>
-  <p class="copyright-item">
-    <span class="item-title">LastMod</span>
-    <span class="item-content">
-        2022-01-17
-        
-    </span>
-  </p>
-  
-  <p class="copyright-item">
-    <span class="item-title">License</span>
-    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
-  </p>
-</div>
-<div class="post-reward">
-  <input type="checkbox" name="reward" id="reward" hidden />
-  <label class="reward-button" for="reward">Reward</label>
-  <div class="qr-code">
     
-    <label class="qr-code-image" for="reward">
-        <img class="image" src="/img/wechat.jpg">
-        <span>wechat</span>
-      </label>
-    <label class="qr-code-image" for="reward">
-        <img class="image" src="/img/alipay.jpg">
-        <span>alipay</span>
-      </label>
-  </div>
-</div><footer class="post-footer">
-      <div class="post-tags">
-          <a href="/blog/tags/object-detection/">Object Detection</a>
-          <a href="/blog/tags/deep-learning/">Deep Learning</a>
-          <a href="/blog/tags/mmdetection/">MMDetection</a>
-          </div>
-      <nav class="post-nav">
-        <a class="prev" href="/blog/post/2022/01/26/self-attention/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">Self-Attention</span>
-            <span class="prev-text nav-mobile">Prev</span>
-          </a>
-        <a class="next" href="/blog/post/2022/01/16/mmdetection-framework/">
-            <span class="next-text nav-default">MMDetection Framework</span>
-            <span class="next-text nav-mobile">Next</span>
-            <i class="iconfont icon-right"></i>
-          </a>
-      </nav>
-    </footer>
   </article>
-        </div>
-        <div id="gitalk-container"></div>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js" crossorigin="anonymous"></script>
-    <script type="text/javascript">
-      var gitalk = new Gitalk({
-        id: '2022-01-17 13:21:36 \x2b0800 CST',
-        title: 'MMDetection Head',
-        clientID: '9d4d5bfb5872b737a756',
-        clientSecret: '2677eacb9eedb58e0e8e7463a2c6a5ff70054601',
-        repo: 'gitalk',
-        owner: 'preminstrel',
-        admin: ['preminstrel'],
-        body: decodeURI(location.href)
-      });
-      gitalk.render('gitalk-container');
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="https://github.com/gitalk/gitalk">comments powered by gitalk.</a></noscript>
-
-  
-
-  
-
-  
-  
-
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="social-links">
-      <a href="mailto:preminstrel@gmail.com" class="iconfont icon-email" title="email"></a>
-      <a href="https://twitter.com/preminstrel" class="iconfont icon-twitter" title="twitter"></a>
-      <a href="https://github.com/preminstrel" class="iconfont icon-github" title="github"></a>
-      <a href="https://www.zhihu.com/people/preminstrel" class="iconfont icon-zhihu" title="zhihu"></a>
-      <a href="https://space.bilibili.com/23354645" class="iconfont icon-bilibili" title="bilibili"></a>
-  <a href="https://preminstrel.github.io/blog/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
-</div>
-
-<div class="copyright">
-  <span class="power-by">
-    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
-  </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-    Theme - 
-    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
-  </span>
-
-  <div class="busuanzi-footer">
+  <div class="paginator">
+    
+    <a class="link" href="https://preminstrel.github.io/blog/post/2022/01/16/mmdetection-framework/">← prev</a>
+    
+    
+    <a class="link" href="https://preminstrel.github.io/blog/post/2022/01/26/self-attention/">next →</a>
+    
+  </div>
+  <div class="comment">
+    
+    
+    
+    
     
     
   </div>
+  
+</main>
 
-  <span class="copyright-year">
-    &copy; 
-    2021 - 
-    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>Hanshi Sun</span>
-  </span>
-  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js"></script>
-  <script src="https://cdn.bootcdn.net/ajax/libs/mermaid/8.8.3/mermaid.min.js"></script>
-  <script>
-    $(".language-mermaid").addClass("mermaid");
-  </script>
-</div>
-
-
-    </footer>
-
-    <div class="back-to-top" id="back-to-top">
-      <i class="iconfont icon-up"></i>
-    </div>
+    <footer id="footer">
+  <div>
+    <span>© 2021</span> - <span>2022</span>
   </div>
-  
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
 
+  <div>
+    <span>Powered by </span>
+    <a class="link" href="https://gohugo.io/">Hugo</a>
+    <span> 🍦 Theme </span>
+    <a class="link" href="https://github.com/queensferryme/hugo-theme-texify">TeXify</a>
+  </div>
 
+  <div class="footnote">
+    <span>Follow me on <a class=link href=https://github.com/preminstrel>GitHub</a>,
+<a class=link href=https://twitter.com/preminstrel>Twitter</a> or
+<a class=link href=/index.xml>RSS</a> |
+<a class=link href=https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh target=_blank rel=noopener>CC BY-NC-SA 4.0</a>
+</span>
+  </div>
+</footer>
 
-<script type="text/javascript" src="/blog/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
-  <script type="text/javascript">
-    window.MathJax = {
-      tex: {
-        inlineMath: [['$','$'], ['\\(','\\)']],
-        }
-    };
-  </script>
-  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
-
-
-
-
-
-<script src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
-<script>
-docsearch({
-    apiKey: "67ddc142183934ec2d0aa925bf40c09a",
-    indexName: "blog",
-    appId: "RQO6N4CQFD",
-    inputSelector: '.docsearch-input',
-    debug: false,
-});
-</script>
-
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
-
-<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/algoliasearch.min.js"></script>
-<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/autocomplete.min.js"></script>
-
-
- 
-<script src= "/blog/js/search.js" type="text/javascript"></script>
-
-</script>
-
+  </div>
 
   
   
+
+  
+  
+
+  
+  
+
 </body>
+
 </html>

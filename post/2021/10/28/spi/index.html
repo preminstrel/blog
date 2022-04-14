@@ -1,54 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>SPI - Preminstrel&#39;s Blog</title>
-  <meta name="renderer" content="webkit" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
+  
+  <meta name="author" content="Hanshi Sun">
 
-<meta name="theme-color" content="#f8f5ec" />
-<meta name="msapplication-navbutton-color" content="#f8f5ec">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+  
+  
+  <meta name="description" content="SPI（Serial Peripheral Interface）总线是主要应用于嵌入式系统内部通信的串行同步传输总线协议。通常为四线制的SPI总线支持全双工通信。">
+  
+
+  
+  <link rel="icon" href="https://preminstrel.github.io/blog/favicon.ico">
+
+  
+  
+  <meta name="keywords" content=" hugo  latex  theme ">
+  
+
+  
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css"
+  integrity="sha384-KiWOvVjnN8qwAZbuQyWDIbfCLFhLXNETzBQjA/92pIowpC0d2O3nppDGQVgwd2nB" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+  integrity="sha384-0fdwu/T/EQMsQlrHCCHoH10pkPLlKA1jL5dFyUOvB3lfeT2540/2g6YgSi2BL14p" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/contrib/auto-render.min.js"
+  integrity="sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR" crossorigin="anonymous"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: '$$', right: '$$', display: true },
+        { left: '\\[', right: '\\]', display: true },
+        { left: '$', right: '$', display: false },
+        { left: '\\(', right: '\\)', display: false }
+      ],
+      ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code', 'option'],
+      throwOnError: false
+    });
+  });
+</script>
 
 
-<meta name="author" content="Hanshi Sun" /><meta name="description" content="SPI（Serial Peripheral Interface）总线是主要应用于嵌入式系统内部通信的串行同步传输总线协议。通常为四线制的SPI总线支持全双工通信。" /><meta name="keywords" content="Preminstrel" />
+  
 
-
-<meta name="robots" content="">
-
-
-
-
-
-
-<meta name="generator" content="Hugo 0.68.3 with theme even" />
-
-
-<link rel="canonical" href="https://preminstrel.github.io/blog/post/2021/10/28/spi/" />
-<link rel="apple-touch-icon" sizes="180x180" href="/blog/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/blog/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/blog/favicon-16x16.png">
-<link rel="manifest" href="/blog/manifest.json">
-<link rel="mask-icon" href="/blog/safari-pinned-tab.svg" color="#5bbad5">
-
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-<link href="/blog/sass/main.min.75451ad2d2268431f3dfb6289a5d8bc042bd3e23f7ac463fe449ed7872bb8c72.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
-
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" /><meta property="og:title" content="SPI" />
+  
+  <meta property="og:title" content="SPI" />
 <meta property="og:description" content="SPI（Serial Peripheral Interface）总线是主要应用于嵌入式系统内部通信的串行同步传输总线协议。通常为四线制的SPI总线支持全双工通信。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://preminstrel.github.io/blog/post/2021/10/28/spi/" />
 <meta property="article:published_time" content="2021-10-28T22:58:28+08:00" />
 <meta property="article:modified_time" content="2021-10-28T00:00:00+00:00" />
-<meta itemprop="name" content="SPI">
+
+
+  
+  <link rel="canonical" href="https://preminstrel.github.io/blog/post/2021/10/28/spi/">
+
+  
+  
+  <meta itemprop="name" content="SPI">
 <meta itemprop="description" content="SPI（Serial Peripheral Interface）总线是主要应用于嵌入式系统内部通信的串行同步传输总线协议。通常为四线制的SPI总线支持全双工通信。">
 <meta itemprop="datePublished" content="2021-10-28T22:58:28&#43;08:00" />
 <meta itemprop="dateModified" content="2021-10-28T00:00:00&#43;00:00" />
@@ -56,111 +71,71 @@
 
 
 
-<meta itemprop="keywords" content="MCU,Protocol," /><meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="MCU,Protocol," />
+
+  
+  <link media="screen" rel="stylesheet" href='https://preminstrel.github.io/blog/css/common.css'>
+  <link media="screen" rel="stylesheet" href='https://preminstrel.github.io/blog/css/content.css'>
+
+  
+  
+  <title>SPI - Blog de Preminstrel</title>
+  
+
+  
+  <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="SPI"/>
 <meta name="twitter:description" content="SPI（Serial Peripheral Interface）总线是主要应用于嵌入式系统内部通信的串行同步传输总线协议。通常为四线制的SPI总线支持全双工通信。"/>
 
-<!--[if lte IE 9]>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
-<![endif]-->
 
-<!--[if lt IE 9]>
-  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
-<![endif]-->
+  
+<link rel="stylesheet" href='https://preminstrel.github.io/blog/css/single.css'>
 
 </head>
+
 <body>
-  <div id="mobile-navbar" class="mobile-navbar">
-  <div class="mobile-header-logo">
-    <a href="/blog/" class="logo">Preminstrel</a>
-  </div>
-  <div class="mobile-navbar-icon">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
-</div>
-<nav id="mobile-menu" class="mobile-menu slideout-menu">
-  <ul class="mobile-menu-list">
-    <a href="/blog/">
-        <li class="mobile-menu-item">Home</li>
-      </a><a href="/blog/post/">
-        <li class="mobile-menu-item">Archives</li>
-      </a><a href="/blog/tags/">
-        <li class="mobile-menu-item">Tags</li>
-      </a><a href="/blog/categories/">
-        <li class="mobile-menu-item">Categories</li>
-      </a><a href="/blog/about/">
-        <li class="mobile-menu-item">About</li>
-      </a>
-  </ul>
-</nav>
-  <div class="container" id="mobile-panel">
-    <header id="header" class="header">
-        <div class="logo-wrapper">
-  <a href="/blog/" class="logo">Preminstrel</a>
-</div>
+  <div id="wrapper">
+    <header id="header">
+  <h1>
+    <a href="https://preminstrel.github.io/blog/">Blog de Preminstrel</a>
+  </h1>
 
-
-<nav class="site-navbar">
-  <ul id="menu" class="menu">
-    <li class="menu-item">
-        <a class="menu-item-link" href="/blog/">Home</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/blog/post/">Archives</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/blog/tags/">Tags</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/blog/categories/">Categories</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/blog/about/">About</a>
-      </li>
-  </ul>
-</nav><li style="display:inline-block;margin-left:290px;">
-    <input type="search" class="docsearch-input" placeholder="Search" />
-  </li>
-    </header>
-
-    <main id="main" class="main">
-      <div class="content-wrapper">
-        <div id="content" class="content">
-          <article class="post">
+  <nav>
     
-    <header class="post-header">
-      <h1 class="post-title">SPI</h1>
+    <span class="nav-bar-item">
+      <a class="link" href="/blog/">Post</a>
+    </span>
+    
+    <span class="nav-bar-item">
+      <a class="link" href="/blog/post/">Archives</a>
+    </span>
+    
+    <span class="nav-bar-item">
+      <a class="link" href="/blog/about/">About</a>
+    </span>
+    
+  </nav>
+</header>
 
-      <div class="post-meta">
-        <span class="post-time"> 2021-10-28 </span>
-        <div class="post-category">
-            <a href="/blog/categories/mcu/"> MCU </a>
-            </div>
-          <span class="more-meta"> 3061 words </span>
-          <span class="more-meta"> 7 mins read </span>
-        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/blog/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
-      </div>
-    </header>
-
-    <div class="post-toc" id="post-toc">
-  <h2 class="post-toc-title">Contents</h2>
-  <div class="post-toc-content always-active">
-    <nav id="TableOfContents">
-  <ul>
-    <li><a href="#物理层硬件拓扑">物理层硬件拓扑</a></li>
-    <li><a href="#软件协议层">软件协议层</a>
-      <ul>
-        <li><a href="#通讯的起始停止信号">通讯的起始/停止信号</a></li>
-        <li><a href="#数据有效性">数据有效性</a></li>
-        <li><a href="#cpolcpha">CPOL/CPHA</a></li>
-      </ul>
-    </li>
-    <li><a href="#reference">Reference</a></li>
-  </ul>
-</nav>
+    
+<main id="main" class="post">
+  
+  
+  <h1>SPI</h1>
+  
+  <div>
+    <b>Keywords: </b>
+    
+    <a class="link" href='https://preminstrel.github.io/blog/tags/mcu'>#MCU</a>
+    
+    <a class="link" href='https://preminstrel.github.io/blog/tags/protocol'>#Protocol</a>
+    
   </div>
-</div>
-    <div class="post-content">
-      <p>SPI（<em><strong>Serial Peripheral Interface</strong></em>）总线是主要应用于嵌入式系统内部通信的串行同步传输总线协议。通常为<strong>四线制</strong>的SPI总线支持<strong>全双工通信</strong>。SPI最初由Motorola在2000年提出，Motorola所定义的SPI标准为业界广泛引用，但不同半导体公司的实施细节可能有所不同，这些区别体现在寄存器设置、信号定义、数据格式等。业界没有统一的SPI标准，具体应用需要参考特定器件手册。</p>
+  
+  
+  <article class="content">
+    
+    <p>SPI（<em><strong>Serial Peripheral Interface</strong></em>）总线是主要应用于嵌入式系统内部通信的串行同步传输总线协议。通常为<strong class=chinese>四线制</strong>的SPI总线支持<strong class=chinese>全双工通信</strong>。SPI最初由Motorola在2000年提出，Motorola所定义的SPI标准为业界广泛引用，但不同半导体公司的实施细节可能有所不同，这些区别体现在寄存器设置、信号定义、数据格式等。业界没有统一的SPI标准，具体应用需要参考特定器件手册。</p>
 <p>SPI协议特点包括主从模式、全双工通信、片选功能、模式错误标识及CPU中断、缓冲数据寄存器和可配置时钟相位极性等。SPI允许数据一位一位的传送，甚至允许暂停，因为SCK时钟线由主控设备控制，当没有时钟跳变时，从设备不采集或传送数据。也就是说，主设备通过对SCK时钟线的控制可以完成对通讯的控制。</p>
 <h1 id="物理层硬件拓扑">物理层硬件拓扑</h1>
 <p>SPI总线定义两个及以上设备间的数据传输，提供时钟的设备为主设备（Master），接收时钟的设备为从设备（Slave）。</p>
@@ -187,7 +162,7 @@
 <li>对于主设备，如果设置SS作为从设备的片选信号（最常用的场合），则它就不能用于多主设备应用的模式错误检测（参考SSOE和MODFEN寄存器设置，表1）</li>
 <li>SPI单个数据管脚支持双向模式。在双向模式下，主设备的MOSI，从设备的MISO作为双向IO</li>
 </ol>
-<p>下图表示基本的SPI设备连接示意图。片选信号SS通常低电平有效。SPI数据传输原理是基于主从设备内部<strong>移位寄存器</strong>的数据交换。在主设备SCK的控制下，待传数据由各自设备的<strong>数据寄存器</strong>（Data Register）传输到<strong>移位寄存器</strong>（Shift Register），再通过MOSI和MISO信号线完成主从设备间的数据交换。</p>
+<p>下图表示基本的SPI设备连接示意图。片选信号SS通常低电平有效。SPI数据传输原理是基于主从设备内部<strong class=chinese>移位寄存器</strong>的数据交换。在主设备SCK的控制下，待传数据由各自设备的<strong class=chinese>数据寄存器</strong>（Data Register）传输到<strong class=chinese>移位寄存器</strong>（Shift Register），再通过MOSI和MISO信号线完成主从设备间的数据交换。</p>
 <div align=center>
 <img src="/img/20211027084101.png" width="600px" />
 </div>
@@ -198,16 +173,16 @@
 <p>单个主设备和单个从设备的SPI连接比较简单，以上图表示的就是这种拓扑结构。<br>
 通过多个片选信号（SS）或菊花链方式（Daisy Chain Configuration），单个主设备可以同时控制多个不同从设备。</p>
 <ul>
-<li><strong>片选方式</strong></li>
+<li><strong class=chinese>片选方式</strong></li>
 </ul>
-<p>如图4示，每个从设备都需要单独的片选信号，主设备每次只能选择其中一个从设备进行通信。因为所有从设备的SCK、MOSI、MISO都是连在一起的，未被选中从设备的MISO要表现为高阻状态（Hi-Z）以避免数据传输错误。由于每个设备都需要单独的片选信号，如果需要的片选信号过多，可以使用<strong>译码器</strong>产生所有的片选信号。</p>
+<p>如图4示，每个从设备都需要单独的片选信号，主设备每次只能选择其中一个从设备进行通信。因为所有从设备的SCK、MOSI、MISO都是连在一起的，未被选中从设备的MISO要表现为高阻状态（Hi-Z）以避免数据传输错误。由于每个设备都需要单独的片选信号，如果需要的片选信号过多，可以使用<strong class=chinese>译码器</strong>产生所有的片选信号。</p>
 <div align=center>
 <img src="/img/20211027084701.png" width="400px" />
 </div>
 <ul>
-<li><strong>菊花链方式</strong></li>
+<li><strong class=chinese>菊花链方式</strong></li>
 </ul>
-<p>如图示，数据信号经过主从设备所有的移位寄存器构成闭环。数据通过主设备<strong>发送</strong>（绿色线）经过从设备<strong>返回</strong>（蓝色线）到主设备。在这种方式下，片选和时钟同时接到所有从设备，通常用于移位寄存器和LED驱动器。注意，菊花链方式的主设备需要发送<strong>足够长的数据</strong>以确保数据送达到所有从设备。切记主设备所发送的第一个数据需（移位）到达菊花链中最后一个从设备。</p>
+<p>如图示，数据信号经过主从设备所有的移位寄存器构成闭环。数据通过主设备<strong class=chinese>发送</strong>（绿色线）经过从设备<strong class=chinese>返回</strong>（蓝色线）到主设备。在这种方式下，片选和时钟同时接到所有从设备，通常用于移位寄存器和LED驱动器。注意，菊花链方式的主设备需要发送<strong class=chinese>足够长的数据</strong>以确保数据送达到所有从设备。切记主设备所发送的第一个数据需（移位）到达菊花链中最后一个从设备。</p>
 <div align=center>
 <img src="/img/20211027084601.png" width="400px" />
 </div>
@@ -279,178 +254,59 @@ SPI 每次数据传输可以 8 位或 16 位为单位，每次传输的单位数
 <li><a href="https://blog.csdn.net/monkea123/article/details/102886525">SPI总线-物理层 协议层</a></li>
 </ul>
 
-    </div>
-
-    <div class="post-copyright">
-  <p class="copyright-item">
-    <span class="item-title">Author</span>
-    <span class="item-content">Hanshi Sun</span>
-  </p>
-  <p class="copyright-item">
-    <span class="item-title">LastMod</span>
-    <span class="item-content">
-        2021-10-28
-        
-    </span>
-  </p>
-  
-  <p class="copyright-item">
-    <span class="item-title">License</span>
-    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
-  </p>
-</div>
-<div class="post-reward">
-  <input type="checkbox" name="reward" id="reward" hidden />
-  <label class="reward-button" for="reward">Reward</label>
-  <div class="qr-code">
     
-    <label class="qr-code-image" for="reward">
-        <img class="image" src="/img/wechat.jpg">
-        <span>wechat</span>
-      </label>
-    <label class="qr-code-image" for="reward">
-        <img class="image" src="/img/alipay.jpg">
-        <span>alipay</span>
-      </label>
-  </div>
-</div><footer class="post-footer">
-      <div class="post-tags">
-          <a href="/blog/tags/mcu/">MCU</a>
-          <a href="/blog/tags/protocol/">Protocol</a>
-          </div>
-      <nav class="post-nav">
-        <a class="prev" href="/blog/post/2021/10/28/i2c/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">I2C</span>
-            <span class="prev-text nav-mobile">Prev</span>
-          </a>
-        <a class="next" href="/blog/post/2021/10/28/uart/">
-            <span class="next-text nav-default">UART</span>
-            <span class="next-text nav-mobile">Next</span>
-            <i class="iconfont icon-right"></i>
-          </a>
-      </nav>
-    </footer>
   </article>
-        </div>
-        <div id="gitalk-container"></div>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js" crossorigin="anonymous"></script>
-    <script type="text/javascript">
-      var gitalk = new Gitalk({
-        id: '2021-10-28 22:58:28 \x2b0800 CST',
-        title: 'SPI',
-        clientID: '9d4d5bfb5872b737a756',
-        clientSecret: '2677eacb9eedb58e0e8e7463a2c6a5ff70054601',
-        repo: 'gitalk',
-        owner: 'preminstrel',
-        admin: ['preminstrel'],
-        body: decodeURI(location.href)
-      });
-      gitalk.render('gitalk-container');
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="https://github.com/gitalk/gitalk">comments powered by gitalk.</a></noscript>
-
-  
-
-  
-
-  
-  
-
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="social-links">
-      <a href="mailto:preminstrel@gmail.com" class="iconfont icon-email" title="email"></a>
-      <a href="https://twitter.com/preminstrel" class="iconfont icon-twitter" title="twitter"></a>
-      <a href="https://github.com/preminstrel" class="iconfont icon-github" title="github"></a>
-      <a href="https://www.zhihu.com/people/preminstrel" class="iconfont icon-zhihu" title="zhihu"></a>
-      <a href="https://space.bilibili.com/23354645" class="iconfont icon-bilibili" title="bilibili"></a>
-  <a href="https://preminstrel.github.io/blog/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
-</div>
-
-<div class="copyright">
-  <span class="power-by">
-    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
-  </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-    Theme - 
-    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
-  </span>
-
-  <div class="busuanzi-footer">
+  <div class="paginator">
+    
+    <a class="link" href="https://preminstrel.github.io/blog/post/2021/10/28/uart/">← prev</a>
+    
+    
+    <a class="link" href="https://preminstrel.github.io/blog/post/2021/10/28/i2c/">next →</a>
+    
+  </div>
+  <div class="comment">
+    
+    
+    
+    
     
     
   </div>
+  
+</main>
 
-  <span class="copyright-year">
-    &copy; 
-    2021 - 
-    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>Hanshi Sun</span>
-  </span>
-  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js"></script>
-  <script src="https://cdn.bootcdn.net/ajax/libs/mermaid/8.8.3/mermaid.min.js"></script>
-  <script>
-    $(".language-mermaid").addClass("mermaid");
-  </script>
-</div>
-
-
-    </footer>
-
-    <div class="back-to-top" id="back-to-top">
-      <i class="iconfont icon-up"></i>
-    </div>
+    <footer id="footer">
+  <div>
+    <span>© 2021</span> - <span>2022</span>
   </div>
-  
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
 
+  <div>
+    <span>Powered by </span>
+    <a class="link" href="https://gohugo.io/">Hugo</a>
+    <span> 🍦 Theme </span>
+    <a class="link" href="https://github.com/queensferryme/hugo-theme-texify">TeXify</a>
+  </div>
 
+  <div class="footnote">
+    <span>Follow me on <a class=link href=https://github.com/preminstrel>GitHub</a>,
+<a class=link href=https://twitter.com/preminstrel>Twitter</a> or
+<a class=link href=/index.xml>RSS</a> |
+<a class=link href=https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh target=_blank rel=noopener>CC BY-NC-SA 4.0</a>
+</span>
+  </div>
+</footer>
 
-<script type="text/javascript" src="/blog/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
-  <script type="text/javascript">
-    window.MathJax = {
-      tex: {
-        inlineMath: [['$','$'], ['\\(','\\)']],
-        }
-    };
-  </script>
-  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
-
-
-
-
-
-<script src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
-<script>
-docsearch({
-    apiKey: "67ddc142183934ec2d0aa925bf40c09a",
-    indexName: "blog",
-    appId: "RQO6N4CQFD",
-    inputSelector: '.docsearch-input',
-    debug: false,
-});
-</script>
-
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
-
-<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/algoliasearch.min.js"></script>
-<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/autocomplete.min.js"></script>
-
-
- 
-<script src= "/blog/js/search.js" type="text/javascript"></script>
-
-</script>
-
+  </div>
 
   
   
+
+  
+  
+
+  
+  
+
 </body>
+
 </html>

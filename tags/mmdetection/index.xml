@@ -1,41 +1,799 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>MMDetection on Preminstrel&#39;s Blog</title>
+    <title>MMDetection on Blog de Preminstrel</title>
     <link>https://preminstrel.github.io/blog/tags/mmdetection/</link>
-    <description>Recent content in MMDetection on Preminstrel&#39;s Blog</description>
+    <description>Recent content in MMDetection on Blog de Preminstrel</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Mon, 17 Jan 2022 13:21:36 +0800</lastBuildDate>
-    
-	<atom:link href="https://preminstrel.github.io/blog/tags/mmdetection/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <managingEditor>preminstrel@gmail.com (Hanshi Sun)</managingEditor>
+    <webMaster>preminstrel@gmail.com (Hanshi Sun)</webMaster>
+    <lastBuildDate>Mon, 17 Jan 2022 13:21:36 +0800</lastBuildDate><atom:link href="https://preminstrel.github.io/blog/tags/mmdetection/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>MMDetection Head</title>
       <link>https://preminstrel.github.io/blog/post/2022/01/17/mmdetection-head/</link>
       <pubDate>Mon, 17 Jan 2022 13:21:36 +0800</pubDate>
-      
+      <author>preminstrel@gmail.com (Hanshi Sun)</author>
       <guid>https://preminstrel.github.io/blog/post/2022/01/17/mmdetection-head/</guid>
-      <description>目前 MMDetection 中 Head 模块主要是按照 stage 来划分，主要包括两个 package: dense_heads 和 roi_heads ，分别对应 two-stage 算法中的第一和第二个 stage 模块，如果是 one-stage 算法则仅仅有 dense_heads 而已。 dense_heads dense_heads 部分主要是按照</description>
+      
+      <description>&lt;div align=center&gt;
+&lt;img src=&#34;https://preminstrel.github.io/blog/img/20220117132300.jpg&#34; width=&#34;700px&#34;/&gt;
+&lt;/div&gt;
+&lt;p&gt;目前 MMDetection 中 Head 模块主要是按照 stage 来划分，主要包括两个 package: &lt;code&gt;dense_heads&lt;/code&gt; 和 &lt;code&gt;roi_heads&lt;/code&gt; ，分别对应 two-stage 算法中的第一和第二个 stage 模块，如果是 one-stage 算法则仅仅有 &lt;code&gt;dense_heads&lt;/code&gt; 而已。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;dense_heads&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;dense_heads&lt;/code&gt; 部分主要是按照  &lt;em&gt;&lt;strong&gt;anchor-based&lt;/strong&gt;&lt;/em&gt; 和 &lt;em&gt;&lt;strong&gt;anchor-free&lt;/strong&gt;&lt;/em&gt; 来划分，对应的类是 AnchorHead 和 AnchorFreeHead, 这两个类主要区别是 AnchorHead 会额外需要 &lt;code&gt;anchor_generator&lt;/code&gt; 配置，用于生成默认 anchor。&lt;/p&gt;
+&lt;p&gt;同时可以看到有些类并没有直接继承这两个基类，例如 YOLOV3Head。原因是在该类中大部分函数处理逻辑都需要复写，为了简单就直接继承了 &lt;code&gt;BaseDenseHead&lt;/code&gt;，而对于 SABLRetinaHead 而言，由于 SABL 是类似 anchor-based 和 anchor-free 混合的算法，故直接继承 &lt;code&gt;BaseDenseHead&lt;/code&gt; 是最合适的做法。用户如果要进行扩展开发，可以依据开发便捷度自由选择最合适的基类进行继承。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;roi_heads&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;roi_heads&lt;/code&gt; 部分主要是按照第二阶段内部的 stage 个数来划分，经典的 Faster R-CNN 采用的是 StandardRoIHead，表示进行一次回归即可，而对于 Cascade R-CNN，其第二阶段内部也包括多个 stage 回归阶段，实现了 CascadeRoIHead，即可以构建任意次数的分类回归结果。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;总结来说，每个 Head 内部都可能包括:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;RoI 特征提取器 &lt;code&gt;roi_extractor&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;共享模块 &lt;code&gt;shared_heads&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;bbox 分类回归模块 &lt;code&gt;bbox_heads&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;mask 预测模块 &lt;code&gt;mask_heads&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;其中 1、3是&lt;strong&gt;必备模块&lt;/strong&gt;。&lt;/p&gt;
+&lt;h1 id=&#34;head-模块构建流程&#34;&gt;Head 模块构建流程&lt;/h1&gt;
+&lt;p&gt;为了方便理解，首先需要回顾下 MMDetection 训练和测试流程，然后再对每个 Head 模块进行深入分析。&lt;/p&gt;
+&lt;h2 id=&#34;train--test-of-mmd&#34;&gt;Train &amp;amp; Test of MMD&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;训练流程&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;对应 two-stage 而言，具体如下所示：&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;#============= mmdet/models/detectors/two_stage.py/TwoStageDetector ============&lt;/span&gt;
+&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;forward_train&lt;/span&gt;(&lt;span style=&#34;color:#666&#34;&gt;...&lt;/span&gt;):
+    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 先进行 backbone+neck 的特征提取&lt;/span&gt;
+    x &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;extract_feat(img)
+    losses &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a2f&#34;&gt;dict&lt;/span&gt;()
+    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# RPN forward and loss&lt;/span&gt;
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;with_rpn:
+        &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 训练 RPN&lt;/span&gt;
+        proposal_cfg &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;train_cfg&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;get(&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;rpn_proposal&amp;#39;&lt;/span&gt;,
+                                        self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;test_cfg&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;rpn)
+        &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 主要是调用 rpn_head 内部的 forward_train 方法&lt;/span&gt;
+        rpn_losses, proposal_list &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;rpn_head&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;forward_train(x,&lt;span style=&#34;color:#666&#34;&gt;...&lt;/span&gt;)
+        losses&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;update(rpn_losses)
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt;:
+        proposal_list &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; proposals
+    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 第二阶段，主要是调用 roi_head 内部的 forward_train 方法&lt;/span&gt;
+    roi_losses &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;roi_head&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;forward_train(x, &lt;span style=&#34;color:#666&#34;&gt;...&lt;/span&gt;)
+    losses&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;update(roi_losses)
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;return&lt;/span&gt; losses
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Head 模块核心是调用 &lt;code&gt;self.rpn_head.forward_train&lt;/code&gt; 和 &lt;code&gt;self.roi_head.forward_train&lt;/code&gt; 函数，输出 losses 和其他相关数据。&lt;/p&gt;
+&lt;p&gt;对于 one-stage 而言，具体如下所示：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;#============= mmdet/models/detectors/single_stage.py/SingleStageDetector ============&lt;/span&gt;
+&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;forward_train&lt;/span&gt;(&lt;span style=&#34;color:#666&#34;&gt;...&lt;/span&gt;):
+    &lt;span style=&#34;color:#a2f&#34;&gt;super&lt;/span&gt;(SingleStageDetector, self)&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;forward_train(img, img_metas)
+    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 先进行 backbone+neck 的特征提取&lt;/span&gt;
+    x &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;extract_feat(img)
+    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 主要是调用 bbox_head 内部的 forward_train 方法&lt;/span&gt;
+    losses &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;bbox_head&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;forward_train(x, &lt;span style=&#34;color:#666&#34;&gt;...&lt;/span&gt;)
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;return&lt;/span&gt; losses
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这个比 two-stage Head 模块简单，因为其只有第一个 stage，对应的函数是 &lt;code&gt;self.bbox_head.forward_train&lt;/code&gt;。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;测试流程&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol&gt;
+&lt;li&gt;调用 MMDataParallel 或 MMDistributedDataParallel 中的 &lt;code&gt;forward&lt;/code&gt; 方法&lt;/li&gt;
+&lt;li&gt;调用 base.py 中的 &lt;code&gt;forward&lt;/code&gt; 方法&lt;/li&gt;
+&lt;li&gt;调用 base.py 中的 &lt;code&gt;self.forward_test&lt;/code&gt; 方法&lt;/li&gt;
+&lt;li&gt;如果是单尺度测试，则会调用 TwoStageDetector 或 SingleStageDetector 中的 &lt;code&gt;simple_test&lt;/code&gt; 方法，如果是多尺度测试，则调用 &lt;code&gt;aug_test&lt;/code&gt; 方法&lt;/li&gt;
+&lt;li&gt;最终调用的是每个具体 Head 模块的 &lt;code&gt;simple_test&lt;/code&gt; 或者 &lt;code&gt;aug_test&lt;/code&gt; 方法(one-stage 和 two-stage 的 head 调用逻辑有些区别)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;可以看出在测试阶段，主要是调用了 Head 模块自身的 &lt;code&gt;simple_test&lt;/code&gt; 或 &lt;code&gt;aug_test&lt;/code&gt; 方法。&lt;/p&gt;
+&lt;h2 id=&#34;dense_heads&#34;&gt;dense_heads&lt;/h2&gt;
+&lt;h3 id=&#34;train&#34;&gt;Train&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;dense_heads&lt;/code&gt; 训练流程最外层函数是 &lt;code&gt;forward_train&lt;/code&gt;, 其实现是在 &lt;code&gt;mmdet/models/dense_heads/base_dense_head.py/BaseDenseHead&lt;/code&gt; 中，如下所示：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;forward_train&lt;/span&gt;(self,
+                  x,
+                  img_metas,
+                  gt_bboxes,
+                  gt_labels&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;None,
+                  gt_bboxes_ignore&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;None,
+                  proposal_cfg&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;None,
+                  &lt;span style=&#34;color:#666&#34;&gt;**&lt;/span&gt;kwargs):
+    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 调用各个子类实现的 forward 方法&lt;/span&gt;
+    outs &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self(x)
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt; gt_labels &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;is&lt;/span&gt; None:
+        loss_inputs &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; outs &lt;span style=&#34;color:#666&#34;&gt;+&lt;/span&gt; (gt_bboxes, img_metas)
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt;:
+        loss_inputs &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; outs &lt;span style=&#34;color:#666&#34;&gt;+&lt;/span&gt; (gt_bboxes, gt_labels, img_metas)
+    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 调用各个子类实现的 loss 计算方法&lt;/span&gt;
+    losses &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;loss(&lt;span style=&#34;color:#666&#34;&gt;*&lt;/span&gt;loss_inputs, gt_bboxes_ignore&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;gt_bboxes_ignore)
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt; proposal_cfg &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;is&lt;/span&gt; None:
+        &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;return&lt;/span&gt; losses
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt;:
+        &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# two-stage 算法还需要返回 proposal&lt;/span&gt;
+        proposal_list &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;get_bboxes(&lt;span style=&#34;color:#666&#34;&gt;*&lt;/span&gt;outs, img_metas, cfg&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;proposal_cfg)
+        &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;return&lt;/span&gt; losses, proposal_list
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;每个算法的 Head 子类一般不会重写上述方法，&lt;strong&gt;但是每个 Head 子类都会重写 &lt;code&gt;forward&lt;/code&gt; 和 &lt;code&gt;loss&lt;/code&gt; 方法&lt;/strong&gt;，其中 &lt;code&gt;forward&lt;/code&gt; 方法用于运行 Head 网络部分输出分类回归分支的特征图，而 &lt;code&gt;loss&lt;/code&gt; 方法接收 &lt;code&gt;forward&lt;/code&gt; 输出，并且结合 label 计算 loss。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;(1) BaseDenseHead&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;BaseDenseHead&lt;/code&gt; 基类过于简单，对于 anchor-based 和 anchor-free 算法又进一步进行了继承，得到 &lt;code&gt;AnchorHead&lt;/code&gt; 或者 &lt;code&gt;AnchorFreeHead&lt;/code&gt; 类。在目前的各类算法实现中，绝大部分子类都是继承自 &lt;code&gt;AnchorHead&lt;/code&gt; 或者 &lt;code&gt;AnchorFreeHead&lt;/code&gt;，其提供了一些相关的默认操作，如果直接继承 &lt;code&gt;BaseDenseHead&lt;/code&gt; 则子类需要重写大部分算法逻辑。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;(2) AnchorHead&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;首先分析 &lt;code&gt;AnchorHead&lt;/code&gt;，其主要是封装了 anchor 生成过程。下面对 &lt;code&gt;forward&lt;/code&gt; 和 &lt;code&gt;loss&lt;/code&gt; 函数进行分析&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# BBoxTestMixin 是多尺度测试时候调用&lt;/span&gt;
+&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#00f&#34;&gt;AnchorHead&lt;/span&gt;(BaseDenseHead, BBoxTestMixin):
+    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# feats 是 backbone+neck 输出的多个尺度图&lt;/span&gt;
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;forward&lt;/span&gt;(self, feats):
+        &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 对每张特征图单独计算预测输出&lt;/span&gt;
+        &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;return&lt;/span&gt; multi_apply(self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;forward_single, feats)
+
+    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# head 模块分类回归分支输出&lt;/span&gt;
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;forward_single&lt;/span&gt;(self, x):
+        cls_score &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;conv_cls(x)
+        bbox_pred &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;conv_reg(x)
+        &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;return&lt;/span&gt; cls_score, bbox_pred
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;forward&lt;/code&gt; 函数比较简单，就是对多尺度特征图中每个特征图分别计算分类和回归输出即可，主要复杂度在 loss 函数中，其运行流程图如下所示：&lt;/p&gt;
+&lt;div align=center&gt;
+&lt;img src=&#34;https://preminstrel.github.io/blog/img/20220117135200.jpg&#34; width=&#34;700px&#34;/&gt;
+&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;在 loss 函数中首先会调用 &lt;code&gt;get_anchors&lt;/code&gt; 函数得到默认 anchor 列表。而 &lt;code&gt;get_anchors&lt;/code&gt; 函数内部会先计算多尺度特征图上每个特征点位置的 anchor，然后再计算有效 anchor 标志(因为在组织 batch 时候有些图片会进行左上角 padding，这部分像素人为加的，不需要考虑 anchor)&lt;/li&gt;
+&lt;li&gt;然后基于 anchor、gt bbox 以及其他必备信息调用 &lt;code&gt;get_targets&lt;/code&gt; 函数计算每个预测分支对应的 target。&lt;code&gt;get_targets&lt;/code&gt; 函数内部会调用 &lt;code&gt;multi_apply(_get_targets_single)&lt;/code&gt; 函数对每张图片单独计算 target，而 &lt;code&gt;_get_targets_single&lt;/code&gt; 函数实现的功能比较多，包括：bbox assigner、bbox sampler 和 bbox encoder 三个关键环节&lt;/li&gt;
+&lt;li&gt;在得到 targets 后，调用 &lt;code&gt;loss_single&lt;/code&gt; 函数计算每个输出尺度的 loss 值，最终返回各个分支的 loss&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;(3) AnchorFreeHead&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;AnchorFreeHead&lt;/code&gt; 逻辑比 &lt;code&gt;AnchorHead&lt;/code&gt; 简单很多，主要是因为 anchor-free 类算法比 anchor-based 算法更加灵活多变，而且少了复杂的 anchor 生成过程，其 &lt;code&gt;forward&lt;/code&gt; 方法实现和 &lt;code&gt;AnchorHead&lt;/code&gt; 完全相同，而 &lt;code&gt;loss&lt;/code&gt; 方法没有实现，其子类必须实现。&lt;/p&gt;
+&lt;h3 id=&#34;test&#34;&gt;Test&lt;/h3&gt;
+&lt;p&gt;前面说过在测试流程中，最终会调用 Head 模块的 &lt;code&gt;simple_test&lt;/code&gt; 或 &lt;code&gt;aug_test&lt;/code&gt; 方法分别进行单尺度和多尺度测试，涉及到具体代码层面，one-stage 和 two-stage 调用函数有区别，但是最终调用的依然是 Head 模块的 &lt;code&gt;get_bboxes&lt;/code&gt; 方法。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;(1) AnchorHead&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;在单尺度测试模式下，对于 one-stage 而言，是直接调用 &lt;code&gt;self.bbox_head.get_bboxes&lt;/code&gt; 方法，如果是 &lt;code&gt;AnchorHead&lt;/code&gt;，其流程是：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;遍历每个特征尺度输出分支，利用 &lt;code&gt;nms_pre&lt;/code&gt; 配置参数对该层预测结果按照 scores 值进行从大到小进行 topk 截取，保留 scores 最高的前 &lt;code&gt;nms_pre&lt;/code&gt; 的预测结果&lt;/li&gt;
+&lt;li&gt;对保留的预测结果进行 bbox 解码还原操作&lt;/li&gt;
+&lt;li&gt;还原到最原始图片尺度&lt;/li&gt;
+&lt;li&gt;如果需要进行 nms，则对所有分支预测保留结果进行统一 nms 即可，否则直接属于多尺度预测结果&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;对于 two-stage 而言，其第一阶段 Head 推理是直接调用了 &lt;code&gt;simple_test_rpn&lt;/code&gt; 方法，该方法内部最终也是调用了 &lt;code&gt;AnchorHead&lt;/code&gt; 中的&lt;code&gt;get_bboxes&lt;/code&gt; 方法。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# mmdet/models/dense_heads/rpn_test_mixin.py/RPNTestMixin&lt;/span&gt;
+&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;simple_test_rpn&lt;/span&gt;(self, x, img_metas):
+    rpn_outs &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self(x)
+    proposal_list &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;get_bboxes(&lt;span style=&#34;color:#666&#34;&gt;*&lt;/span&gt;rpn_outs, img_metas)
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;return&lt;/span&gt; proposal_list
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;(2) AnchorFreeHead&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;AnchorFreeHead&lt;/code&gt; 比较灵活， &lt;code&gt;get_bboxes&lt;/code&gt; 都是由具体算法子类实现。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;get_bboxes&lt;/span&gt;(self,
+               cls_scores,
+               bbox_preds,
+               img_metas,
+               cfg&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;None,
+               rescale&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;None):
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;raise&lt;/span&gt; &lt;span style=&#34;color:#d2413a;font-weight:bold&#34;&gt;NotImplementedError&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;(3) 多尺度测试&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;除了 RPN 算法的多尺度测试是在&lt;code&gt;mmdet/models/dense_heads/rpn_test_mixin.py&lt;/code&gt;，其余 Head 多尺度测试都是在 &lt;code&gt;mmdet/models/dense_heads/dense_test_mixins.py/BBoxTestMixin&lt;/code&gt; 中实现，其思路是对多尺度图片中每张图片单独运行 &lt;code&gt;get_bboxes&lt;/code&gt;，然后还原到原图尺度，最后把多尺度图片预测结果合并进行统一 nms。&lt;/p&gt;
+&lt;h2 id=&#34;roi_heads&#34;&gt;roi_heads&lt;/h2&gt;
+&lt;p&gt;以最常用的 StandardRoIHead 为例进行分析。&lt;/p&gt;
+&lt;h3 id=&#34;train-1&#34;&gt;Train&lt;/h3&gt;
+&lt;p&gt;训练流程最外层依然是调用 &lt;code&gt;forward_train&lt;/code&gt;, 其核心代码如下所示：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;forward_train&lt;/span&gt;(self,
+                  x,
+                  img_metas,
+                  proposal_list,
+                  gt_bboxes,
+                  gt_labels,
+                  &lt;span style=&#34;color:#666&#34;&gt;...&lt;/span&gt;):
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;with_bbox &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;or&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;with_mask:
+        num_imgs &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a2f&#34;&gt;len&lt;/span&gt;(img_metas)
+        sampling_results &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; []
+        &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#a2f&#34;&gt;range&lt;/span&gt;(num_imgs):
+            &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 对每张图片进行 bbox 正负样本属性分配&lt;/span&gt;
+            assign_result &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;bbox_assigner&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;assign(
+                proposal_list[i], &lt;span style=&#34;color:#666&#34;&gt;...&lt;/span&gt;)
+            &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 然后进行正负样本采样&lt;/span&gt;
+            sampling_result &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;bbox_sampler&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;sample(
+                assign_result,
+                proposal_list[i],
+                &lt;span style=&#34;color:#666&#34;&gt;...&lt;/span&gt;)
+            sampling_results&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;append(sampling_result)
+    losses &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a2f&#34;&gt;dict&lt;/span&gt;()
+
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;with_bbox:
+        &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# bbox 分支 forward，返回 loss&lt;/span&gt;
+        bbox_results &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;_bbox_forward_train(&lt;span style=&#34;color:#666&#34;&gt;...&lt;/span&gt;)
+        losses&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;update(bbox_results[&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;loss_bbox&amp;#39;&lt;/span&gt;])
+
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;with_mask:
+        &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# mask 分支 forward,返回 loss&lt;/span&gt;
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;return&lt;/span&gt; losses
+
+
+&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;_bbox_forward_train&lt;/span&gt;(self, x, sampling_results, gt_bboxes, gt_labels,
+                        img_metas):
+    rois &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; bbox2roi([res&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;bboxes &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;for&lt;/span&gt; res &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;in&lt;/span&gt; sampling_results])
+    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# forward&lt;/span&gt;
+    bbox_results &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;_bbox_forward(x, rois)
+    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 计算 target&lt;/span&gt;
+    bbox_targets &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;bbox_head&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;get_targets(&lt;span style=&#34;color:#666&#34;&gt;...&lt;/span&gt;)  
+    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 计算 loss                                          &lt;/span&gt;
+    loss_bbox &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;bbox_head&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;loss(&lt;span style=&#34;color:#666&#34;&gt;...&lt;/span&gt;)
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;...&lt;/span&gt;    
+
+&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;_bbox_forward&lt;/span&gt;(self, x, rois):
+    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# roi 提取&lt;/span&gt;
+    bbox_feats &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;bbox_roi_extractor(
+        x[:self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;bbox_roi_extractor&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;num_inputs], rois)
+    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# bbox head 网络前向&lt;/span&gt;
+    cls_score, bbox_pred &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;bbox_head(bbox_feats)
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;...&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;从上述逻辑可以看出，&lt;code&gt;StandardRoIHead&lt;/code&gt; 中 &lt;code&gt;forward_train&lt;/code&gt; 函数仅仅是对内部的 &lt;code&gt;bbox_head&lt;/code&gt; 相关函数进行调用，例如 &lt;code&gt;get_targets&lt;/code&gt; 和 &lt;code&gt;loss&lt;/code&gt;，本身 StandardRoIHead 类不做具体算法逻辑计算。&lt;/p&gt;
+&lt;p&gt;可以参考 Faster R-CNN 配置文件理解 &lt;code&gt;StandardRoIHead&lt;/code&gt; 和 &lt;code&gt;bbox_head&lt;/code&gt; 的关系：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;roi_head&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#a2f&#34;&gt;dict&lt;/span&gt;(
+    &lt;span style=&#34;color:#a2f&#34;&gt;type&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;StandardRoIHead&amp;#39;&lt;/span&gt;,
+    bbox_roi_extractor&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#a2f&#34;&gt;dict&lt;/span&gt;(
+        &lt;span style=&#34;color:#a2f&#34;&gt;type&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;SingleRoIExtractor&amp;#39;&lt;/span&gt;,
+        roi_layer&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#a2f&#34;&gt;dict&lt;/span&gt;(&lt;span style=&#34;color:#a2f&#34;&gt;type&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;RoIAlign&amp;#39;&lt;/span&gt;, output_size&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;7&lt;/span&gt;, sampling_ratio&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;),
+        out_channels&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;256&lt;/span&gt;,
+        featmap_strides&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;[&lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;, &lt;span style=&#34;color:#666&#34;&gt;8&lt;/span&gt;, &lt;span style=&#34;color:#666&#34;&gt;16&lt;/span&gt;, &lt;span style=&#34;color:#666&#34;&gt;32&lt;/span&gt;]),
+    bbox_head&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#a2f&#34;&gt;dict&lt;/span&gt;(
+        &lt;span style=&#34;color:#a2f&#34;&gt;type&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;Shared2FCBBoxHead&amp;#39;&lt;/span&gt;,
+        in_channels&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;256&lt;/span&gt;,
+        fc_out_channels&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1024&lt;/span&gt;,
+        roi_feat_size&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;7&lt;/span&gt;,
+        num_classes&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;80&lt;/span&gt;,
+        bbox_coder&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#a2f&#34;&gt;dict&lt;/span&gt;(
+            &lt;span style=&#34;color:#a2f&#34;&gt;type&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;DeltaXYWHBBoxCoder&amp;#39;&lt;/span&gt;,
+            target_means&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;[&lt;span style=&#34;color:#666&#34;&gt;0.&lt;/span&gt;, &lt;span style=&#34;color:#666&#34;&gt;0.&lt;/span&gt;, &lt;span style=&#34;color:#666&#34;&gt;0.&lt;/span&gt;, &lt;span style=&#34;color:#666&#34;&gt;0.&lt;/span&gt;],
+            target_stds&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;[&lt;span style=&#34;color:#666&#34;&gt;0.1&lt;/span&gt;, &lt;span style=&#34;color:#666&#34;&gt;0.1&lt;/span&gt;, &lt;span style=&#34;color:#666&#34;&gt;0.2&lt;/span&gt;, &lt;span style=&#34;color:#666&#34;&gt;0.2&lt;/span&gt;]),
+        reg_class_agnostic&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;False,
+        loss_cls&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#a2f&#34;&gt;dict&lt;/span&gt;(
+            &lt;span style=&#34;color:#a2f&#34;&gt;type&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;CrossEntropyLoss&amp;#39;&lt;/span&gt;, use_sigmoid&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;False, loss_weight&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1.0&lt;/span&gt;),
+        loss_bbox&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#a2f&#34;&gt;dict&lt;/span&gt;(&lt;span style=&#34;color:#a2f&#34;&gt;type&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;L1Loss&amp;#39;&lt;/span&gt;, loss_weight&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1.0&lt;/span&gt;))))
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;StandardRoIHead&lt;/code&gt; 类包装了 &lt;code&gt;bbox_roi_extractor&lt;/code&gt; 和 &lt;code&gt;bbox_head&lt;/code&gt; 的实例，前者用于 RoI 特征提取，后者才是真正计算分类和回归的逻辑。在 &lt;code&gt;bbox_head&lt;/code&gt; 中除了网络模型有些变换外，loss计算过程是非常类似的，其 &lt;code&gt;get_targets&lt;/code&gt; 和 &lt;code&gt;loss&lt;/code&gt; 计算过程都是封装在基类 &lt;code&gt;mmdet/models/roi_heads/bbox_heads/bbox_head.py&lt;/code&gt; 中。&lt;/p&gt;
+&lt;h3 id=&#34;test-1&#34;&gt;Test&lt;/h3&gt;
+&lt;p&gt;测试流程是调用 Head 模块的 &lt;code&gt;simple_test&lt;/code&gt; 和 &lt;code&gt;aug_test&lt;/code&gt; 函数，单尺度测试 bbox 相关实现代码在 &lt;code&gt;mmdet/models/roi_heads/test_mixins.py/BBoxTestMixin&lt;/code&gt; 的 &lt;code&gt;simple_test_bboxes&lt;/code&gt; 函数中。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;simple_test_bboxes&lt;/span&gt;(self,
+                       x,
+                       &lt;span style=&#34;color:#666&#34;&gt;...&lt;/span&gt;):
+    rois &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; bbox2roi(proposals)
+    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# roi 提取+ forward，输出预测结果&lt;/span&gt;
+    bbox_results &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;_bbox_forward(x, rois)
+    cls_score &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; bbox_results[&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;cls_score&amp;#39;&lt;/span&gt;]
+    bbox_pred &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; bbox_results[&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;bbox_pred&amp;#39;&lt;/span&gt;]
+    det_bboxes &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; []
+    det_labels &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; []
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#a2f&#34;&gt;range&lt;/span&gt;(&lt;span style=&#34;color:#a2f&#34;&gt;len&lt;/span&gt;(proposals)):
+        &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 对预测结果进行解码输出 bbox 和对应 label&lt;/span&gt;
+        det_bbox, det_label &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;bbox_head&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;get_bboxes(&lt;span style=&#34;color:#666&#34;&gt;...&lt;/span&gt;)
+        det_bboxes&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;append(det_bbox)
+        det_labels&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;append(det_label)
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;return&lt;/span&gt; det_bboxes, det_labels
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;实际上依然是调用了 Head 模块内部的 &lt;code&gt;get_bboxes&lt;/code&gt; 函数，处理逻辑和 dense_head 差不多( 解码+还原尺度+ nms)。&lt;/p&gt;
+&lt;h1 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h1&gt;
+&lt;p&gt;本文对最复杂的 Head 模块进行深入详细解读，我们应该掌握：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;MMDetection 框架的整体设计思想和算法模块划分原则&lt;/li&gt;
+&lt;li&gt;MMDetection 框架的整体训练和测试流程&lt;/li&gt;
+&lt;li&gt;MMDetection 框架每个组件的详细代码实现过程&lt;/li&gt;
+&lt;li&gt;针对任何一个新复现代码，能够很快理解 MMDetection 是如何通过模块组合实现的&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&#34;reference&#34;&gt;Reference&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;原文：&lt;a href=&#34;https://zhuanlan.zhihu.com/p/343433169&#34;&gt;轻松掌握 MMDetection 中 Head 流程&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+      
     </item>
     
     <item>
       <title>MMDetection Framework</title>
       <link>https://preminstrel.github.io/blog/post/2022/01/16/mmdetection-framework/</link>
       <pubDate>Sun, 16 Jan 2022 12:42:21 +0800</pubDate>
-      
+      <author>preminstrel@gmail.com (Hanshi Sun)</author>
       <guid>https://preminstrel.github.io/blog/post/2022/01/16/mmdetection-framework/</guid>
-      <description>本文核心内容是按照抽象到具体方式，从多个层次进行训练和测试流程深入解析，从最抽象层开始，到最后核心代码实现，进一步理解 MMDetection 开源框架整体构建细节</description>
+      
+      <description>&lt;p&gt;本文核心内容是&lt;strong&gt;按照抽象到具体方式，从多个层次进行训练和测试流程深入解析&lt;/strong&gt;，从最抽象层开始，到最后核心代码实现，进一步理解 MMDetection 开源框架整体构建细节。&lt;/p&gt;
+&lt;h1 id=&#34;first-level&#34;&gt;First Level&lt;/h1&gt;
+&lt;div align=center&gt;
+&lt;img src=&#34;https://preminstrel.github.io/blog/img/20220116124701.jpg&#34; width=&#34;700px&#34;/&gt;
+&lt;/div&gt;
+&lt;p&gt;上图为 MMDetection 框架整体训练和测试抽象流程图。按照数据流过程，训练流程可以简单总结为：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;给定任何一个数据集，首先需要构建 Dataset 类，用于迭代输出数据&lt;/li&gt;
+&lt;li&gt;在迭代输出数据的时候需要通过数据 Pipeline 对数据进行各种处理，最典型的处理流是训练中的&lt;strong&gt;数据增强&lt;/strong&gt;操作，测试中的&lt;strong&gt;数据预处理&lt;/strong&gt;等等&lt;/li&gt;
+&lt;li&gt;通过 Sampler 采样器可以控制 Dataset 输出的数据顺序，最常用的是随机采样器 &lt;em&gt;&lt;strong&gt;RandomSampler&lt;/strong&gt;&lt;/em&gt;。由于 Dataset 中输出的图片大小不一样，为了尽可能&lt;strong&gt;减少后续组成 batch 时 pad 的像素个数&lt;/strong&gt;，MM-Detection 引入了分组采样器 GroupSampler 和 DistributedGroupSampler，相当于在 RandomSampler 基础上额外新增了根据图片宽高比进行 group 功能&lt;/li&gt;
+&lt;li&gt;将 Sampler 和 Dataset 都输入给 DataLoader，然后通过 DataLoader 输出已组成 batch 的数据，作为 Model 的输入&lt;/li&gt;
+&lt;li&gt;对于任何一个 Model，为了方便处理数据流以及分布式需求，MMDetection 引入了两个 Model 的上层封装：单机版本 MMDataParallel、分布式（单机多卡或多机多卡）版本 MMDistributedDataParallel&lt;/li&gt;
+&lt;li&gt;Model 运行后会输出 loss 以及其他一些信息，会通过 &lt;em&gt;&lt;strong&gt;logger&lt;/strong&gt;&lt;/em&gt; 进行保存或者可视化&lt;/li&gt;
+&lt;li&gt;为了更好地解耦， 方便地获取各个组件之间依赖和灵活扩展，MMDetection 引入了 &lt;em&gt;&lt;strong&gt;Runner&lt;/strong&gt;&lt;/em&gt; 类进行全生命周期管理，并且&lt;strong&gt;通过 Hook 方便的获取、修改和拦截任何生命周期数据流&lt;/strong&gt;，扩展非常便捷&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;而测试流程就比较简单了，直接对 DataLoader 输出的数据进行前向推理即可，还原到最终原图尺度过程也是在 Model 中完成。&lt;/p&gt;
+&lt;p&gt;以上就是 MMDetection 框架整体训练和测试抽象流程，上图不仅仅反映了训练和测试数据流，而且还包括了模块和模块之间的调用关系。对于训练而言，最核心部分应该是 Runner，理解了 Runner 的运行流程，也就理解了整个 MMDetection 数据流。&lt;/p&gt;
+&lt;h1 id=&#34;second-level&#34;&gt;Second Level&lt;/h1&gt;
+&lt;p&gt;在总体把握了整个 MMDetection 框架训练和测试流程后，下个层次是每个模块内部抽象流程，主要包括 Pipeline、DataParallel、Model、Runner 和 Hooks。&lt;/p&gt;
+&lt;h2 id=&#34;pipeline&#34;&gt;Pipeline&lt;/h2&gt;
+&lt;p&gt;Pipeline 实际上由一系列按照插入顺序运行的数据处理模块组成，每个模块完成某个特定功能，例如 Resize，因为其流式顺序运行特性，故叫做 Pipeline。&lt;/p&gt;
+&lt;div align=center&gt;
+&lt;img src=&#34;https://preminstrel.github.io/blog/img/20220116130000.jpg&#34; width=&#34;800px&#34;/&gt;
+&lt;/div&gt;
+&lt;p&gt;上图是一个非常典型的训练流程 Pipeline，每个类都接收字典输入，输出也是字典，顺序执行，其中&lt;strong&gt;绿色表示该类运行后新增字段，橙色表示对该字段可能会进行修改&lt;/strong&gt;。如果进一步细分的话，不同算法的 Pipeline 都可以划分为如下部分：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;图片和标签加载&lt;/strong&gt;，通常用的类是 LoadImageFromFile 和 LoadAnnotations&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;数据前处理&lt;/strong&gt;，例如统一 Resize&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;数据增强&lt;/strong&gt;，典型的例如各种图片几何变换等，这部分是训练流程特有，测试阶段一般不采用(多尺度测试采用其他实现方式)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;数据收集&lt;/strong&gt;，例如 Collect&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;在 MMDetection 框架中，图片和标签加载和数据后处理流程一般是固定的，用户主要可能修改的是数据增强步骤，目前已经接入了第三方增强库 Albumentations，可以按照示例代码轻松构建属于你自己的数据增强 Pipeline。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;在构建自己的 Pipeline 时候一定要仔细检查修改或者新增的字典 key 和 value，因为一旦错误地覆盖或者修改原先字典里面的内容，代码也可能不会报错，如果出现 bug，则比较难排查&lt;/strong&gt;。&lt;/p&gt;
+&lt;h2 id=&#34;dataparallel--model&#34;&gt;DataParallel &amp;amp; Model&lt;/h2&gt;
+&lt;p&gt;在 MMDetection 中 DataLoader 输出的内容&lt;strong&gt;不是 PyTorch 能处理的标准格式&lt;/strong&gt;，还包括了 &lt;em&gt;&lt;strong&gt;DataContainer&lt;/strong&gt;&lt;/em&gt; 对象，该对象的作用是包装不同类型的对象使之能按需组成 batch。在目标检测中，每张图片 gt bbox 个数是不一样的，如果想组成 batch tensor，要么你设置最大长度，要么你自己想办法组成 batch。而考虑到内存和效率，MMDetection 通过引入 DataContainer 模块来解决上述问题，但是随之带来的问题是 PyTorch 无法解析 DataContainer 对象，故需要在 MMDetection 中自行处理。&lt;/p&gt;
+&lt;p&gt;解决办法其实非常多，MMDetection 选择了一种比较优雅的实现方式：MMDataParallel 和 MMDistributed-DataParallel。具体来说，这两个类相比 PyTorch 自带的 DataParallel 和 DistributedDataParallel 区别是：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;可以处理 DataContainer 对象&lt;/li&gt;
+&lt;li&gt;额外实现了 &lt;code&gt;train_step()&lt;/code&gt; 和 &lt;code&gt;val_step()&lt;/code&gt; 两个函数，可以被 Runner 调用&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;关于这两个类的具体实现后面会描述。&lt;/p&gt;
+&lt;h2 id=&#34;runner-和-hooks&#34;&gt;Runner 和 Hooks&lt;/h2&gt;
+&lt;p&gt;对于任何一个目标检测算法，都需要包括&lt;strong&gt;优化器、学习率设置、权重保存&lt;/strong&gt;等等组件才能构成完整训练流程，而这些组件是通用的。为了方便 OpenMMLab 体系下的所有框架复用，在 MMCV 框架中引入了 Runner 类来统一管理训练和验证流程，并且通过 Hooks 机制以一种非常灵活、解耦的方式来实现丰富扩展功能。&lt;/p&gt;
+&lt;p&gt;关于 Runner 和 Hooks 详细解读会发布在 MMCV 系列解读文章中，简单来说 &lt;strong&gt;Runner 封装了 OpenMMLab 体系下各个框架的训练和验证详细流程，其负责管理训练和验证过程中的整个生命周期，通过预定义回调函数，用户可以插入定制化 Hook ，从而实现各种各样的需求&lt;/strong&gt;。下面列出了在 MMDetection 几个非常重要的 hook 以及其作用的生命周期：&lt;/p&gt;
+&lt;div align=center&gt;
+&lt;img src=&#34;https://preminstrel.github.io/blog/img/20220116131700.jpg&#34; width=&#34;600px&#34;/&gt;
+&lt;/div&gt;
+&lt;p&gt;例如 CheckpointHook 在每个训练 epoch 完成后会被调用，从而实现保存权重功能。用户也可以将自己定制实现的 Hook 采用上述方式绘制，对理解整个流程或许有帮助。&lt;/p&gt;
+&lt;h1 id=&#34;third-level&#34;&gt;Third Level&lt;/h1&gt;
+&lt;p&gt;前面两层抽象分析流程，基本上把整个 MMDetection 的训练和测试流程分析完了，下面从具体代码层面进行抽象分析。&lt;/p&gt;
+&lt;h2 id=&#34;train--test&#34;&gt;Train &amp;amp; Test&lt;/h2&gt;
+&lt;div align=center&gt;
+&lt;img src=&#34;https://preminstrel.github.io/blog/img/20220116131900.jpg&#34; width=&#34;600px&#34;/&gt;
+&lt;/div&gt;
+上图为训练和验证的和具体代码相关的整体抽象流程，对应到代码上，其核心代码如下：
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;#=================== tools/train.py ==================&lt;/span&gt;
+&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 1.初始化配置&lt;/span&gt;
+cfg &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; Config&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;fromfile(args&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;config)
+
+&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 2.判断是否为分布式训练模式&lt;/span&gt;
+
+&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 3.初始化 logger&lt;/span&gt;
+logger &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; get_root_logger(log_file&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;log_file, log_level&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;cfg&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;log_level)
+
+&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 4.收集运行环境并且打印，方便排查硬件和软件相关问题&lt;/span&gt;
+env_info_dict &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; collect_env()
+
+&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 5.初始化 model&lt;/span&gt;
+model &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; build_detector(cfg&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;model, &lt;span style=&#34;color:#666&#34;&gt;...&lt;/span&gt;)
+
+&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 6.初始化 datasets&lt;/span&gt;
+
+&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;#=================== mmdet/apis/train.py ==================&lt;/span&gt;
+&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 1.初始化 data_loaders ，内部会初始化 GroupSampler&lt;/span&gt;
+data_loader &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; DataLoader(dataset,&lt;span style=&#34;color:#666&#34;&gt;...&lt;/span&gt;)
+
+&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 2.基于是否使用分布式训练，初始化对应的 DataParallel&lt;/span&gt;
+&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt; distributed:
+  model &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; MMDistributedDataParallel(&lt;span style=&#34;color:#666&#34;&gt;...&lt;/span&gt;)
+&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt;:
+  model &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; MMDataParallel(&lt;span style=&#34;color:#666&#34;&gt;...&lt;/span&gt;)
+
+&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 3.初始化 runner&lt;/span&gt;
+runner &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; EpochBasedRunner(&lt;span style=&#34;color:#666&#34;&gt;...&lt;/span&gt;)
+
+&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 4.注册必备 hook&lt;/span&gt;
+runner&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;register_training_hooks(cfg&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;lr_config, optimizer_config,
+                               cfg&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;checkpoint_config, cfg&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;log_config,
+                               cfg&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;get(&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;momentum_config&amp;#39;&lt;/span&gt;, None))
+
+&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 5.如果需要 val，则还需要注册 EvalHook           &lt;/span&gt;
+runner&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;register_hook(eval_hook(val_dataloader, &lt;span style=&#34;color:#666&#34;&gt;**&lt;/span&gt;eval_cfg))
+
+&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 6.注册用户自定义 hook&lt;/span&gt;
+runner&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;register_hook(hook, priority&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;priority)
+
+&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 7.权重恢复和加载&lt;/span&gt;
+&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt; cfg&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;resume_from:
+    runner&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;resume(cfg&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;resume_from)
+&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;elif&lt;/span&gt; cfg&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;load_from:
+    runner&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;load_checkpoint(cfg&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;load_from)
+
+&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 8.运行，开始训练&lt;/span&gt;
+runner&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;run(data_loaders, cfg&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;workflow, cfg&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;total_epochs)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;上面的流程比较简单，一般大家比较难以理解的是 &lt;code&gt;runner.run&lt;/code&gt; 内部逻辑，下小节进行详细分析，而对于测试逻辑由于比较简单，就不详细描述了，简单来说测试流程下不需要 runner，直接加载训练好的权重，然后进行 model 推理即可。&lt;/p&gt;
+&lt;h2 id=&#34;runner&#34;&gt;Runner&lt;/h2&gt;
+&lt;p&gt;runner 对象内部的 run 方式是一个通用方法，可以运行任何 workflow，目前常用的主要是 train 和 val。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;当配置为：workflow = [(&amp;lsquo;train&amp;rsquo;, 1)]，表示仅仅进行 train workflow，也就是迭代训练&lt;/li&gt;
+&lt;li&gt;当配置为：workflow = [(&amp;lsquo;train&amp;rsquo;, n),(&amp;lsquo;val&amp;rsquo;, 1)]，表示先进行 n 个 epoch 的训练，然后再进行1个 epoch 的验证，然后循环往复,如果写成 [(&amp;lsquo;val&amp;rsquo;, 1),(&amp;lsquo;train&amp;rsquo;, n)] 表示先进行验证，然后才开始训练&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;当进入对应的 workflow，则会调用 runner 里面的 train() 或者 val()，表示进行一次 epoch 迭代。其代码也非常简单，如下所示：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;train&lt;/span&gt;(self, data_loader, &lt;span style=&#34;color:#666&#34;&gt;**&lt;/span&gt;kwargs):
+    self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;model&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;train()
+    self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;mode &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;train&amp;#39;&lt;/span&gt;
+    self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;data_loader &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; data_loader
+    self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;call_hook(&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;before_train_epoch&amp;#39;&lt;/span&gt;)
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;for&lt;/span&gt; i, data_batch &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#a2f&#34;&gt;enumerate&lt;/span&gt;(self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;data_loader):
+        self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;call_hook(&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;before_train_iter&amp;#39;&lt;/span&gt;)
+        self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;run_iter(data_batch, train_mode&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;True)
+        self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;call_hook(&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;after_train_iter&amp;#39;&lt;/span&gt;)
+
+    self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;call_hook(&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;after_train_epoch&amp;#39;&lt;/span&gt;)
+
+
+&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;val&lt;/span&gt;(self, data_loader, &lt;span style=&#34;color:#666&#34;&gt;**&lt;/span&gt;kwargs):
+    self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;model&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;eval()
+    self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;mode &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;val&amp;#39;&lt;/span&gt;
+    self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;data_loader &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; data_loader
+    self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;call_hook(&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;before_val_epoch&amp;#39;&lt;/span&gt;)
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;for&lt;/span&gt; i, data_batch &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#a2f&#34;&gt;enumerate&lt;/span&gt;(self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;data_loader):
+        self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;call_hook(&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;before_val_iter&amp;#39;&lt;/span&gt;)
+        &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;with&lt;/span&gt; torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;no_grad():
+            self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;run_iter(data_batch, train_mode&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;False)
+        self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;call_hook(&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;after_val_iter&amp;#39;&lt;/span&gt;)
+    self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;call_hook(&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;after_val_epoch&amp;#39;&lt;/span&gt;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;核心函数实际上是 self.run_iter()，如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;run_iter&lt;/span&gt;(self, data_batch, train_mode, &lt;span style=&#34;color:#666&#34;&gt;**&lt;/span&gt;kwargs):
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt; train_mode:
+        &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 对于每次迭代，最终是调用如下函数&lt;/span&gt;
+        outputs &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;model&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;train_step(data_batch,&lt;span style=&#34;color:#666&#34;&gt;...&lt;/span&gt;)
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt;:
+        &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 对于每次迭代，最终是调用如下函数&lt;/span&gt;
+        outputs &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;model&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;val_step(data_batch,&lt;span style=&#34;color:#666&#34;&gt;...&lt;/span&gt;)
+
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;log_vars&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;in&lt;/span&gt; outputs:
+        self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;log_buffer&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;update(outputs[&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;log_vars&amp;#39;&lt;/span&gt;],&lt;span style=&#34;color:#666&#34;&gt;...&lt;/span&gt;)
+    self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;outputs &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; outputs
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;上述 self.call_hook() 表示在不同生命周期调用所有已经注册进去的 hook，而字符串参数表示对应的生命周期。以 OptimizerHook 为例，其执行反向传播、梯度裁剪和参数更新等核心训练功能：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#a2f&#34;&gt;@HOOKS.register_module&lt;/span&gt;()
+&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#00f&#34;&gt;OptimizerHook&lt;/span&gt;(Hook):
+
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; __init__(self, grad_clip&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;None):
+        self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;grad_clip &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; grad_clip
+
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;after_train_iter&lt;/span&gt;(self, runner):
+        runner&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;optimizer&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;zero_grad()
+        runner&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;outputs[&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;loss&amp;#39;&lt;/span&gt;]&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;backward()
+        &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;grad_clip &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;is&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;not&lt;/span&gt; None:
+            grad_norm &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;clip_grads(runner&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;model&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;parameters())
+        runner&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;optimizer&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;step()
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;可以发现 OptimizerHook 注册到的生命周期是 after_train_iter，故在每次 train() 里面运行到 &lt;code&gt;self.call_hook(&#39;after_val_iter&#39;)&lt;/code&gt; 时候就会被调用，其他 hook 也是同样运行逻辑。&lt;/p&gt;
+&lt;h2 id=&#34;model&#34;&gt;Model&lt;/h2&gt;
+&lt;p&gt;前面说个，训练和验证的时候实际上调用了 model 内部的 &lt;code&gt;train_step&lt;/code&gt; 和 &lt;code&gt;val_step&lt;/code&gt; 函数，&lt;strong&gt;理解了两个函数调用流程就理解了 MMDetection 训练和测试流程&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;注意，由于 model 对象会被 DataParallel 类包裹，故实际上上此时的 model，是指的 MMDataParallel 或者 MMDistributedDataParallel。以非分布式 train_step 流程为例，其内部完成调用流程图示如下：&lt;/p&gt;
+&lt;div align=center&gt;
+&lt;img src=&#34;https://preminstrel.github.io/blog/img/20220116132200.jpg&#34; width=&#34;600px&#34;/&gt;
+&lt;/div&gt;
+&lt;h2 id=&#34;train--val&#34;&gt;Train &amp;amp; Val&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;(1) 调用 runner 中的 &lt;code&gt;train_step&lt;/code&gt; 或者 &lt;code&gt;val_step&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;在 runner 中调用 &lt;code&gt;train_step&lt;/code&gt; 或者 &lt;code&gt;val_step&lt;/code&gt;，代码如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;#=================== mmcv/runner/epoch_based_runner.py ==================&lt;/span&gt;
+&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt; train_mode:
+    outputs &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;model&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;train_step(data_batch,&lt;span style=&#34;color:#666&#34;&gt;...&lt;/span&gt;)
+&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt;:
+    outputs &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;model&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;val_step(data_batch,&lt;span style=&#34;color:#666&#34;&gt;...&lt;/span&gt;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;实际上，首先会调用 DataParallel 中的 &lt;code&gt;train_step&lt;/code&gt; 或者 &lt;code&gt;val_step&lt;/code&gt; ，其具体调用流程为：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 非分布式训练&lt;/span&gt;
+&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;#=================== mmcv/parallel/data_parallel.py/MMDataParallel ==================&lt;/span&gt;
+&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;train_step&lt;/span&gt;(self, &lt;span style=&#34;color:#666&#34;&gt;*&lt;/span&gt;inputs, &lt;span style=&#34;color:#666&#34;&gt;**&lt;/span&gt;kwargs):
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;not&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;device_ids:
+        inputs, kwargs &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;scatter(inputs, kwargs, [&lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;])
+        &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 此时才是调用 model 本身的 train_step&lt;/span&gt;
+        &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;return&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;module&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;train_step(&lt;span style=&#34;color:#666&#34;&gt;*&lt;/span&gt;inputs, &lt;span style=&#34;color:#666&#34;&gt;**&lt;/span&gt;kwargs)
+    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 单 gpu 模式&lt;/span&gt;
+    inputs, kwargs &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;scatter(inputs, kwargs, self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;device_ids)
+    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 此时才是调用 model 本身的 train_step&lt;/span&gt;
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;return&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;module&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;train_step(&lt;span style=&#34;color:#666&#34;&gt;*&lt;/span&gt;inputs[&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;], &lt;span style=&#34;color:#666&#34;&gt;**&lt;/span&gt;kwargs[&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;])
+
+&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# val_step 也是的一样逻辑&lt;/span&gt;
+&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;val_step&lt;/span&gt;(self, &lt;span style=&#34;color:#666&#34;&gt;*&lt;/span&gt;inputs, &lt;span style=&#34;color:#666&#34;&gt;**&lt;/span&gt;kwargs):
+    inputs, kwargs &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;scatter(inputs, kwargs, self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;device_ids)
+    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 此时才是调用 model 本身的 val_step&lt;/span&gt;
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;return&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;module&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;val_step(&lt;span style=&#34;color:#666&#34;&gt;*&lt;/span&gt;inputs[&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;], &lt;span style=&#34;color:#666&#34;&gt;**&lt;/span&gt;kwargs[&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;])
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;可以发现，在调用 model 本身的 train_step 前，需要额外调用 scatter 函数，前面说过该函数的作用是处理 DataContainer 格式数据，使其能够组成 batch，否则程序会报错。&lt;/p&gt;
+&lt;p&gt;如果是分布式训练，则调用的实际上是 &lt;code&gt;mmcv/parallel/distributed.py/MMDistributedDataParallel&lt;/code&gt;，最终调用的依然是 model 本身的 &lt;code&gt;train_step&lt;/code&gt; 或者 &lt;code&gt;val_step&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;(2) 调用 model 中的 &lt;code&gt;train_step&lt;/code&gt; 或者 &lt;code&gt;val_step&lt;/code&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;其核心代码如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;#=================== mmdet/models/detectors/base.py/BaseDetector ==================&lt;/span&gt;
+&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;train_step&lt;/span&gt;(self, data, optimizer):
+    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 调用本类自身的 forward 方法&lt;/span&gt;
+    losses &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self(&lt;span style=&#34;color:#666&#34;&gt;**&lt;/span&gt;data)
+    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 解析 loss&lt;/span&gt;
+    loss, log_vars &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;_parse_losses(losses)
+    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 返回字典对象&lt;/span&gt;
+    outputs &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a2f&#34;&gt;dict&lt;/span&gt;(
+        loss&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;loss, log_vars&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;log_vars, num_samples&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#a2f&#34;&gt;len&lt;/span&gt;(data[&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;img_metas&amp;#39;&lt;/span&gt;]))
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;return&lt;/span&gt; outputs
+
+&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;forward&lt;/span&gt;(self, img, img_metas, return_loss&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;True, &lt;span style=&#34;color:#666&#34;&gt;**&lt;/span&gt;kwargs):
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt; return_loss:
+        &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 训练模式&lt;/span&gt;
+        &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;return&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;forward_train(img, img_metas, &lt;span style=&#34;color:#666&#34;&gt;**&lt;/span&gt;kwargs)
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt;:
+        &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 测试模式&lt;/span&gt;
+        &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;return&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;forward_test(img, img_metas, &lt;span style=&#34;color:#666&#34;&gt;**&lt;/span&gt;kwargs)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;forward_train&lt;/code&gt; 和 &lt;code&gt;forward_test&lt;/code&gt; 需要在不同的算法子类中实现，输出是 Loss 或者 预测结果。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;(3) 调用子类中的 &lt;code&gt;forward_train&lt;/code&gt; 方法&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;目前提供了两个具体子类，&lt;code&gt;TwoStageDetector&lt;/code&gt; 和 &lt;code&gt;SingleStageDetector&lt;/code&gt; ，用于实现 two-stage 和 single-stage 算法。&lt;/p&gt;
+&lt;p&gt;对于 &lt;code&gt;TwoStageDetector&lt;/code&gt; 而言，其核心逻辑是：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;#============= mmdet/models/detectors/two_stage.py/TwoStageDetector ============&lt;/span&gt;
+&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;forward_train&lt;/span&gt;(&lt;span style=&#34;color:#666&#34;&gt;...&lt;/span&gt;):
+    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 先进行 backbone+neck 的特征提取&lt;/span&gt;
+    x &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;extract_feat(img)
+    losses &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a2f&#34;&gt;dict&lt;/span&gt;()
+    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# RPN forward and loss&lt;/span&gt;
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;with_rpn:
+        &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 训练 RPN&lt;/span&gt;
+        proposal_cfg &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;train_cfg&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;get(&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;rpn_proposal&amp;#39;&lt;/span&gt;,
+                                          self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;test_cfg&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;rpn)
+        &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 主要是调用 rpn_head 内部的 forward_train 方法&lt;/span&gt;
+        rpn_losses, proposal_list &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;rpn_head&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;forward_train(x,&lt;span style=&#34;color:#666&#34;&gt;...&lt;/span&gt;)
+        losses&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;update(rpn_losses)
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt;:
+        proposal_list &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; proposals
+    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 第二阶段，主要是调用 roi_head 内部的 forward_train 方法&lt;/span&gt;
+    roi_losses &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;roi_head&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;forward_train(x, &lt;span style=&#34;color:#666&#34;&gt;...&lt;/span&gt;)
+    losses&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;update(roi_losses)
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;return&lt;/span&gt; losses
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;对于 &lt;code&gt;SingleStageDetector&lt;/code&gt; 而言，其核心逻辑是：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;#============= mmdet/models/detectors/single_stage.py/SingleStageDetector ============&lt;/span&gt;
+&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;forward_train&lt;/span&gt;(&lt;span style=&#34;color:#666&#34;&gt;...&lt;/span&gt;):
+    &lt;span style=&#34;color:#a2f&#34;&gt;super&lt;/span&gt;(SingleStageDetector, self)&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;forward_train(img, img_metas)
+    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 先进行 backbone+neck 的特征提取&lt;/span&gt;
+    x &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;extract_feat(img)
+    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 主要是调用 bbox_head 内部的 forward_train 方法&lt;/span&gt;
+    losses &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;bbox_head&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;forward_train(x, &lt;span style=&#34;color:#666&#34;&gt;...&lt;/span&gt;)
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;return&lt;/span&gt; losses
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;如果再往里分析，那就到各个 Head 模块的训练环节了，这部分内容请读者自行分析，应该不难。&lt;/p&gt;
+&lt;h2 id=&#34;test&#34;&gt;Test&lt;/h2&gt;
+&lt;p&gt;由于没有 runner 对象，测试流程简单很多，下面简要概述：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;调用 MMDataParallel 或 MMDistributedDataParallel 中的 &lt;code&gt;forward&lt;/code&gt; 方法&lt;/li&gt;
+&lt;li&gt;调用 base.py 中的 &lt;code&gt;forward&lt;/code&gt; 方法&lt;/li&gt;
+&lt;li&gt;调用 base.py 中的 &lt;code&gt;self.forward_test&lt;/code&gt; 方法&lt;/li&gt;
+&lt;li&gt;如果是单尺度测试，则会调用 TwoStageDetector 或 SingleStageDetector 中的 &lt;code&gt;simple_test&lt;/code&gt; 方法，如果是多尺度测试，则调用 &lt;code&gt;aug_test&lt;/code&gt; 方法&lt;/li&gt;
+&lt;li&gt;最终调用的是每个具体算法 Head 模块的 &lt;code&gt;simple_test&lt;/code&gt; 或者 &lt;code&gt;aug_test&lt;/code&gt; 方法&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h1 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h1&gt;
+&lt;p&gt;本文从三个层面全面解读了 MMDetection 框架，对 MMDetection 框架设计思想、组件间关系和整体代码实现流程有一定的了解。&lt;/p&gt;
+&lt;h1 id=&#34;reference&#34;&gt;Reference&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;原文：&lt;a href=&#34;https://zhuanlan.zhihu.com/p/341954021&#34;&gt;轻松掌握 MMDetection 整体构建流程&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+      
     </item>
     
     <item>
       <title>MMDetection Overview</title>
       <link>https://preminstrel.github.io/blog/post/2022/01/15/mmdetection-overview/</link>
       <pubDate>Sat, 15 Jan 2022 12:12:07 +0800</pubDate>
-      
+      <author>preminstrel@gmail.com (Hanshi Sun)</author>
       <guid>https://preminstrel.github.io/blog/post/2022/01/15/mmdetection-overview/</guid>
-      <description>MMDetection 是一个基于 PyTorch 的目标检测开源工具箱。它是 OpenMMLab 项目的一部分。目前已经复现了大部分主流和前沿模型，例如 Faster R-CNN 系列、Mask R-CNN 系列、YOLO 系列和比较</description>
+      
+      <description>&lt;p&gt;&lt;a href=&#34;https://github.com/open-mmlab/mmdetection&#34;&gt;MMDetection&lt;/a&gt; 是一个基于 PyTorch 的目标检测开源工具箱。它是 &lt;a href=&#34;https://openmmlab.com/&#34;&gt;OpenMMLab&lt;/a&gt; 项目的一部分。目前已经复现了大部分主流和前沿模型，例如 Faster R-CNN 系列、Mask R-CNN 系列、YOLO 系列和比较新的 DETR 等等，模型库非常丰富，在学术研究和工业落地中应用非常广泛。&lt;/p&gt;
+&lt;div align=center&gt;
+&lt;img src=&#34;https://preminstrel.github.io/blog/img/20220115131101.png&#34; width=&#34;800px&#34;/&gt;
+&lt;/div&gt;
+&lt;h1 id=&#34;classifications&#34;&gt;Classifications&lt;/h1&gt;
+&lt;p&gt;按照目前目标检测的发展，可以大概归纳为如下所示：&lt;/p&gt;
+&lt;div class=&#34;mermaid&#34;&gt;
+graph LR
+	id1(Object Detection)---id2(satge);
+	id1---id3(anchor);
+	id1---id4(transformer)-.-id9(DETR, Deformable DETR, ...)
+	id2---id5(two-stage)-.-id11(Faster R-CNN, Cascade R-CNN, Libra R-CNN, ...)
+	id5(two-stage)-.-id12(TridentNet,...)
+	id2---id6(one-stage)-.-id13(RetinaNet, YOLO, FCOS, PrePoints, ...)
+	id3---id7(anchor-based)-.-id14(Faster R-CNN, YOLO, ...)
+	id3---id8(anchor-free)-.-id15(FCOS, ...)
+&lt;/div&gt;
+&lt;p&gt;注意上面仅仅写了几个典型算法而已，简单来说目标检测算法可以按照 3 个维度划分：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;按照 stage 个数划分&lt;/strong&gt;，常规是 one-stage 和 two-stage，但是实际上界限不是特别清晰，例如带 refine 阶段的算法 RepPoints，实际上可以认为是1.5 stage 算法，而 Cascade R-CNN 可以认为是多阶段算法，为了简单，上面图示没有划分如此细致&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;按照是否需要预定义 anchor 划分&lt;/strong&gt;，常规是 anchor-based 和 anchor-free，当然也有些算法是两者混合的&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;按照是否采用了 transformer 结构划分&lt;/strong&gt;，目前基于 transformer 结构的目标检测算法发展迅速，也引起了极大的关注，所以这里特意增加了这个类别的划分&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;不管哪种划分方式，其实都可以分成若干固定模块，然后通过模块堆叠来构建整个检测算法体系。&lt;/p&gt;
+&lt;h1 id=&#34;pipeline&#34;&gt;Pipeline&lt;/h1&gt;
+&lt;p&gt;现在这个框架将检测拆解模块化为 &lt;em&gt;&lt;strong&gt;backbone&lt;/strong&gt;&lt;/em&gt;，&lt;em&gt;&lt;strong&gt;neck&lt;/strong&gt;&lt;/em&gt;，&lt;em&gt;&lt;strong&gt;head&lt;/strong&gt;&lt;/em&gt;，无论是单阶段还是双阶段。线索清晰，体系自成。基于目前代码实现，所有目标检测算法都按照以下流程进行划分：&lt;/p&gt;
+&lt;div align=center&gt;
+&lt;img src=&#34;https://preminstrel.github.io/blog/img/20220115135201.jpg&#34; width=&#34;600px&#34;/&gt;
+&lt;/div&gt;
+&lt;h2 id=&#34;train&#34;&gt;Train&lt;/h2&gt;
+&lt;p&gt;训练部分一般包括 9 个核心组件，总体流程是：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;任何一个 batch 的图片先输入到 backbone 中进行特征提取，典型的骨干网络是 &lt;em&gt;&lt;strong&gt;ResNet&lt;/strong&gt;&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;输出的单尺度或者多尺度特征图输入到 neck 模块中进行特征融合或者增强，典型的 neck 是 &lt;em&gt;&lt;strong&gt;FPN&lt;/strong&gt;&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;上述多尺度特征最终输入到 head 部分，一般都会包括分类和回归分支输出&lt;/li&gt;
+&lt;li&gt;在整个网络构建阶段都可以引入一些即插即用增强算子来增加提取提取能力，典型的例如 SPP、DCN 等等&lt;/li&gt;
+&lt;li&gt;目标检测 head 输出一般是特征图，对于分类任务存在严重的正负样本不平衡，可以通过正负样本属性分配和采样控制&lt;/li&gt;
+&lt;li&gt;为了方便收敛和平衡多分支，一般都会对 gt bbox 进行编码&lt;/li&gt;
+&lt;li&gt;最后一步是计算分类和回归 loss，进行训练&lt;/li&gt;
+&lt;li&gt;在训练过程中也包括非常多的 trick，例如优化器选择等，参数调节也非常关键&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;注意上述 9 个组件不是每个算法都需要的，下面详细分析。&lt;/p&gt;
+&lt;h3 id=&#34;backbone&#34;&gt;Backbone&lt;/h3&gt;
+&lt;div class=&#34;mermaid&#34;&gt;
+graph LR
+	id1(ResNet)---id2(ResNext)---id3(Res2Net)---id4(ResNeSt)---id5(DarkNet)---id7(SSD_VGG);
+&lt;/div&gt;
+&lt;p&gt;backbone 作用主要是&lt;strong&gt;特征提取&lt;/strong&gt;。目前 MMDetection 中已经集成了大部分骨架网络，具体见文件：&lt;code&gt;mmdet/models/backbones&lt;/code&gt;，已经实现的骨架有：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;__all__ &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; [
+    &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;RegNet&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;ResNet&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;ResNetV1d&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;ResNeXt&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;SSDVGG&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;HRNet&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;Res2Net&amp;#39;&lt;/span&gt;,
+    &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;HourglassNet&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;DetectoRS_ResNet&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;DetectoRS_ResNeXt&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;Darknet&amp;#39;&lt;/span&gt;,
+    &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;ResNeSt&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;TridentResNet&amp;#39;&lt;/span&gt;
+]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;最常用的是 ResNet 系列、ResNetV1d 系列和 Res2Net 系列。如果需要对骨架进行扩展，可以继承上述网络，然后通过&lt;strong&gt;注册器机制注册使用&lt;/strong&gt;。一个典型用法为：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 骨架的预训练权重路径&lt;/span&gt;
+pretrained&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;torchvision://resnet50&amp;#39;&lt;/span&gt;,
+backbone&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#a2f&#34;&gt;dict&lt;/span&gt;(
+    &lt;span style=&#34;color:#a2f&#34;&gt;type&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;ResNet&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 骨架类名，后面的参数都是该类的初始化参数&lt;/span&gt;
+    depth&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;50&lt;/span&gt;,
+    num_stages&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;,
+    out_indices&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;(&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;, &lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color:#666&#34;&gt;2&lt;/span&gt;, &lt;span style=&#34;color:#666&#34;&gt;3&lt;/span&gt;),
+    frozen_stages&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;,
+    norm_cfg&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#a2f&#34;&gt;dict&lt;/span&gt;(&lt;span style=&#34;color:#a2f&#34;&gt;type&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;BN&amp;#39;&lt;/span&gt;, requires_grad&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;True), 
+    norm_eval&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;True,
+    style&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;pytorch&amp;#39;&lt;/span&gt;),
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;通过 MMCV 中的注册器机制，&lt;strong&gt;可以通过 dict 形式的配置来实例化任何已经注册的类&lt;/strong&gt;，非常方便和灵活。&lt;/p&gt;
+&lt;h3 id=&#34;neck&#34;&gt;Neck&lt;/h3&gt;
+&lt;div class=&#34;mermaid&#34;&gt;
+graph LR
+	id1(FPN)---id2(BFP)---id3(RFP)---id4(PAFPN)---id5(NAS_FPN)---id7(HRFPN);
+&lt;/div&gt;
+&lt;p&gt;neck 可以认为是 backbone 和 head 的&lt;strong&gt;连接层&lt;/strong&gt;，主要负责&lt;strong&gt;对 backbone 的特征进行高效融合和增强，能够对输入的单尺度或者多尺度特征进行融合、增强输出等&lt;/strong&gt;。具体见文件：&lt;code&gt;mmdet/models/necks&lt;/code&gt;，已经实现的 neck 如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;__all__ &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; [
+    &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;FPN&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;BFP&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;ChannelMapper&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;HRFPN&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;NASFPN&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;FPN_CARAFE&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;PAFPN&amp;#39;&lt;/span&gt;,
+    &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;NASFCOS_FPN&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;RFP&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;YOLOV3Neck&amp;#39;&lt;/span&gt;
+]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;最常用的应该是 &lt;em&gt;&lt;strong&gt;FPN&lt;/strong&gt;&lt;/em&gt;，一个典型用法是：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;neck&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#a2f&#34;&gt;dict&lt;/span&gt;(
+    &lt;span style=&#34;color:#a2f&#34;&gt;type&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;FPN&amp;#39;&lt;/span&gt;,
+    in_channels&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;[&lt;span style=&#34;color:#666&#34;&gt;256&lt;/span&gt;, &lt;span style=&#34;color:#666&#34;&gt;512&lt;/span&gt;, &lt;span style=&#34;color:#666&#34;&gt;1024&lt;/span&gt;, &lt;span style=&#34;color:#666&#34;&gt;2048&lt;/span&gt;], &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 骨架多尺度特征图输出通道&lt;/span&gt;
+    out_channels&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;256&lt;/span&gt;, &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 增强后通道输出&lt;/span&gt;
+    num_outs&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;5&lt;/span&gt;), &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 输出num_outs个多尺度特征图&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;head&#34;&gt;Head&lt;/h3&gt;
+&lt;div class=&#34;mermaid&#34;&gt;
+graph LR
+	id1(FC Mode)---id2(Conv Mode);
+&lt;/div&gt;
+&lt;p&gt;目标检测算法输出一般包括&lt;strong&gt;分类和框坐标回归&lt;/strong&gt;两个分支，不同算法 head 模块复杂程度不一样，灵活度比较高。在网络构建方面，理解目标检测算法主要是要理解 head 模块。&lt;/p&gt;
+&lt;p&gt;MMDetection 中 head 模块又划分为 &lt;strong&gt;two-stage 所需的 RoIHead 和 one-stage 所需的 DenseHead&lt;/strong&gt;，也就是说所有的 one-stage 算法的 head 模块都在&lt;code&gt;mmdet/models/dense_heads&lt;/code&gt;中，而 two-stage 算法还包括额外的&lt;code&gt;mmdet/models/roi_heads&lt;/code&gt;。&lt;/p&gt;
+&lt;p&gt;目前中已经实现的 dense_heads 包括：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;__all__ &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; [
+    &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;AnchorFreeHead&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;AnchorHead&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;GuidedAnchorHead&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;FeatureAdaption&amp;#39;&lt;/span&gt;,
+    &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;RPNHead&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;GARPNHead&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;RetinaHead&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;RetinaSepBNHead&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;GARetinaHead&amp;#39;&lt;/span&gt;,
+    &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;SSDHead&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;FCOSHead&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;RepPointsHead&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;FoveaHead&amp;#39;&lt;/span&gt;,
+    &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;FreeAnchorRetinaHead&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;ATSSHead&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;FSAFHead&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;NASFCOSHead&amp;#39;&lt;/span&gt;,
+    &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;PISARetinaHead&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;PISASSDHead&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;GFLHead&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;CornerHead&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;YOLACTHead&amp;#39;&lt;/span&gt;,
+    &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;YOLACTSegmHead&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;YOLACTProtonet&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;YOLOV3Head&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;PAAHead&amp;#39;&lt;/span&gt;,
+    &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;SABLRetinaHead&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;CentripetalHead&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;VFNetHead&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;TransformerHead&amp;#39;&lt;/span&gt;
+]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;几乎每个算法都包括一个独立的 head，而 roi_heads 比较杂，就不列出了。&lt;/p&gt;
+&lt;p&gt;需要注意的是：&lt;strong&gt;two-stage 或者 mutli-stage 算法，会额外包括一个区域提取器 roi extractor，用于将不同大小的 RoI 特征图统一成相同大小&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;虽然 head 部分的网络构建比较简单，但是由于正负样本属性定义、正负样本采样和 bbox 编解码模块都在 head 模块中进行组合调用，故 MMDetection &lt;strong&gt;中最复杂的模块就是 head&lt;/strong&gt;。在最后的整体流程部分会对该模块进行详细分析。&lt;/p&gt;
+&lt;h3 id=&#34;enhance&#34;&gt;Enhance&lt;/h3&gt;
+&lt;div class=&#34;mermaid&#34;&gt;
+graph LR
+	id1(SPP)---id2(ASP)---id3(Attention);
+&lt;/div&gt;
+&lt;p&gt;enhance 是&lt;strong&gt;即插即用、能够对特征进行增强的模块&lt;/strong&gt;，其具体代码可以通过 dict 形式注册到 backbone、neck 和 head 中，非常方便。常用的 enhance 模块是 SPP、ASPP、RFB、Dropout、Dropblock、DCN 和各种注意力模块 SeNet、Non_Local、CBA 等。目前 MMDetection 中部分模块支持 enhance 的接入，例如 ResNet 骨架中的 plugins。&lt;/p&gt;
+&lt;h3 id=&#34;bbox-assigner&#34;&gt;BBox Assigner&lt;/h3&gt;
+&lt;p&gt;正负样本属性分配模块作用是进行正负样本定义或者正负样本分配（可能也包括忽略样本定义），正样本就是常说的前景样本（可以是任何类别），负样本就是背景样本。因为目标检测是一个同时进行分类和回归的问题，对于分类场景必然需要确定正负样本，否则无法训练。&lt;strong&gt;该模块至关重要，不同的正负样本分配策略会带来显著的性能差异&lt;/strong&gt;，目前大部分目标检测算法都会对这个部分进行改进，至关重要。&lt;/p&gt;
+&lt;p&gt;对应的代码在&lt;code&gt;mmdet/core/bbox/assigners&lt;/code&gt;中，主要包括：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;__all__ &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; [
+    &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;BaseAssigner&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;MaxIoUAssigner&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;ApproxMaxIoUAssigner&amp;#39;&lt;/span&gt;, 
+    &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;PointAssigner&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;ATSSAssigner&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;CenterRegionAssigner&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;GridAssigner&amp;#39;&lt;/span&gt;,
+    &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;HungarianAssigner&amp;#39;&lt;/span&gt;
+]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;bbox-sampler&#34;&gt;BBox Sampler&lt;/h3&gt;
+&lt;p&gt;在确定每个样本的正负属性后，可能还需要进行&lt;strong&gt;样本平衡操作&lt;/strong&gt;。本模块作用是&lt;strong&gt;对前面定义的正负样本不平衡进行采样，力争克服该问题&lt;/strong&gt;。一般在目标检测中 gt bbox 都是非常少的，所以正负样本比是远远小于 1 的。而基于机器学习观点：在数据极度不平衡情况下进行分类会出现预测倾向于样本多的类别，出现过拟合，为了克服该问题，适当的正负样本采样策略是非常必要的。&lt;/p&gt;
+&lt;p&gt;对应的代码在&lt;code&gt;mmdet/core/bbox/samplers&lt;/code&gt;中，主要包括：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;__all__ &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; [
+    &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;BaseSampler&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;PseudoSampler&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;RandomSampler&amp;#39;&lt;/span&gt;,
+    &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;InstanceBalancedPosSampler&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;IoUBalancedNegSampler&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;CombinedSampler&amp;#39;&lt;/span&gt;,
+    &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;OHEMSampler&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;SamplingResult&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;ScoreHLRSampler&amp;#39;&lt;/span&gt;
+]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;training-tricks&#34;&gt;Training tricks&lt;/h3&gt;
+&lt;p&gt;训练技巧非常多，常说的调参很大一部分工作都是在设置这部分超参。这部分内容比较杂乱，很难做到完全统一。&lt;/p&gt;
+&lt;h2 id=&#34;test&#34;&gt;Test&lt;/h2&gt;
+&lt;p&gt;测试核心组件和训练非常类似，但是简单很多，除了必备的网络构建部分外( backbone、neck、head 和 enhance )，不需要正负样本定义、正负样本采样和 loss 计算三个最难的部分，但是其额外需要一个 bbox 后处理模块和测试 trick。&lt;/p&gt;
+&lt;h3 id=&#34;bbox-decoder&#34;&gt;BBox Decoder&lt;/h3&gt;
+&lt;p&gt;训练时候进行了编码，那么对应的测试环节需要进行解码。根据编码的不同，解码也是不同的。举个简单例子：假设训练时候对宽高是直接除以图片宽高进行归一化的，那么解码过程也仅仅需要乘以图片宽高即可。其代码和 bbox encoder 放在一起，在&lt;code&gt;mmdet/core/bbox/coder&lt;/code&gt;中。&lt;/p&gt;
+&lt;h3 id=&#34;bbox-postprocess&#34;&gt;BBox PostProcess&lt;/h3&gt;
+&lt;p&gt;在得到原图尺度 bbox 后，由于可能会出现重叠 bbox 现象，故一般都需要进行后处理，最常用的后处理就是非极大值抑制以及其变种。&lt;/p&gt;
+&lt;p&gt;其对应的文件在&lt;code&gt;mmdet/core/post_processing&lt;/code&gt;中，主要包括：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;__all__ &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; [
+    &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;multiclass_nms&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;merge_aug_proposals&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;merge_aug_bboxes&amp;#39;&lt;/span&gt;,
+    &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;merge_aug_scores&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;merge_aug_masks&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;fast_nms&amp;#39;&lt;/span&gt;
+]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;testing-tricks&#34;&gt;Testing tricks&lt;/h3&gt;
+&lt;p&gt;为了提高检测性能，测试阶段也会采用 trick。这个阶段的 tricks 也非常多，难以完全统一，最典型的是多尺度测试以及各种模型集成手段，典型配置如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#a2f&#34;&gt;dict&lt;/span&gt;(
+    &lt;span style=&#34;color:#a2f&#34;&gt;type&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;MultiScaleFlipAug&amp;#39;&lt;/span&gt;,
+    img_scale&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;(&lt;span style=&#34;color:#666&#34;&gt;1333&lt;/span&gt;, &lt;span style=&#34;color:#666&#34;&gt;800&lt;/span&gt;),
+    flip&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;True,
+    transforms&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;[
+        &lt;span style=&#34;color:#a2f&#34;&gt;dict&lt;/span&gt;(&lt;span style=&#34;color:#a2f&#34;&gt;type&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;Resize&amp;#39;&lt;/span&gt;, keep_ratio&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;True),
+        &lt;span style=&#34;color:#a2f&#34;&gt;dict&lt;/span&gt;(&lt;span style=&#34;color:#a2f&#34;&gt;type&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;RandomFlip&amp;#39;&lt;/span&gt;),
+        &lt;span style=&#34;color:#a2f&#34;&gt;dict&lt;/span&gt;(&lt;span style=&#34;color:#a2f&#34;&gt;type&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;Normalize&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#666&#34;&gt;**&lt;/span&gt;img_norm_cfg),
+        &lt;span style=&#34;color:#a2f&#34;&gt;dict&lt;/span&gt;(&lt;span style=&#34;color:#a2f&#34;&gt;type&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;Pad&amp;#39;&lt;/span&gt;, size_divisor&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;32&lt;/span&gt;),
+        &lt;span style=&#34;color:#a2f&#34;&gt;dict&lt;/span&gt;(&lt;span style=&#34;color:#a2f&#34;&gt;type&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;ImageToTensor&amp;#39;&lt;/span&gt;, keys&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;[&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;img&amp;#39;&lt;/span&gt;]),
+        &lt;span style=&#34;color:#a2f&#34;&gt;dict&lt;/span&gt;(&lt;span style=&#34;color:#a2f&#34;&gt;type&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;Collect&amp;#39;&lt;/span&gt;, keys&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;[&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;img&amp;#39;&lt;/span&gt;]),
+    ])
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;example&#34;&gt;Example&lt;/h3&gt;
+&lt;p&gt;在分析完每个训练流程的各个核心组件后，为了方便大家理解整个算法构建，下面分析 MMDetection 是如何组合各个组件进行训练的，这里以 one-stage 检测器为例，two-stage 也比较类似。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#00f&#34;&gt;SingleStageDetector&lt;/span&gt;(&lt;span style=&#34;color:#666&#34;&gt;---&lt;/span&gt;):
+
+   &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; __init__(&lt;span style=&#34;color:#666&#34;&gt;...&lt;/span&gt;):
+        &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 构建骨架、neck和head&lt;/span&gt;
+        self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;backbone &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; build_backbone(backbone)
+        &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt; neck &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;is&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;not&lt;/span&gt; None:
+            self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;neck &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; build_neck(neck)
+        self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;bbox_head &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; build_head(bbox_head)
+
+  &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;forward_train&lt;/span&gt;(&lt;span style=&#34;color:#666&#34;&gt;---&lt;/span&gt;): 
+        &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 先运行backbone+neck进行特征提取&lt;/span&gt;
+        x &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;extract_feat(img)
+        &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 对head进行forward train，输出loss&lt;/span&gt;
+        losses &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;bbox_head&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;forward_train(x, img_metas, gt_bboxes,
+                                              gt_labels, gt_bboxes_ignore)
+        &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;return&lt;/span&gt; losses
+
+  &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;simple_test&lt;/span&gt;(&lt;span style=&#34;color:#666&#34;&gt;---&lt;/span&gt;):
+        &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 先运行backbone+neck进行特征提取&lt;/span&gt;
+        x &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;extract_feat(img)
+        &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# head输出预测特征图&lt;/span&gt;
+        outs &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;bbox_head(x)
+        &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# bbox解码和还原&lt;/span&gt;
+        bbox_list &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;bbox_head&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;get_bboxes(
+            &lt;span style=&#34;color:#666&#34;&gt;*&lt;/span&gt;outs, img_metas, rescale&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;rescale)
+        &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 重组结果返回&lt;/span&gt;
+        bbox_results &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; [
+            bbox2result(det_bboxes, det_labels, self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;bbox_head&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;num_classes)
+            &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;for&lt;/span&gt; det_bboxes, det_labels &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;in&lt;/span&gt; bbox_list
+        ]
+        &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;return&lt;/span&gt; bbox_results
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;以上就是整个检测器算法训练和测试最简逻辑，可以发现训练部分最核心的就是&lt;code&gt;bbox_head.forward_train&lt;/code&gt;，测试部分最核心的是&lt;code&gt;bbox_head.get_bboxes&lt;/code&gt;，下面单独简要分析。&lt;/p&gt;
+&lt;h4 id=&#34;bbox_headforward_train&#34;&gt;bbox_head.forward_train&lt;/h4&gt;
+&lt;p&gt;&lt;code&gt;forward_train&lt;/code&gt; 是通用函数，如下所示：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;forward_train&lt;/span&gt;(&lt;span style=&#34;color:#666&#34;&gt;...&lt;/span&gt;):
+    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 调用每个head自身的forward方法&lt;/span&gt;
+    outs &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self(x)
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt; gt_labels &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;is&lt;/span&gt; None:
+        loss_inputs &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; outs &lt;span style=&#34;color:#666&#34;&gt;+&lt;/span&gt; (gt_bboxes, img_metas)
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt;:
+        loss_inputs &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; outs &lt;span style=&#34;color:#666&#34;&gt;+&lt;/span&gt; (gt_bboxes, gt_labels, img_metas)
+    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 计算每个head自身的loss方法&lt;/span&gt;
+    losses &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;loss(&lt;span style=&#34;color:#666&#34;&gt;*&lt;/span&gt;loss_inputs, gt_bboxes_ignore&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;gt_bboxes_ignore)
+    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 返回&lt;/span&gt;
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;return&lt;/span&gt; losses
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;对于不同的 head，虽然 forward 内容不一样，但是依然可以抽象为： &lt;code&gt;outs = self(x)&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;forward&lt;/span&gt;(self, feats):
+   &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 多尺度特征图，一个一个迭代进行forward_single&lt;/span&gt;
+   &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;return&lt;/span&gt; multi_apply(self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;forward_single, feats)
+
+&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;forward_single&lt;/span&gt;(self, x):
+   &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 运行各个head独特的head forward方法，得到预测图&lt;/span&gt;
+   &lt;span style=&#34;color:#666&#34;&gt;....&lt;/span&gt;
+   &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;return&lt;/span&gt; cls_score, bbox_pred&lt;span style=&#34;color:#666&#34;&gt;...&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;而对于不同的 head，其 loss 计算部分也比较复杂，可以简单抽象为：&lt;code&gt;losses = self.loss(...)&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;loss&lt;/span&gt;(&lt;span style=&#34;color:#666&#34;&gt;...&lt;/span&gt;):
+    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 1 生成anchor-base需要的anchor或者anchor-free需要的points&lt;/span&gt;
+    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 2 利用gt bbox对特征图或者anchor计算其正负和忽略样本属性&lt;/span&gt;
+    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 3 进行正负样本采样&lt;/span&gt;
+    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 4 对gt bbox进行bbox编码&lt;/span&gt;
+    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 5 loss计算，并返回&lt;/span&gt;
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;return&lt;/span&gt; &lt;span style=&#34;color:#a2f&#34;&gt;dict&lt;/span&gt;(loss_cls&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;losses_cls, loss_bbox&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;losses_bbox,&lt;span style=&#34;color:#666&#34;&gt;...&lt;/span&gt;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;bbox_headget_bboxes&#34;&gt;bbox_head.get_bboxes&lt;/h4&gt;
+&lt;p&gt;&lt;code&gt;get_bboxes&lt;/code&gt; 函数更加简单&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;get_bboxes&lt;/span&gt;(&lt;span style=&#34;color:#666&#34;&gt;...&lt;/span&gt;):
+   &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 1 生成anchor-base需要的anchor或者anchor-free需要的points&lt;/span&gt;
+   &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 2 遍历每个输出层，遍历batch内部的每张图片，对每张图片先提取指定个数的预测结果，缓解后面后处理压力；对保留的位置进行bbox解码和还原到原图尺度&lt;/span&gt;
+   &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 3 统一nms后处理&lt;/span&gt;
+   &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;return&lt;/span&gt; det_bboxes, det_labels&lt;span style=&#34;color:#666&#34;&gt;...&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;本文重点分析了一个目标检测器是如何通过多个核心组件堆叠而成，不涉及具体代码，其中最应该了解的是：&lt;strong&gt;任何一个目标检测算法都可以分成 n 个核心组件，组件和组件之间是隔离的，方便复用和设计&lt;/strong&gt;。当面对一个新算法时候我们可以先分析其主要是改进了哪几个核心组件，然后就可以高效的掌握该算法。&lt;/p&gt;
+&lt;h1 id=&#34;reference&#34;&gt;Reference&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;原文：&lt;a href=&#34;https://zhuanlan.zhihu.com/p/337375549&#34;&gt;轻松掌握 MMDetection 整体构建流程&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+      
     </item>
     
   </channel>

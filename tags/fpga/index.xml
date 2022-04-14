@@ -1,68 +1,541 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>FPGA on Preminstrel&#39;s Blog</title>
+    <title>FPGA on Blog de Preminstrel</title>
     <link>https://preminstrel.github.io/blog/tags/fpga/</link>
-    <description>Recent content in FPGA on Preminstrel&#39;s Blog</description>
+    <description>Recent content in FPGA on Blog de Preminstrel</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 04 Nov 2021 20:28:55 +0800</lastBuildDate>
-    
-	<atom:link href="https://preminstrel.github.io/blog/tags/fpga/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <managingEditor>preminstrel@gmail.com (Hanshi Sun)</managingEditor>
+    <webMaster>preminstrel@gmail.com (Hanshi Sun)</webMaster>
+    <lastBuildDate>Thu, 04 Nov 2021 20:28:55 +0800</lastBuildDate><atom:link href="https://preminstrel.github.io/blog/tags/fpga/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>ZYBO Z7 Basics: PS 端裸机实现 Hello World</title>
       <link>https://preminstrel.github.io/blog/post/2021/11/04/zybo-z7-basics-4/</link>
       <pubDate>Thu, 04 Nov 2021 20:28:55 +0800</pubDate>
-      
+      <author>preminstrel@gmail.com (Hanshi Sun)</author>
       <guid>https://preminstrel.github.io/blog/post/2021/11/04/zybo-z7-basics-4/</guid>
-      <description>我们已经学会了纯 PL 端的 LED 点灯实验，也学会了如何建立一个空的项目，现在我们来学习一下 PS 端的裸机运行 Hello World。 建立新工程 首先，建立一个新工程</description>
+      
+      <description>&lt;p&gt;我们已经学会了纯 PL 端的 LED 点灯实验，也学会了如何建立一个空的项目，现在我们来学习一下 PS 端的裸机运行 Hello World。&lt;/p&gt;
+&lt;h1 id=&#34;建立新工程&#34;&gt;建立新工程&lt;/h1&gt;
+&lt;p&gt;首先，建立一个新工程。和上次一样，添加好必要的约束文件。&lt;/p&gt;
+&lt;h1 id=&#34;添加处理器ip内核&#34;&gt;添加处理器（IP）内核&lt;/h1&gt;
+&lt;p&gt;在 &lt;code&gt;Flow Navigatot&lt;/code&gt; 窗口下的 &lt;code&gt;IP INTEGRATOR&lt;/code&gt; 子窗口点击 &lt;code&gt;Create Block Design&lt;/code&gt; 按钮，新建一个 Block Design，填好文件名字和选好所在位置之后点击 OK。&lt;/p&gt;
+&lt;div align=center&gt;
+&lt;img src=&#34;https://preminstrel.github.io/blog/img/20211104204503.png&#34; width=&#34;600px&#34; /&gt;
+&lt;/div&gt;
+&lt;p&gt;建立完成后的 Block Design 如下图所示。&lt;/p&gt;
+&lt;div align=center&gt;
+&lt;img src=&#34;https://preminstrel.github.io/blog/img/20211104205259.png&#34; width=&#34;600px&#34; /&gt;
+&lt;/div&gt;
+&lt;p&gt;选中 IP 核后，系统会以图形界面的形式把 IP 核显示出来&lt;/p&gt;
+&lt;div align=center&gt;
+&lt;img src=&#34;https://preminstrel.github.io/blog/img/20211104205636.png&#34; width=&#34;600px&#34; /&gt;
+&lt;/div&gt;
+&lt;p&gt;点击上图浅绿色条带中的 &lt;code&gt;Run Block Automation&lt;/code&gt;。勾选 &lt;code&gt;Apply Board Preset&lt;/code&gt;，将这个 IP 核相关的输入/输出信号映射到芯片具体的引脚上，并添加必要的约束。点击 OK 按钮后启动自动化，完成后结果如下图&lt;/p&gt;
+&lt;div align=center&gt;
+&lt;img src=&#34;https://preminstrel.github.io/blog/img/20211104205914.png&#34; width=&#34;400px&#34; /&gt;
+&lt;/div&gt;
+&lt;p&gt;通过双击图中的 IP 核（图案会变成橙色）可以更改其内部配置。默认状态下使能了 &lt;code&gt;M_AXI_GP0&lt;/code&gt;，可以将 PL 部分带 AXI 从接口的 IP 连接到 PS 进行控制。这里我们需要把 PL 端和 PS 端的时钟连接起来，即把 &lt;code&gt;M_AXI_GP0_ACLK&lt;/code&gt; 与 &lt;code&gt;FCLK_CLK0&lt;/code&gt; 连接起来。&lt;/p&gt;
+&lt;div align=center&gt;
+&lt;img src=&#34;https://preminstrel.github.io/blog/img/20211104210320.png&#34; width=&#34;400px&#34; /&gt;
+&lt;/div&gt;
+&lt;p&gt;完成配置后，右击图案，选择 &lt;code&gt;Validate Design&lt;/code&gt;（或者使用快捷键 F6）进行规则检查。&lt;/p&gt;
+&lt;h1 id=&#34;生成输出文件并封装成-hdl-形式&#34;&gt;生成输出文件并封装成 HDL 形式&lt;/h1&gt;
+&lt;p&gt;Generate Output Products 主要是把 IP 参数和连接信息 update 到 project 中，同时也会检查错误。（一般 synth 也会更新，但是有目标的 update 下更放心）
+右键 &lt;code&gt;Create HDL Wrapper&lt;/code&gt;，给整个 bd 加个 hdl 的壳。（因为综合工具不处理原理图 bd，所以再次倒腾回 hdl 的 code 模式）&lt;/p&gt;
+&lt;h1 id=&#34;reference&#34;&gt;Reference&lt;/h1&gt;
+</description>
+      
     </item>
     
     <item>
       <title>ZYBO Z7 Basics: PL 端点亮 LED</title>
       <link>https://preminstrel.github.io/blog/post/2021/10/31/zybo-z7-basics-3/</link>
       <pubDate>Sun, 31 Oct 2021 14:08:22 +0800</pubDate>
-      
+      <author>preminstrel@gmail.com (Hanshi Sun)</author>
       <guid>https://preminstrel.github.io/blog/post/2021/10/31/zybo-z7-basics-3/</guid>
-      <description>硬件连接与上电验证 PC 与 ZYBO 之间通过 micro USB 线连接，ZYBO 端连接到 PROG-UART 接口上。 打开电源开关，确认电源供电正常。如果是第一次将 ZYBO 与 PC 相连，那么 PC 端会自</description>
+      
+      <description>&lt;h1 id=&#34;硬件连接与上电验证&#34;&gt;硬件连接与上电验证&lt;/h1&gt;
+&lt;p&gt;PC 与 ZYBO 之间通过 micro USB 线连接，ZYBO 端连接到 PROG-UART 接口上。&lt;/p&gt;
+&lt;p&gt;打开电源开关，确认电源供电正常。如果是第一次将 ZYBO 与 PC 相连，那么 PC 端会自动识别该 USB 设备并安装相应驱动。
+ZYBO 的板载 PROG-UART 接口集供电、编程与 UART 功能为一体，PC 端识别该设备时会有 2 部分：一部分是对应 UART 功能的 COM 端口；另一部分是对应 USB 编程功能。&lt;/p&gt;
+&lt;p&gt;进入 PC 的设备管理器，如下图，&lt;code&gt;COM7&lt;/code&gt; 对应 UART 功能；&lt;code&gt;USB Serial Converter A/B&lt;/code&gt; 对应 USB 编程功能。&lt;/p&gt;
+&lt;div align=center&gt;
+&lt;img src=&#34;https://preminstrel.github.io/blog/img/20211031141550.png&#34; width=&#34;400px&#34; /&gt;
+&lt;/div&gt;
+&lt;h1 id=&#34;添加开发板信息&#34;&gt;添加开发板信息&lt;/h1&gt;
+&lt;p&gt;下面我们直接开始利用 Vivado 开发环境进行 PL 端的设计。&lt;/p&gt;
+&lt;p&gt;创建中，有一步是根据自己的开发板选择器件型号，可以通过 Parts 直接通过型号进行搜索，例如 Zybo Z7-20 开发板上的芯片型号为 &lt;code&gt;xc7z020clg400-1&lt;/code&gt;。也可以通过 Boards 找到开发板名字进行添加，这种方法需要先在 Vivado 中添加 Zybo Z7 开发板信息。这里推荐一个 GitHub 上的 &lt;a href=&#34;https://github.com/Digilent/vivado-boards&#34;&gt;Repo&lt;/a&gt;，可以通过复制仓库的文件到 Vivado 相应的文件夹中实现开发板信息的添加。&lt;/p&gt;
+&lt;div align=center&gt;
+&lt;img src=&#34;https://preminstrel.github.io/blog/img/20211101222815.png&#34; width=&#34;700px&#34; /&gt;
+&lt;/div&gt;
+&lt;h1 id=&#34;design-sources&#34;&gt;Design Sources&lt;/h1&gt;
+&lt;p&gt;这一部分是对功能的 Verilog 代码实现，将下面的代码添加到工程的 &lt;code&gt;Design Sources&lt;/code&gt; 中。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;实现功能&lt;/strong&gt;：四个开关 &lt;code&gt;SW0-SW3&lt;/code&gt; 分别控制四个 LED &lt;code&gt;LD0-LD3&lt;/code&gt; 的亮灭。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-verilog&#34; data-lang=&#34;verilog&#34;&gt;&lt;span style=&#34;color:#800&#34;&gt;`timescale&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;ns &lt;span style=&#34;color:#666&#34;&gt;/&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;ps
+&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;module&lt;/span&gt; led_2(
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;input&lt;/span&gt; sysclk,
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;input&lt;/span&gt; [&lt;span style=&#34;color:#666&#34;&gt;3&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;] sw,
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;output&lt;/span&gt; &lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;reg&lt;/span&gt;[&lt;span style=&#34;color:#666&#34;&gt;3&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;] led
+       );
+    
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;parameter&lt;/span&gt; LED_CNT1 &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;25&lt;/span&gt;_000_000;       &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//每数0.5秒LED闪一次
+&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;parameter&lt;/span&gt; LED_CNT2 &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; LED_CNT1 &lt;span style=&#34;color:#666&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;2&lt;/span&gt;;
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;parameter&lt;/span&gt; LED_CNT3 &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; LED_CNT1 &lt;span style=&#34;color:#666&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;3&lt;/span&gt;;
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;parameter&lt;/span&gt; LED_CNT4 &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; LED_CNT1 &lt;span style=&#34;color:#666&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;; 
+    
+    &lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;reg&lt;/span&gt; [&lt;span style=&#34;color:#666&#34;&gt;31&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;] count;
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;always&lt;/span&gt; @(&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;posedge&lt;/span&gt; sysclk )  &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//计数器在0~LED_CNT4-1之间循环
+&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;begin&lt;/span&gt;
+      &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(count &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; LED_CNT4 &lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
+        count &lt;span style=&#34;color:#666&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;;
+      &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt;
+        count &lt;span style=&#34;color:#666&#34;&gt;&amp;lt;=&lt;/span&gt; count &lt;span style=&#34;color:#666&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;;
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;end&lt;/span&gt;
+    
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;always&lt;/span&gt; @(&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;posedge&lt;/span&gt; sysclk )
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;begin&lt;/span&gt;
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt; (sw[&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;] &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;begin&lt;/span&gt;
+      &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(count &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; LED_CNT1&lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
+         led &lt;span style=&#34;color:#666&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&amp;#39;b0001&lt;/span&gt;;
+      &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(count &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; LED_CNT2&lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
+         led &lt;span style=&#34;color:#666&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&amp;#39;b0010&lt;/span&gt;;
+      &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(count &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; LED_CNT3&lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
+         led &lt;span style=&#34;color:#666&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&amp;#39;b0100&lt;/span&gt;;
+      &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(count &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; LED_CNT4&lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)   
+         led &lt;span style=&#34;color:#666&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&amp;#39;b1000&lt;/span&gt;;   
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;end&lt;/span&gt;
+    
+        &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt; (sw[&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;begin&lt;/span&gt;
+      &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(count &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; LED_CNT1&lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
+         led &lt;span style=&#34;color:#666&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&amp;#39;b1000&lt;/span&gt;;
+      &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(count &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; LED_CNT2&lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
+         led &lt;span style=&#34;color:#666&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&amp;#39;b0100&lt;/span&gt;;
+      &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(count &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; LED_CNT3&lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
+         led &lt;span style=&#34;color:#666&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&amp;#39;b0010&lt;/span&gt;;
+      &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(count &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; LED_CNT4&lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)   
+         led &lt;span style=&#34;color:#666&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&amp;#39;b0001&lt;/span&gt;;   
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;end&lt;/span&gt;
+    
+       &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt; (sw[&lt;span style=&#34;color:#666&#34;&gt;2&lt;/span&gt;] &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;begin&lt;/span&gt;
+      &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(count &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; LED_CNT1&lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
+         led &lt;span style=&#34;color:#666&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&amp;#39;b0001&lt;/span&gt;;
+     &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;// else if(count == LED_CNT2-1)
+&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;// led &amp;lt;= 4&amp;#39;b0010;
+&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;      &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(count &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; LED_CNT3&lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
+         led &lt;span style=&#34;color:#666&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&amp;#39;b0100&lt;/span&gt;;
+     &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;// else if(count == LED_CNT4-1)   
+&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;       &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;// led &amp;lt;= 4&amp;#39;b1000;   
+&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;end&lt;/span&gt;
+    
+        &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt; (sw[&lt;span style=&#34;color:#666&#34;&gt;3&lt;/span&gt;] &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;begin&lt;/span&gt;
+      &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(count &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; LED_CNT1&lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
+        &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;// led &amp;lt;= 4&amp;#39;b0001;
+&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;     &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;// else if(count == LED_CNT2-1)
+&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;         led &lt;span style=&#34;color:#666&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&amp;#39;b0010&lt;/span&gt;;
+     &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;// else if(count == LED_CNT3-1)
+&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;       &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//  led &amp;lt;= 4&amp;#39;b0100;
+&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;      &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(count &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; LED_CNT4&lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)   
+         led &lt;span style=&#34;color:#666&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&amp;#39;b1000&lt;/span&gt;;   
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;end&lt;/span&gt;
+    
+     &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt; (sw[&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;] &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; sw[&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; sw[&lt;span style=&#34;color:#666&#34;&gt;2&lt;/span&gt;] &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; sw[&lt;span style=&#34;color:#666&#34;&gt;3&lt;/span&gt;] &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;)
+       &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;begin&lt;/span&gt;
+         &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(count &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; LED_CNT1&lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
+            led &lt;span style=&#34;color:#666&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&amp;#39;b0000&lt;/span&gt;;
+         &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(count &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; LED_CNT2&lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
+            led &lt;span style=&#34;color:#666&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&amp;#39;b0000&lt;/span&gt;;
+         &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(count &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; LED_CNT3&lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
+            led &lt;span style=&#34;color:#666&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&amp;#39;b0000&lt;/span&gt;;
+         &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(count &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; LED_CNT4&lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)   
+            led &lt;span style=&#34;color:#666&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&amp;#39;b0000&lt;/span&gt;;   
+       &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;end&lt;/span&gt;
+    
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;end&lt;/span&gt;
+
+&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;endmodule&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h1 id=&#34;约束文件&#34;&gt;约束文件&lt;/h1&gt;
+&lt;p&gt;我们用 Vivado 生成 Bitstream 的时候，会用到相对应芯片的 &lt;code&gt;.xdc&lt;/code&gt; 文件。我在 GitHub 上面找到相应的 &lt;a href=&#34;https://github.com/Digilent/digilent-xdc/blob/master/Zybo-Z7-Master.xdc&#34;&gt;GitHub Digilent-Zybo Z7 .xdc&lt;/a&gt; 文件，只要在工程的 &lt;code&gt;Constraints&lt;/code&gt; 处新建一个约束文件，然后将里面的文本复制进去即可。&lt;/p&gt;
+&lt;p&gt;我们需要对给定的 &lt;code&gt;.xdc&lt;/code&gt; 文件进行注释的修改，标准如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;## This file is a general .xdc for the Zybo Z7 Rev. B
+## It is compatible with the Zybo Z7-20 and Zybo Z7-10
+## To use it in a project:
+## - uncomment the lines corresponding to used pins
+## - rename the used ports (in each line, after get_ports) according to the top level signal names in the project
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h1 id=&#34;开发板下载&#34;&gt;开发板下载&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;生成 Bitstream&lt;/li&gt;
+&lt;li&gt;打开 &lt;code&gt;Flow -&amp;gt; Hardware Manager&lt;/code&gt;，连接后进行自动下载&lt;/li&gt;
+&lt;li&gt;观察现象，符合预期&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&#34;reference&#34;&gt;Reference&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://blog.csdn.net/a646123070/article/details/83793947&#34;&gt;CSDN&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/Digilent/digilent-xdc/blob/master/Zybo-Z7-Master.xdc&#34;&gt;GitHub Digilent-Zybo Z7 .xdc&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/Digilent/vivado-boards&#34;&gt;GitHub Vivado-boards&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+      
     </item>
     
     <item>
       <title>ZYBO Z7 Basics: 编程模式配置与上电</title>
       <link>https://preminstrel.github.io/blog/post/2021/10/31/zybo-z7-basics-2/</link>
       <pubDate>Sun, 31 Oct 2021 11:26:50 +0800</pubDate>
-      
+      <author>preminstrel@gmail.com (Hanshi Sun)</author>
       <guid>https://preminstrel.github.io/blog/post/2021/10/31/zybo-z7-basics-2/</guid>
-      <description>ZYBO编程模式配置 ZYBO支持3种默认编程模式，分别是： JTAG 编程模式：上电启动时，默认从 PROG-UART USB 接口编程 QSPI 编程模式：上电启动时，默认从板载 QSPI Flash 中</description>
+      
+      <description>&lt;h1 id=&#34;zybo编程模式配置&#34;&gt;ZYBO编程模式配置&lt;/h1&gt;
+&lt;p&gt;ZYBO支持3种默认编程模式，分别是：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;JTAG 编程模式：上电启动时，默认从 PROG-UART USB 接口编程&lt;/li&gt;
+&lt;li&gt;QSPI 编程模式：上电启动时，默认从板载 QSPI Flash 中读取配置文件来编程。&lt;/li&gt;
+&lt;li&gt;SD 卡编程模式：上电启动时，默认从SD卡中读取配置文件来编程。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;可以通过编程模式选择跳线 &lt;code&gt;JP5&lt;/code&gt; 来配置 ZYBO 的编程模式，如下图所示。&lt;/p&gt;
+&lt;div align=center&gt;
+&lt;img src=&#34;https://preminstrel.github.io/blog/img/20211031140401.png&#34; width=&#34;200px&#34; /&gt;
+&lt;/div&gt;
+&lt;h1 id=&#34;power-supplies&#34;&gt;Power Supplies&lt;/h1&gt;
+&lt;p&gt;Zybo Z7 电源电路经过精心设计，以满足 Zynq-7000 和所有其他外围设备的要求，同时还提供灵活的输入电源选项。电源电路如图所示。&lt;/p&gt;
+&lt;div align=center&gt;
+&lt;img src=&#34;https://preminstrel.github.io/blog/img/20211031113010.png&#34; width=&#34;600px&#34; /&gt;
+&lt;/div&gt;
+&lt;p&gt;通过电源开关（&lt;code&gt;SW4&lt;/code&gt;）开启或关闭单板上的所有电源。 当所有电源轨达到额定电压时，电源指示灯 LED（LD13，标记为 PGOOD）亮。&lt;/p&gt;
+&lt;h2 id=&#34;power-input-sources&#34;&gt;Power Input Sources&lt;/h2&gt;
+&lt;p&gt;Zybo Z7 可以从几个不同的来源供电。 跳线 &lt;code&gt;JP6&lt;/code&gt;（靠近电源开关）决定使用哪个电源。 该跳线有三种有效配置，对应于三个电源选项：USB、wall wart supply with barrel jack 和电池组。 上图描述了所有这三种，并在板丝印图上做了同样的工作。&lt;/p&gt;
+&lt;p&gt;一般来说，是从 USB 编程端口（&lt;code&gt;J12&lt;/code&gt;）为 Zybo Z7 供电，但 Zybo Z7 通常需要比 USB 2.0 设备允许的 0.5 A 电流更多的电流。 如果超过这个限制，许多 USB 主机将开始降低电压，直到 Zybo Z7 复位，降低电流消耗到可接受的范围。为了防止这种情况发生，应该选择支持更高电流的 USB 主机端口（通常被 laptop/PC 供应商称为“快速充电 USB 端口”或类似的端口)。即使连接到一个能够提供更多电流的主机上，Zybo Z7 也会将自己限制在 0.75 A，如果达到这个电流就会重置。如果当我们使用高电流 USB 端口供电，我们的项目自动复位（通过 PGOOD LED 短暂闪烁和 DONE LED 关闭），则需要降低项目的功耗或使用外部电源。&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Connector Type&lt;/th&gt;
+&lt;th&gt;JP6 Configuration&lt;/th&gt;
+&lt;th&gt;Connector Label&lt;/th&gt;
+&lt;th&gt;Schematic net name&lt;/th&gt;
+&lt;th&gt;Min/Rec/Max Voltage(V)&lt;/th&gt;
+&lt;th&gt;Current Limit&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Barrel jack&lt;/td&gt;
+&lt;td&gt;WALL&lt;/td&gt;
+&lt;td&gt;J17&lt;/td&gt;
+&lt;td&gt;VJACK&lt;/td&gt;
+&lt;td&gt;4.5/5/5.5&lt;/td&gt;
+&lt;td&gt;4.0&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Battery/Other&lt;/td&gt;
+&lt;td&gt;BAT&lt;/td&gt;
+&lt;td&gt;JP6,J16&lt;/td&gt;
+&lt;td&gt;VU5V0&lt;/td&gt;
+&lt;td&gt;4.5/5/5.5&lt;/td&gt;
+&lt;td&gt;4.0&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;USB&lt;/td&gt;
+&lt;td&gt;USB&lt;/td&gt;
+&lt;td&gt;J12&lt;/td&gt;
+&lt;td&gt;VBUS&lt;/td&gt;
+&lt;td&gt;See USB specification&lt;/td&gt;
+&lt;td&gt;0.75&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h1 id=&#34;zybo-上电&#34;&gt;ZYBO 上电&lt;/h1&gt;
+&lt;p&gt;在电源接口左侧的拨码开关（&lt;code&gt;SW4&lt;/code&gt;）是电源开关。在选择供电模式之后，将其由 off 拨到 on，观察电源状态指示灯（PGOOD, LD11）。电源状态指示灯亮起，并且稳定（没有闪烁的情况），说明 ZYBO 供电正常。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;注意&lt;/strong&gt;：ZYBO 的很多接口是&lt;strong&gt;不支持热插拔&lt;/strong&gt;的，所以每次要通过板载接口连接外部设备时（例如通过 USB-OTG 接口接 USB 键盘、鼠标等)，请关闭电源后再进行操作。&lt;strong&gt;否则很有可能会导致板卡损毁&lt;/strong&gt;。&lt;/p&gt;
+</description>
+      
     </item>
     
     <item>
       <title>ZYBO Z7 Basics: Overview</title>
       <link>https://preminstrel.github.io/blog/post/2021/10/29/zybo-z7-basics-1/</link>
       <pubDate>Fri, 29 Oct 2021 23:51:59 +0800</pubDate>
-      
+      <author>preminstrel@gmail.com (Hanshi Sun)</author>
       <guid>https://preminstrel.github.io/blog/post/2021/10/29/zybo-z7-basics-1/</guid>
-      <description>最近要在 FPGA 上部署之前的 ECGNet，所以导师给了我一块 Digilent 的 ZYBO Z7-20，搭载 ZYNQ 7020 芯片，让我们自学并实现硬件部署。 Overview Zybo Z7是一款功能丰富、随时</description>
+      
+      <description>&lt;p&gt;最近要在 FPGA 上部署之前的 ECGNet，所以导师给了我一块 Digilent 的 &lt;em&gt;&lt;strong&gt;ZYBO Z7-20&lt;/strong&gt;&lt;/em&gt;，搭载 ZYNQ 7020 芯片，让我们自学并实现硬件部署。&lt;/p&gt;
+&lt;h1 id=&#34;overview&#34;&gt;Overview&lt;/h1&gt;
+&lt;p&gt;Zybo Z7是一款功能丰富、随时可用的嵌入式软件和数字电路开发板，围绕 Xilinx Zynq-7000 系列构建。Zynq系列基于 Xilinx All Programmable System-on-Chip (AP SoC)架构，将双核 ARM Cortex-A9 处理器与 Xilinx 7 系列可编程门阵列(FPGA)逻辑紧密集成。在考虑 FPGA 的灵活性和功率损耗的基础上，Zybo Z7 围绕 Zynq 配备了丰富的多媒体和连接外设，打造了一个强大的单板机。Zybo Z7 的视频功能集，包括 MIPI SCI-2 兼容 Pcam 连接器、HDMI 输入、HDMI 输出和高 DDR3L 带宽，使其成为 Xilinx FPGA 高端嵌入式视觉应用的负担得起的解决方案。通过 Zybo Z7 的 Pmod 连接器，可以方便地附加额外的硬件，允许访问 Digilent 的超过 70 个 Pmod 外设板目录，包括电机控制器，传感器，显示器等等。&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;ZYNQ Processor&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;667 MHz dual-core Cortex-A9 processor&lt;/li&gt;
+&lt;li&gt;DDR3L memory controller with 8 DMA channels and 4 High Performance AXI3 Slave ports&lt;/li&gt;
+&lt;li&gt;High-bandwidth peripheral controllers: 1G Ethernet, USB 2.0, SDIO&lt;/li&gt;
+&lt;li&gt;Low-bandwidth peripheral controllers: SPI, UART, CAN, I2C&lt;/li&gt;
+&lt;li&gt;Programmable from JTAG, Quad-SPI flash, and microSD card&lt;/li&gt;
+&lt;li&gt;Programmable logic equivalent to Artix-7 FPGA&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;Memory&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;1 GB DDR3L with 32-bit bus @ 1066 MHz&lt;/li&gt;
+&lt;li&gt;16 MB Quad-SPI Flash with factory programmed 128-bit random number and 48-bit globally unique EUI-48/64™
+compatible identifier&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;Power&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Powered from USB or any 5V external power source&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;USB and Ethernet&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Gigabit Ethernet PHY&lt;/li&gt;
+&lt;li&gt;USB-JTAG Programming circuitry&lt;/li&gt;
+&lt;li&gt;USB-UART bridge&lt;/li&gt;
+&lt;li&gt;USB 2.0 OTG PHY with host and device support&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;Audio and Video&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Pcam camera connector with MIPI CSI-2 support&lt;/li&gt;
+&lt;li&gt;HDMI sink port (input) with/without CEC&lt;/li&gt;
+&lt;li&gt;HDMI source port (output) with CEC&lt;/li&gt;
+&lt;li&gt;Audio codec with stereo headphone, stereo line-in, and microphone jacks&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;Switches, Pushbuttons, &amp;amp; LEDs&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;6 push-buttons (2 processor connected)&lt;/li&gt;
+&lt;li&gt;4 slide switches&lt;/li&gt;
+&lt;li&gt;5 LEDs (1 processor connected)&lt;/li&gt;
+&lt;li&gt;2 RGB LEDs (1)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;em&gt;&lt;strong&gt;Expansion Connectors&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;6 Pmod ports (5)
+&lt;ul&gt;
+&lt;li&gt;8 Total Processor I/O&lt;/li&gt;
+&lt;li&gt;40 Total FPGA I/O (32)&lt;/li&gt;
+&lt;li&gt;4 Analog capable 01.0V differential pairs to XADC&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div align=center&gt;
+&lt;img src=&#34;https://preminstrel.github.io/blog/img/20211030223155.png&#34; width=&#34;600px&#34; /&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;编号&lt;/th&gt;
+&lt;th&gt;器件名称&lt;/th&gt;
+&lt;th&gt;编号&lt;/th&gt;
+&lt;th&gt;器件名称&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;电源开关&lt;/td&gt;
+&lt;td&gt;17&lt;/td&gt;
+&lt;td&gt;Unique MAC address label&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;供电模式选择跳线&lt;/td&gt;
+&lt;td&gt;18&lt;/td&gt;
+&lt;td&gt;External JTAG port&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;3&lt;/td&gt;
+&lt;td&gt;USB JTAG/USB-UART port&lt;/td&gt;
+&lt;td&gt;19&lt;/td&gt;
+&lt;td&gt;HDMI input port&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;4&lt;/td&gt;
+&lt;td&gt;MIO  User LED(LD4)&lt;/td&gt;
+&lt;td&gt;20&lt;/td&gt;
+&lt;td&gt;Pcam MIPI CSI-2 port&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;5&lt;/td&gt;
+&lt;td&gt;MIO Pmod port&lt;/td&gt;
+&lt;td&gt;21&lt;/td&gt;
+&lt;td&gt;microSD connector (other side)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;6&lt;/td&gt;
+&lt;td&gt;USB 2.0 Host/OTG port&lt;/td&gt;
+&lt;td&gt;22&lt;/td&gt;
+&lt;td&gt;HDMI output port&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;7&lt;/td&gt;
+&lt;td&gt;USB Host power enable jumper&lt;/td&gt;
+&lt;td&gt;23&lt;/td&gt;
+&lt;td&gt;Ethernet port&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;8&lt;/td&gt;
+&lt;td&gt;Standard Pmod port&lt;/td&gt;
+&lt;td&gt;24&lt;/td&gt;
+&lt;td&gt;External power supply connector&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;9&lt;/td&gt;
+&lt;td&gt;User switches (SW0-SW3)&lt;/td&gt;
+&lt;td&gt;25&lt;/td&gt;
+&lt;td&gt;Fan connector (5V, three-wire)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;10&lt;/td&gt;
+&lt;td&gt;User LEDs (LD0-LD3)&lt;/td&gt;
+&lt;td&gt;26&lt;/td&gt;
+&lt;td&gt;Programming mode select jumper&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;11&lt;/td&gt;
+&lt;td&gt;MIO User buttons&lt;/td&gt;
+&lt;td&gt;27&lt;/td&gt;
+&lt;td&gt;Power supply good LED&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;12&lt;/td&gt;
+&lt;td&gt;High-speed Pmod ports (JB, JC, JD)&lt;/td&gt;
+&lt;td&gt;28&lt;/td&gt;
+&lt;td&gt;FPGA programming done LED&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;13&lt;/td&gt;
+&lt;td&gt;User buttons (BTN0-BTN3)&lt;/td&gt;
+&lt;td&gt;29&lt;/td&gt;
+&lt;td&gt;Processor reset button&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;14&lt;/td&gt;
+&lt;td&gt;User RGB LEDs (LD5-LD6)&lt;/td&gt;
+&lt;td&gt;30&lt;/td&gt;
+&lt;td&gt;FPGA clear configuration button&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;15&lt;/td&gt;
+&lt;td&gt;XADC Pmod port&lt;/td&gt;
+&lt;td&gt;31&lt;/td&gt;
+&lt;td&gt;Zynq-7020&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;16&lt;/td&gt;
+&lt;td&gt;Audio codec ports&lt;/td&gt;
+&lt;td&gt;32&lt;/td&gt;
+&lt;td&gt;DDR3L Memory&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h1 id=&#34;zynq-apsoc-architecture&#34;&gt;Zynq APSoC Architecture&lt;/h1&gt;
+&lt;p&gt;Zynq APSoC 分为两个不同的子系统：处理系统(&lt;em&gt;&lt;strong&gt;PS&lt;/strong&gt;&lt;/em&gt;)和可编程逻辑(&lt;em&gt;&lt;strong&gt;PL&lt;/strong&gt;&lt;/em&gt;)。下图展示了 Zynq APSoC 架构的概述，其中 PS 为浅绿色，PL 为黄色。需要注意的是，Zynq-7020 和 Zynq-7010 设备上没有 PCIe Gen2 控制器和千兆收发器。&lt;/p&gt;
+&lt;div align=center&gt;
+&lt;img src=&#34;https://preminstrel.github.io/blog/img/20211030232502.png&#34; width=&#34;400px&#34; /&gt;
+&lt;/div&gt;
+&lt;p&gt;PL 和 Xilinx 7 系的 Artix FPGA 几乎一模一样，除了它包含几个紧密结合 PS 的专用接口和总线。PL 也不包含和典型 7 系 FPGA 相同的配置硬件，它必须直接由处理器或通过 JTAG 端口进行配置。&lt;/p&gt;
+&lt;p&gt;PS 由许多组件组成，包括应用处理单元(APU，包括 2 个 Cortex-A9 处理器)、高级微控制器总线架构(AMBA)互连、DDR3 内存控制器和各种外设控制器，它们的输入和输出复用到 54 个专用引脚(称为复用 I/O，或 MIO 引脚)。没有将其输入和输出连接到 MIO 引脚的外围控制器可以通过 PL，通过扩展 MIO (EMIO) 接口路由其 I/O。外围控制器通过 AMBA 互连连接到处理器作为 slaves，并包含可在处理器内存空间寻址的可读/可写控制寄存器。可编程逻辑也作为一个从属连接到互连，设计可以在 FPGA fabric 中实现多个核，每个核也包含可寻址的控制寄存器。此外，在 PL 中实现的核心可以触发对处理器的中断，并执行对 DDR3 内存的 DMA 访问。&lt;/p&gt;
+</description>
+      
     </item>
     
     <item>
       <title>Vivado ILA</title>
       <link>https://preminstrel.github.io/blog/post/2021/10/18/vivado-ila/</link>
       <pubDate>Mon, 18 Oct 2021 20:05:26 +0800</pubDate>
-      
+      <author>preminstrel@gmail.com (Hanshi Sun)</author>
       <guid>https://preminstrel.github.io/blog/post/2021/10/18/vivado-ila/</guid>
-      <description>进行 FPGA 开发的过程中，在逻辑代码上板运行前都会进行仿真验证，而 EDA 仿真工具（如Modelsim等）的使用更是可以可以让工程师提早发现工程中出现的</description>
+      
+      <description>&lt;p&gt;进行 FPGA 开发的过程中，在逻辑代码上板运行前都会进行&lt;strong&gt;仿真验证&lt;/strong&gt;，而 EDA 仿真工具（如Modelsim等）的使用更是可以可以让工程师提早发现工程中出现的一些错误。&lt;/p&gt;
+&lt;p&gt;但这&lt;strong&gt;并不代表&lt;/strong&gt;经过仿真工具验证后的设计就能够达到预期。事实上，在上板运行时仍有可能遇到各种各样的问题。使用仿真工具进行验证的时候所设计 Testbench 的激励输入有时不能囊括一切可能发生的情况，并且由于软件仿真与实际硬件之间总是存在着细微的差别，诸如此类的原因导致工程师在上板运行时仍会发现各种设计问题。而很多情况下，在 FPGA 实时运行中需要查看某些信号，因此需要一个&lt;strong&gt;实时的信号分析工具获取 FPGA 内部的实时信号从而进行调试分析&lt;/strong&gt;，于是我们便用到了 Vivado 里面的 ILA。&lt;/p&gt;
+&lt;p&gt;ILA 是 Vivado 软件里包含的一款&lt;strong&gt;可定制集成逻辑分析器 (ILA) IP 核&lt;/strong&gt;，是一款逻辑分析器内核， 可用于监控设计中的内部信号。ILA 内核包括现代逻辑分析器的大量高级特性，如布尔触发器方程式以及边缘过渡触发器。ILA 也是 Vivado 里最常用的工具，需要我们熟练掌握。&lt;/p&gt;
+&lt;h1 id=&#34;basic-concepts&#34;&gt;Basic Concepts&lt;/h1&gt;
+&lt;p&gt;在调试过程中，某些需要观察分析的信号被称为&lt;strong&gt;被测信号&lt;/strong&gt;，可以存在多个被测信号。&lt;/p&gt;
+&lt;p&gt;ILA 的基本工作过程如下：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;以被测信号为对象，根据需要设置合理的触发条件，在触发条件满足时的前后一段时间，每个采样时钟的上升沿会对被测信号进行一次采集，并将采集的信号值存储在内部的 RAM 中。&lt;/li&gt;
+&lt;li&gt;工程师可以指定触发条件前后采多少个样点，如果 RAM 比较大，则 可以保存比较多的数据。反之，如果 RAM比较小，那么保存的数据自然比较少，RAM 大小决定了观察数据的多少。&lt;/li&gt;
+&lt;li&gt;最后 ILA 将读出 RAM 中的数据并逐个在显示器中显示出来，因此 ILA 观测到的都是&lt;strong&gt;理想的，没有毛刺的信号&lt;/strong&gt;，工程师可以在显示器中观测信号，从而达到对信号进行在线调试分析的目的。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&#34;usage&#34;&gt;Usage&lt;/h1&gt;
+&lt;p&gt;To be continued&amp;hellip;&lt;/p&gt;
+</description>
+      
     </item>
     
     <item>
       <title>Vivado Basics</title>
       <link>https://preminstrel.github.io/blog/post/2021/10/17/vivado-basics/</link>
       <pubDate>Sun, 17 Oct 2021 17:03:41 +0800</pubDate>
-      
+      <author>preminstrel@gmail.com (Hanshi Sun)</author>
       <guid>https://preminstrel.github.io/blog/post/2021/10/17/vivado-basics/</guid>
-      <description>在学习 FPGA 的过程中，我们需要用到 Vivado软件，这里我用的是 Vivado2021.1版本的软件。一般来说， FPGA 开发的流程分为以下几个部分来实现</description>
+      
+      <description>&lt;p&gt;在学习 FPGA 的过程中，我们需要用到 Vivado软件，这里我用的是 Vivado2021.1版本的软件。一般来说， FPGA 开发的流程分为以下几个部分来实现。&lt;/p&gt;
+&lt;div class=&#34;mermaid&#34;&gt;
+graph LR
+    id1(Create Project)--&gt;id2(Code)--&gt;id3(Complie)--&gt;id4(Assign Pins)--&gt;id5(Program Device)--&gt;id6(Debug)--&gt;id7(Program Flash)
+    id6-.-&gt;id2
+&lt;/div&gt;
+&lt;h3 id=&#34;create-project&#34;&gt;Create Project&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Project Name&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;可以新建一个工程，注意，location 中可以选择 &lt;code&gt;create project subdirectory&lt;/code&gt; 来创建存放工程的文件夹，这一步的引导比较简单。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Project Type&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;选择 &lt;code&gt;RTL Project&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Add Sources&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;我们可以将之前已经写好的 Verilog 等文件加进工程中。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Default Part&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;选择合适的芯片型号&lt;/p&gt;
+&lt;h3 id=&#34;code&#34;&gt;Code&lt;/h3&gt;
+&lt;p&gt;这里用 Verilog 写代码，编辑器建议用 VS Code。设计了一个双路灯控电路&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-verilog&#34; data-lang=&#34;verilog&#34;&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;module&lt;/span&gt; light(
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;input&lt;/span&gt; x1,
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;input&lt;/span&gt; x2,
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;output&lt;/span&gt; f
+);
+
+&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;assign&lt;/span&gt; f &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; (x1 &lt;span style=&#34;color:#666&#34;&gt;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;~&lt;/span&gt;x2) &lt;span style=&#34;color:#666&#34;&gt;|&lt;/span&gt; (&lt;span style=&#34;color:#666&#34;&gt;~&lt;/span&gt;x1 &lt;span style=&#34;color:#666&#34;&gt;&amp;amp;&lt;/span&gt; x2)
+        
+&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;endmodule&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;写完代码后直接 &lt;code&gt;Add Sources&lt;/code&gt; 添加文件即可。&lt;/p&gt;
+&lt;h3 id=&#34;compile&#34;&gt;Compile&lt;/h3&gt;
+&lt;p&gt;设计完整个工程之后，要经过 Vivado 软件中几个工具的处理，分别是&lt;strong&gt;分析代码、综合电路以及生成目标芯片&lt;/strong&gt;的实现内容。这些应用工具被聚集在一起，统称为编译器。&lt;/p&gt;
+&lt;div class=&#34;mermaid&#34;&gt;
+graph LR
+    id1(Run Synthesis)--&gt;id2(Run Implementation)--&gt;id3(Generate Bitstream)
+&lt;/div&gt;
+&lt;p&gt;如果工程编译不通过，那么信息栏里就会提示报 Bug。建议&lt;strong&gt;查阅 &lt;em&gt;Log&lt;/em&gt; 一栏下的报错信息&lt;/strong&gt;，因为 Log 一栏下的信息打印是按&lt;strong&gt;顺序&lt;/strong&gt;来进行的，那么在进行问题定位的时候就方便查找第一个报错的信息。一般来说， 往往后面顺序的信息很多都是由于第一个报错原因导致的，所以解决了第一个报错问题，基本上就可以同时解决其它的报错问题了。要注意的是，&lt;strong&gt;报错信息栏里的提示不会随时更新，它的信息是过时的&lt;/strong&gt;，在解决了某些问题或者修改了代码后请&lt;strong&gt;重新编译更新信息状态栏&lt;/strong&gt;。&lt;/p&gt;
+&lt;h3 id=&#34;assign-pins&#34;&gt;Assign Pins&lt;/h3&gt;
+&lt;p&gt;Vivado 需要先对工程进行编译再进行管脚配置，编译完后 ，在左侧工具栏中选 中 &lt;code&gt;IMPLEMENTATION&lt;/code&gt;，然后选择 &lt;code&gt;Open Implemented Design&lt;/code&gt;，在随后跳转的窗口右上角选择切换到 &lt;code&gt;I/O Planning&lt;/code&gt;，开始管脚配置。&lt;/p&gt;
+&lt;p&gt;配置完成后，保存管脚配置信息，命名管脚约束文件名后， 点击 &lt;code&gt;OK&lt;/code&gt; 生成管脚约束文件。&lt;/p&gt;
+&lt;h3 id=&#34;program-device&#34;&gt;Program Device&lt;/h3&gt;
+&lt;p&gt;引脚分配完毕之后，需要重新进行一次&lt;strong&gt;全编译&lt;/strong&gt;。当全编译通过后 Vivado 软件即可生成可以烧录到 FPGA 中的配置文件。将下载器 USB-Blaster 与 FPGA 开发板进行连接，打开 FPGA 开发板电源后回到 Vivado 主界面，在左侧工具栏 &lt;code&gt;PROGRAM AND DEGUG&lt;/code&gt; 下展开 &lt;code&gt;Open Hardware Manager&lt;/code&gt;，点击 &lt;code&gt;Open Target&lt;/code&gt;，选择选项 &lt;code&gt;Auto Connect&lt;/code&gt;，连接下载器。&lt;/p&gt;
+&lt;p&gt;在左侧工具栏 &lt;code&gt;PROGRAM AND DEGUG&lt;/code&gt; 下展开 &lt;code&gt;Open Hardware Manager&lt;/code&gt;，点击 &lt;code&gt;Program Device&lt;/code&gt;，选择相应的型号，打开下载界面。&lt;/p&gt;
+&lt;h3 id=&#34;debug&#34;&gt;Debug&lt;/h3&gt;
+&lt;p&gt;下载完毕后即可进行电路的测试，我们可以利用 ILA 工具进行问题的定位和错误的排查。&lt;/p&gt;
+&lt;h3 id=&#34;program-flash&#34;&gt;Program Flash&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;在 Vivado 软件里找到 &lt;code&gt;Settings&lt;/code&gt; 设置选项，进入后点击 &lt;code&gt;Bitstream&lt;/code&gt; 选项，将 &lt;code&gt;bin_file&lt;/code&gt; 勾选。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;点击 &lt;code&gt;Generate Bitstream&lt;/code&gt;，生成 &lt;code&gt;bit&lt;/code&gt; 文件和 &lt;code&gt;bin&lt;/code&gt; 文件。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;开发板上电，点击 &lt;code&gt;Open Hardware Manager——Open Target——Auto Connect&lt;/code&gt;，连接板子。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;在 &lt;code&gt;Hardware&lt;/code&gt; 面板中右击 FPGA 器件，选择 &lt;code&gt;Add Configuration Memery Device&lt;/code&gt;。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;在弹出的添加配置存储器的界面中，找到板载的 &lt;code&gt;Flash&lt;/code&gt; 存储器型号，完成添加。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;找到二进制 &lt;code&gt;bin&lt;/code&gt; 文件（&lt;code&gt;project_name\project_name.runs\impl_1\xxx.bin&lt;/code&gt;），选中进行代码烧写，实现上电自启动，完成程序固化。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;下载完成，断电重上电后运行的就是固化的程序。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+      
     </item>
     
   </channel>

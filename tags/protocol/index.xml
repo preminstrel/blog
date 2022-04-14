@@ -1,59 +1,479 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Protocol on Preminstrel&#39;s Blog</title>
+    <title>Protocol on Blog de Preminstrel</title>
     <link>https://preminstrel.github.io/blog/tags/protocol/</link>
-    <description>Recent content in Protocol on Preminstrel&#39;s Blog</description>
+    <description>Recent content in Protocol on Blog de Preminstrel</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 28 Oct 2021 23:20:54 +0800</lastBuildDate>
-    
-	<atom:link href="https://preminstrel.github.io/blog/tags/protocol/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <managingEditor>preminstrel@gmail.com (Hanshi Sun)</managingEditor>
+    <webMaster>preminstrel@gmail.com (Hanshi Sun)</webMaster>
+    <lastBuildDate>Thu, 28 Oct 2021 23:20:54 +0800</lastBuildDate><atom:link href="https://preminstrel.github.io/blog/tags/protocol/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>I2S</title>
       <link>https://preminstrel.github.io/blog/post/2021/10/28/i2s/</link>
       <pubDate>Thu, 28 Oct 2021 23:20:54 +0800</pubDate>
-      
+      <author>preminstrel@gmail.com (Hanshi Sun)</author>
       <guid>https://preminstrel.github.io/blog/post/2021/10/28/i2s/</guid>
-      <description>I2S（Inter-IC Sound）总线, 又称集成电路内置音频总线，是飞利浦半导体公司(现为恩智浦半导体公司)针对数字音频设备之间的音频数据</description>
+      
+      <description>&lt;p&gt;I2S（&lt;em&gt;&lt;strong&gt;Inter-IC Sound&lt;/strong&gt;&lt;/em&gt;）总线, 又称集成电路内置音频总线，是飞利浦半导体公司(现为恩智浦半导体公司)针对数字音频设备之间的音频数据传输而制定的一种总线标准。该总线专门用于音频设备之间的数据传输，广泛应用于各种多媒体系统。它采用了沿独立的导线传输时钟与数据信号的设计，通过将数据和时钟信号分离，避免了因时差诱发的失真，为用户节省了购买抵抗音频抖动的专业设备的费用。&lt;/p&gt;
+&lt;h1 id=&#34;物理硬件层&#34;&gt;物理硬件层&lt;/h1&gt;
+&lt;p&gt;I2S总线主要有3个信号线：&lt;/p&gt;
+&lt;p&gt;(1).串行时钟SCK 串行时钟SCK，也叫位时钟BCLK，对应数字音频的每一位数据，SCK都有1个脉冲。&lt;strong&gt;SCK的频率 = 声道数 $*$&lt;/strong&gt; &lt;strong&gt;采样频率 $*$ 采样位数&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;(2).字段选择信号WS 字段选择信号WS，也叫LRCLK，用于切换左右声道的数据。&lt;strong&gt;WS的频率 = 采样频率&lt;/strong&gt;。 字段选择信号WS表明了正在被传输的声道。I2S Philips标准WS信号的电平含义如下： WS为0，表示正在传输的是左声道的数据； WS为1，表示正在传输的是右声道的数据。&lt;/p&gt;
+&lt;p&gt;(3).串行数据SD 串行数据SD，就是用二进制补码表示的音频数据。I2S串行数据在传输的时候，由高位(MSB)到低位(LSB)依次进行传输。&lt;/p&gt;
+&lt;p&gt;(4).主时钟MCLK 一般还有MCLK，主时钟。&lt;strong&gt;MCLK的频率 = 128或者256或者512 $*$ 采样频率&lt;/strong&gt;。 对于系统而言，能够产生SCK和WS的信号端就是主设备，用MASTER表示，简单系统示意图如下&lt;/p&gt;
+&lt;div align=center&gt;
+&lt;img src=&#34;https://preminstrel.github.io/blog/img/1572698569294149.png&#34; width=&#34;700px&#34; /&gt;
+&lt;/div&gt;
+&lt;h1 id=&#34;软件协议层&#34;&gt;软件协议层&lt;/h1&gt;
+&lt;p&gt;随着技术的发展，在统一的I2S硬件接口下，出现了多种不同的I2S数据格式，可分为左对齐(MSB)标准、右对齐(LSB)标准、I2S Philips 标准。 对于所有数据格式和通信标准而言，始终会先发送最高有效位(MSB 优先)。 发送端和接收端必须使用相同的数据格式，确保发送和接收的数据一致。&lt;/p&gt;
+&lt;h2 id=&#34;i2s-philips-标准&#34;&gt;I2S Philips 标准&lt;/h2&gt;
+&lt;p&gt;使用LRCLK信号来指示当前正在发送的数据所属的声道，为0时表示左声道数据。LRCLK信号从当前声道数据的第一个位(MSB)之前的一个时钟开始有效。LRCLK信号在BCLK的下降沿变化。发送方在时钟信号BCLK的下降沿改变数据，接收方在时钟信号BCLK的上升沿读取数据。正如上文所说，LRCLK频率等于采样频率Fs，一个LRCLK周期(1/Fs)包括发送左声道和右声道数据。&lt;/p&gt;
+&lt;p&gt;对于这种标准I2S格式的信号，无论有多少位有效数据，数据的最高位总是出现在LRCLK变化（也就是一帧开始）后的第2个BCLK脉冲处。这就使得接收端与发送端的有效位数可以不同。如果接收端能处理的有效位数少于发送端，可以放弃数据帧中多余的低位数据；如果接收端能处理的有效位数多于发送端，可以自行补足剩余的位。这种同步机制使得数字音频设备的互连更加方便，而且不会造成数据错位。 I2S Philips 标准时序图如下所示：&lt;/p&gt;
+&lt;div align=center&gt;
+&lt;img src=&#34;https://preminstrel.github.io/blog/img/1572698570790276.png&#34; width=&#34;700px&#34; /&gt;
+&lt;/div&gt;
+&lt;h2 id=&#34;左对齐msb标准&#34;&gt;左对齐(MSB)标准&lt;/h2&gt;
+&lt;p&gt;在LRCLK发生翻转的同时开始传输数据。该标准较少使用。注意此时LRCLK为1时，传输的是左声道数据，这刚好与I2S Philips标准相反。左对齐(MSB)标准时序图如下所示：&lt;/p&gt;
+&lt;div align=center&gt;
+&lt;img src=&#34;https://preminstrel.github.io/blog/img/1572698574242057.png&#34; width=&#34;700px&#34; /&gt;
+&lt;/div&gt;
+&lt;h2 id=&#34;右对齐lsb标准&#34;&gt;右对齐(LSB)标准&lt;/h2&gt;
+&lt;p&gt;声音数据LSB传输完成的同时，LRCLK完成第二次翻转（刚好是LSB和LRCLK是右对齐的，所以称为右对齐标准）。注意此时LRCLK为1时，传输的是左声道数据，这刚好与I2S Philips标准相反。右对齐(LSB)标准时序图如下所示：&lt;/p&gt;
+&lt;div align=center&gt;
+&lt;img src=&#34;https://preminstrel.github.io/blog/img/1572698573117756.png&#34; width=&#34;700px&#34; /&gt;
+&lt;/div&gt;
+&lt;h1 id=&#34;reference&#34;&gt;Reference&lt;/h1&gt;
+&lt;p&gt;&lt;a href=&#34;http://www.only2fire.com/archives/108.html&#34;&gt;I2S协议&lt;/a&gt;&lt;/p&gt;
+</description>
+      
     </item>
     
     <item>
       <title>I2C</title>
       <link>https://preminstrel.github.io/blog/post/2021/10/28/i2c/</link>
       <pubDate>Thu, 28 Oct 2021 23:12:31 +0800</pubDate>
-      
+      <author>preminstrel@gmail.com (Hanshi Sun)</author>
       <guid>https://preminstrel.github.io/blog/post/2021/10/28/i2c/</guid>
-      <description>I2C 通讯协议（Inter-Integrated Circuit）是由 Phiilps 公司开发的，由于它引脚少，硬件实现简单，可扩展性强，不需要 USART、CA</description>
+      
+      <description>&lt;p&gt;I2C 通讯协议（&lt;em&gt;&lt;strong&gt;Inter-Integrated Circuit&lt;/strong&gt;&lt;/em&gt;）是由 Phiilps 公司开发的，由于它引脚少，硬件实现简单，可扩展性强，不需要 USART、CAN 等通讯协议的外部收发设备，现在被广泛地使用在系统内多个集成电路(IC)间的通讯。&lt;/p&gt;
+&lt;p&gt;在计算机科学里，大部分复杂的问题都可以通过分层来简化。如芯片被分为内核层和片上外设；STM32 标准库则是在寄存器与用户代码之间的软件层。对于通讯协议，我们也以分层的方式来理解，最基本的是把它分为物理层和协议层。物理层规定通讯系统中具有机械、电子功能部分的特性，确保原始数据在物理媒体的传输。协议层主要规定通讯逻辑，统一收发双方的数据打包、解包标准。&lt;/p&gt;
+&lt;h1 id=&#34;物理层硬件拓扑&#34;&gt;物理层硬件拓扑&lt;/h1&gt;
+&lt;p&gt;它的物理层有如下特点：&lt;/p&gt;
+&lt;p&gt;(1) 它是一个支持设备的总线。“总线”指多个设备共用的信号线。在一个 I2C 通讯总线中，可连接多个 I2C 通讯设备，支持多个通讯主机及多个通讯从机。&lt;/p&gt;
+&lt;p&gt;(2) 一个 I2C 总线只使用两条总线线路，一条双向串行数据线(SDA) ，一条串行时钟线 (SCL)。数据线即用来表示数据，时钟线用于数据收发同步。&lt;/p&gt;
+&lt;p&gt;(3) 每个连接到总线的设备都有一个独立的地址，主机可以利用这个地址进行不同设备之间的访问。&lt;/p&gt;
+&lt;p&gt;(4) 总线通过上拉电阻接到电源。当 I2C 设备空闲时，会输出高阻态，而当所有设备都空闲，都输出高阻态时，由上拉电阻把总线拉成高电平。&lt;/p&gt;
+&lt;p&gt;(5) 多个主机同时使用总线时，为了防止数据冲突，会利用仲裁方式决定由哪个设备占用总线。&lt;/p&gt;
+&lt;p&gt;(6) 具有三种传输模式：标准模式传输速率为 100kbit/s ，快速模式为 400kbit/s ，高速模式下可达 3.4Mbit/s，但目前大多 I 2C 设备尚不支持高速模式。&lt;/p&gt;
+&lt;p&gt;(7) 连接到相同总线的 IC 数量受到总线的最大电容 400pF 限制 。&lt;/p&gt;
+&lt;div align=center&gt;
+&lt;img src=&#34;https://preminstrel.github.io/blog/img/20201219113846689.png&#34; width=&#34;300px&#34; /&gt;
+&lt;/div&gt;
+&lt;h1 id=&#34;软件协议层&#34;&gt;软件协议层&lt;/h1&gt;
+&lt;h2 id=&#34;i2c-基本读写过程&#34;&gt;I2C 基本读写过程&lt;/h2&gt;
+&lt;p&gt;I2C 的协议定义了通讯的起始和停止信号、数据有效性、响应、仲裁、时钟同步和地址广播等环节。&lt;/p&gt;
+&lt;div align=center&gt;
+&lt;img src=&#34;https://preminstrel.github.io/blog/img/20180503110807692.png&#34; width=&#34;600px&#34; /&gt;
+&lt;/div&gt;
+&lt;div align=center&gt;
+&lt;img src=&#34;https://preminstrel.github.io/blog/img/20180503110808764.png&#34; width=&#34;600px&#34; /&gt;
+&lt;/div&gt;
+&lt;p&gt;其中 S 表示由主机的 I2C 接口产生的传输起始信号(S)，这时连接到 I2C 总线上的所有从机都会接收到这个信号。&lt;/p&gt;
+&lt;p&gt;起始信号产生后，所有从机就开始等待主机紧接下来 广播 的从机地址信号 (SLAVE_ADDRESS)。在 I2C 总线上，每个设备的地址都是唯一的，当主机广播的地址与某个设备地址相同时，这个设备就被选中了，没被选中的设备将会忽略之后的数据信号。根据 I2C 协议，这个从机地址可以是 7 位或 10 位。&lt;/p&gt;
+&lt;p&gt;在地址位之后，是传输方向的选择位，该位为 0 时，表示后面的数据传输方向是由主机传输至从机，即主机向从机写数据。该位为 1 时，则相反，即主机由从机读数据。&lt;/p&gt;
+&lt;p&gt;从机接收到匹配的地址后，主机或从机会返回一个应答(ACK)或非应答(NACK)信号，只有接收到应答信号后，主机才能继续发送或接收数据。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;写数据&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;若配置的方向传输位为“写数据”方向，即第一幅图的情况，广播完地址，接收到应答信号后，主机开始正式向从机传输数据(DATA)，数据包的大小为 8 位，主机每发送完一个字节数据，都要等待从机的应答信号(ACK)，重复这个过程，可以向从机传输 N 个数据，这个 N 没有大小限制。当数据传输结束时，主机向从机发送一个停止传输信号(P)，表示不再传输数据。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;读数据&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;若配置的方向传输位为“读数据”方向，即第二幅图的情况，广播完地址，接收到应答信号后，从机开始向主机返回数据(DATA)，数据包大小也为 8 位，从机每发送完一个数据，都会等待主机的应答信号(ACK)，重复这个过程，可以返回 N 个数据，这个 N 也没有大小限制。当主机希望停止接收数据时，就向从机返回一个非应答信号(NACK)，则从机自动停止数据传输。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;读和写数据&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;除了基本的读写，I2C 通讯更常用的是复合格式，即第三幅图的情况，该传输过程有两次起始信号(S)。一般在第一次传输中，主机通 SLAVE_ADDRESS 寻找到从设备后，发送一段“数据”，这段数据通常用于表示从设备内部的寄存器或存储器地址(注意区分它与 SLAVE_ADDRESS 的区别)；在第二次的传输中，对该地址的内容进行读或写。也就是说，第一次通讯是告诉从机读写地址，第二次则是读写的实际内容。&lt;/p&gt;
+&lt;p&gt;以上通讯流程中包含的各个信号分解如下：&lt;/p&gt;
+&lt;h2 id=&#34;通讯的起始和停止信号&#34;&gt;通讯的起始和停止信号&lt;/h2&gt;
+&lt;p&gt;前文中提到的起始(S)和停止(P)信号是两种特殊的状态，如图。当 SCL 线是高电平时 SDA 线从高电平向低电平切换，这个情况表示通讯的起始。当 SCL 是高电平时 SDA 线由低电平向高电平切换，表示通讯的停止。起始和停止信号一般由主机产生。&lt;/p&gt;
+&lt;div align=center&gt;
+&lt;img src=&#34;https://preminstrel.github.io/blog/img/20180503110809562.png&#34; width=&#34;600px&#34; /&gt;
+&lt;/div&gt;
+&lt;h2 id=&#34;数据有效性&#34;&gt;数据有效性&lt;/h2&gt;
+&lt;p&gt;I2C 使用 SDA 信号线来传输数据，使用 SCL 信号线进行数据同步。如图，SDA 数据线在 SCL 的每个时钟周期传输一位数据。传输时，SCL 为高电平的时候 SDA 表示的数据有效，即此时的 SDA 为高电平时表示数据“1”，为低电平时表示数据“0”。当 SCL 为低电平时，SDA 的数据无效，一般在这个时候 SDA 进行电平切换，为下一次表示数据做好准备。&lt;/p&gt;
+&lt;div align=center&gt;
+&lt;img src=&#34;https://preminstrel.github.io/blog/img/20180503110810884.png&#34; width=&#34;600px&#34; /&gt;
+&lt;/div&gt;
+&lt;h2 id=&#34;地址及数据方向&#34;&gt;地址及数据方向&lt;/h2&gt;
+&lt;p&gt;I2C 总线上的每个设备都有自己的独立地址，主机发起通讯时，通过 SDA 信号线发送设备地址(SLAVE_ADDRESS)来查找从机。I2C 协议规定设备地址可以是 7 位或 10 位，实际中 7 位的地址应用比较广泛。紧跟设备地址的一个数据位用来表示数据传输方向，它是数据方向位(R/W —— )，第 8 位或第 11 位。数据方向位为“1”时表示主机由从机读数据，该位为“0”时表示主机向从机写数据。&lt;/p&gt;
+&lt;div align=center&gt;
+&lt;img src=&#34;https://preminstrel.github.io/blog/img/20180503110811781.png&#34; width=&#34;600px&#34; /&gt;
+&lt;/div&gt;
+&lt;h2 id=&#34;响应&#34;&gt;响应&lt;/h2&gt;
+&lt;p&gt;I2C 的数据和地址传输都带响应。响应包括“应答(ACK)”和“非应答(NACK)”两种信号。作为数据接收端时，当设备(无论主从机)接收到 I2C 传输的一个字节数据或地址后，若希望对方继续发送数据，则需要向对方发送“应答(ACK)”信号，发送方会继续发送下一个数据；若接收端希望结束数据传输，则向对方发送“非应答(NACK)”信号，发送方接收到该信号后会产生一个停止信号，结束信号传输，如图。&lt;/p&gt;
+&lt;div align=center&gt;
+&lt;img src=&#34;https://preminstrel.github.io/blog/img/20180503110812845.png&#34; width=&#34;700px&#34; /&gt;
+&lt;/div&gt;
+&lt;h1 id=&#34;软件-i2c-和硬件-i2c&#34;&gt;软件 I2C 和硬件 I2C&lt;/h1&gt;
+&lt;p&gt;想要控制 STM32 产生 I2C 方式的通讯，可以采用软件模拟或硬件 I2C 这两种方式。&lt;/p&gt;
+&lt;p&gt;所谓软件模拟，即直接使用 CPU 内核按照 I2C 协议的要求控制 GPIO 输出高低电平。如控制产生 I2C 的起始信号时，见图 24-5，先控制作为 SCL 线的 GPIO 引脚输出高电平，然后控制作为 SDA 线的 GPIO 引脚在此期间完成由高电平至低电平的切换，最后再控制 SCL 线切换为低电平，这样就输出了一个标准的 I2C 起始信号。&lt;/p&gt;
+&lt;p&gt;而硬件 I2C 是指直接利用 STM32 芯片中的硬件 I2C 外设，该硬件 I2C 外设跟 USART 串口外设类似，只要配置好对应的寄存器，外设就会产生标准串口协议的时序。使用它的 I2C 外设则可以方便地通过外设寄存器产生 I2C 协议方式的通讯，如初始化好 I2C 外设后，只需要把某寄存器位置 1，那么外设就会控制对应的 SCL 及 SDA 线自动产生 I2C 起始信号，而不需要内核直接控制引脚的电平。&lt;/p&gt;
+&lt;p&gt;相对来说，硬件 I2C 直接使用外设来控制引脚，可以减轻 CPU 的负担。不过使用硬件 I2C 时必须使用某些固定的引脚作为 SCL 和 SDA，软件模拟 I2C 则可以使用任意 GPIO 引脚，相对比较灵活。在本开发板中，由于 STM32RCT6 芯片引脚较少，资源比较紧张，在设计硬件时不方便使用硬件 I2C 指定的引脚连接外部设备（EEPROM 存储器芯片），所以在控制程序上只能使用软件模拟 I2C 的方式。&lt;/p&gt;
+</description>
+      
     </item>
     
     <item>
       <title>SPI</title>
       <link>https://preminstrel.github.io/blog/post/2021/10/28/spi/</link>
       <pubDate>Thu, 28 Oct 2021 22:58:28 +0800</pubDate>
-      
+      <author>preminstrel@gmail.com (Hanshi Sun)</author>
       <guid>https://preminstrel.github.io/blog/post/2021/10/28/spi/</guid>
-      <description>SPI（Serial Peripheral Interface）总线是主要应用于嵌入式系统内部通信的串行同步传输总线协议。通常为四线制的SPI总线支持全双工通信。</description>
+      
+      <description>&lt;p&gt;SPI（&lt;em&gt;&lt;strong&gt;Serial Peripheral Interface&lt;/strong&gt;&lt;/em&gt;）总线是主要应用于嵌入式系统内部通信的串行同步传输总线协议。通常为&lt;strong&gt;四线制&lt;/strong&gt;的SPI总线支持&lt;strong&gt;全双工通信&lt;/strong&gt;。SPI最初由Motorola在2000年提出，Motorola所定义的SPI标准为业界广泛引用，但不同半导体公司的实施细节可能有所不同，这些区别体现在寄存器设置、信号定义、数据格式等。业界没有统一的SPI标准，具体应用需要参考特定器件手册。&lt;/p&gt;
+&lt;p&gt;SPI协议特点包括主从模式、全双工通信、片选功能、模式错误标识及CPU中断、缓冲数据寄存器和可配置时钟相位极性等。SPI允许数据一位一位的传送，甚至允许暂停，因为SCK时钟线由主控设备控制，当没有时钟跳变时，从设备不采集或传送数据。也就是说，主设备通过对SCK时钟线的控制可以完成对通讯的控制。&lt;/p&gt;
+&lt;h1 id=&#34;物理层硬件拓扑&#34;&gt;物理层硬件拓扑&lt;/h1&gt;
+&lt;p&gt;SPI总线定义两个及以上设备间的数据传输，提供时钟的设备为主设备（Master），接收时钟的设备为从设备（Slave）。&lt;/p&gt;
+&lt;p&gt;SPI协议定义四根信号线，分别为：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;SCK&lt;/strong&gt; : Serial Clock 串行时钟&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;时钟信号线，用于通讯数据同步。它由通讯主机产生，决定了通讯的速率，不同的设备支持的最高时钟频率不一样，如 STM32 的 SPI 时钟频率最大为fpclk/2，两个设备之间通讯时，通讯速率受限于低速设备。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;MOSI&lt;/strong&gt; : Master Output, Slave Input 主发从收信号&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;主设备输出/从设备输入引脚。主机的数据从这条信号线输出，从机由这条信号线读入主机发送的数据，即这条线上数据的方向为主机到从机。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;MISO&lt;/strong&gt; : Master Input, Slave Output 主收从发信号&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;主设备输入/从设备输出引脚。主机从这条信号线读入数据，从机的数据由这条信号线输出到主机，即在这条线上数据的方向为从机到主机。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;SS&lt;/strong&gt; : Slave Select 片选信号&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;从设备选择信号线，常称为片选信号线，也称为 NSS、 CS，以下用 NSS 表示。 当有多个 SPI 从设备与 SPI 主机相连时，设备的其它信号线 SCK、MOSI 及 MISO 同时并联到相同的 SPI 总线上，即无论有多少个从设备，都共同只使用这 3 条总线；而每个从设备都有独立的这一条 NSS 信号线，本信号线独占主机的一个引脚，即有多少个从设备，就有多少条片选信号线。 I2C 协议中通过设备地址来寻址、选中总线上的某个设备并与其进行通讯；而 SPI 协议中没有设备地址，它使用 NSS 信号线来寻址，当主机要选择从设备时，把该从设备的 NSS 信号线设置为低电平，该从设备即被选中，即片选有效，接着主机开始与被选中的从设备进行 SPI 通讯。所以SPI 通讯以 NSS 线置低电平为开始信号，以 NSS 线被拉高作为结束信号。&lt;/p&gt;
+&lt;p&gt;其中MISO方向为从设备到主设备，其余三个信号均为主设备到从设备。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;说明：&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;对于主设备，如果设置SS作为从设备的片选信号（最常用的场合），则它就不能用于多主设备应用的模式错误检测（参考SSOE和MODFEN寄存器设置，表1）&lt;/li&gt;
+&lt;li&gt;SPI单个数据管脚支持双向模式。在双向模式下，主设备的MOSI，从设备的MISO作为双向IO&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;下图表示基本的SPI设备连接示意图。片选信号SS通常低电平有效。SPI数据传输原理是基于主从设备内部&lt;strong&gt;移位寄存器&lt;/strong&gt;的数据交换。在主设备SCK的控制下，待传数据由各自设备的&lt;strong&gt;数据寄存器&lt;/strong&gt;（Data Register）传输到&lt;strong&gt;移位寄存器&lt;/strong&gt;（Shift Register），再通过MOSI和MISO信号线完成主从设备间的数据交换。&lt;/p&gt;
+&lt;div align=center&gt;
+&lt;img src=&#34;https://preminstrel.github.io/blog/img/20211027084101.png&#34; width=&#34;600px&#34; /&gt;
+&lt;/div&gt;
+&lt;p&gt;主从设备间数据交换逻辑示意图如下图所示：&lt;/p&gt;
+&lt;div align=center&gt;
+&lt;img src=&#34;https://preminstrel.github.io/blog/img/20211027084301.png&#34; width=&#34;600px&#34; /&gt;
+&lt;/div&gt;
+&lt;p&gt;单个主设备和单个从设备的SPI连接比较简单，以上图表示的就是这种拓扑结构。&lt;br&gt;
+通过多个片选信号（SS）或菊花链方式（Daisy Chain Configuration），单个主设备可以同时控制多个不同从设备。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;片选方式&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;如图4示，每个从设备都需要单独的片选信号，主设备每次只能选择其中一个从设备进行通信。因为所有从设备的SCK、MOSI、MISO都是连在一起的，未被选中从设备的MISO要表现为高阻状态（Hi-Z）以避免数据传输错误。由于每个设备都需要单独的片选信号，如果需要的片选信号过多，可以使用&lt;strong&gt;译码器&lt;/strong&gt;产生所有的片选信号。&lt;/p&gt;
+&lt;div align=center&gt;
+&lt;img src=&#34;https://preminstrel.github.io/blog/img/20211027084701.png&#34; width=&#34;400px&#34; /&gt;
+&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;菊花链方式&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;如图示，数据信号经过主从设备所有的移位寄存器构成闭环。数据通过主设备&lt;strong&gt;发送&lt;/strong&gt;（绿色线）经过从设备&lt;strong&gt;返回&lt;/strong&gt;（蓝色线）到主设备。在这种方式下，片选和时钟同时接到所有从设备，通常用于移位寄存器和LED驱动器。注意，菊花链方式的主设备需要发送&lt;strong&gt;足够长的数据&lt;/strong&gt;以确保数据送达到所有从设备。切记主设备所发送的第一个数据需（移位）到达菊花链中最后一个从设备。&lt;/p&gt;
+&lt;div align=center&gt;
+&lt;img src=&#34;https://preminstrel.github.io/blog/img/20211027084601.png&#34; width=&#34;400px&#34; /&gt;
+&lt;/div&gt;
+&lt;p&gt;菊花链式连接常用于仅需主设备发送数据而不需要接收返回数据的场合，如 LED驱动器。在这种应用下，主设备MISO可以不连。如果需要接收从设备的返回数据，则需要连接主设备的MISO形成闭环。同样地，切记要发送足够多的接收指令以确保数据（移位）送达主设备。&lt;/p&gt;
+&lt;h1 id=&#34;软件协议层&#34;&gt;软件协议层&lt;/h1&gt;
+&lt;p&gt;这是一个主机的通讯时序。 NSS、 SCK、 MOSI 信号都由主机控制产生，而 MISO 的信号由从机产生，主机通过该信号线读取从机的数据。 MOSI 与 MISO 的信号只在 NSS 为低电平的时候才有效，在 SCK 的每个时钟周期 MOSI 和 MISO 传输一位数据。&lt;/p&gt;
+&lt;div align=center&gt;
+&lt;img src=&#34;https://preminstrel.github.io/blog/img/20191103203850207.png&#34; width=&#34;700px&#34; /&gt;
+&lt;/div&gt;
+&lt;p&gt;以上通讯流程中包含的各个信号分解如下：&lt;/p&gt;
+&lt;h2 id=&#34;通讯的起始停止信号&#34;&gt;通讯的起始/停止信号&lt;/h2&gt;
+&lt;p&gt;在图 25-2 中的标号处， NSS 信号线由高变低，是 SPI 通讯的起始信号。 NSS 是每个从机各自独占的信号线，当从机在自己的 NSS 线检测到起始信号后，就知道自己被主机选中了，开始准备与主机通讯。在图中的标号处， NSS 信号由低变高，是 SPI 通讯的停止信号，表示本次通讯结束，从机的选中状态被取消。&lt;/p&gt;
+&lt;h2 id=&#34;数据有效性&#34;&gt;数据有效性&lt;/h2&gt;
+&lt;p&gt;SPI 使用 MOSI 及 MISO 信号线来传输数据，使用 SCK 信号线进行数据同步。 MOSI及 MISO 数据线在 SCK 的每个时钟周期传输一位数据，且数据输入输出是同时进行的。数据传输时， MSB 先行或 LSB 先行并没有作硬性规定，但要保证两个 SPI 通讯设备之间使用同样的协定，一般都会采用图 25-2 中的 MSB 先行模式。观察图中的标号处， MOSI 及 MISO 的数据在 SCK 的上升沿期间变化输出，在 SCK 的下降沿时被采样。即在 SCK 的下降沿时刻， MOSI 及 MISO 的数据有效，高电平时表示数据“1”，为低电平时表示数据“0”。在其它时刻，数据无效， MOSI 及 MISO为下一次表示数据做准备。
+SPI 每次数据传输可以 8 位或 16 位为单位，每次传输的单位数不受限制。&lt;/p&gt;
+&lt;h2 id=&#34;cpolcpha&#34;&gt;CPOL/CPHA&lt;/h2&gt;
+&lt;p&gt;上面讲述的图 25-2 中的时序只是 SPI 中的其中一种通讯模式， SPI 一共有四种通讯模式，它们的主要区别是总线空闲时 SCK 的时钟状态以及数据采样时刻。为方便说明，在此引入“时钟极性 CPOL”和“时钟相位 CPHA”的概念。时钟极性 CPOL 是指 SPI 通讯设备处于空闲状态时， SCK 信号线的电平信号(即 SPI 通讯开始前、 NSS 线为高电平时 SCK 的状态)。 CPOL=0 时， SCK 在空闲状态时为低电平，CPOL=1 时，则相反。时钟相位 CPHA 是指数据的采样的时刻，当 CPHA=0 时， MOSI 或 MISO 数据线上的信号将会在 SCK 时钟线的“奇数边沿” 被采样。当 CPHA=1 时，数据线在 SCK 的“偶数边沿” 采样。&lt;/p&gt;
+&lt;div align=center&gt;
+&lt;img src=&#34;https://preminstrel.github.io/blog/img/20191103204134232.png&#34; width=&#34;700px&#34; /&gt;
+&lt;/div&gt;
+&lt;p&gt;我们来分析这个 CPHA=0 的时序图。首先，根据 SCK 在空闲状态时的电平，分为两种情况。 SCK 信号线在空闲状态为低电平时， CPOL=0；空闲状态为高电平时， CPOL=1。无论 CPOL=0 还是=1，因为我们配置的时钟相位 CPHA=0，在图中可以看到， 采样时刻都是在 SCK 的奇数边沿。注意当 CPOL=0 的时候，时钟的奇数边沿是上升沿，而CPOL=1 的时候，时钟的奇数边沿是下降沿。所以 SPI 的采样时刻不是由上升/下降沿决定的。 MOSI 和 MISO 数据线的有效信号在 SCK 的奇数边沿保持不变，数据信号将在 SCK 奇数边沿时被采样，在非采样时刻， MOSI 和 MISO 的有效信号才发生切换。类似地，当 CPHA=1 时，不受 CPOL 的影响，数据信号在 SCK 的偶数边沿被采样。&lt;/p&gt;
+&lt;div align=center&gt;
+&lt;img src=&#34;https://preminstrel.github.io/blog/img/2019110320422689.png&#34; width=&#34;700px&#34; /&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;由 CPOL 及 CPHA 的不同状态， SPI 分成了四种模式，见表 25-1，主机与从机需要工作在相同的模式下才可以正常通讯，实际中采用较多的是“模式 0”与“模式 3”。&lt;/strong&gt;&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;SPI 模式&lt;/th&gt;
+&lt;th&gt;CPOL&lt;/th&gt;
+&lt;th&gt;CPHA&lt;/th&gt;
+&lt;th&gt;空闲时 SCK 时钟&lt;/th&gt;
+&lt;th&gt;采样时刻&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;0&lt;/td&gt;
+&lt;td&gt;0&lt;/td&gt;
+&lt;td&gt;0&lt;/td&gt;
+&lt;td&gt;低电平&lt;/td&gt;
+&lt;td&gt;奇数边沿&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;0&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;低电平&lt;/td&gt;
+&lt;td&gt;偶数边沿&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;0&lt;/td&gt;
+&lt;td&gt;高电平&lt;/td&gt;
+&lt;td&gt;奇数边沿&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;3&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;高电平&lt;/td&gt;
+&lt;td&gt;偶数边沿&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h1 id=&#34;reference&#34;&gt;Reference&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://blog.csdn.net/monkea123/article/details/102886525&#34;&gt;SPI总线-物理层 协议层&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+      
     </item>
     
     <item>
       <title>UART</title>
       <link>https://preminstrel.github.io/blog/post/2021/10/28/uart/</link>
       <pubDate>Thu, 28 Oct 2021 22:34:38 +0800</pubDate>
-      
+      <author>preminstrel@gmail.com (Hanshi Sun)</author>
       <guid>https://preminstrel.github.io/blog/post/2021/10/28/uart/</guid>
-      <description>UART 通用异步收发传输器（Universal Asynchronous Receiver/Transmitter），通常称作 UART，是一种通用的串行异步全双工数据收发传</description>
+      
+      <description>&lt;p&gt;UART 通用异步收发传输器（Universal Asynchronous Receiver/Transmitter），通常称作 UART，是一种通用的串行异步全双工数据收发传输器（总线）。&lt;/p&gt;
+&lt;p&gt;UART的作用是：把“要传输的数据”在串行通信与并行通信之间转换。在嵌入式领域，作为把并行信号转成串行信号的硬件设备，UART通常被集成于MCU内部。&lt;/p&gt;
+&lt;h1 id=&#34;物理硬件层&#34;&gt;物理硬件层&lt;/h1&gt;
+&lt;p&gt;硬件连接比较简单，仅需要3条线，注意连接时两个设备UART电平，如电平范围不一致请做电平转换后再连接，如下图所示：&lt;/p&gt;
+&lt;div align=center&gt;
+&lt;img src=&#34;https://preminstrel.github.io/blog/img/20211027152006.png&#34; width=&#34;300px&#34; /&gt;
+&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;TX：发送数据端，要接对面设备的RX&lt;/li&gt;
+&lt;li&gt;RX：接收数据端，要接对面设备的TX&lt;/li&gt;
+&lt;li&gt;GND：保证两设备共地，有统一的参考平面&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1 id=&#34;软件协议层&#34;&gt;软件协议层&lt;/h1&gt;
+&lt;p&gt;UART作为异步串行通信协议的一种，工作原理是将传输数据的每个二进制位一位接一位地传输。在UART通信协议中信号线上的状态为高电平时代表‘1’，信号线上的状态为低电平时代表‘0’。比如使用UART通信协议进行一个字节数据的传输时就是在信号线上产生八个高低电平的组合。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;串行通信是指利用一条传输线将数据一位位地顺序传送，也可以用两个信号线组成全双工通信，如rs232。特点是通信线路简单，利用简单的线缆就可实现通信，降低成本，适用于远距离通信，但传输速度慢的应用场合。&lt;/li&gt;
+&lt;li&gt;异步通信以一个字符为传输单位，通信中两个字符间的时间间隔多少是不固定的，然而在同一个字符中的两个相邻位间的时间间隔是固定的。通俗说是两个uart设备之间通信的时候不需要时钟线，这时候就需要在两个uart设备上指定相同的传输速率，以及空闲位、起始位、校验位、结束位，也就是遵循相同的协议。&lt;/li&gt;
+&lt;li&gt;数据传送速率用波特率来表示，即每秒钟传送的二进制位数。例如数据传送速率为120字符/秒，而每一个字符为10位（1个起始位，7个数据位，1个校验位，1个结束位），则其传送的波特率为10×120＝1200字符/秒＝1200波特。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;数据通信格式如下图：&lt;/p&gt;
+&lt;div align=center&gt;
+&lt;img src=&#34;https://preminstrel.github.io/blog/img/20211027151401.png&#34; width=&#34;600px&#34; /&gt;
+&lt;/div&gt;
+&lt;p&gt;其中各位的意义如下：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;空闲位：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;　　UART协议规定，当总线处于空闲状态时信号线的状态为‘1’即高电平，表示当前线路上没有数据传输。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;起始位：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;　　每开始一次通信时发送方先发出一个逻辑”0”的信号（低电平），表示传输字符的开始。因为总线空闲时为高电平所以开始一次通信时先发送一个明显区别于空闲状态的信号即低电平。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;数据位：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;　　起始位之后就是我们所要传输的数据，数据位可以是5、6、7、8，9位等，构成一个字符（一般都是8位）。如ASCII码（7位），扩展BCD码（8位）。先发送&lt;strong&gt;最低位&lt;/strong&gt;，最后发送&lt;strong&gt;最高位&lt;/strong&gt;，使用低电平表示‘0’高电平表示‘1’完成数据位的传输。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;奇偶校验位：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;　　数据位加上这一位后，使得“1”的位数应为偶数(偶校验)或奇数(奇校验)，以此来校验数据传送的正确性。校验位其实是调整个数，串口校验分几种方式：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;1、无校验（no parity）。&lt;/li&gt;
+&lt;li&gt;2、奇校验（odd parity）：如果数据位中“1”的数目是偶数，则校验位为“1”，如果“1”的数目是奇数，校验位为“0”。&lt;/li&gt;
+&lt;li&gt;3、偶校验（even parity）：如果数据为中“1”的数目是偶数，则校验位为“0”，如果为奇数，校验位为“1”。&lt;/li&gt;
+&lt;li&gt;4、mark parity：校验位始终为1（不常用）。&lt;/li&gt;
+&lt;li&gt;5、parity：校验位始终为0（不常用）。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;停止位：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;　　它是一个字符数据的结束标志。可以是1位、1.5位、2位的高电平。 由于数据是在传输线上定时的，并且每一个设备有其自己的时钟，很可能在通信中两台设备之间出现了小小的不同步。因此停止位不仅仅是表示传输的结束，并且提供计算机校正时钟的机会。停止位个数越多，数据传输越稳定，但是数据传输速度也越慢。&lt;/p&gt;
+&lt;h1 id=&#34;波特率&#34;&gt;波特率&lt;/h1&gt;
+&lt;p&gt;数据传输速率使用波特率来表示。单位bps（bits per second），常见的波特率9600bps、115200bps等等，其他标准的波特率是1200，2400，4800，19200，38400，57600。举个例子，如果串口波特率设置为9600bps，那么传输一个比特需要的时间是1/9600≈104.2us。&lt;/p&gt;
+&lt;div align=center&gt;
+&lt;img src=&#34;https://preminstrel.github.io/blog/img/202110271516.jpg&#34; width=&#34;300px&#34; /&gt;
+&lt;/div&gt;
+&lt;p&gt;以9600，8-N-1（9600波特率，8个数据位，没有校验位，1位停止位）为例，这是目前最常用的串口配置，现在我们传输“O”“K”两个ASCII值，“O”的ASCII为79，对应的二进制数据为&lt;strong&gt;01001111&lt;/strong&gt;，“K”对应的二进制数据为&lt;strong&gt;01001011&lt;/strong&gt;，传输的格式数据如下图所示：&lt;/p&gt;
+&lt;div align=center&gt;
+&lt;img src=&#34;https://preminstrel.github.io/blog/img/202110271517.jpg&#34; width=&#34;600px&#34; /&gt;
+&lt;/div&gt;
+&lt;h1 id=&#34;reference&#34;&gt;Reference&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://zhuanlan.zhihu.com/p/150504364&#34;&gt;UART串口协议详解&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+      
     </item>
     
     <item>
       <title>Introduction to Communication Protocol</title>
       <link>https://preminstrel.github.io/blog/post/2021/10/28/introduction-to-communication-protocol/</link>
       <pubDate>Thu, 28 Oct 2021 17:01:24 +0800</pubDate>
-      
+      <author>preminstrel@gmail.com (Hanshi Sun)</author>
       <guid>https://preminstrel.github.io/blog/post/2021/10/28/introduction-to-communication-protocol/</guid>
-      <description>通讯的基本概念 串行通讯和并行通讯 特性 串行通讯 并行通讯 通讯距离 较远 较近 抗干扰能力 较强 较弱 传输速率 较慢 较高 成本 较低 较高 全双工、半双工及单工通讯 通</description>
+      
+      <description>&lt;h2 id=&#34;通讯的基本概念&#34;&gt;通讯的基本概念&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;串行通讯和并行通讯&lt;/strong&gt;&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;特性&lt;/th&gt;
+&lt;th&gt;串行通讯&lt;/th&gt;
+&lt;th&gt;并行通讯&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;通讯距离&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;较远&lt;/td&gt;
+&lt;td&gt;较近&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;抗干扰能力&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;较强&lt;/td&gt;
+&lt;td&gt;较弱&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;传输速率&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;较慢&lt;/td&gt;
+&lt;td&gt;较高&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;strong&gt;成本&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;较低&lt;/td&gt;
+&lt;td&gt;较高&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;全双工、半双工及单工通讯&lt;/strong&gt;&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;通讯方式&lt;/th&gt;
+&lt;th&gt;说明&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;全双工&lt;/td&gt;
+&lt;td&gt;在同一时刻，两个设备之间可以同时收发数据&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;半双工&lt;/td&gt;
+&lt;td&gt;两个设备之间可以收发数据，但不能在同一时刻进行&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;单工&lt;/td&gt;
+&lt;td&gt;在任何时刻都只能进行一个方向的通讯，即一个固定为发送设备，另一个固定为接收设备&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;同步通讯与异步通讯&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;在同步通讯中，收发设备双方会&lt;strong&gt;使用一根信号线表示时钟信号&lt;/strong&gt;，在时钟信号的驱动下双方进行协调，同步数据。通讯中通常双方会统一规定在时钟信号的&lt;strong&gt;上升沿或下降沿&lt;/strong&gt;对数据线进行采样。&lt;/p&gt;
+&lt;div align=center&gt;
+&lt;img src=&#34;https://preminstrel.github.io/blog/img/202008241506026747.png&#34; width=&#34;600px&#34; /&gt;
+&lt;/div&gt;
+&lt;p&gt;在异步通讯中&lt;strong&gt;不使用时钟信号&lt;/strong&gt;进行数据同步，它们直接在数据信号中穿插一些同步用的信号位，或者把主体数据进行打包，以&lt;strong&gt;数据帧&lt;/strong&gt;的格式传输数据。某些通讯中还需要双方约定数据的传输速率，以便更好地同步。&lt;/p&gt;
+&lt;div align=center&gt;
+&lt;img src=&#34;https://preminstrel.github.io/blog/img/202008241506032390.jpg&#34; width=&#34;600px&#34; /&gt;
+&lt;/div&gt;
+&lt;p&gt;在同步通讯中，数据信号所传输的内容绝大部分就是有效数据，而异步通讯中会包含有帧的各种标识符，所以&lt;strong&gt;同步通讯的效率更高&lt;/strong&gt;，但是同步通讯双方的时钟允许误差较小，而异步通讯双方的时钟允许误差较大。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;通讯速率&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Bitrate—比特率&lt;/strong&gt;：每秒钟传输的二进制位数，单位为比特每秒(bit/s) 。（I2C、SPI）（同步）&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Baudrate—波特率&lt;/strong&gt;：表示每秒钟传输的码元个数。（USART）（异步）&lt;/p&gt;
+&lt;p&gt;一般一个码元用一个二进制表示，如：0V-0，3.3V-1&lt;/p&gt;
+&lt;p&gt;但是当码元有多个时，需要多位的二进制表示，如：0V-00，2V-01，4V-10，6V-11&lt;/p&gt;
+&lt;h2 id=&#34;串口通讯协议简介&#34;&gt;串口通讯协议简介&lt;/h2&gt;
+&lt;p&gt;对于通讯协议，&lt;strong&gt;我们以分层的方式来理解&lt;/strong&gt;，分为物理层和协议层。&lt;/p&gt;
+&lt;h3 id=&#34;物理层&#34;&gt;物理层&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;物理层：&lt;/strong&gt; 规定通讯系统中具有机械、电子功能部分的特性，确保原始数据在物理媒体的传输。（硬件）&lt;/p&gt;
+&lt;h4 id=&#34;rs-232&#34;&gt;RS-232&lt;/h4&gt;
+&lt;div align=center&gt;
+&lt;img src=&#34;https://preminstrel.github.io/blog/img/202008241506049730.jpg&#34; width=&#34;700px&#34; /&gt;
+&lt;/div&gt;
+&lt;ol&gt;
+&lt;li&gt;RS232标准串口主要用于工业设备直接通信&lt;/li&gt;
+&lt;li&gt;电平转换芯片一般有 MAX3232，SP3232&lt;/li&gt;
+&lt;li&gt;DB9接口（COM口） 标准的公头及母头接法&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div align=center&gt;
+&lt;img src=&#34;https://preminstrel.github.io/blog/img/202008241506045687.jpg&#34; width=&#34;700px&#34; /&gt;
+&lt;/div&gt;
+&lt;h4 id=&#34;usb转串口&#34;&gt;USB转串口&lt;/h4&gt;
+&lt;div align=center&gt;
+&lt;img src=&#34;https://preminstrel.github.io/blog/img/202008241506054588.jpg&#34; width=&#34;700px&#34; /&gt;
+&lt;/div&gt;
+&lt;ol&gt;
+&lt;li&gt;USB转串口主要用于设备跟电脑通信&lt;/li&gt;
+&lt;li&gt;电平转换芯片一般有CH340、PL2303、CP2102、FT232&lt;/li&gt;
+&lt;li&gt;使用的时候电脑端需要安装电平转换芯片的驱动&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4 id=&#34;原生的串口到串口&#34;&gt;原生的串口到串口&lt;/h4&gt;
+&lt;div align=center&gt;
+&lt;img src=&#34;https://preminstrel.github.io/blog/img/202008241506056001.jpg&#34; width=&#34;700px&#34; /&gt;
+&lt;/div&gt;
+&lt;ol&gt;
+&lt;li&gt;原生的串口通信主要是控制器跟串口的设备或者传感器通信，不需要经过电平转换芯片来转换电平，直接就用TTL电平通信&lt;/li&gt;
+&lt;li&gt;GPS模块、GSM模块、串口转WIFI模块、HC04蓝牙模块&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4 id=&#34;ttl和232的区别&#34;&gt;TTL和232的区别&lt;/h4&gt;
+&lt;p&gt;&lt;strong&gt;电平标准不同&lt;/strong&gt;：TTL电平一般是芯片里面出来的电平&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;通讯标准&lt;/th&gt;
+&lt;th&gt;电平标准（发送端）&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;5V TTL&lt;/td&gt;
+&lt;td&gt;逻辑1：2.4V ~ 5V； 逻辑0：0 ~ 0.5V&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;RS-232&lt;/td&gt;
+&lt;td&gt;逻辑1：-15V ~ -3V ；逻辑0：+3V ~ +15V（增加抗干扰能力）&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;div align=center&gt;
+&lt;img src=&#34;https://preminstrel.github.io/blog/img/202008241506066159.jpg&#34; width=&#34;700px&#34; /&gt;
+&lt;/div&gt;
+&lt;h3 id=&#34;协议层&#34;&gt;协议层&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;协议层：&lt;/strong&gt; 主要规定通讯逻辑，统一收发双方的数据打包、解包标准。（软件）&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;串口数据包的基本组成&lt;/strong&gt;&lt;/p&gt;
+&lt;div align=center&gt;
+&lt;img src=&#34;https://preminstrel.github.io/blog/img/202008241506063872.jpg&#34; width=&#34;600px&#34; /&gt;
+&lt;/div&gt;
+&lt;ol&gt;
+&lt;li&gt;波特率&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;本章中主要讲解的是串口异步通讯，异步通讯中由于没有时钟信号(如前面讲解的DB9接口中是没有时钟信号的)，所&lt;strong&gt;以两个通讯设备之间需要约定好波特率，即每个码元的长度&lt;/strong&gt;，以便对信号进行解码。上图中用&lt;strong&gt;虚线分开的每一格就是代表一个码元&lt;/strong&gt;。常见的波特率为4800、9600、115200 等。&lt;/p&gt;
+&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;通讯的起始和停止信号&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;数据包的起始信号由一个&lt;strong&gt;逻辑0&lt;/strong&gt; 的数据位表示，而数据包的停止信号可由&lt;strong&gt;0.5、1、1.5 或2 个逻辑1&lt;/strong&gt; 的数据位表示，只要双方约定一致即可。&lt;/p&gt;
+&lt;ol start=&#34;3&#34;&gt;
+&lt;li&gt;有效数据&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;在数据包的起始位之后紧接着的就是&lt;strong&gt;要传输的主体数据内容&lt;/strong&gt;，也称为有效数据，有效数据的长度常被约定为5、6、7 或8 位长。&lt;/p&gt;
+&lt;ol start=&#34;4&#34;&gt;
+&lt;li&gt;数据校验（可选）&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;由于数据通信相对更容易受到外部干扰导致传输数据出现偏差，可以在传输过程加上校验位来解决这个问题。校验方法有&lt;strong&gt;奇校验(odd)、偶校验(even)、0 校验(space)、1 校验(mark)以及无校验(noparity)。&lt;/strong&gt;&lt;/p&gt;
+</description>
+      
     </item>
     
   </channel>

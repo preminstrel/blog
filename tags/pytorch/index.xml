@@ -1,23 +1,530 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Pytorch on Preminstrel&#39;s Blog</title>
+    <title>Pytorch on Blog de Preminstrel</title>
     <link>https://preminstrel.github.io/blog/tags/pytorch/</link>
-    <description>Recent content in Pytorch on Preminstrel&#39;s Blog</description>
+    <description>Recent content in Pytorch on Blog de Preminstrel</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 17 Oct 2021 00:25:41 +0800</lastBuildDate>
-    
-	<atom:link href="https://preminstrel.github.io/blog/tags/pytorch/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <managingEditor>preminstrel@gmail.com (Hanshi Sun)</managingEditor>
+    <webMaster>preminstrel@gmail.com (Hanshi Sun)</webMaster>
+    <lastBuildDate>Sun, 17 Oct 2021 00:25:41 +0800</lastBuildDate><atom:link href="https://preminstrel.github.io/blog/tags/pytorch/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Pytorch Basics</title>
       <link>https://preminstrel.github.io/blog/post/2021/10/17/pytorch-basics/</link>
       <pubDate>Sun, 17 Oct 2021 00:25:41 +0800</pubDate>
-      
+      <author>preminstrel@gmail.com (Hanshi Sun)</author>
       <guid>https://preminstrel.github.io/blog/post/2021/10/17/pytorch-basics/</guid>
-      <description>01. Overview DL &amp;amp; ML 维度诅咒：维度越高，需要的训练集越大 深度学习和机器学习的区别：多了一层用来提取特征的层。传统的机器学习中（无标签），Feature</description>
+      
+      <description>&lt;h2 id=&#34;01-overview&#34;&gt;01. Overview&lt;/h2&gt;
+&lt;h3 id=&#34;dl--ml&#34;&gt;DL &amp;amp; ML&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&#34;https://preminstrel.github.io/blog/img/20210913192607.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;维度诅咒：维度越高，需要的训练集越大&lt;/li&gt;
+&lt;li&gt;深度学习和机器学习的区别：多了一层用来提取特征的层。传统的机器学习中（无标签），Feature是单独做训练的，后面的Mapping from features和它是分开的。但是在深度学习中，这个是统一的。所以深度学习也称为 &lt;strong&gt;End to End&lt;/strong&gt; 的学习方式。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;route&#34;&gt;Route&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&#34;https://preminstrel.github.io/blog/img/20210913193312.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;gradient-descent&#34;&gt;Gradient Descent&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;x_data &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; [&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;2&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;3&lt;/span&gt;]
+y_data &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; [&lt;span style=&#34;color:#666&#34;&gt;2&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;6&lt;/span&gt;]
+w&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;
+
+&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;forward&lt;/span&gt;(x):
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;return&lt;/span&gt; x&lt;span style=&#34;color:#666&#34;&gt;*&lt;/span&gt;w
+
+&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;loss&lt;/span&gt;(xs,ys):
+    loss &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;for&lt;/span&gt; x,y &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#a2f&#34;&gt;zip&lt;/span&gt;(xs,ys):
+        y_pred &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; forward(x)
+        loss &lt;span style=&#34;color:#666&#34;&gt;+=&lt;/span&gt; (y_pred&lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;y)&lt;span style=&#34;color:#666&#34;&gt;**&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;2&lt;/span&gt;
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;return&lt;/span&gt; loss&lt;span style=&#34;color:#666&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#a2f&#34;&gt;len&lt;/span&gt;(xs)
+
+&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;gradient&lt;/span&gt;(xs,ys):
+    grad&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;for&lt;/span&gt; x,y &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#a2f&#34;&gt;zip&lt;/span&gt;(xs,ys):
+        grad &lt;span style=&#34;color:#666&#34;&gt;+=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;2&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;*&lt;/span&gt;x&lt;span style=&#34;color:#666&#34;&gt;*&lt;/span&gt;(x&lt;span style=&#34;color:#666&#34;&gt;*&lt;/span&gt;w&lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;y)
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;return&lt;/span&gt; grad&lt;span style=&#34;color:#666&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#a2f&#34;&gt;len&lt;/span&gt;(xs)
+
+&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;print&lt;/span&gt;(&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;Predict(before training)&amp;#39;&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;, forward(&lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;))
+&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;for&lt;/span&gt; epoch &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#a2f&#34;&gt;range&lt;/span&gt;(&lt;span style=&#34;color:#666&#34;&gt;100&lt;/span&gt;):
+    loss_val &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; loss(x_data, y_data)
+    grad_val &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; gradient(x_data, y_data)
+    w &lt;span style=&#34;color:#666&#34;&gt;-=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;0.01&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;*&lt;/span&gt;grad_val
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;print&lt;/span&gt;(&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;Epoch:&amp;#39;&lt;/span&gt;, epoch, &lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;w=&amp;#39;&lt;/span&gt;,w,&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;loss=&amp;#39;&lt;/span&gt;,loss_val)
+&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;print&lt;/span&gt;(&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;Predict(After training)&amp;#39;&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;, forward(&lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;))
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;img src=&#34;https://preminstrel.github.io/blog/img/20210913203403.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;随机梯度下降的计算无法并行，计算中是有依赖的&lt;/li&gt;
+&lt;li&gt;随机梯度下降的性能更好，但是无法并行，所以速度比较慢&lt;/li&gt;
+&lt;li&gt;所以我们用&lt;strong&gt;mini-batch&lt;/strong&gt;，批量随机梯度下降，这是一种折中的方法&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;前向传播和反向传播&#34;&gt;前向传播和反向传播&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&#34;https://preminstrel.github.io/blog/img/20210913220248.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;02-linear-model&#34;&gt;02. Linear Model&lt;/h2&gt;
+&lt;h3 id=&#34;tensor--linear-model&#34;&gt;Tensor &amp;amp; Linear Model&lt;/h3&gt;
+&lt;p&gt;In PyTorch, Tensor is the important component in &lt;strong&gt;constructing dynamic
+computational graph&lt;/strong&gt;. It contains &lt;strong&gt;data and grad&lt;/strong&gt;, which storage the value of node and gradient w.r.t loss respectively.
+如下代码是在构造计算图，在Pytorch中我们需要这样看待它。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#00f;font-weight:bold&#34;&gt;torch&lt;/span&gt;
+x_data &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; [&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;2&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;3&lt;/span&gt;]
+y_data &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; [&lt;span style=&#34;color:#666&#34;&gt;2&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;6&lt;/span&gt;]
+w &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;Tensor([&lt;span style=&#34;color:#666&#34;&gt;1.0&lt;/span&gt;])
+w&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;requires_grad &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; True
+
+&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;forward&lt;/span&gt;(x):
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;return&lt;/span&gt; x &lt;span style=&#34;color:#666&#34;&gt;*&lt;/span&gt; w
+&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;loss&lt;/span&gt;(x,y):
+    y_pred &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; forward(x)
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;return&lt;/span&gt; (y_pred&lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;y) &lt;span style=&#34;color:#666&#34;&gt;**&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;2&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;训练过程&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#a2f&#34;&gt;sum&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;
+&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;for&lt;/span&gt; epoch &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#a2f&#34;&gt;range&lt;/span&gt;(&lt;span style=&#34;color:#666&#34;&gt;100&lt;/span&gt;):
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;for&lt;/span&gt; x, y &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#a2f&#34;&gt;zip&lt;/span&gt;(x_data, y_data): &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 抽取样本&lt;/span&gt;
+        l &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; loss(x, y)     &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 前馈：计算loss，计算完释放&lt;/span&gt;
+        l&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;backward()                 &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 反馈&lt;/span&gt;
+        &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;print&lt;/span&gt;(&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#b62;font-weight:bold&#34;&gt;\t&lt;/span&gt;&lt;span style=&#34;color:#b44&#34;&gt;grad:&amp;#39;&lt;/span&gt;, x, y, w&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;grad&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;item())  &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;#item是一个标量&lt;/span&gt;
+        w&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;data &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; w&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;data &lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;0.01&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;*&lt;/span&gt; w&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;grad&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;data  &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 注意此时grad要取到data&lt;/span&gt;
+        &lt;span style=&#34;color:#a2f&#34;&gt;sum&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;+=&lt;/span&gt; l&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;item()              &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 计算损失和&lt;/span&gt;
+        w&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;grad&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;data&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;zero_()             &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 清零梯度&lt;/span&gt;
+        
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;print&lt;/span&gt;(&lt;span style=&#34;color:#b44&#34;&gt;&amp;#34;progress:&amp;#34;&lt;/span&gt;, epoch, l&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;item())
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;NOTICE&lt;/strong&gt;:
+The grad computed by &lt;code&gt;.backward()&lt;/code&gt; will be accumulated. So after update, &lt;strong&gt;remember set the grad to ZERO!!&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;.data&lt;/code&gt;返回的是一个Tensor，而&lt;code&gt;.item()&lt;/code&gt;返回的是具体的数值（非Tensor数据类型）。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;framework&#34;&gt;Framework&lt;/h3&gt;
+&lt;p&gt;4个步骤：&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Prepare dataset&lt;/strong&gt; : we shall talk about this later&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Design model using Class&lt;/strong&gt;: inherit from nn.Module&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Construct loss and optimizer&lt;/strong&gt;: using PyTorch API&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Training cycle&lt;/strong&gt;: forward, backward, update&lt;/p&gt;
+&lt;h4 id=&#34;prepare-dataset&#34;&gt;Prepare dataset&lt;/h4&gt;
+&lt;p&gt;In PyTorch, the computational graph is in mini-batch fashion, so X and Y are $3 \times 1$ Tensors.&lt;/p&gt;
+&lt;p&gt;$$\hat{y}=w\cdot x+b$$
+$$\left[\begin{aligned}&amp;amp;y_{pred}^{(1)}\\ &amp;amp;y_{pred}^{(2)} \\ &amp;amp;y_{pred}^{(3)} \end{aligned}\right]=w\cdot \left[\begin{aligned}&amp;amp;x^{(1)}\\ &amp;amp;x^{(2)} \\ &amp;amp;x^{(3)}\end{aligned}\right]+b$$&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#00f;font-weight:bold&#34;&gt;torch&lt;/span&gt;
+x_data &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;Tensor([[&lt;span style=&#34;color:#666&#34;&gt;1.0&lt;/span&gt;], [&lt;span style=&#34;color:#666&#34;&gt;2.0&lt;/span&gt;], [&lt;span style=&#34;color:#666&#34;&gt;3.0&lt;/span&gt;]])
+y_data &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;Tensor([[&lt;span style=&#34;color:#666&#34;&gt;2.0&lt;/span&gt;], [&lt;span style=&#34;color:#666&#34;&gt;4.0&lt;/span&gt;], [&lt;span style=&#34;color:#666&#34;&gt;6.0&lt;/span&gt;]])
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;design-model&#34;&gt;Design Model&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#00f&#34;&gt;LinearModel&lt;/span&gt;(torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;nn&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;Module):
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; __init__(self):     &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 构造函数&lt;/span&gt;
+        &lt;span style=&#34;color:#a2f&#34;&gt;super&lt;/span&gt;(LinearModel, self)&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;__init__()  &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 调用父类的构造&lt;/span&gt;
+        self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;linear &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;nn&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;Linear(&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)     &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 构造对象&lt;/span&gt;
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;forward&lt;/span&gt;(self, x):    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 必须有forward传播函数的定义&lt;/span&gt;
+        y_pred &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;linear(x)
+        &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;return&lt;/span&gt; y_pred
+
+model &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; LinearModel()
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;nn.Linear&lt;/code&gt; contain two member Tensors: &lt;strong&gt;weight&lt;/strong&gt; and &lt;strong&gt;bias&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#00f&#34;&gt;torch&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;nn&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;Linear(in_features, out_features, bias &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; True)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Applies a linear transformation $y=Ax+b$
+Parameters:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;in_features: the size of each input sample&lt;/li&gt;
+&lt;li&gt;out_features: the size of each output sample&lt;/li&gt;
+&lt;li&gt;bias: Default: True&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;实际上，在运算过程中是&lt;strong&gt;做转置的&lt;/strong&gt;
+$$y=x\cdot w+b$$
+$$y = w^{T}\cdot x+b$$&lt;/p&gt;
+&lt;h4 id=&#34;construct-loss-and-optimizer&#34;&gt;Construct Loss and Optimizer&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;criterion &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;nn&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;MSELoss(size_average&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;False)
+optimizer &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;optim&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;SGD(model&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;parameters(), lr&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0.01&lt;/span&gt;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;blockquote&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#00f&#34;&gt;torch&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;nn&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;MSELoss(size_average, &lt;span style=&#34;color:#a2f&#34;&gt;reduce&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; True)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;求均方根值 $l(x,y)=L={l_1,\cdots,l_N}^{T},\quad l_n=(x_n-y_n)^2$
+其中，N是batch size。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#00f&#34;&gt;torch&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;optim&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;SGD(params, lr&lt;span style=&#34;color:#666&#34;&gt;=&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#a2f&#34;&gt;object&lt;/span&gt; &lt;span style=&#34;color:#a2f&#34;&gt;object&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&amp;gt;&lt;/span&gt;, momentum &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;, dampening &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;, weight_decay &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;, nesterov &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; False)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Implements stochastic gradient descent (optionally with momentum)&lt;/p&gt;
+&lt;h4 id=&#34;training-cycle&#34;&gt;Training Cycle&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;for&lt;/span&gt; epoch &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#a2f&#34;&gt;range&lt;/span&gt;(&lt;span style=&#34;color:#666&#34;&gt;100&lt;/span&gt;):
+    y_pred &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; model(x_data)
+    loss &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; criterion(y_pred, y_data)
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;print&lt;/span&gt;(epoch, loss)
+    
+    optimizer&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;zero_grad()  &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 注意梯度清零&lt;/span&gt;
+    loss&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;backward()        &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 反向传播&lt;/span&gt;
+    optimizer&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;step()       &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;#Update&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;test-model&#34;&gt;Test Model&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# Output weight and bias&lt;/span&gt;
+&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;print&lt;/span&gt;(&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;w=&amp;#39;&lt;/span&gt;, model&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;linear&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;weight&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;item())
+&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;print&lt;/span&gt;(&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;b=&amp;#39;&lt;/span&gt;, model&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;linear&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;bias&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;item())
+
+&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# Test Model&lt;/span&gt;
+x_test &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;Tensor([&lt;span style=&#34;color:#666&#34;&gt;4.0&lt;/span&gt;])
+y_test &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; model(x_test)
+&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;print&lt;/span&gt;(&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;y_pred=&amp;#39;&lt;/span&gt;, y_test&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;data)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;03-logistic-regression&#34;&gt;03. Logistic Regression&lt;/h2&gt;
+&lt;h3 id=&#34;one-dimension&#34;&gt;One Dimension&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&#34;https://preminstrel.github.io/blog/img/20210914162303.png&#34; alt=&#34;&#34;&gt;
+Logistic function can guarantee that the output is in $[0,1]$, and loss function is $$loss=-(y\log \hat{y}+(1-y)\log (1-\hat{y}))$$
+此时误差计算的是分布的差异 &lt;strong&gt;(BCE)&lt;/strong&gt;，而不是几何上的距离。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Mini-Batch Loss Function for Binary Classification
+$$loss=-\frac{1}{N}\sum^N_{n=1}(y_n\log \hat{y}_n+(1-y_n)\log (1-\hat{y}_n))$$&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;流程和之前的差不多，代码如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;#---------------------Prepare dataset--------------------------#&lt;/span&gt;
+x_data &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;Tensor([[&lt;span style=&#34;color:#666&#34;&gt;1.0&lt;/span&gt;], [&lt;span style=&#34;color:#666&#34;&gt;2.0&lt;/span&gt;], [&lt;span style=&#34;color:#666&#34;&gt;3.0&lt;/span&gt;]])
+y_data &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;Tensor([[&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;], [&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;], [&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;]])
+
+&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;#-----------------Design model using Class---------------------#&lt;/span&gt;
+&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#00f&#34;&gt;LogisticRegressionModel&lt;/span&gt;(torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;nn&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;Module):
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; __init__(self):
+        &lt;span style=&#34;color:#a2f&#34;&gt;super&lt;/span&gt;(LogisticRegressionModel, self)&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;__init__()
+        self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;linear &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;nn&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;Linear(&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;forward&lt;/span&gt;(self, x):
+        y_pred &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; F&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;sigmoid(self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;linear(x))
+        &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;return&lt;/span&gt; y_pred
+model &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; LogisticRegressionModel()
+
+&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;#----------------Construct loss and optimizer------------------#&lt;/span&gt;
+criterion &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;nn&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;BCELoss(size_average&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;False)
+optimizer &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;optim&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;SGD(model&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;parameters(), lr&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0.01&lt;/span&gt;)
+
+&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;#----------------------Training cycle--------------------------#&lt;/span&gt;
+&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;for&lt;/span&gt; epoch &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#a2f&#34;&gt;range&lt;/span&gt;(&lt;span style=&#34;color:#666&#34;&gt;1000&lt;/span&gt;):
+    y_pred &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; model(x_data)
+    loss &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; criterion(y_pred, y_data)
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;print&lt;/span&gt;(epoch, loss&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;item())
+    optimizer&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;zero_grad()
+    loss&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;backward()
+    optimizer&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;step()
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;multi-dimension&#34;&gt;Multi Dimension&lt;/h3&gt;
+&lt;p&gt;二维数据中，一般来说列对应的是feature，行对应的是sample，一行为一条record&lt;/p&gt;
+&lt;h4 id=&#34;mini-batchn-samples&#34;&gt;Mini-Batch（N samples）&lt;/h4&gt;
+&lt;p&gt;&lt;img src=&#34;https://preminstrel.github.io/blog/img/20210914165040.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#00f&#34;&gt;Model&lt;/span&gt;(torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;nn&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;Module):
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; __init__(self):
+        &lt;span style=&#34;color:#a2f&#34;&gt;super&lt;/span&gt;(Model, self)&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;__init__()
+        self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;linear &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;nn&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;Linear(&lt;span style=&#34;color:#666&#34;&gt;8&lt;/span&gt;, &lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
+        self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;sigmoid &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;nn&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;Sigmoid()
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;forward&lt;/span&gt;(self, x):
+        x &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;sigmoid(self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;linear(x))
+        &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;return&lt;/span&gt; x
+
+model &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; Model()
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;prepare-dataset-1&#34;&gt;Prepare Dataset&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#00f;font-weight:bold&#34;&gt;numpy&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;as&lt;/span&gt; &lt;span style=&#34;color:#00f;font-weight:bold&#34;&gt;np&lt;/span&gt;
+xy &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; np&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;loadtxt(&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;diabetes.csv.gz&amp;#39;&lt;/span&gt;, delimiter&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;,&amp;#39;&lt;/span&gt;, dtype&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;np&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;float32)
+x_data &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;from_numpy(xy[:,:&lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;]) &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 除了最后一行都要&lt;/span&gt;
+y_data &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;from_numpy(xy[:, [&lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;]])
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;define-model&#34;&gt;Define Model&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#00f;font-weight:bold&#34;&gt;torch&lt;/span&gt;
+&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#00f&#34;&gt;Model&lt;/span&gt;(torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;nn&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;Module):
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; __init__(self):
+        &lt;span style=&#34;color:#a2f&#34;&gt;super&lt;/span&gt;(Model, self)&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;__init__()
+        self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;linear1 &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;nn&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;Linear(&lt;span style=&#34;color:#666&#34;&gt;8&lt;/span&gt;, &lt;span style=&#34;color:#666&#34;&gt;6&lt;/span&gt;)
+        self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;linear2 &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;nn&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;Linear(&lt;span style=&#34;color:#666&#34;&gt;6&lt;/span&gt;, &lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;)
+        self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;linear3 &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;nn&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;Linear(&lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;, &lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
+        self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;sigmoid &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;nn&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;Sigmoid()
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;forward&lt;/span&gt;(self, x):
+        x &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;sigmoid(self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;linear1(x))
+        x &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;sigmoid(self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;linear2(x))
+        x &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;sigmoid(self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;linear3(x))
+        &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;return&lt;/span&gt; x
+    
+model &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; Model()
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;construct-loss-and-optimizer-1&#34;&gt;Construct Loss and Optimizer&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;criterion &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;nn&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;BCELoss(size_average&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;True)
+optimizer &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;optim&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;SGD(model&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;parameters(), lr&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0.1&lt;/span&gt;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;training-cycle-1&#34;&gt;Training Cycle&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;for&lt;/span&gt; epoch &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#a2f&#34;&gt;range&lt;/span&gt;(&lt;span style=&#34;color:#666&#34;&gt;100&lt;/span&gt;):
+    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# Forward&lt;/span&gt;
+    y_pred &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; model(x_data)
+    loss &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; criterion(y_pred, y_data)
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;print&lt;/span&gt;(epoch, loss&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;item())
+
+    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# Backward&lt;/span&gt;
+    optimizer&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;zero_grad()
+    loss&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;backward()
+
+    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# Update&lt;/span&gt;
+    optimizer&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;step()
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;04-dataset-and-dataloader&#34;&gt;04. Dataset and DataLoader&lt;/h2&gt;
+&lt;h3 id=&#34;use-all-of-the-data&#34;&gt;Use all of the data&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;xy &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; np&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;loadtxt(&lt;span style=&#34;&#34;&gt;‘&lt;/span&gt;diabetes&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;csv&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;gz&lt;span style=&#34;&#34;&gt;’&lt;/span&gt; , delimiter&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;&#34;&gt;‘&lt;/span&gt;,&lt;span style=&#34;&#34;&gt;’&lt;/span&gt; , dtype&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;np&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;float32)
+x_data &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;from_numpy(xy[:,:&lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;])
+y_data &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;from_numpy(xy[:, [&lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;]])
+&lt;span style=&#34;&#34;&gt;……&lt;/span&gt;
+&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;for&lt;/span&gt; epoch &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#a2f&#34;&gt;range&lt;/span&gt;(&lt;span style=&#34;color:#666&#34;&gt;100&lt;/span&gt;):
+    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 1. Forward&lt;/span&gt;
+    y_pred &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; model(x_data)
+    loss &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; criterion(y_pred, y_data)
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;print&lt;/span&gt;(epoch, loss&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;item())
+    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 2. Backward&lt;/span&gt;
+    optimizer&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;zero_grad()
+    loss&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;backward()
+    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 3. Update&lt;/span&gt;
+    optimizer&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;step()
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;terminology&#34;&gt;Terminology&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# Training cycle&lt;/span&gt;
+&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;for&lt;/span&gt; epoch &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#a2f&#34;&gt;range&lt;/span&gt;(training_epochs):
+    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# Loop over all batches&lt;/span&gt;
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;for&lt;/span&gt; i &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#a2f&#34;&gt;range&lt;/span&gt;(total_batch):
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Epoch&lt;/strong&gt;
+One forward pass and one backward pass of &lt;strong&gt;all the training examples&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Batch-Size&lt;/strong&gt;
+The &lt;strong&gt;number of training examples&lt;/strong&gt; in one forward backward pass.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Iteration&lt;/strong&gt;
+Number of passes, each pass using &lt;strong&gt;batch size&lt;/strong&gt; number of examples.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;比如，1000个样本，我们分成10个Batch，Batch-Size=100，Iteration=10&lt;/p&gt;
+&lt;h3 id=&#34;dataloader&#34;&gt;DataLoader&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&#34;https://preminstrel.github.io/blog/img/20210914182044.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Define Dataset&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Dataset 是一个抽象类，不可以实例化；而 DataLoader 是可以实例化的&lt;/li&gt;
+&lt;li&gt;number workers 指的是多线程并行的个数，好像 Windows 上必须是0，建议在 Linux 使用&lt;/li&gt;
+&lt;li&gt;getitem 是当数据比较大，需要通过读取文件名来 get 相应的 item 进行处理&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#00f;font-weight:bold&#34;&gt;torch&lt;/span&gt;
+&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color:#00f;font-weight:bold&#34;&gt;torch.utils.data&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;import&lt;/span&gt; Dataset
+&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color:#00f;font-weight:bold&#34;&gt;torch.utils.data&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;import&lt;/span&gt; DataLoader
+&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#00f&#34;&gt;DiabetesDataset&lt;/span&gt;(Dataset):
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; __init__(self):
+        &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;pass&lt;/span&gt;
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; __getitem__(self, index):
+        &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;pass&lt;/span&gt;
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; __len__(self):
+        &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;pass&lt;/span&gt;
+dataset &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; DiabetesDataset()
+train_loader &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; DataLoader(dataset&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;dataset,
+                          batch_size&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;32&lt;/span&gt;,
+                          shuffle&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;True,
+                          num_workers&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;2&lt;/span&gt;)
+&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;for&lt;/span&gt; epoch &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#a2f&#34;&gt;range&lt;/span&gt;(&lt;span style=&#34;color:#666&#34;&gt;100&lt;/span&gt;):
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;for&lt;/span&gt; i, data &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#a2f&#34;&gt;enumerate&lt;/span&gt;(train_loader, &lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;):
+        &lt;span style=&#34;&#34;&gt;……&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;example-diabetes-dataset&#34;&gt;Example: Diabetes Dataset&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#00f&#34;&gt;DiabetesDataset&lt;/span&gt;(Dataset):
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; __init__(self, filepath):
+        xy &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; np&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;loadtxt(filepath, delimiter&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;,&amp;#39;&lt;/span&gt;, dtype&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;np&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;float32)
+        self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;len &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; xy&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;shape[&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;] &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 取第0元素：长度&lt;/span&gt;
+        self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;x_data &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;from_numpy(xy[:, :&lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;])
+        self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;y_data &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;from_numpy(xy[:, [&lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;]])
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; __getitem__(self, index):
+        &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;return&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;x_data[index], self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;y_data[index] &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 返回对应样本即可&lt;/span&gt;
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; __len__(self):
+        &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;return&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;len
+
+dataset &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; DiabetesDataset(&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;diabetes.csv.gz&amp;#39;&lt;/span&gt;)
+train_loader &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; DataLoader(dataset&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;dataset,
+                          batch_size&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;32&lt;/span&gt;,
+                          shuffle&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;True,
+                          num_workers&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;2&lt;/span&gt;)
+
+&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;for&lt;/span&gt; epoch &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#a2f&#34;&gt;range&lt;/span&gt;(&lt;span style=&#34;color:#666&#34;&gt;100&lt;/span&gt;):
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;for&lt;/span&gt; i, data &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#a2f&#34;&gt;enumerate&lt;/span&gt;(train_loader, &lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;):
+        &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 1. Prepare data&lt;/span&gt;
+        inputs, labels &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; data
+        &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 2. Forward&lt;/span&gt;
+        y_pred &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; model(inputs)
+        loss &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; criterion(y_pred, labels)
+        &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;print&lt;/span&gt;(epoch, i, loss&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;item())
+        &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 3. Backward&lt;/span&gt;
+        optimizer&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;zero_grad()
+        loss&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;backward()
+        &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 4. Update&lt;/span&gt;
+        optimizer&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;step()
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;i代表的是第几组数据，表示每次拿的是 $x[i],y[i]$&lt;/li&gt;
+&lt;li&gt;train_loader 拿出来的是一个元组 $(X,Y)$，是 getitem 传过来的&lt;/li&gt;
+&lt;li&gt;0代表是从第0个开始枚举&lt;/li&gt;
+&lt;li&gt;inputs代表 x，labels代表y。或者我们可以将data改为 (input,labels)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;05-softmax&#34;&gt;05. Softmax&lt;/h2&gt;
+&lt;h3 id=&#34;softmax概念&#34;&gt;Softmax概念&lt;/h3&gt;
+&lt;p&gt;对于多输出，我们要对输出进行进一步的&lt;strong&gt;规格化&lt;/strong&gt;
+$$P(y=i)\ge 0\qquad \sum_{i=0}^9 P(y=i)=1$$
+Suppose $𝑍^𝑙 ∈ ℝ^𝐾$ is the output of the last linear layer, the* Softmax function*:
+$$P(y=i)=\frac{e^{z_i}}{\sum_{j=0}^{K-1} e^{z_j}},\quad i\in {0,\cdots ,K-1}$$&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#00f;font-weight:bold&#34;&gt;torch&lt;/span&gt;
+criterion &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;nn&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;CrossEntropyLoss()
+Y &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;LongTensor([&lt;span style=&#34;color:#666&#34;&gt;2&lt;/span&gt;, &lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;, &lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;])
+
+Y_pred1 &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;Tensor([[&lt;span style=&#34;color:#666&#34;&gt;0.1&lt;/span&gt;, &lt;span style=&#34;color:#666&#34;&gt;0.2&lt;/span&gt;, &lt;span style=&#34;color:#666&#34;&gt;0.9&lt;/span&gt;],
+                        [&lt;span style=&#34;color:#666&#34;&gt;1.1&lt;/span&gt;, &lt;span style=&#34;color:#666&#34;&gt;0.1&lt;/span&gt;, &lt;span style=&#34;color:#666&#34;&gt;0.2&lt;/span&gt;],
+                        [&lt;span style=&#34;color:#666&#34;&gt;0.2&lt;/span&gt;, &lt;span style=&#34;color:#666&#34;&gt;2.1&lt;/span&gt;, &lt;span style=&#34;color:#666&#34;&gt;0.1&lt;/span&gt;]])
+Y_pred2 &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;Tensor([[&lt;span style=&#34;color:#666&#34;&gt;0.8&lt;/span&gt;, &lt;span style=&#34;color:#666&#34;&gt;0.2&lt;/span&gt;, &lt;span style=&#34;color:#666&#34;&gt;0.3&lt;/span&gt;],
+                        [&lt;span style=&#34;color:#666&#34;&gt;0.2&lt;/span&gt;, &lt;span style=&#34;color:#666&#34;&gt;0.3&lt;/span&gt;, &lt;span style=&#34;color:#666&#34;&gt;0.5&lt;/span&gt;],
+                        [&lt;span style=&#34;color:#666&#34;&gt;0.2&lt;/span&gt;, &lt;span style=&#34;color:#666&#34;&gt;0.2&lt;/span&gt;, &lt;span style=&#34;color:#666&#34;&gt;0.5&lt;/span&gt;]])
+
+l1 &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; criterion(Y_pred1, Y)
+l2 &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; criterion(Y_pred2, Y)
+&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;print&lt;/span&gt;(&lt;span style=&#34;color:#b44&#34;&gt;&amp;#34;Batch Loss1 = &amp;#34;&lt;/span&gt;, l1&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;data, &lt;span style=&#34;color:#b44&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#b62;font-weight:bold&#34;&gt;\n&lt;/span&gt;&lt;span style=&#34;color:#b44&#34;&gt;Batch Loss2=&amp;#34;&lt;/span&gt;, l2&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;data)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;crossentropyloss-vs-nulloss&#34;&gt;CrossEntropyLoss vs NULLoss&lt;/h3&gt;
+&lt;h3 id=&#34;implementation&#34;&gt;Implementation&lt;/h3&gt;
+&lt;h4 id=&#34;package&#34;&gt;Package&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#00f;font-weight:bold&#34;&gt;torch&lt;/span&gt;
+&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color:#00f;font-weight:bold&#34;&gt;torchvision&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;import&lt;/span&gt; transforms
+&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color:#00f;font-weight:bold&#34;&gt;torchvision&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;import&lt;/span&gt; datasets
+&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color:#00f;font-weight:bold&#34;&gt;torch.utils.data&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;import&lt;/span&gt; DataLoader
+&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#00f;font-weight:bold&#34;&gt;torch.nn.functional&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;as&lt;/span&gt; &lt;span style=&#34;color:#00f;font-weight:bold&#34;&gt;F&lt;/span&gt;
+&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#00f;font-weight:bold&#34;&gt;torch.optim&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;as&lt;/span&gt; &lt;span style=&#34;color:#00f;font-weight:bold&#34;&gt;optim&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;transform&lt;/code&gt;: 对数据集进行处理&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;F&lt;/code&gt;: For using function relu()&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;optim&lt;/code&gt;: For constructing Optimizer&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;prepare-dataset-2&#34;&gt;Prepare Dataset&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;batch_size &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;64&lt;/span&gt;
+transform &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; transforms&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;Compose([
+    transforms&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;ToTensor(),
+    transforms&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;Normalize((&lt;span style=&#34;color:#666&#34;&gt;0.1307&lt;/span&gt;, ), (&lt;span style=&#34;color:#666&#34;&gt;0.3081&lt;/span&gt;, ))
+])
+
+train_dataset &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; datasets&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;MNIST(root&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;../dataset/mnist/&amp;#39;&lt;/span&gt;,
+                               train&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;True,
+                               download&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;True,
+                               transform&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;transform)
+train_loader &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; DataLoader(train_dataset,
+                          shuffle&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;True,
+                          batch_size&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;batch_size)
+
+test_dataset &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; datasets&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;MNIST(root&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;../dataset/mnist/&amp;#39;&lt;/span&gt;,
+                              train&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;False,
+                              download&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;True,
+                              transform&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;transform)
+test_loader &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; DataLoader(test_dataset,
+                         shuffle&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;False,
+                         batch_size&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;batch_size)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;transform是为了Normalization数据，0.1307是均值，0.3081是标准差。这是MNIST数据集经过计算所得到的均值和标准差。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4 id=&#34;design-model-1&#34;&gt;Design Model&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#00f&#34;&gt;Net&lt;/span&gt;(torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;nn&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;Module):
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; __init__(self):
+        &lt;span style=&#34;color:#a2f&#34;&gt;super&lt;/span&gt;(Net, self)&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;__init__()
+        self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;l1 &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;nn&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;Linear(&lt;span style=&#34;color:#666&#34;&gt;784&lt;/span&gt;, &lt;span style=&#34;color:#666&#34;&gt;512&lt;/span&gt;)
+        self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;l2 &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;nn&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;Linear(&lt;span style=&#34;color:#666&#34;&gt;512&lt;/span&gt;, &lt;span style=&#34;color:#666&#34;&gt;256&lt;/span&gt;)
+        self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;l3 &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;nn&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;Linear(&lt;span style=&#34;color:#666&#34;&gt;256&lt;/span&gt;, &lt;span style=&#34;color:#666&#34;&gt;128&lt;/span&gt;)
+        self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;l4 &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;nn&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;Linear(&lt;span style=&#34;color:#666&#34;&gt;128&lt;/span&gt;, &lt;span style=&#34;color:#666&#34;&gt;64&lt;/span&gt;)
+        self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;l5 &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;nn&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;Linear(&lt;span style=&#34;color:#666&#34;&gt;64&lt;/span&gt;, &lt;span style=&#34;color:#666&#34;&gt;10&lt;/span&gt;)
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;forward&lt;/span&gt;(self, x):
+        x &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; x&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;view(&lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color:#666&#34;&gt;784&lt;/span&gt;)
+        x &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; F&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;relu(self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;l1(x))
+        x &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; F&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;relu(self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;l2(x))
+        x &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; F&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;relu(self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;l3(x))
+        x &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; F&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;relu(self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;l4(x))
+        &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;return&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;l5(x)
+
+model &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; Net()
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;construct-loss-and-optimizer-2&#34;&gt;Construct Loss and Optimizer&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;criterion &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;nn&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;CrossEntropyLoss()
+optimizer &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; optim&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;SGD(model&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;parameters(), lr&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0.01&lt;/span&gt;, momentum&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0.5&lt;/span&gt;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;train-and-test&#34;&gt;Train and Test&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;train&lt;/span&gt;(epoch):
+    running_loss &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;0.0&lt;/span&gt;
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;for&lt;/span&gt; batch_idx, data &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#a2f&#34;&gt;enumerate&lt;/span&gt;(train_loader, &lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;):
+        inputs, target &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; data
+        optimizer&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;zero_grad()
+        &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# forward + backward + update&lt;/span&gt;
+        outputs &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; model(inputs)
+        loss &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; criterion(outputs, target)
+        loss&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;backward()
+        optimizer&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;step()
+        running_loss &lt;span style=&#34;color:#666&#34;&gt;+=&lt;/span&gt; loss&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;item()
+        &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt; batch_idx &lt;span style=&#34;color:#666&#34;&gt;%&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;300&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;299&lt;/span&gt;:
+            &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;print&lt;/span&gt;(&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;[&lt;/span&gt;&lt;span style=&#34;color:#b68;font-weight:bold&#34;&gt;%d&lt;/span&gt;&lt;span style=&#34;color:#b44&#34;&gt;, &lt;/span&gt;&lt;span style=&#34;color:#b68;font-weight:bold&#34;&gt;%5d&lt;/span&gt;&lt;span style=&#34;color:#b44&#34;&gt;] loss: &lt;/span&gt;&lt;span style=&#34;color:#b68;font-weight:bold&#34;&gt;%.3f&lt;/span&gt;&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;%&lt;/span&gt; (epoch &lt;span style=&#34;color:#666&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;, batch_idx &lt;span style=&#34;color:#666&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;, running_loss &lt;span style=&#34;color:#666&#34;&gt;/&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;300&lt;/span&gt;))
+            running_loss &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;0.0&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;test&lt;/span&gt;():
+    correct &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;
+    total &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;with&lt;/span&gt; torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;no_grad():
+        &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;for&lt;/span&gt; data &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;in&lt;/span&gt; test_loader:
+            images, labels &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; data
+            outputs &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; model(images)
+            _, predicted &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;max(outputs&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;data, dim&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
+            total &lt;span style=&#34;color:#666&#34;&gt;+=&lt;/span&gt; labels&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;size(&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;)
+            correct &lt;span style=&#34;color:#666&#34;&gt;+=&lt;/span&gt; (predicted &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; labels)&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;sum()&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;item()
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;print&lt;/span&gt;(&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;Accuracy on test set: &lt;/span&gt;&lt;span style=&#34;color:#b68;font-weight:bold&#34;&gt;%d&lt;/span&gt;&lt;span style=&#34;color:#b44&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#b68;font-weight:bold&#34;&gt;%%&lt;/span&gt;&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;%&lt;/span&gt; (&lt;span style=&#34;color:#666&#34;&gt;100&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;*&lt;/span&gt; correct &lt;span style=&#34;color:#666&#34;&gt;/&lt;/span&gt; total))
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;for&lt;/span&gt; epoch &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#a2f&#34;&gt;range&lt;/span&gt;(&lt;span style=&#34;color:#666&#34;&gt;10&lt;/span&gt;):
+    train(epoch)
+    test()
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;mention&#34;&gt;MENTION&lt;/h4&gt;
+&lt;p&gt;我们在打标签的时候需要从0开始，否则是有问题的。&lt;/p&gt;
+&lt;h2 id=&#34;06-cnn&#34;&gt;06. CNN&lt;/h2&gt;
+&lt;p&gt;卷积神经网络可以做到保留原始的空间信息，而全连接层是展开成一个，无法保留空间信息。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://preminstrel.github.io/blog/img/20210915121409.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#00f;font-weight:bold&#34;&gt;torch&lt;/span&gt;
+in_channels, out_channels&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;5&lt;/span&gt;, &lt;span style=&#34;color:#666&#34;&gt;10&lt;/span&gt;
+width, height &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;100&lt;/span&gt;, &lt;span style=&#34;color:#666&#34;&gt;100&lt;/span&gt;
+kernel_size &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;3&lt;/span&gt;
+batch_size &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;
+
+&lt;span style=&#34;color:#a2f&#34;&gt;input&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;randn(batch_size,
+                    in_channels,
+                    width,
+                    height)
+
+conv_layer &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;nn&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;Conv2d(in_channels,
+                             out_channels,
+                             kernel_size&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;kernel_size)
+
+output &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; conv_layer(&lt;span style=&#34;color:#a2f&#34;&gt;input&lt;/span&gt;)
+
+&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;print&lt;/span&gt;(&lt;span style=&#34;color:#a2f&#34;&gt;input&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;shape)
+&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;print&lt;/span&gt;(output&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;shape)
+&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;print&lt;/span&gt;(conv_layer&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;weight&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;shape)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;输出为：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;Size([&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color:#666&#34;&gt;5&lt;/span&gt;, &lt;span style=&#34;color:#666&#34;&gt;100&lt;/span&gt;, &lt;span style=&#34;color:#666&#34;&gt;100&lt;/span&gt;])
+torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;Size([&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color:#666&#34;&gt;10&lt;/span&gt;, &lt;span style=&#34;color:#666&#34;&gt;98&lt;/span&gt;, &lt;span style=&#34;color:#666&#34;&gt;98&lt;/span&gt;])
+torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;Size([&lt;span style=&#34;color:#666&#34;&gt;10&lt;/span&gt;, &lt;span style=&#34;color:#666&#34;&gt;5&lt;/span&gt;, &lt;span style=&#34;color:#666&#34;&gt;3&lt;/span&gt;, &lt;span style=&#34;color:#666&#34;&gt;3&lt;/span&gt;])
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;mnist-example&#34;&gt;MNIST Example&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&#34;https://preminstrel.github.io/blog/img/20210915122114.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h4 id=&#34;move-model-to-gpu&#34;&gt;Move Model to GPU&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;device &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;device(&lt;span style=&#34;color:#b44&#34;&gt;&amp;#34;cuda:0&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt; torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;cuda&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;is_available() &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#b44&#34;&gt;&amp;#34;cpu&amp;#34;&lt;/span&gt;)
+model&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;to(device)
+
+&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;train&lt;/span&gt;(epoch):
+    running_loss &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;0.0&lt;/span&gt;
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;for&lt;/span&gt; batch_idx, data &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#a2f&#34;&gt;enumerate&lt;/span&gt;(train_loader, &lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;):
+        inputs, target &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; data
+        inputs, target &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; inputs&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;to(device), target&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;to(device)
+        optimizer&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;zero_grad()
+        
+        &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# forward + backward + update&lt;/span&gt;
+        outputs &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; model(inputs)
+        loss &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; criterion(outputs, target)
+        loss&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;backward()
+        optimizer&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;step()
+        running_loss &lt;span style=&#34;color:#666&#34;&gt;+=&lt;/span&gt; loss&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;item()
+        &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt; batch_idx &lt;span style=&#34;color:#666&#34;&gt;%&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;300&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;299&lt;/span&gt;:
+            &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;print&lt;/span&gt;(&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;[&lt;/span&gt;&lt;span style=&#34;color:#b68;font-weight:bold&#34;&gt;%d&lt;/span&gt;&lt;span style=&#34;color:#b44&#34;&gt;, &lt;/span&gt;&lt;span style=&#34;color:#b68;font-weight:bold&#34;&gt;%5d&lt;/span&gt;&lt;span style=&#34;color:#b44&#34;&gt;] loss: &lt;/span&gt;&lt;span style=&#34;color:#b68;font-weight:bold&#34;&gt;%.3f&lt;/span&gt;&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;%&lt;/span&gt; (epoch &lt;span style=&#34;color:#666&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;, batch_idx &lt;span style=&#34;color:#666&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;, running_loss &lt;span style=&#34;color:#666&#34;&gt;/&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;2000&lt;/span&gt;))
+            running_loss &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;0.0&lt;/span&gt;
+            
+&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;test&lt;/span&gt;():
+    correct &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;
+    total &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;with&lt;/span&gt; torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;no_grad():
+        &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;for&lt;/span&gt; data &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;in&lt;/span&gt; test_loader:
+            inputs, target &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; data
+            inputs, target &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; inputs&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;to(device), target&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;to(device)
+            outputs &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; model(inputs)
+            _, predicted &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;max(outputs&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;data, dim&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
+            total &lt;span style=&#34;color:#666&#34;&gt;+=&lt;/span&gt; target&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;size(&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;)
+            correct &lt;span style=&#34;color:#666&#34;&gt;+=&lt;/span&gt; (predicted &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; target)&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;sum()&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;item()
+    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;print&lt;/span&gt;(&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;Accuracy on test set: &lt;/span&gt;&lt;span style=&#34;color:#b68;font-weight:bold&#34;&gt;%d&lt;/span&gt;&lt;span style=&#34;color:#b44&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#b68;font-weight:bold&#34;&gt;%%&lt;/span&gt;&lt;span style=&#34;color:#b44&#34;&gt; [&lt;/span&gt;&lt;span style=&#34;color:#b68;font-weight:bold&#34;&gt;%d&lt;/span&gt;&lt;span style=&#34;color:#b44&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#b68;font-weight:bold&#34;&gt;%d&lt;/span&gt;&lt;span style=&#34;color:#b44&#34;&gt;]&amp;#39;&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;%&lt;/span&gt; (&lt;span style=&#34;color:#666&#34;&gt;100&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;*&lt;/span&gt; correct &lt;span style=&#34;color:#666&#34;&gt;/&lt;/span&gt; total, correct, total))
+
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;inception-module&#34;&gt;Inception Module&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&#34;https://preminstrel.github.io/blog/img/20210915173840.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h4 id=&#34;1x1-convolution&#34;&gt;1x1 convolution&lt;/h4&gt;
+&lt;p&gt;可以&lt;strong&gt;改变通道数量&lt;/strong&gt;，可以跨越不同通道相同像素的值，做到了信息融合的目的。
+卷积核的数量就代表了通道的数量。
+作用：降低运算量&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://preminstrel.github.io/blog/img/20210915175019.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+</description>
+      
     </item>
     
   </channel>

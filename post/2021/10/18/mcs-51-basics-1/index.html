@@ -1,200 +1,147 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>MCS 51 Basics (1) - Preminstrel&#39;s Blog</title>
-  <meta name="renderer" content="webkit" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
+  
+  <meta name="author" content="Hanshi Sun">
 
-<meta name="theme-color" content="#f8f5ec" />
-<meta name="msapplication-navbutton-color" content="#f8f5ec">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+  
+  
+  <meta name="description" content="最近因为在上微机原理课，所以买了51单片机（MCS 51）来进行实验学习。 Introduction to MCU 一台能够工作的计算机要有这样几个部件构成：CPU（进行运算、控">
+  
+
+  
+  <link rel="icon" href="https://preminstrel.github.io/blog/favicon.ico">
+
+  
+  
+  <meta name="keywords" content=" hugo  latex  theme ">
+  
+
+  
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css"
+  integrity="sha384-KiWOvVjnN8qwAZbuQyWDIbfCLFhLXNETzBQjA/92pIowpC0d2O3nppDGQVgwd2nB" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+  integrity="sha384-0fdwu/T/EQMsQlrHCCHoH10pkPLlKA1jL5dFyUOvB3lfeT2540/2g6YgSi2BL14p" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/contrib/auto-render.min.js"
+  integrity="sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR" crossorigin="anonymous"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: '$$', right: '$$', display: true },
+        { left: '\\[', right: '\\]', display: true },
+        { left: '$', right: '$', display: false },
+        { left: '\\(', right: '\\)', display: false }
+      ],
+      ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code', 'option'],
+      throwOnError: false
+    });
+  });
+</script>
 
 
-<meta name="author" content="Hanshi Sun" /><meta name="description" content="最近因为在上微机原理课，所以买了51单片机（MCS 51）来进行实验学习。 Introduction to MCU 一台能够工作的计算机要有这样几个部件构成：CPU（进行运算、控" /><meta name="keywords" content="Preminstrel" />
+  
 
-
-<meta name="robots" content="">
-
-
-
-
-
-
-<meta name="generator" content="Hugo 0.68.3 with theme even" />
-
-
-<link rel="canonical" href="https://preminstrel.github.io/blog/post/2021/10/18/mcs-51-basics-1/" />
-<link rel="apple-touch-icon" sizes="180x180" href="/blog/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/blog/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/blog/favicon-16x16.png">
-<link rel="manifest" href="/blog/manifest.json">
-<link rel="mask-icon" href="/blog/safari-pinned-tab.svg" color="#5bbad5">
-
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-<link href="/blog/sass/main.min.75451ad2d2268431f3dfb6289a5d8bc042bd3e23f7ac463fe449ed7872bb8c72.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
-
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" /><meta property="og:title" content="MCS 51 Basics (1)" />
+  
+  <meta property="og:title" content="MCS 51 Basics (1)" />
 <meta property="og:description" content="最近因为在上微机原理课，所以买了51单片机（MCS 51）来进行实验学习。 Introduction to MCU 一台能够工作的计算机要有这样几个部件构成：CPU（进行运算、控" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://preminstrel.github.io/blog/post/2021/10/18/mcs-51-basics-1/" />
 <meta property="article:published_time" content="2021-10-18T22:45:32+08:00" />
 <meta property="article:modified_time" content="2021-10-24T00:00:00+00:00" />
-<meta itemprop="name" content="MCS 51 Basics (1)">
+
+
+  
+  <link rel="canonical" href="https://preminstrel.github.io/blog/post/2021/10/18/mcs-51-basics-1/">
+
+  
+  
+  <meta itemprop="name" content="MCS 51 Basics (1)">
 <meta itemprop="description" content="最近因为在上微机原理课，所以买了51单片机（MCS 51）来进行实验学习。 Introduction to MCU 一台能够工作的计算机要有这样几个部件构成：CPU（进行运算、控">
 <meta itemprop="datePublished" content="2021-10-18T22:45:32&#43;08:00" />
 <meta itemprop="dateModified" content="2021-10-24T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="5631">
+<meta itemprop="wordCount" content="5563">
 
 
 
-<meta itemprop="keywords" content="MCU,MCS 51," /><meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="MCU,MCS 51," />
+
+  
+  <link media="screen" rel="stylesheet" href='https://preminstrel.github.io/blog/css/common.css'>
+  <link media="screen" rel="stylesheet" href='https://preminstrel.github.io/blog/css/content.css'>
+
+  
+  
+  <title>MCS 51 Basics (1) - Blog de Preminstrel</title>
+  
+
+  
+  <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="MCS 51 Basics (1)"/>
 <meta name="twitter:description" content="最近因为在上微机原理课，所以买了51单片机（MCS 51）来进行实验学习。 Introduction to MCU 一台能够工作的计算机要有这样几个部件构成：CPU（进行运算、控"/>
 
-<!--[if lte IE 9]>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
-<![endif]-->
 
-<!--[if lt IE 9]>
-  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
-<![endif]-->
+  
+<link rel="stylesheet" href='https://preminstrel.github.io/blog/css/single.css'>
 
 </head>
+
 <body>
-  <div id="mobile-navbar" class="mobile-navbar">
-  <div class="mobile-header-logo">
-    <a href="/blog/" class="logo">Preminstrel</a>
-  </div>
-  <div class="mobile-navbar-icon">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
-</div>
-<nav id="mobile-menu" class="mobile-menu slideout-menu">
-  <ul class="mobile-menu-list">
-    <a href="/blog/">
-        <li class="mobile-menu-item">Home</li>
-      </a><a href="/blog/post/">
-        <li class="mobile-menu-item">Archives</li>
-      </a><a href="/blog/tags/">
-        <li class="mobile-menu-item">Tags</li>
-      </a><a href="/blog/categories/">
-        <li class="mobile-menu-item">Categories</li>
-      </a><a href="/blog/about/">
-        <li class="mobile-menu-item">About</li>
-      </a>
-  </ul>
-</nav>
-  <div class="container" id="mobile-panel">
-    <header id="header" class="header">
-        <div class="logo-wrapper">
-  <a href="/blog/" class="logo">Preminstrel</a>
-</div>
+  <div id="wrapper">
+    <header id="header">
+  <h1>
+    <a href="https://preminstrel.github.io/blog/">Blog de Preminstrel</a>
+  </h1>
 
-
-<nav class="site-navbar">
-  <ul id="menu" class="menu">
-    <li class="menu-item">
-        <a class="menu-item-link" href="/blog/">Home</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/blog/post/">Archives</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/blog/tags/">Tags</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/blog/categories/">Categories</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/blog/about/">About</a>
-      </li>
-  </ul>
-</nav><li style="display:inline-block;margin-left:290px;">
-    <input type="search" class="docsearch-input" placeholder="Search" />
-  </li>
-    </header>
-
-    <main id="main" class="main">
-      <div class="content-wrapper">
-        <div id="content" class="content">
-          <article class="post">
+  <nav>
     
-    <header class="post-header">
-      <h1 class="post-title">MCS 51 Basics (1)</h1>
+    <span class="nav-bar-item">
+      <a class="link" href="/blog/">Post</a>
+    </span>
+    
+    <span class="nav-bar-item">
+      <a class="link" href="/blog/post/">Archives</a>
+    </span>
+    
+    <span class="nav-bar-item">
+      <a class="link" href="/blog/about/">About</a>
+    </span>
+    
+  </nav>
+</header>
 
-      <div class="post-meta">
-        <span class="post-time"> 2021-10-18 </span>
-        <div class="post-category">
-            <a href="/blog/categories/mcu/"> MCU </a>
-            </div>
-          <span class="more-meta"> 5631 words </span>
-          <span class="more-meta"> 12 mins read </span>
-        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/blog/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
-      </div>
-    </header>
-
-    <div class="post-toc" id="post-toc">
-  <h2 class="post-toc-title">Contents</h2>
-  <div class="post-toc-content always-active">
-    <nav id="TableOfContents">
-  <ul>
-    <li><a href="#introduction-to-mcu">Introduction to MCU</a>
-      <ul>
-        <li><a href="#mcs-51">MCS 51</a></li>
-        <li><a href="#stc89cxx-chip">STC89Cxx Chip</a></li>
-      </ul>
-    </li>
-    <li><a href="#单片机最小系统构成">单片机最小系统构成</a>
-      <ul>
-        <li><a href="#晶振电路">晶振电路</a></li>
-        <li><a href="#复位电路">复位电路</a></li>
-        <li><a href="#电源电路">电源电路</a></li>
-      </ul>
-    </li>
-    <li><a href="#keil-c51-template">Keil C51 template</a>
-      <ul>
-        <li><a href="#头文件作用">头文件作用</a></li>
-      </ul>
-    </li>
-    <li><a href="#点亮第一个-led">点亮第一个 LED</a>
-      <ul>
-        <li><a href="#introduction-to-gpio">Introduction to GPIO</a>
-          <ul>
-            <li><a href="#concepts">Concepts</a></li>
-            <li><a href="#framework">Framework</a></li>
-          </ul>
-        </li>
-        <li><a href="#introduction-to-led">Introduction to LED</a></li>
-        <li><a href="#hardware-design">Hardware Design</a></li>
-        <li><a href="#software-design">Software Design</a>
-          <ul>
-            <li><a href="#点亮第一个-led-1">点亮第一个 LED</a></li>
-            <li><a href="#led-流水灯实验">LED 流水灯实验</a></li>
-          </ul>
-        </li>
-      </ul>
-    </li>
-    <li><a href="#reference">Reference</a></li>
-  </ul>
-</nav>
+    
+<main id="main" class="post">
+  
+  
+  <h1>MCS 51 Basics (1)</h1>
+  
+  <div>
+    <b>Keywords: </b>
+    
+    <a class="link" href='https://preminstrel.github.io/blog/tags/mcu'>#MCU</a>
+    
+    <a class="link" href='https://preminstrel.github.io/blog/tags/mcs-51'>#MCS 51</a>
+    
   </div>
-</div>
-    <div class="post-content">
-      <p>最近因为在上微机原理课，所以买了51单片机（MCS 51）来进行实验学习。</p>
+  
+  
+  <article class="content">
+    
+    <p>最近因为在上微机原理课，所以买了51单片机（MCS 51）来进行实验学习。</p>
 <h1 id="introduction-to-mcu">Introduction to MCU</h1>
-<p>一台能够工作的计算机要有这样几个部件构成：CPU（进行运算、控制）、RAM （<strong>数据</strong>存储）、ROM（<strong>程序</strong>存储）、输入/输出设备（例如：串行口、并行输出口等）。</p>
-<p>在个人计算机上这些部件被分成若干块芯片，安装一个称之为<strong>主板</strong>的印刷线路板上。而在单片机中，这些部件全部被做到一块集成电路芯片中，所以就称为<strong>单片机（也称微控制器 MCU）</strong>，而且有一些单片机中除了上述部份外，还集成了其它部份如 A/D，D/A 等。体积不大，一般用 40 脚封装， 当然功能多一些单片机也有引脚比较多的，如 68 引脚， 功能少的只有 10 多个或 20 多个引脚，有的甚至只 8 只引脚。</p>
+<p>一台能够工作的计算机要有这样几个部件构成：CPU（进行运算、控制）、RAM （<strong class=chinese>数据</strong>存储）、ROM（<strong class=chinese>程序</strong>存储）、输入/输出设备（例如：串行口、并行输出口等）。</p>
+<p>在个人计算机上这些部件被分成若干块芯片，安装一个称之为<strong class=chinese>主板</strong>的印刷线路板上。而在单片机中，这些部件全部被做到一块集成电路芯片中，所以就称为<strong>单片机（也称微控制器 MCU）</strong>，而且有一些单片机中除了上述部份外，还集成了其它部份如 A/D，D/A 等。体积不大，一般用 40 脚封装， 当然功能多一些单片机也有引脚比较多的，如 68 引脚， 功能少的只有 10 多个或 20 多个引脚，有的甚至只 8 只引脚。</p>
 <h2 id="mcs-51">MCS 51</h2>
 <p>51 单片机是对所有兼容 Intel 8031 指令系统的单片机的统称。51 单片机是基础入门的 一个单片机，还是应用最广泛的一种。需要注意的是 <strong>51 系列的单片机一般不具备自编程能力</strong>。 80C51 是 MCS-51 系列中的一个典型品种；其它厂商以 8051 为基核开发出的CMOS 工艺单片机产品统称为 80C51 系列。</p>
-<p><strong>总线（BUS）<strong>是单片机各部件之间传送信息的公共通道。单片机中有</strong>内部总线</strong>和<strong>外部总线</strong>两类，内部总线是 CPU 内部之间的连线，外部总线是指 CPU 与其它部件之间的连线；外部总线有三种: <strong>数据总线 DB（Data Bus）,地址总线 AB（Address Bus）和控制总线 CB（Control Bus）</strong>。</p>
+<p><strong>总线（BUS）<strong>是单片机各部件之间传送信息的公共通道。单片机中有</strong>内部总线</strong>和<strong class=chinese>外部总线</strong>两类，内部总线是 CPU 内部之间的连线，外部总线是指 CPU 与其它部件之间的连线；外部总线有三种: <strong>数据总线 DB（Data Bus）,地址总线 AB（Address Bus）和控制总线 CB（Control Bus）</strong>。</p>
 <h2 id="stc89cxx-chip">STC89Cxx Chip</h2>
 <p>我国芯片技术的快速发展，宏晶公司推出了增强型51单片机 STC89Cxx/STC90Cxx 等系列，除内部资源及功能大大增强外，还有一个非常重要的是它支持 <strong>ISP（在系统可编程）/IAP（在应用可编程）</strong>，无需专用编程器或专用仿真器。开发板上使用的 STC89C52 或者 STC89C516，这两款芯片以及其他 STC89Cxx 或者 STC90Cxx 除 Flash 和 RAM 容量差异外，内部资源功能几乎一样。下面我们看下常见 PDIP 封装（直插封装）的 51 单片机芯片实物图如下所示：</p>
 <div align=center>
@@ -347,14 +294,14 @@
 <p>复位电路提供系统复位操作，当系统出现运行不正常或者死机等情况时，可以通过复位按键重新启动系统。</p>
 <p>电源电路也是非常关键的一个部分，因为单片机对供电电压是有要求的，如果电压过大将烧坏芯片，如果电压过小系统将运行不了。所以选择一个合适稳定的电源电路是非常关键的。 还有一点非常重要，由于 51 单片机的 P0 口是漏极开路，即<strong>输出高电平会导致高阻态，要让它输出高电平就必须外接上拉电阻</strong>。</p>
 <h2 id="晶振电路">晶振电路</h2>
-<p>由于单片机正常工作需要一个<strong>时钟</strong>，因此就需要在其晶振引脚上外接晶振 （我们使用的 STC89CXX 单片机晶振引脚是 18 和 19 脚），至于需要多大晶振这就取决于你所使用的单片机，由于使用的是 51 单片机，其时钟频率可在 0-40MHZ 上运行，一般情况下建议选择 12M（适合计算延时时间）或者是 11.0592M（适合串口通信）。</p>
+<p>由于单片机正常工作需要一个<strong class=chinese>时钟</strong>，因此就需要在其晶振引脚上外接晶振 （我们使用的 STC89CXX 单片机晶振引脚是 18 和 19 脚），至于需要多大晶振这就取决于你所使用的单片机，由于使用的是 51 单片机，其时钟频率可在 0-40MHZ 上运行，一般情况下建议选择 12M（适合计算延时时间）或者是 11.0592M（适合串口通信）。</p>
 <p>若直接将此晶振接入单片机晶振引脚，会发现系统工作不稳定，这是因为晶振起振的一瞬间会产生一些电感，为了消除这个电感所带来的干扰，可以在此晶振两端分别加上一个电容，电容的选取需要无极性的， 另一端需要共地。根据选取的晶振大小决定电容值，通常电容可在 10-33PF 值范围内选取。我们使用的是 33PF 电容。这样一来就构成了晶振电路。只有保证晶振电路稳定，单片机才能继续工作。</p>
 <div align=center>
 <img src="/img/20211022115957.png" width="400px" />
 </div>
 <h2 id="复位电路">复位电路</h2>
 <p>前面已经将晶振电路搭建完成，晶振需要无时无刻给单片机提供运行周期。但即使时钟周期在不停的运行，系统也有可能会出现崩溃或者瘫痪状态。</p>
-<p>为了处理这一情况，需要设计一个复位电路来实现此功能。单片机引脚当中有一个 <code>RST</code> 复位引脚，STC89CXX 单片机是<strong>高电平复位</strong>，所以只需要让这个引脚保持一段时间高电平就可以。要实现此功能通常有两种方式，一种是通过按键进行手动复位，还有一种是上电复位，即电源开启后自动复位。</p>
+<p>为了处理这一情况，需要设计一个复位电路来实现此功能。单片机引脚当中有一个 <code>RST</code> 复位引脚，STC89CXX 单片机是<strong class=chinese>高电平复位</strong>，所以只需要让这个引脚保持一段时间高电平就可以。要实现此功能通常有两种方式，一种是通过按键进行手动复位，还有一种是上电复位，即电源开启后自动复位。</p>
 <p>手动复位是通过一个按键及电容电阻所组成，利用按键的开关功能实现复位，按键按下后 <code>VCC</code> 直接进入到单片机 <code>RST</code> 引脚，松开后 <code>VCC</code> 断开，<code>RST</code> 被电阻拉为低电平。这一合一开就实现了手动复位。当按下按键 <code>RSTK1</code>，<code>VCC</code> 直接连接到 <code>RST</code> 复位脚，<code>VCC</code> 是高电平所以系统复位。</p>
 <p>而自动复位主要是利用 RC 充放电功能，电源已开启，由于电容隔直，<code>VCC</code> 直接进入 <code>RST</code>，然后电容开始慢慢充电，直到充电完成，此时 <code>RST</code> 被电阻拉低。 这样就起到上电复位的效果。</p>
 <h2 id="电源电路">电源电路</h2>
@@ -363,46 +310,29 @@
 <h1 id="keil-c51-template">Keil C51 template</h1>
 <p>我们使用 Keil 来创建完美地工程模板，为后面的程序编写带来方便。</p>
 <p>CPU 型号选择 <code>AT89C52</code>，在 <code>Configuration</code> 中配置好合适的字体后，我们创建一个 <code>main.c</code> 文件，写入以下代码。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="cm">/* main.c */</span>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#080;font-style:italic">/* main.c */</span>
 
-<span class="cp">#include</span> <span class="cpf">&#34;reg52.h&#34;</span><span class="cp">
-</span><span class="cp"></span>
-<span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
-<span class="p">{</span>
-    <span class="k">while</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-    <span class="p">{</span>
+<span style="color:#080">#include</span> <span style="color:#080">&#34;reg52.h&#34;</span><span style="color:#080">
+</span><span style="color:#080"></span>
+<span style="color:#0b0;font-weight:bold">void</span> <span style="color:#00a000">main</span>()
+{
+    <span style="color:#a2f;font-weight:bold">while</span>(<span style="color:#666">1</span>)
+    {
         
-    <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
-</div>
-</div><h2 id="头文件作用">头文件作用</h2>
+    }
+}
+</code></pre></div><h2 id="头文件作用">头文件作用</h2>
 <p>在代码中引用头文件，其实际意义就是将这个头文件中的全部内容放到引用头文件的位置处，免去我们每次编写同类程序都要将头文件中的语句重复编写。</p>
 <p>在代码中加入头文件有两种书写方法，分别为<code>#include &lt;reg52.h&gt;</code>和<code>#include&quot;reg52.h&quot;</code>，这两种写法是有区别的。</p>
 <ul>
-<li>使用<code>&lt;&gt;</code>包含头文件时，编译器先进入到<strong>软件安装文件夹</strong>处开始搜索这个头文件，也就是 <code>KEILC51/C51/INC</code> 这个文件夹下，如果这个文件夹没有引用的头文件，编译器将会报错。</li>
-<li>使用<code>&quot;&quot;</code>包含头文件时，编译器先进入到<strong>当前工程所在文件夹</strong>处开始搜索该头文件，如果当前工程所在文件夹下没有该头文件，编译器<strong>将继续回到软件安装文件夹处搜索这个头文件</strong>，若找不到该头文件，编译器将报错。</li>
+<li>使用<code>&lt;&gt;</code>包含头文件时，编译器先进入到<strong class=chinese>软件安装文件夹</strong>处开始搜索这个头文件，也就是 <code>KEILC51/C51/INC</code> 这个文件夹下，如果这个文件夹没有引用的头文件，编译器将会报错。</li>
+<li>使用<code>&quot;&quot;</code>包含头文件时，编译器先进入到<strong class=chinese>当前工程所在文件夹</strong>处开始搜索该头文件，如果当前工程所在文件夹下没有该头文件，编译器<strong class=chinese>将继续回到软件安装文件夹处搜索这个头文件</strong>，若找不到该头文件，编译器将报错。</li>
 </ul>
 <h1 id="点亮第一个-led">点亮第一个 LED</h1>
 <p>不论学习什么单片机，最简单的外设莫过于 IO 口的高低电平控制，这里我们使用创建好的工程模板上，通过控制 51 单片机的 GPIO 使开发板上的 LED 灯点亮。</p>
 <h2 id="introduction-to-gpio">Introduction to GPIO</h2>
 <h3 id="concepts">Concepts</h3>
-<p>GPIO（<em>general purpose intput output</em>）是通用输入输出端口的简称，可以<strong>通过软件来控制其输入和输出</strong>。51 单片机芯片的 GPIO 引脚与外部设备连接 起来，从而实现与外部通讯、控制以及数据采集的功能。GPIO 最简单的应用还属点亮 LED 灯了，只需通过软件控制 GPIO 输出高低电平即可。</p>
+<p>GPIO（<em>general purpose intput output</em>）是通用输入输出端口的简称，可以<strong class=chinese>通过软件来控制其输入和输出</strong>。51 单片机芯片的 GPIO 引脚与外部设备连接 起来，从而实现与外部通讯、控制以及数据采集的功能。GPIO 最简单的应用还属点亮 LED 灯了，只需通过软件控制 GPIO 输出高低电平即可。</p>
 <p>GPIO 还可以作为输入控制，比如在引脚上接入一个按键，通过电平的高低判断按键是否按下。 我们开发板上使用的 51 单片机型号是 STC89C52 或 STC89C516，此芯片共有 40 引脚。注意，并不是所有的引脚都是 GPIO，51 单片机引脚可以分为以下三个大类：</p>
 <ul>
 <li>电源引脚：引脚图中的 <code>VCC</code>、 <code>GND</code> 都属于电源引脚。</li>
@@ -443,313 +373,125 @@
 <h2 id="software-design">Software Design</h2>
 <h3 id="点亮第一个-led-1">点亮第一个 LED</h3>
 <p>这里所要实现的功能是：点亮 <code>D1</code> 指示灯，即让 <code>P2.0</code> 管脚输出一个低电平。 完成后可再控制 <code>D1</code> 指示灯闪烁，即间隔一段时间点亮和熄灭 <code>D1</code> 指示灯。具体过程是使用 <code>sbit</code> 关键字来定义 <code>P2.0</code> 管脚，定义好后即可使用 <code>LED1</code> 来替代 <code>P2.0</code> 口的操作。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="cp">#include</span> <span class="cpf">&#34;reg52.h&#34;</span><span class="cp">
-</span><span class="cp"></span>
-<span class="k">typedef</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">u16</span><span class="p">;</span>    <span class="c1">//对系统默认数据类型进行重定义
-</span><span class="c1"></span><span class="k">typedef</span> <span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">u8</span><span class="p">;</span>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#080">#include</span> <span style="color:#080">&#34;reg52.h&#34;</span><span style="color:#080">
+</span><span style="color:#080"></span>
+<span style="color:#a2f;font-weight:bold">typedef</span> <span style="color:#0b0;font-weight:bold">unsigned</span> <span style="color:#0b0;font-weight:bold">int</span> u16;    <span style="color:#080;font-style:italic">//对系统默认数据类型进行重定义
+</span><span style="color:#080;font-style:italic"></span><span style="color:#a2f;font-weight:bold">typedef</span> <span style="color:#0b0;font-weight:bold">unsigned</span> <span style="color:#0b0;font-weight:bold">char</span> u8;
 
-<span class="n">sbit</span> <span class="n">LED1</span> <span class="o">=</span> <span class="n">P2</span><span class="o">^</span><span class="mi">0</span><span class="p">;</span>    <span class="c1">//用sbit将P2.0管脚定义为LED1
-</span><span class="c1"></span>
-<span class="cm">/*******************************************************************************
-</span><span class="cm">* 函 数 名       : delay_10us
-</span><span class="cm">* 函数功能         : 延时函数，ten_us=1时，大约延时10us
-</span><span class="cm">* 输    入       : ten_us
-</span><span class="cm">* 输    出         : 无
-</span><span class="cm">*******************************************************************************/</span>
-<span class="kt">void</span> <span class="nf">delay_10us</span><span class="p">(</span><span class="n">u16</span> <span class="n">ten_us</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="k">while</span><span class="p">(</span><span class="n">ten_us</span><span class="o">--</span><span class="p">);</span>    
-<span class="p">}</span>
+sbit LED1 <span style="color:#666">=</span> P2<span style="color:#666">^</span><span style="color:#666">0</span>;    <span style="color:#080;font-style:italic">//用sbit将P2.0管脚定义为LED1
+</span><span style="color:#080;font-style:italic"></span>
+<span style="color:#080;font-style:italic">/*******************************************************************************
+</span><span style="color:#080;font-style:italic">* 函 数 名       : delay_10us
+</span><span style="color:#080;font-style:italic">* 函数功能         : 延时函数，ten_us=1时，大约延时10us
+</span><span style="color:#080;font-style:italic">* 输    入       : ten_us
+</span><span style="color:#080;font-style:italic">* 输    出         : 无
+</span><span style="color:#080;font-style:italic">*******************************************************************************/</span>
+<span style="color:#0b0;font-weight:bold">void</span> <span style="color:#00a000">delay_10us</span>(u16 ten_us)
+{
+    <span style="color:#a2f;font-weight:bold">while</span>(ten_us<span style="color:#666">--</span>);    
+}
 
-<span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
-<span class="p">{</span>
-    <span class="k">while</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="n">LED1</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>    <span class="c1">//点亮
-</span><span class="c1"></span>        <span class="n">delay_10us</span><span class="p">(</span><span class="mi">50000</span><span class="p">);</span> <span class="c1">//大约延时450ms
-</span><span class="c1"></span>        <span class="n">LED1</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>    <span class="c1">//熄灭
-</span><span class="c1"></span>        <span class="n">delay_10us</span><span class="p">(</span><span class="mi">50000</span><span class="p">);</span> 
-    <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
-</div>
-</div><h3 id="led-流水灯实验">LED 流水灯实验</h3>
+<span style="color:#0b0;font-weight:bold">void</span> <span style="color:#00a000">main</span>()
+{
+    <span style="color:#a2f;font-weight:bold">while</span>(<span style="color:#666">1</span>)
+    {
+        LED1<span style="color:#666">=</span><span style="color:#666">0</span>;    <span style="color:#080;font-style:italic">//点亮
+</span><span style="color:#080;font-style:italic"></span>        delay_10us(<span style="color:#666">50000</span>); <span style="color:#080;font-style:italic">//大约延时450ms
+</span><span style="color:#080;font-style:italic"></span>        LED1<span style="color:#666">=</span><span style="color:#666">1</span>;    <span style="color:#080;font-style:italic">//熄灭
+</span><span style="color:#080;font-style:italic"></span>        delay_10us(<span style="color:#666">50000</span>); 
+    }
+}
+</code></pre></div><h3 id="led-流水灯实验">LED 流水灯实验</h3>
 <p>如果要实现 LED 流水灯，只需循环让 <code>D1</code>-<code>D8</code> 指示灯逐个点亮。同样本实验也需要延时。要实现循环点亮，点亮 <code>D1</code> 且把 <code>D2</code>-<code>D8</code> 熄灭，延时一段时间后再点亮 <code>D2</code> 且把 <code>D1</code>、 <code>D3</code>-<code>D8</code> 熄灭，延时一段时间后再点亮 <code>D3</code> 且把 <code>D1</code>-<code>D2</code>、<code>D4</code>-<code>D8</code> 熄灭，如此循环，这样就可以很简单的实现 LED 流水灯实验，当然不推荐此种方法。</p>
 <p>在前面我们学习了 C 语言相关的基础知识，里面有移位以及循环语句操作，根据流水灯实现原理，即 IO 口由低往高或者由高往低逐个输出低电平特点，那么我们可以将移位操作以及循环结合进来。实现代码如下：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-c" data-lang="c"><span class="cp">#include</span> <span class="cpf">&#34;reg52.h&#34;</span><span class="cp">
-</span><span class="cp">#include</span> <span class="cpf">&#34;intrins.h&#34;</span><span class="cp">
-</span><span class="cp"></span>
-<span class="k">typedef</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">u16</span><span class="p">;</span>    <span class="c1">//对系统默认数据类型进行重定义
-</span><span class="c1"></span><span class="k">typedef</span> <span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">u8</span><span class="p">;</span>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#080">#include</span> <span style="color:#080">&#34;reg52.h&#34;</span><span style="color:#080">
+</span><span style="color:#080">#include</span> <span style="color:#080">&#34;intrins.h&#34;</span><span style="color:#080">
+</span><span style="color:#080"></span>
+<span style="color:#a2f;font-weight:bold">typedef</span> <span style="color:#0b0;font-weight:bold">unsigned</span> <span style="color:#0b0;font-weight:bold">int</span> u16;    <span style="color:#080;font-style:italic">//对系统默认数据类型进行重定义
+</span><span style="color:#080;font-style:italic"></span><span style="color:#a2f;font-weight:bold">typedef</span> <span style="color:#0b0;font-weight:bold">unsigned</span> <span style="color:#0b0;font-weight:bold">char</span> u8;
 
-<span class="cp">#define LED_PORT    P2    </span><span class="c1">//使用宏定义P2端口
-</span><span class="c1"></span>
-<span class="kt">void</span> <span class="nf">delay_10us</span><span class="p">(</span><span class="n">u16</span> <span class="n">ten_us</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="k">while</span><span class="p">(</span><span class="n">ten_us</span><span class="o">--</span><span class="p">);</span>    
-<span class="p">}</span>
+<span style="color:#080">#define LED_PORT    P2    </span><span style="color:#080;font-style:italic">//使用宏定义P2端口
+</span><span style="color:#080;font-style:italic"></span>
+<span style="color:#0b0;font-weight:bold">void</span> <span style="color:#00a000">delay_10us</span>(u16 ten_us)
+{
+    <span style="color:#a2f;font-weight:bold">while</span>(ten_us<span style="color:#666">--</span>);    
+}
 
 
-<span class="kt">void</span> <span class="nf">main</span><span class="p">()</span>
-<span class="p">{</span>    
-    <span class="n">u8</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
-    <span class="n">LED_PORT</span><span class="o">=~</span><span class="mh">0x01</span><span class="p">;</span>
-    <span class="n">delay_10us</span><span class="p">(</span><span class="mi">50000</span><span class="p">);</span>
-    <span class="k">while</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="c1">//使用移位 + 循环实现流水灯
-</span><span class="c1"></span>        <span class="k">for</span> <span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="mi">8</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
-        <span class="p">{</span>
-            <span class="n">LED_PORT</span><span class="o">=~</span><span class="p">(</span><span class="mh">0x01</span><span class="o">&lt;&lt;</span><span class="n">i</span><span class="p">);</span>  <span class="c1">//将 1 右移 i 位，然后取反将结果赋值到 LED_PORT;
-</span><span class="c1"></span>            <span class="n">delay_10us</span><span class="p">(</span><span class="mi">50000</span><span class="p">);</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></td></tr></table>
-</div>
-</div><p><code>0X01&lt;&lt;i</code> 表示 i 增加 1 次，<code>0x01</code> 中的 1 就移动多少位，因为 1（高电平）不会让 LED 点亮，需要取反后变为低电平 0 才能点亮，所以最后的结果需要取反后给 <code>LED_PORT</code> 口，并且每次循环都要延时一段时间，这样才能分辨出来 LED 在流水。</p>
+<span style="color:#0b0;font-weight:bold">void</span> <span style="color:#00a000">main</span>()
+{    
+    u8 i<span style="color:#666">=</span><span style="color:#666">0</span>;
+    LED_PORT<span style="color:#666">=~</span><span style="color:#666">0x01</span>;
+    delay_10us(<span style="color:#666">50000</span>);
+    <span style="color:#a2f;font-weight:bold">while</span>(<span style="color:#666">1</span>)
+    {
+        <span style="color:#080;font-style:italic">//使用移位 + 循环实现流水灯
+</span><span style="color:#080;font-style:italic"></span>        <span style="color:#a2f;font-weight:bold">for</span> (i<span style="color:#666">=</span><span style="color:#666">0</span>; i<span style="color:#666">&lt;</span><span style="color:#666">8</span>; i<span style="color:#666">++</span>)
+        {
+            LED_PORT<span style="color:#666">=~</span>(<span style="color:#666">0x01</span><span style="color:#666">&lt;&lt;</span>i);  <span style="color:#080;font-style:italic">//将 1 右移 i 位，然后取反将结果赋值到 LED_PORT;
+</span><span style="color:#080;font-style:italic"></span>            delay_10us(<span style="color:#666">50000</span>);
+        }
+    }
+}
+</code></pre></div><p><code>0X01&lt;&lt;i</code> 表示 i 增加 1 次，<code>0x01</code> 中的 1 就移动多少位，因为 1（高电平）不会让 LED 点亮，需要取反后变为低电平 0 才能点亮，所以最后的结果需要取反后给 <code>LED_PORT</code> 口，并且每次循环都要延时一段时间，这样才能分辨出来 LED 在流水。</p>
 <h1 id="reference">Reference</h1>
 <ul>
 <li>普中51单片机开发攻略</li>
 </ul>
 
-    </div>
-
-    <div class="post-copyright">
-  <p class="copyright-item">
-    <span class="item-title">Author</span>
-    <span class="item-content">Hanshi Sun</span>
-  </p>
-  <p class="copyright-item">
-    <span class="item-title">LastMod</span>
-    <span class="item-content">
-        2021-10-24
-        
-    </span>
-  </p>
-  
-  <p class="copyright-item">
-    <span class="item-title">License</span>
-    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
-  </p>
-</div>
-<div class="post-reward">
-  <input type="checkbox" name="reward" id="reward" hidden />
-  <label class="reward-button" for="reward">Reward</label>
-  <div class="qr-code">
     
-    <label class="qr-code-image" for="reward">
-        <img class="image" src="/img/wechat.jpg">
-        <span>wechat</span>
-      </label>
-    <label class="qr-code-image" for="reward">
-        <img class="image" src="/img/alipay.jpg">
-        <span>alipay</span>
-      </label>
-  </div>
-</div><footer class="post-footer">
-      <div class="post-tags">
-          <a href="/blog/tags/mcu/">MCU</a>
-          <a href="/blog/tags/mcs-51/">MCS 51</a>
-          </div>
-      <nav class="post-nav">
-        <a class="prev" href="/blog/post/2021/10/24/mcs-51-basics-2/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">MCS 51 Basics (2)</span>
-            <span class="prev-text nav-mobile">Prev</span>
-          </a>
-        <a class="next" href="/blog/post/2021/10/18/vivado-ila/">
-            <span class="next-text nav-default">Vivado ILA</span>
-            <span class="next-text nav-mobile">Next</span>
-            <i class="iconfont icon-right"></i>
-          </a>
-      </nav>
-    </footer>
   </article>
-        </div>
-        <div id="gitalk-container"></div>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js" crossorigin="anonymous"></script>
-    <script type="text/javascript">
-      var gitalk = new Gitalk({
-        id: '2021-10-18 22:45:32 \x2b0800 CST',
-        title: 'MCS 51 Basics (1)',
-        clientID: '9d4d5bfb5872b737a756',
-        clientSecret: '2677eacb9eedb58e0e8e7463a2c6a5ff70054601',
-        repo: 'gitalk',
-        owner: 'preminstrel',
-        admin: ['preminstrel'],
-        body: decodeURI(location.href)
-      });
-      gitalk.render('gitalk-container');
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="https://github.com/gitalk/gitalk">comments powered by gitalk.</a></noscript>
-
-  
-
-  
-
-  
-  
-
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="social-links">
-      <a href="mailto:preminstrel@gmail.com" class="iconfont icon-email" title="email"></a>
-      <a href="https://twitter.com/preminstrel" class="iconfont icon-twitter" title="twitter"></a>
-      <a href="https://github.com/preminstrel" class="iconfont icon-github" title="github"></a>
-      <a href="https://www.zhihu.com/people/preminstrel" class="iconfont icon-zhihu" title="zhihu"></a>
-      <a href="https://space.bilibili.com/23354645" class="iconfont icon-bilibili" title="bilibili"></a>
-  <a href="https://preminstrel.github.io/blog/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
-</div>
-
-<div class="copyright">
-  <span class="power-by">
-    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
-  </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-    Theme - 
-    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
-  </span>
-
-  <div class="busuanzi-footer">
+  <div class="paginator">
+    
+    <a class="link" href="https://preminstrel.github.io/blog/post/2021/10/18/vivado-ila/">← prev</a>
+    
+    
+    <a class="link" href="https://preminstrel.github.io/blog/post/2021/10/24/mcs-51-basics-2/">next →</a>
+    
+  </div>
+  <div class="comment">
+    
+    
+    
+    
     
     
   </div>
+  
+</main>
 
-  <span class="copyright-year">
-    &copy; 
-    2021 - 
-    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>Hanshi Sun</span>
-  </span>
-  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js"></script>
-  <script src="https://cdn.bootcdn.net/ajax/libs/mermaid/8.8.3/mermaid.min.js"></script>
-  <script>
-    $(".language-mermaid").addClass("mermaid");
-  </script>
-</div>
-
-
-    </footer>
-
-    <div class="back-to-top" id="back-to-top">
-      <i class="iconfont icon-up"></i>
-    </div>
+    <footer id="footer">
+  <div>
+    <span>© 2021</span> - <span>2022</span>
   </div>
-  
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
 
+  <div>
+    <span>Powered by </span>
+    <a class="link" href="https://gohugo.io/">Hugo</a>
+    <span> 🍦 Theme </span>
+    <a class="link" href="https://github.com/queensferryme/hugo-theme-texify">TeXify</a>
+  </div>
 
+  <div class="footnote">
+    <span>Follow me on <a class=link href=https://github.com/preminstrel>GitHub</a>,
+<a class=link href=https://twitter.com/preminstrel>Twitter</a> or
+<a class=link href=/index.xml>RSS</a> |
+<a class=link href=https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh target=_blank rel=noopener>CC BY-NC-SA 4.0</a>
+</span>
+  </div>
+</footer>
 
-<script type="text/javascript" src="/blog/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
-  <script type="text/javascript">
-    window.MathJax = {
-      tex: {
-        inlineMath: [['$','$'], ['\\(','\\)']],
-        }
-    };
-  </script>
-  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
-
-
-
-
-
-<script src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
-<script>
-docsearch({
-    apiKey: "67ddc142183934ec2d0aa925bf40c09a",
-    indexName: "blog",
-    appId: "RQO6N4CQFD",
-    inputSelector: '.docsearch-input',
-    debug: false,
-});
-</script>
-
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
-
-<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/algoliasearch.min.js"></script>
-<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/autocomplete.min.js"></script>
-
-
- 
-<script src= "/blog/js/search.js" type="text/javascript"></script>
-
-</script>
-
+  </div>
 
   
   
+
+  
+  
+
+  
+  
+
 </body>
+
 </html>

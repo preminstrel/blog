@@ -1,23 +1,33 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Windows on Preminstrel&#39;s Blog</title>
+    <title>Windows on Blog de Preminstrel</title>
     <link>https://preminstrel.github.io/blog/tags/windows/</link>
-    <description>Recent content in Windows on Preminstrel&#39;s Blog</description>
+    <description>Recent content in Windows on Blog de Preminstrel</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 17 Oct 2021 13:46:08 +0800</lastBuildDate>
-    
-	<atom:link href="https://preminstrel.github.io/blog/tags/windows/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <managingEditor>preminstrel@gmail.com (Hanshi Sun)</managingEditor>
+    <webMaster>preminstrel@gmail.com (Hanshi Sun)</webMaster>
+    <lastBuildDate>Sun, 17 Oct 2021 13:46:08 +0800</lastBuildDate><atom:link href="https://preminstrel.github.io/blog/tags/windows/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Scoop</title>
       <link>https://preminstrel.github.io/blog/post/2021/10/17/scoop/</link>
       <pubDate>Sun, 17 Oct 2021 13:46:08 +0800</pubDate>
-      
+      <author>preminstrel@gmail.com (Hanshi Sun)</author>
       <guid>https://preminstrel.github.io/blog/post/2021/10/17/scoop/</guid>
-      <description>在windows环境下，显然无法像Linux环境一样一开始就有现成的包管理，于是我看到了Scoop，Scoop可以用PowerShell安装</description>
+      
+      <description>&lt;p&gt;在windows环境下，显然无法像Linux环境一样一开始就有现成的包管理，于是我看到了Scoop，Scoop可以用PowerShell安装。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;set-executionpolicy remotesigned -scope currentuser
+iex &lt;span style=&#34;color:#666&#34;&gt;(&lt;/span&gt;new-object net.webclient&lt;span style=&#34;color:#666&#34;&gt;)&lt;/span&gt;.downloadstring&lt;span style=&#34;color:#666&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;https://get.scoop.sh&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;下载速度&#34;&gt;下载速度&lt;/h3&gt;
+&lt;p&gt;由于我有代理，所以可以直接配置代理。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# Use proxy (Mention:1080/1081)&lt;/span&gt;
+scoop config proxy 127.0.0.1:1081
+
+&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 移除代理&lt;/span&gt;
+scoop config rm proxy
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+      
     </item>
     
   </channel>

@@ -1,201 +1,141 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-  <title>Pytorch Basics - Preminstrel&#39;s Blog</title>
-  <meta name="renderer" content="webkit" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
+  
+  <meta name="author" content="Hanshi Sun">
 
-<meta name="theme-color" content="#f8f5ec" />
-<meta name="msapplication-navbutton-color" content="#f8f5ec">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+  
+  
+  <meta name="description" content="01. Overview DL &amp; ML 维度诅咒：维度越高，需要的训练集越大 深度学习和机器学习的区别：多了一层用来提取特征的层。传统的机器学习中（无标签），Feature">
+  
+
+  
+  <link rel="icon" href="https://preminstrel.github.io/blog/favicon.ico">
+
+  
+  
+  <meta name="keywords" content=" hugo  latex  theme ">
+  
+
+  
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css"
+  integrity="sha384-KiWOvVjnN8qwAZbuQyWDIbfCLFhLXNETzBQjA/92pIowpC0d2O3nppDGQVgwd2nB" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+  integrity="sha384-0fdwu/T/EQMsQlrHCCHoH10pkPLlKA1jL5dFyUOvB3lfeT2540/2g6YgSi2BL14p" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/contrib/auto-render.min.js"
+  integrity="sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR" crossorigin="anonymous"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: '$$', right: '$$', display: true },
+        { left: '\\[', right: '\\]', display: true },
+        { left: '$', right: '$', display: false },
+        { left: '\\(', right: '\\)', display: false }
+      ],
+      ignoredTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code', 'option'],
+      throwOnError: false
+    });
+  });
+</script>
 
 
-<meta name="author" content="Hanshi Sun" /><meta name="description" content="01. Overview DL &amp;amp; ML 维度诅咒：维度越高，需要的训练集越大 深度学习和机器学习的区别：多了一层用来提取特征的层。传统的机器学习中（无标签），Feature" /><meta name="keywords" content="Preminstrel" />
+  
 
-
-<meta name="robots" content="">
-
-
-
-
-
-
-<meta name="generator" content="Hugo 0.68.3 with theme even" />
-
-
-<link rel="canonical" href="https://preminstrel.github.io/blog/post/2021/10/17/pytorch-basics/" />
-<link rel="apple-touch-icon" sizes="180x180" href="/blog/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/blog/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/blog/favicon-16x16.png">
-<link rel="manifest" href="/blog/manifest.json">
-<link rel="mask-icon" href="/blog/safari-pinned-tab.svg" color="#5bbad5">
-
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-
-<link href="/blog/sass/main.min.75451ad2d2268431f3dfb6289a5d8bc042bd3e23f7ac463fe449ed7872bb8c72.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
-
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.css" /><meta property="og:title" content="Pytorch Basics" />
+  
+  <meta property="og:title" content="Pytorch Basics" />
 <meta property="og:description" content="01. Overview DL &amp; ML 维度诅咒：维度越高，需要的训练集越大 深度学习和机器学习的区别：多了一层用来提取特征的层。传统的机器学习中（无标签），Feature" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://preminstrel.github.io/blog/post/2021/10/17/pytorch-basics/" />
 <meta property="article:published_time" content="2021-10-17T00:25:41+08:00" />
 <meta property="article:modified_time" content="2021-10-17T00:25:41+08:00" />
-<meta itemprop="name" content="Pytorch Basics">
+
+
+  
+  <link rel="canonical" href="https://preminstrel.github.io/blog/post/2021/10/17/pytorch-basics/">
+
+  
+  
+  <meta itemprop="name" content="Pytorch Basics">
 <meta itemprop="description" content="01. Overview DL &amp; ML 维度诅咒：维度越高，需要的训练集越大 深度学习和机器学习的区别：多了一层用来提取特征的层。传统的机器学习中（无标签），Feature">
 <meta itemprop="datePublished" content="2021-10-17T00:25:41&#43;08:00" />
 <meta itemprop="dateModified" content="2021-10-17T00:25:41&#43;08:00" />
-<meta itemprop="wordCount" content="2824">
+<meta itemprop="wordCount" content="2462">
 
 
 
-<meta itemprop="keywords" content="Pytorch,Deep Learning," /><meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="Pytorch,Deep Learning," />
+
+  
+  <link media="screen" rel="stylesheet" href='https://preminstrel.github.io/blog/css/common.css'>
+  <link media="screen" rel="stylesheet" href='https://preminstrel.github.io/blog/css/content.css'>
+
+  
+  
+  <title>Pytorch Basics - Blog de Preminstrel</title>
+  
+
+  
+  <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Pytorch Basics"/>
 <meta name="twitter:description" content="01. Overview DL &amp; ML 维度诅咒：维度越高，需要的训练集越大 深度学习和机器学习的区别：多了一层用来提取特征的层。传统的机器学习中（无标签），Feature"/>
 
-<!--[if lte IE 9]>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
-<![endif]-->
 
-<!--[if lt IE 9]>
-  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
-<![endif]-->
+  
+<link rel="stylesheet" href='https://preminstrel.github.io/blog/css/single.css'>
 
 </head>
+
 <body>
-  <div id="mobile-navbar" class="mobile-navbar">
-  <div class="mobile-header-logo">
-    <a href="/blog/" class="logo">Preminstrel</a>
-  </div>
-  <div class="mobile-navbar-icon">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
-</div>
-<nav id="mobile-menu" class="mobile-menu slideout-menu">
-  <ul class="mobile-menu-list">
-    <a href="/blog/">
-        <li class="mobile-menu-item">Home</li>
-      </a><a href="/blog/post/">
-        <li class="mobile-menu-item">Archives</li>
-      </a><a href="/blog/tags/">
-        <li class="mobile-menu-item">Tags</li>
-      </a><a href="/blog/categories/">
-        <li class="mobile-menu-item">Categories</li>
-      </a><a href="/blog/about/">
-        <li class="mobile-menu-item">About</li>
-      </a>
-  </ul>
-</nav>
-  <div class="container" id="mobile-panel">
-    <header id="header" class="header">
-        <div class="logo-wrapper">
-  <a href="/blog/" class="logo">Preminstrel</a>
-</div>
+  <div id="wrapper">
+    <header id="header">
+  <h1>
+    <a href="https://preminstrel.github.io/blog/">Blog de Preminstrel</a>
+  </h1>
 
-
-<nav class="site-navbar">
-  <ul id="menu" class="menu">
-    <li class="menu-item">
-        <a class="menu-item-link" href="/blog/">Home</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/blog/post/">Archives</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/blog/tags/">Tags</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/blog/categories/">Categories</a>
-      </li><li class="menu-item">
-        <a class="menu-item-link" href="/blog/about/">About</a>
-      </li>
-  </ul>
-</nav><li style="display:inline-block;margin-left:290px;">
-    <input type="search" class="docsearch-input" placeholder="Search" />
-  </li>
-    </header>
-
-    <main id="main" class="main">
-      <div class="content-wrapper">
-        <div id="content" class="content">
-          <article class="post">
+  <nav>
     
-    <header class="post-header">
-      <h1 class="post-title">Pytorch Basics</h1>
+    <span class="nav-bar-item">
+      <a class="link" href="/blog/">Post</a>
+    </span>
+    
+    <span class="nav-bar-item">
+      <a class="link" href="/blog/post/">Archives</a>
+    </span>
+    
+    <span class="nav-bar-item">
+      <a class="link" href="/blog/about/">About</a>
+    </span>
+    
+  </nav>
+</header>
 
-      <div class="post-meta">
-        <span class="post-time"> 2021-10-17 </span>
-        <div class="post-category">
-            <a href="/blog/categories/pytorch/"> Pytorch </a>
-            </div>
-          <span class="more-meta"> 2824 words </span>
-          <span class="more-meta"> 6 mins read </span>
-        <span id="busuanzi_container_page_pv" class="more-meta"> <span id="busuanzi_value_page_pv"><img src="/blog/img/spinner.svg" alt="spinner.svg"/></span> times read </span>
-      </div>
-    </header>
-
-    <div class="post-toc" id="post-toc">
-  <h2 class="post-toc-title">Contents</h2>
-  <div class="post-toc-content always-active">
-    <nav id="TableOfContents">
-  <ul>
-    <li>
-      <ul>
-        <li><a href="#01-overview">01. Overview</a>
-          <ul>
-            <li><a href="#dl--ml">DL &amp; ML</a></li>
-            <li><a href="#route">Route</a></li>
-            <li><a href="#gradient-descent">Gradient Descent</a></li>
-            <li><a href="#前向传播和反向传播">前向传播和反向传播</a></li>
-          </ul>
-        </li>
-        <li><a href="#02-linear-model">02. Linear Model</a>
-          <ul>
-            <li><a href="#tensor--linear-model">Tensor &amp; Linear Model</a></li>
-            <li><a href="#framework">Framework</a></li>
-          </ul>
-        </li>
-        <li><a href="#03-logistic-regression">03. Logistic Regression</a>
-          <ul>
-            <li><a href="#one-dimension">One Dimension</a></li>
-            <li><a href="#multi-dimension">Multi Dimension</a></li>
-          </ul>
-        </li>
-        <li><a href="#04-dataset-and-dataloader">04. Dataset and DataLoader</a>
-          <ul>
-            <li><a href="#use-all-of-the-data">Use all of the data</a></li>
-            <li><a href="#terminology">Terminology</a></li>
-            <li><a href="#dataloader">DataLoader</a></li>
-          </ul>
-        </li>
-        <li><a href="#05-softmax">05. Softmax</a>
-          <ul>
-            <li><a href="#softmax概念">Softmax概念</a></li>
-            <li><a href="#crossentropyloss-vs-nulloss">CrossEntropyLoss vs NULLoss</a></li>
-            <li><a href="#implementation">Implementation</a></li>
-          </ul>
-        </li>
-        <li><a href="#06-cnn">06. CNN</a>
-          <ul>
-            <li><a href="#mnist-example">MNIST Example</a></li>
-            <li><a href="#inception-module">Inception Module</a></li>
-          </ul>
-        </li>
-      </ul>
-    </li>
-  </ul>
-</nav>
+    
+<main id="main" class="post">
+  
+  
+  <h1>Pytorch Basics</h1>
+  
+  <div>
+    <b>Keywords: </b>
+    
+    <a class="link" href='https://preminstrel.github.io/blog/tags/pytorch'>#Pytorch</a>
+    
+    <a class="link" href='https://preminstrel.github.io/blog/tags/deep-learning'>#Deep Learning</a>
+    
   </div>
-</div>
-    <div class="post-content">
-      <h2 id="01-overview">01. Overview</h2>
+  
+  
+  <article class="content">
+    
+    <h2 id="01-overview">01. Overview</h2>
 <h3 id="dl--ml">DL &amp; ML</h3>
 <p><img src="/img/20210913192607.png" alt=""></p>
 <ul>
@@ -205,67 +145,34 @@
 <h3 id="route">Route</h3>
 <p><img src="/img/20210913193312.png" alt=""></p>
 <h3 id="gradient-descent">Gradient Descent</h3>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">x_data</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
-<span class="n">y_data</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">]</span>
-<span class="n">w</span><span class="o">=</span><span class="mi">1</span>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">x_data <span style="color:#666">=</span> [<span style="color:#666">1</span>,<span style="color:#666">2</span>,<span style="color:#666">3</span>]
+y_data <span style="color:#666">=</span> [<span style="color:#666">2</span>,<span style="color:#666">4</span>,<span style="color:#666">6</span>]
+w<span style="color:#666">=</span><span style="color:#666">1</span>
 
-<span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">x</span><span class="o">*</span><span class="n">w</span>
+<span style="color:#a2f;font-weight:bold">def</span> <span style="color:#00a000">forward</span>(x):
+    <span style="color:#a2f;font-weight:bold">return</span> x<span style="color:#666">*</span>w
 
-<span class="k">def</span> <span class="nf">loss</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span><span class="n">ys</span><span class="p">):</span>
-    <span class="n">loss</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">for</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span><span class="n">ys</span><span class="p">):</span>
-        <span class="n">y_pred</span> <span class="o">=</span> <span class="n">forward</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="n">loss</span> <span class="o">+=</span> <span class="p">(</span><span class="n">y_pred</span><span class="o">-</span><span class="n">y</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span>
-    <span class="k">return</span> <span class="n">loss</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span>
+<span style="color:#a2f;font-weight:bold">def</span> <span style="color:#00a000">loss</span>(xs,ys):
+    loss <span style="color:#666">=</span> <span style="color:#666">0</span>
+    <span style="color:#a2f;font-weight:bold">for</span> x,y <span style="color:#a2f;font-weight:bold">in</span> <span style="color:#a2f">zip</span>(xs,ys):
+        y_pred <span style="color:#666">=</span> forward(x)
+        loss <span style="color:#666">+=</span> (y_pred<span style="color:#666">-</span>y)<span style="color:#666">**</span><span style="color:#666">2</span>
+    <span style="color:#a2f;font-weight:bold">return</span> loss<span style="color:#666">/</span><span style="color:#a2f">len</span>(xs)
 
-<span class="k">def</span> <span class="nf">gradient</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span><span class="n">ys</span><span class="p">):</span>
-    <span class="n">grad</span><span class="o">=</span><span class="mi">0</span>
-    <span class="k">for</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">xs</span><span class="p">,</span><span class="n">ys</span><span class="p">):</span>
-        <span class="n">grad</span> <span class="o">+=</span> <span class="mi">2</span><span class="o">*</span><span class="n">x</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="o">*</span><span class="n">w</span><span class="o">-</span><span class="n">y</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">grad</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span>
+<span style="color:#a2f;font-weight:bold">def</span> <span style="color:#00a000">gradient</span>(xs,ys):
+    grad<span style="color:#666">=</span><span style="color:#666">0</span>
+    <span style="color:#a2f;font-weight:bold">for</span> x,y <span style="color:#a2f;font-weight:bold">in</span> <span style="color:#a2f">zip</span>(xs,ys):
+        grad <span style="color:#666">+=</span> <span style="color:#666">2</span><span style="color:#666">*</span>x<span style="color:#666">*</span>(x<span style="color:#666">*</span>w<span style="color:#666">-</span>y)
+    <span style="color:#a2f;font-weight:bold">return</span> grad<span style="color:#666">/</span><span style="color:#a2f">len</span>(xs)
 
-<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Predict(before training)&#39;</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span> <span class="n">forward</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
-<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
-    <span class="n">loss_val</span> <span class="o">=</span> <span class="n">loss</span><span class="p">(</span><span class="n">x_data</span><span class="p">,</span> <span class="n">y_data</span><span class="p">)</span>
-    <span class="n">grad_val</span> <span class="o">=</span> <span class="n">gradient</span><span class="p">(</span><span class="n">x_data</span><span class="p">,</span> <span class="n">y_data</span><span class="p">)</span>
-    <span class="n">w</span> <span class="o">-=</span> <span class="mf">0.01</span><span class="o">*</span><span class="n">grad_val</span>
-    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Epoch:&#39;</span><span class="p">,</span> <span class="n">epoch</span><span class="p">,</span> <span class="s1">&#39;w=&#39;</span><span class="p">,</span><span class="n">w</span><span class="p">,</span><span class="s1">&#39;loss=&#39;</span><span class="p">,</span><span class="n">loss_val</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Predict(After training)&#39;</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span> <span class="n">forward</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
-</code></pre></td></tr></table>
-</div>
-</div><p><img src="/img/20210913203403.png" alt=""></p>
+<span style="color:#a2f;font-weight:bold">print</span>(<span style="color:#b44">&#39;Predict(before training)&#39;</span>,<span style="color:#666">4</span>, forward(<span style="color:#666">4</span>))
+<span style="color:#a2f;font-weight:bold">for</span> epoch <span style="color:#a2f;font-weight:bold">in</span> <span style="color:#a2f">range</span>(<span style="color:#666">100</span>):
+    loss_val <span style="color:#666">=</span> loss(x_data, y_data)
+    grad_val <span style="color:#666">=</span> gradient(x_data, y_data)
+    w <span style="color:#666">-=</span> <span style="color:#666">0.01</span><span style="color:#666">*</span>grad_val
+    <span style="color:#a2f;font-weight:bold">print</span>(<span style="color:#b44">&#39;Epoch:&#39;</span>, epoch, <span style="color:#b44">&#39;w=&#39;</span>,w,<span style="color:#b44">&#39;loss=&#39;</span>,loss_val)
+<span style="color:#a2f;font-weight:bold">print</span>(<span style="color:#b44">&#39;Predict(After training)&#39;</span>,<span style="color:#666">4</span>, forward(<span style="color:#666">4</span>))
+</code></pre></div><p><img src="/img/20210913203403.png" alt=""></p>
 <ul>
 <li>随机梯度下降的计算无法并行，计算中是有依赖的</li>
 <li>随机梯度下降的性能更好，但是无法并行，所以速度比较慢</li>
@@ -278,64 +185,30 @@
 <p>In PyTorch, Tensor is the important component in <strong>constructing dynamic
 computational graph</strong>. It contains <strong>data and grad</strong>, which storage the value of node and gradient w.r.t loss respectively.
 如下代码是在构造计算图，在Pytorch中我们需要这样看待它。</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">torch</span>
-<span class="n">x_data</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
-<span class="n">y_data</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">]</span>
-<span class="n">w</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">([</span><span class="mf">1.0</span><span class="p">])</span>
-<span class="n">w</span><span class="o">.</span><span class="n">requires_grad</span> <span class="o">=</span> <span class="bp">True</span>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a2f;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">torch</span>
+x_data <span style="color:#666">=</span> [<span style="color:#666">1</span>,<span style="color:#666">2</span>,<span style="color:#666">3</span>]
+y_data <span style="color:#666">=</span> [<span style="color:#666">2</span>,<span style="color:#666">4</span>,<span style="color:#666">6</span>]
+w <span style="color:#666">=</span> torch<span style="color:#666">.</span>Tensor([<span style="color:#666">1.0</span>])
+w<span style="color:#666">.</span>requires_grad <span style="color:#666">=</span> True
 
-<span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">w</span>
-<span class="k">def</span> <span class="nf">loss</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">):</span>
-    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">forward</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">y_pred</span><span class="o">-</span><span class="n">y</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>训练过程</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="nb">sum</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
-    <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">x_data</span><span class="p">,</span> <span class="n">y_data</span><span class="p">):</span> <span class="c1"># 抽取样本</span>
-        <span class="n">l</span> <span class="o">=</span> <span class="n">loss</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>     <span class="c1"># 前馈：计算loss，计算完释放</span>
-        <span class="n">l</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>                 <span class="c1"># 反馈</span>
-        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\t</span><span class="s1">grad:&#39;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>  <span class="c1">#item是一个标量</span>
-        <span class="n">w</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">data</span> <span class="o">-</span> <span class="mf">0.01</span> <span class="o">*</span> <span class="n">w</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">data</span>  <span class="c1"># 注意此时grad要取到data</span>
-        <span class="nb">sum</span> <span class="o">+=</span> <span class="n">l</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>              <span class="c1"># 计算损失和</span>
-        <span class="n">w</span><span class="o">.</span><span class="n">grad</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">zero_</span><span class="p">()</span>             <span class="c1"># 清零梯度</span>
+<span style="color:#a2f;font-weight:bold">def</span> <span style="color:#00a000">forward</span>(x):
+    <span style="color:#a2f;font-weight:bold">return</span> x <span style="color:#666">*</span> w
+<span style="color:#a2f;font-weight:bold">def</span> <span style="color:#00a000">loss</span>(x,y):
+    y_pred <span style="color:#666">=</span> forward(x)
+    <span style="color:#a2f;font-weight:bold">return</span> (y_pred<span style="color:#666">-</span>y) <span style="color:#666">**</span> <span style="color:#666">2</span>
+</code></pre></div><p>训练过程</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a2f">sum</span> <span style="color:#666">=</span> <span style="color:#666">0</span>
+<span style="color:#a2f;font-weight:bold">for</span> epoch <span style="color:#a2f;font-weight:bold">in</span> <span style="color:#a2f">range</span>(<span style="color:#666">100</span>):
+    <span style="color:#a2f;font-weight:bold">for</span> x, y <span style="color:#a2f;font-weight:bold">in</span> <span style="color:#a2f">zip</span>(x_data, y_data): <span style="color:#080;font-style:italic"># 抽取样本</span>
+        l <span style="color:#666">=</span> loss(x, y)     <span style="color:#080;font-style:italic"># 前馈：计算loss，计算完释放</span>
+        l<span style="color:#666">.</span>backward()                 <span style="color:#080;font-style:italic"># 反馈</span>
+        <span style="color:#a2f;font-weight:bold">print</span>(<span style="color:#b44">&#39;</span><span style="color:#b62;font-weight:bold">\t</span><span style="color:#b44">grad:&#39;</span>, x, y, w<span style="color:#666">.</span>grad<span style="color:#666">.</span>item())  <span style="color:#080;font-style:italic">#item是一个标量</span>
+        w<span style="color:#666">.</span>data <span style="color:#666">=</span> w<span style="color:#666">.</span>data <span style="color:#666">-</span> <span style="color:#666">0.01</span> <span style="color:#666">*</span> w<span style="color:#666">.</span>grad<span style="color:#666">.</span>data  <span style="color:#080;font-style:italic"># 注意此时grad要取到data</span>
+        <span style="color:#a2f">sum</span> <span style="color:#666">+=</span> l<span style="color:#666">.</span>item()              <span style="color:#080;font-style:italic"># 计算损失和</span>
+        w<span style="color:#666">.</span>grad<span style="color:#666">.</span>data<span style="color:#666">.</span>zero_()             <span style="color:#080;font-style:italic"># 清零梯度</span>
         
-    <span class="k">print</span><span class="p">(</span><span class="s2">&#34;progress:&#34;</span><span class="p">,</span> <span class="n">epoch</span><span class="p">,</span> <span class="n">l</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
-</code></pre></td></tr></table>
-</div>
-</div><p><strong>NOTICE</strong>:
+    <span style="color:#a2f;font-weight:bold">print</span>(<span style="color:#b44">&#34;progress:&#34;</span>, epoch, l<span style="color:#666">.</span>item())
+</code></pre></div><p><strong>NOTICE</strong>:
 The grad computed by <code>.backward()</code> will be accumulated. So after update, <strong>remember set the grad to ZERO!!</strong></p>
 <ul>
 <li><code>.data</code>返回的是一个Tensor，而<code>.item()</code>返回的是具体的数值（非Tensor数据类型）。</li>
@@ -350,56 +223,25 @@ The grad computed by <code>.backward()</code> will be accumulated. So after upda
 <p>In PyTorch, the computational graph is in mini-batch fashion, so X and Y are $3 \times 1$ Tensors.</p>
 <p>$$\hat{y}=w\cdot x+b$$
 $$\left[\begin{aligned}&amp;y_{pred}^{(1)}\\ &amp;y_{pred}^{(2)} \\ &amp;y_{pred}^{(3)} \end{aligned}\right]=w\cdot \left[\begin{aligned}&amp;x^{(1)}\\ &amp;x^{(2)} \\ &amp;x^{(3)}\end{aligned}\right]+b$$</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">torch</span>
-<span class="n">x_data</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">([[</span><span class="mf">1.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">2.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">3.0</span><span class="p">]])</span>
-<span class="n">y_data</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">([[</span><span class="mf">2.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">4.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">6.0</span><span class="p">]])</span>
-</code></pre></td></tr></table>
-</div>
-</div><h4 id="design-model">Design Model</h4>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span><span class="lnt">8
-</span><span class="lnt">9
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">LinearModel</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>     <span class="c1"># 构造函数</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">LinearModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>  <span class="c1"># 调用父类的构造</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">linear</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>     <span class="c1"># 构造对象</span>
-    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>    <span class="c1"># 必须有forward传播函数的定义</span>
-        <span class="n">y_pred</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">linear</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">y_pred</span>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a2f;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">torch</span>
+x_data <span style="color:#666">=</span> torch<span style="color:#666">.</span>Tensor([[<span style="color:#666">1.0</span>], [<span style="color:#666">2.0</span>], [<span style="color:#666">3.0</span>]])
+y_data <span style="color:#666">=</span> torch<span style="color:#666">.</span>Tensor([[<span style="color:#666">2.0</span>], [<span style="color:#666">4.0</span>], [<span style="color:#666">6.0</span>]])
+</code></pre></div><h4 id="design-model">Design Model</h4>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a2f;font-weight:bold">class</span> <span style="color:#00f">LinearModel</span>(torch<span style="color:#666">.</span>nn<span style="color:#666">.</span>Module):
+    <span style="color:#a2f;font-weight:bold">def</span> __init__(self):     <span style="color:#080;font-style:italic"># 构造函数</span>
+        <span style="color:#a2f">super</span>(LinearModel, self)<span style="color:#666">.</span>__init__()  <span style="color:#080;font-style:italic"># 调用父类的构造</span>
+        self<span style="color:#666">.</span>linear <span style="color:#666">=</span> torch<span style="color:#666">.</span>nn<span style="color:#666">.</span>Linear(<span style="color:#666">1</span>,<span style="color:#666">1</span>)     <span style="color:#080;font-style:italic"># 构造对象</span>
+    <span style="color:#a2f;font-weight:bold">def</span> <span style="color:#00a000">forward</span>(self, x):    <span style="color:#080;font-style:italic"># 必须有forward传播函数的定义</span>
+        y_pred <span style="color:#666">=</span> self<span style="color:#666">.</span>linear(x)
+        <span style="color:#a2f;font-weight:bold">return</span> y_pred
 
-<span class="n">model</span> <span class="o">=</span> <span class="n">LinearModel</span><span class="p">()</span>
-</code></pre></td></tr></table>
-</div>
-</div><ul>
+model <span style="color:#666">=</span> LinearModel()
+</code></pre></div><ul>
 <li><code>nn.Linear</code> contain two member Tensors: <strong>weight</strong> and <strong>bias</strong></li>
 </ul>
 <blockquote>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">in_features</span><span class="p">,</span> <span class="n">out_features</span><span class="p">,</span> <span class="n">bias</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>Applies a linear transformation $y=Ax+b$
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a2f;font-weight:bold">class</span> <span style="color:#00f">torch</span><span style="color:#666">.</span>nn<span style="color:#666">.</span>Linear(in_features, out_features, bias <span style="color:#666">=</span> True)
+</code></pre></div><p>Applies a linear transformation $y=Ax+b$
 Parameters:</p>
 <ul>
 <li>in_features: the size of each input sample</li>
@@ -407,88 +249,38 @@ Parameters:</p>
 <li>bias: Default: True</li>
 </ul>
 </blockquote>
-<p>实际上，在运算过程中是<strong>做转置的</strong>
+<p>实际上，在运算过程中是<strong class=chinese>做转置的</strong>
 $$y=x\cdot w+b$$
 $$y = w^{T}\cdot x+b$$</p>
 <h4 id="construct-loss-and-optimizer">Construct Loss and Optimizer</h4>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">criterion</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">MSELoss</span><span class="p">(</span><span class="n">size_average</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-<span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">SGD</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
-</code></pre></td></tr></table>
-</div>
-</div><blockquote>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">MSELoss</span><span class="p">(</span><span class="n">size_average</span><span class="p">,</span> <span class="nb">reduce</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>求均方根值 $l(x,y)=L={l_1,\cdots,l_N}^{T},\quad l_n=(x_n-y_n)^2$
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">criterion <span style="color:#666">=</span> torch<span style="color:#666">.</span>nn<span style="color:#666">.</span>MSELoss(size_average<span style="color:#666">=</span>False)
+optimizer <span style="color:#666">=</span> torch<span style="color:#666">.</span>optim<span style="color:#666">.</span>SGD(model<span style="color:#666">.</span>parameters(), lr<span style="color:#666">=</span><span style="color:#666">0.01</span>)
+</code></pre></div><blockquote>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a2f;font-weight:bold">class</span> <span style="color:#00f">torch</span><span style="color:#666">.</span>nn<span style="color:#666">.</span>MSELoss(size_average, <span style="color:#a2f">reduce</span> <span style="color:#666">=</span> True)
+</code></pre></div><p>求均方根值 $l(x,y)=L={l_1,\cdots,l_N}^{T},\quad l_n=(x_n-y_n)^2$
 其中，N是batch size。</p>
 </blockquote>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">SGD</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">lr</span><span class="o">=&lt;</span><span class="nb">object</span> <span class="nb">object</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">momentum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">dampening</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">weight_decay</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">nesterov</span> <span class="o">=</span> <span class="bp">False</span><span class="p">)</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>Implements stochastic gradient descent (optionally with momentum)</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a2f;font-weight:bold">class</span> <span style="color:#00f">torch</span><span style="color:#666">.</span>optim<span style="color:#666">.</span>SGD(params, lr<span style="color:#666">=&lt;</span><span style="color:#a2f">object</span> <span style="color:#a2f">object</span><span style="color:#666">&gt;</span>, momentum <span style="color:#666">=</span> <span style="color:#666">0</span>, dampening <span style="color:#666">=</span> <span style="color:#666">0</span>, weight_decay <span style="color:#666">=</span> <span style="color:#666">0</span>, nesterov <span style="color:#666">=</span> False)
+</code></pre></div><p>Implements stochastic gradient descent (optionally with momentum)</p>
 <h4 id="training-cycle">Training Cycle</h4>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span><span class="lnt">8
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
-    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">x_data</span><span class="p">)</span>
-    <span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">y_data</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">epoch</span><span class="p">,</span> <span class="n">loss</span><span class="p">)</span>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a2f;font-weight:bold">for</span> epoch <span style="color:#a2f;font-weight:bold">in</span> <span style="color:#a2f">range</span>(<span style="color:#666">100</span>):
+    y_pred <span style="color:#666">=</span> model(x_data)
+    loss <span style="color:#666">=</span> criterion(y_pred, y_data)
+    <span style="color:#a2f;font-weight:bold">print</span>(epoch, loss)
     
-    <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>  <span class="c1"># 注意梯度清零</span>
-    <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>        <span class="c1"># 反向传播</span>
-    <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>       <span class="c1">#Update</span>
-</code></pre></td></tr></table>
-</div>
-</div><h4 id="test-model">Test Model</h4>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span><span class="lnt">8
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># Output weight and bias</span>
-<span class="k">print</span><span class="p">(</span><span class="s1">&#39;w=&#39;</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">linear</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
-<span class="k">print</span><span class="p">(</span><span class="s1">&#39;b=&#39;</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">linear</span><span class="o">.</span><span class="n">bias</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+    optimizer<span style="color:#666">.</span>zero_grad()  <span style="color:#080;font-style:italic"># 注意梯度清零</span>
+    loss<span style="color:#666">.</span>backward()        <span style="color:#080;font-style:italic"># 反向传播</span>
+    optimizer<span style="color:#666">.</span>step()       <span style="color:#080;font-style:italic">#Update</span>
+</code></pre></div><h4 id="test-model">Test Model</h4>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#080;font-style:italic"># Output weight and bias</span>
+<span style="color:#a2f;font-weight:bold">print</span>(<span style="color:#b44">&#39;w=&#39;</span>, model<span style="color:#666">.</span>linear<span style="color:#666">.</span>weight<span style="color:#666">.</span>item())
+<span style="color:#a2f;font-weight:bold">print</span>(<span style="color:#b44">&#39;b=&#39;</span>, model<span style="color:#666">.</span>linear<span style="color:#666">.</span>bias<span style="color:#666">.</span>item())
 
-<span class="c1"># Test Model</span>
-<span class="n">x_test</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">([</span><span class="mf">4.0</span><span class="p">])</span>
-<span class="n">y_test</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">x_test</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="s1">&#39;y_pred=&#39;</span><span class="p">,</span> <span class="n">y_test</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
-</code></pre></td></tr></table>
-</div>
-</div><h2 id="03-logistic-regression">03. Logistic Regression</h2>
+<span style="color:#080;font-style:italic"># Test Model</span>
+x_test <span style="color:#666">=</span> torch<span style="color:#666">.</span>Tensor([<span style="color:#666">4.0</span>])
+y_test <span style="color:#666">=</span> model(x_test)
+<span style="color:#a2f;font-weight:bold">print</span>(<span style="color:#b44">&#39;y_pred=&#39;</span>, y_test<span style="color:#666">.</span>data)
+</code></pre></div><h2 id="03-logistic-regression">03. Logistic Regression</h2>
 <h3 id="one-dimension">One Dimension</h3>
 <p><img src="/img/20210914162303.png" alt="">
 Logistic function can guarantee that the output is in $[0,1]$, and loss function is $$loss=-(y\log \hat{y}+(1-y)\log (1-\hat{y}))$$
@@ -498,242 +290,106 @@ Logistic function can guarantee that the output is in $[0,1]$, and loss function
 $$loss=-\frac{1}{N}\sum^N_{n=1}(y_n\log \hat{y}_n+(1-y_n)\log (1-\hat{y}_n))$$</p>
 </blockquote>
 <p>流程和之前的差不多，代码如下：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1">#---------------------Prepare dataset--------------------------#</span>
-<span class="n">x_data</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">([[</span><span class="mf">1.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">2.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">3.0</span><span class="p">]])</span>
-<span class="n">y_data</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">([[</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#080;font-style:italic">#---------------------Prepare dataset--------------------------#</span>
+x_data <span style="color:#666">=</span> torch<span style="color:#666">.</span>Tensor([[<span style="color:#666">1.0</span>], [<span style="color:#666">2.0</span>], [<span style="color:#666">3.0</span>]])
+y_data <span style="color:#666">=</span> torch<span style="color:#666">.</span>Tensor([[<span style="color:#666">0</span>], [<span style="color:#666">0</span>], [<span style="color:#666">1</span>]])
 
-<span class="c1">#-----------------Design model using Class---------------------#</span>
-<span class="k">class</span> <span class="nc">LogisticRegressionModel</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">LogisticRegressionModel</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">linear</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        <span class="n">y_pred</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">linear</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
-        <span class="k">return</span> <span class="n">y_pred</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">LogisticRegressionModel</span><span class="p">()</span>
+<span style="color:#080;font-style:italic">#-----------------Design model using Class---------------------#</span>
+<span style="color:#a2f;font-weight:bold">class</span> <span style="color:#00f">LogisticRegressionModel</span>(torch<span style="color:#666">.</span>nn<span style="color:#666">.</span>Module):
+    <span style="color:#a2f;font-weight:bold">def</span> __init__(self):
+        <span style="color:#a2f">super</span>(LogisticRegressionModel, self)<span style="color:#666">.</span>__init__()
+        self<span style="color:#666">.</span>linear <span style="color:#666">=</span> torch<span style="color:#666">.</span>nn<span style="color:#666">.</span>Linear(<span style="color:#666">1</span>, <span style="color:#666">1</span>)
+    <span style="color:#a2f;font-weight:bold">def</span> <span style="color:#00a000">forward</span>(self, x):
+        y_pred <span style="color:#666">=</span> F<span style="color:#666">.</span>sigmoid(self<span style="color:#666">.</span>linear(x))
+        <span style="color:#a2f;font-weight:bold">return</span> y_pred
+model <span style="color:#666">=</span> LogisticRegressionModel()
 
-<span class="c1">#----------------Construct loss and optimizer------------------#</span>
-<span class="n">criterion</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">BCELoss</span><span class="p">(</span><span class="n">size_average</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-<span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">SGD</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+<span style="color:#080;font-style:italic">#----------------Construct loss and optimizer------------------#</span>
+criterion <span style="color:#666">=</span> torch<span style="color:#666">.</span>nn<span style="color:#666">.</span>BCELoss(size_average<span style="color:#666">=</span>False)
+optimizer <span style="color:#666">=</span> torch<span style="color:#666">.</span>optim<span style="color:#666">.</span>SGD(model<span style="color:#666">.</span>parameters(), lr<span style="color:#666">=</span><span style="color:#666">0.01</span>)
 
-<span class="c1">#----------------------Training cycle--------------------------#</span>
-<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1000</span><span class="p">):</span>
-    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">x_data</span><span class="p">)</span>
-    <span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">y_data</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">epoch</span><span class="p">,</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
-    <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
-    <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
-    <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
-</code></pre></td></tr></table>
-</div>
-</div><h3 id="multi-dimension">Multi Dimension</h3>
+<span style="color:#080;font-style:italic">#----------------------Training cycle--------------------------#</span>
+<span style="color:#a2f;font-weight:bold">for</span> epoch <span style="color:#a2f;font-weight:bold">in</span> <span style="color:#a2f">range</span>(<span style="color:#666">1000</span>):
+    y_pred <span style="color:#666">=</span> model(x_data)
+    loss <span style="color:#666">=</span> criterion(y_pred, y_data)
+    <span style="color:#a2f;font-weight:bold">print</span>(epoch, loss<span style="color:#666">.</span>item())
+    optimizer<span style="color:#666">.</span>zero_grad()
+    loss<span style="color:#666">.</span>backward()
+    optimizer<span style="color:#666">.</span>step()
+</code></pre></div><h3 id="multi-dimension">Multi Dimension</h3>
 <p>二维数据中，一般来说列对应的是feature，行对应的是sample，一行为一条record</p>
 <h4 id="mini-batchn-samples">Mini-Batch（N samples）</h4>
 <p><img src="/img/20210914165040.png" alt=""></p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">Model</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">Model</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">linear</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sigmoid</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Sigmoid</span><span class="p">()</span>
-    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">linear</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
-        <span class="k">return</span> <span class="n">x</span>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a2f;font-weight:bold">class</span> <span style="color:#00f">Model</span>(torch<span style="color:#666">.</span>nn<span style="color:#666">.</span>Module):
+    <span style="color:#a2f;font-weight:bold">def</span> __init__(self):
+        <span style="color:#a2f">super</span>(Model, self)<span style="color:#666">.</span>__init__()
+        self<span style="color:#666">.</span>linear <span style="color:#666">=</span> torch<span style="color:#666">.</span>nn<span style="color:#666">.</span>Linear(<span style="color:#666">8</span>, <span style="color:#666">1</span>)
+        self<span style="color:#666">.</span>sigmoid <span style="color:#666">=</span> torch<span style="color:#666">.</span>nn<span style="color:#666">.</span>Sigmoid()
+    <span style="color:#a2f;font-weight:bold">def</span> <span style="color:#00a000">forward</span>(self, x):
+        x <span style="color:#666">=</span> self<span style="color:#666">.</span>sigmoid(self<span style="color:#666">.</span>linear(x))
+        <span style="color:#a2f;font-weight:bold">return</span> x
 
-<span class="n">model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">()</span>
-</code></pre></td></tr></table>
-</div>
-</div><h4 id="prepare-dataset-1">Prepare Dataset</h4>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="n">xy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s1">&#39;diabetes.csv.gz&#39;</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
-<span class="n">x_data</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">xy</span><span class="p">[:,:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="c1"># 除了最后一行都要</span>
-<span class="n">y_data</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">xy</span><span class="p">[:,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
-</code></pre></td></tr></table>
-</div>
-</div><h4 id="define-model">Define Model</h4>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">torch</span>
-<span class="k">class</span> <span class="nc">Model</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">Model</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">linear1</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">linear2</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">linear3</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sigmoid</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Sigmoid</span><span class="p">()</span>
-    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">linear1</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">linear2</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">linear3</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
-        <span class="k">return</span> <span class="n">x</span>
+model <span style="color:#666">=</span> Model()
+</code></pre></div><h4 id="prepare-dataset-1">Prepare Dataset</h4>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a2f;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">numpy</span> <span style="color:#a2f;font-weight:bold">as</span> <span style="color:#00f;font-weight:bold">np</span>
+xy <span style="color:#666">=</span> np<span style="color:#666">.</span>loadtxt(<span style="color:#b44">&#39;diabetes.csv.gz&#39;</span>, delimiter<span style="color:#666">=</span><span style="color:#b44">&#39;,&#39;</span>, dtype<span style="color:#666">=</span>np<span style="color:#666">.</span>float32)
+x_data <span style="color:#666">=</span> torch<span style="color:#666">.</span>from_numpy(xy[:,:<span style="color:#666">-</span><span style="color:#666">1</span>]) <span style="color:#080;font-style:italic"># 除了最后一行都要</span>
+y_data <span style="color:#666">=</span> torch<span style="color:#666">.</span>from_numpy(xy[:, [<span style="color:#666">-</span><span style="color:#666">1</span>]])
+</code></pre></div><h4 id="define-model">Define Model</h4>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a2f;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">torch</span>
+<span style="color:#a2f;font-weight:bold">class</span> <span style="color:#00f">Model</span>(torch<span style="color:#666">.</span>nn<span style="color:#666">.</span>Module):
+    <span style="color:#a2f;font-weight:bold">def</span> __init__(self):
+        <span style="color:#a2f">super</span>(Model, self)<span style="color:#666">.</span>__init__()
+        self<span style="color:#666">.</span>linear1 <span style="color:#666">=</span> torch<span style="color:#666">.</span>nn<span style="color:#666">.</span>Linear(<span style="color:#666">8</span>, <span style="color:#666">6</span>)
+        self<span style="color:#666">.</span>linear2 <span style="color:#666">=</span> torch<span style="color:#666">.</span>nn<span style="color:#666">.</span>Linear(<span style="color:#666">6</span>, <span style="color:#666">4</span>)
+        self<span style="color:#666">.</span>linear3 <span style="color:#666">=</span> torch<span style="color:#666">.</span>nn<span style="color:#666">.</span>Linear(<span style="color:#666">4</span>, <span style="color:#666">1</span>)
+        self<span style="color:#666">.</span>sigmoid <span style="color:#666">=</span> torch<span style="color:#666">.</span>nn<span style="color:#666">.</span>Sigmoid()
+    <span style="color:#a2f;font-weight:bold">def</span> <span style="color:#00a000">forward</span>(self, x):
+        x <span style="color:#666">=</span> self<span style="color:#666">.</span>sigmoid(self<span style="color:#666">.</span>linear1(x))
+        x <span style="color:#666">=</span> self<span style="color:#666">.</span>sigmoid(self<span style="color:#666">.</span>linear2(x))
+        x <span style="color:#666">=</span> self<span style="color:#666">.</span>sigmoid(self<span style="color:#666">.</span>linear3(x))
+        <span style="color:#a2f;font-weight:bold">return</span> x
     
-<span class="n">model</span> <span class="o">=</span> <span class="n">Model</span><span class="p">()</span>
+model <span style="color:#666">=</span> Model()
 
-</code></pre></td></tr></table>
-</div>
-</div><h4 id="construct-loss-and-optimizer-1">Construct Loss and Optimizer</h4>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">criterion</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">BCELoss</span><span class="p">(</span><span class="n">size_average</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-<span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">SGD</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
-</code></pre></td></tr></table>
-</div>
-</div><h4 id="training-cycle-1">Training Cycle</h4>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
-    <span class="c1"># Forward</span>
-    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">x_data</span><span class="p">)</span>
-    <span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">y_data</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">epoch</span><span class="p">,</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+</code></pre></div><h4 id="construct-loss-and-optimizer-1">Construct Loss and Optimizer</h4>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">criterion <span style="color:#666">=</span> torch<span style="color:#666">.</span>nn<span style="color:#666">.</span>BCELoss(size_average<span style="color:#666">=</span>True)
+optimizer <span style="color:#666">=</span> torch<span style="color:#666">.</span>optim<span style="color:#666">.</span>SGD(model<span style="color:#666">.</span>parameters(), lr<span style="color:#666">=</span><span style="color:#666">0.1</span>)
+</code></pre></div><h4 id="training-cycle-1">Training Cycle</h4>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a2f;font-weight:bold">for</span> epoch <span style="color:#a2f;font-weight:bold">in</span> <span style="color:#a2f">range</span>(<span style="color:#666">100</span>):
+    <span style="color:#080;font-style:italic"># Forward</span>
+    y_pred <span style="color:#666">=</span> model(x_data)
+    loss <span style="color:#666">=</span> criterion(y_pred, y_data)
+    <span style="color:#a2f;font-weight:bold">print</span>(epoch, loss<span style="color:#666">.</span>item())
 
-    <span class="c1"># Backward</span>
-    <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
-    <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+    <span style="color:#080;font-style:italic"># Backward</span>
+    optimizer<span style="color:#666">.</span>zero_grad()
+    loss<span style="color:#666">.</span>backward()
 
-    <span class="c1"># Update</span>
-    <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
-</code></pre></td></tr></table>
-</div>
-</div><h2 id="04-dataset-and-dataloader">04. Dataset and DataLoader</h2>
+    <span style="color:#080;font-style:italic"># Update</span>
+    optimizer<span style="color:#666">.</span>step()
+</code></pre></div><h2 id="04-dataset-and-dataloader">04. Dataset and DataLoader</h2>
 <h3 id="use-all-of-the-data">Use all of the data</h3>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">xy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="err">‘</span><span class="n">diabetes</span><span class="o">.</span><span class="n">csv</span><span class="o">.</span><span class="n">gz</span><span class="err">’</span> <span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="err">‘</span><span class="p">,</span><span class="err">’</span> <span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
-<span class="n">x_data</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">xy</span><span class="p">[:,:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-<span class="n">y_data</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">xy</span><span class="p">[:,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
-<span class="err">……</span>
-<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
-    <span class="c1"># 1. Forward</span>
-    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">x_data</span><span class="p">)</span>
-    <span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">y_data</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">epoch</span><span class="p">,</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
-    <span class="c1"># 2. Backward</span>
-    <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
-    <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
-    <span class="c1"># 3. Update</span>
-    <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
-</code></pre></td></tr></table>
-</div>
-</div><h3 id="terminology">Terminology</h3>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># Training cycle</span>
-<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">training_epochs</span><span class="p">):</span>
-    <span class="c1"># Loop over all batches</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">total_batch</span><span class="p">):</span>
-</code></pre></td></tr></table>
-</div>
-</div><ul>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">xy <span style="color:#666">=</span> np<span style="color:#666">.</span>loadtxt(<span style="">‘</span>diabetes<span style="color:#666">.</span>csv<span style="color:#666">.</span>gz<span style="">’</span> , delimiter<span style="color:#666">=</span><span style="">‘</span>,<span style="">’</span> , dtype<span style="color:#666">=</span>np<span style="color:#666">.</span>float32)
+x_data <span style="color:#666">=</span> torch<span style="color:#666">.</span>from_numpy(xy[:,:<span style="color:#666">-</span><span style="color:#666">1</span>])
+y_data <span style="color:#666">=</span> torch<span style="color:#666">.</span>from_numpy(xy[:, [<span style="color:#666">-</span><span style="color:#666">1</span>]])
+<span style="">……</span>
+<span style="color:#a2f;font-weight:bold">for</span> epoch <span style="color:#a2f;font-weight:bold">in</span> <span style="color:#a2f">range</span>(<span style="color:#666">100</span>):
+    <span style="color:#080;font-style:italic"># 1. Forward</span>
+    y_pred <span style="color:#666">=</span> model(x_data)
+    loss <span style="color:#666">=</span> criterion(y_pred, y_data)
+    <span style="color:#a2f;font-weight:bold">print</span>(epoch, loss<span style="color:#666">.</span>item())
+    <span style="color:#080;font-style:italic"># 2. Backward</span>
+    optimizer<span style="color:#666">.</span>zero_grad()
+    loss<span style="color:#666">.</span>backward()
+    <span style="color:#080;font-style:italic"># 3. Update</span>
+    optimizer<span style="color:#666">.</span>step()
+</code></pre></div><h3 id="terminology">Terminology</h3>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#080;font-style:italic"># Training cycle</span>
+<span style="color:#a2f;font-weight:bold">for</span> epoch <span style="color:#a2f;font-weight:bold">in</span> <span style="color:#a2f">range</span>(training_epochs):
+    <span style="color:#080;font-style:italic"># Loop over all batches</span>
+    <span style="color:#a2f;font-weight:bold">for</span> i <span style="color:#a2f;font-weight:bold">in</span> <span style="color:#a2f">range</span>(total_batch):
+</code></pre></div><ul>
 <li><strong>Epoch</strong>
 One forward pass and one backward pass of <strong>all the training examples</strong>.</li>
 <li><strong>Batch-Size</strong>
@@ -750,116 +406,56 @@ Number of passes, each pass using <strong>batch size</strong> number of examples
 <li>number workers 指的是多线程并行的个数，好像 Windows 上必须是0，建议在 Linux 使用</li>
 <li>getitem 是当数据比较大，需要通过读取文件名来 get 相应的 item 进行处理</li>
 </ul>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">torch</span>
-<span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">Dataset</span>
-<span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">DataLoader</span>
-<span class="k">class</span> <span class="nc">DiabetesDataset</span><span class="p">(</span><span class="n">Dataset</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">pass</span>
-    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
-        <span class="k">pass</span>
-    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">pass</span>
-<span class="n">dataset</span> <span class="o">=</span> <span class="n">DiabetesDataset</span><span class="p">()</span>
-<span class="n">train_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="o">=</span><span class="n">dataset</span><span class="p">,</span>
-                          <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span>
-                          <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-                          <span class="n">num_workers</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
-    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">train_loader</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span>
-        <span class="err">……</span>
-</code></pre></td></tr></table>
-</div>
-</div><h4 id="example-diabetes-dataset">Example: Diabetes Dataset</h4>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">DiabetesDataset</span><span class="p">(</span><span class="n">Dataset</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">):</span>
-        <span class="n">xy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">len</span> <span class="o">=</span> <span class="n">xy</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># 取第0元素：长度</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">x_data</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">xy</span><span class="p">[:,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">y_data</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">xy</span><span class="p">[:,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
-    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">x_data</span><span class="p">[</span><span class="n">index</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_data</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="c1"># 返回对应样本即可</span>
-    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">len</span>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a2f;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">torch</span>
+<span style="color:#a2f;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">torch.utils.data</span> <span style="color:#a2f;font-weight:bold">import</span> Dataset
+<span style="color:#a2f;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">torch.utils.data</span> <span style="color:#a2f;font-weight:bold">import</span> DataLoader
+<span style="color:#a2f;font-weight:bold">class</span> <span style="color:#00f">DiabetesDataset</span>(Dataset):
+    <span style="color:#a2f;font-weight:bold">def</span> __init__(self):
+        <span style="color:#a2f;font-weight:bold">pass</span>
+    <span style="color:#a2f;font-weight:bold">def</span> __getitem__(self, index):
+        <span style="color:#a2f;font-weight:bold">pass</span>
+    <span style="color:#a2f;font-weight:bold">def</span> __len__(self):
+        <span style="color:#a2f;font-weight:bold">pass</span>
+dataset <span style="color:#666">=</span> DiabetesDataset()
+train_loader <span style="color:#666">=</span> DataLoader(dataset<span style="color:#666">=</span>dataset,
+                          batch_size<span style="color:#666">=</span><span style="color:#666">32</span>,
+                          shuffle<span style="color:#666">=</span>True,
+                          num_workers<span style="color:#666">=</span><span style="color:#666">2</span>)
+<span style="color:#a2f;font-weight:bold">for</span> epoch <span style="color:#a2f;font-weight:bold">in</span> <span style="color:#a2f">range</span>(<span style="color:#666">100</span>):
+    <span style="color:#a2f;font-weight:bold">for</span> i, data <span style="color:#a2f;font-weight:bold">in</span> <span style="color:#a2f">enumerate</span>(train_loader, <span style="color:#666">0</span>):
+        <span style="">……</span>
+</code></pre></div><h4 id="example-diabetes-dataset">Example: Diabetes Dataset</h4>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a2f;font-weight:bold">class</span> <span style="color:#00f">DiabetesDataset</span>(Dataset):
+    <span style="color:#a2f;font-weight:bold">def</span> __init__(self, filepath):
+        xy <span style="color:#666">=</span> np<span style="color:#666">.</span>loadtxt(filepath, delimiter<span style="color:#666">=</span><span style="color:#b44">&#39;,&#39;</span>, dtype<span style="color:#666">=</span>np<span style="color:#666">.</span>float32)
+        self<span style="color:#666">.</span>len <span style="color:#666">=</span> xy<span style="color:#666">.</span>shape[<span style="color:#666">0</span>] <span style="color:#080;font-style:italic"># 取第0元素：长度</span>
+        self<span style="color:#666">.</span>x_data <span style="color:#666">=</span> torch<span style="color:#666">.</span>from_numpy(xy[:, :<span style="color:#666">-</span><span style="color:#666">1</span>])
+        self<span style="color:#666">.</span>y_data <span style="color:#666">=</span> torch<span style="color:#666">.</span>from_numpy(xy[:, [<span style="color:#666">-</span><span style="color:#666">1</span>]])
+    <span style="color:#a2f;font-weight:bold">def</span> __getitem__(self, index):
+        <span style="color:#a2f;font-weight:bold">return</span> self<span style="color:#666">.</span>x_data[index], self<span style="color:#666">.</span>y_data[index] <span style="color:#080;font-style:italic"># 返回对应样本即可</span>
+    <span style="color:#a2f;font-weight:bold">def</span> __len__(self):
+        <span style="color:#a2f;font-weight:bold">return</span> self<span style="color:#666">.</span>len
 
-<span class="n">dataset</span> <span class="o">=</span> <span class="n">DiabetesDataset</span><span class="p">(</span><span class="s1">&#39;diabetes.csv.gz&#39;</span><span class="p">)</span>
-<span class="n">train_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="o">=</span><span class="n">dataset</span><span class="p">,</span>
-                          <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span>
-                          <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-                          <span class="n">num_workers</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+dataset <span style="color:#666">=</span> DiabetesDataset(<span style="color:#b44">&#39;diabetes.csv.gz&#39;</span>)
+train_loader <span style="color:#666">=</span> DataLoader(dataset<span style="color:#666">=</span>dataset,
+                          batch_size<span style="color:#666">=</span><span style="color:#666">32</span>,
+                          shuffle<span style="color:#666">=</span>True,
+                          num_workers<span style="color:#666">=</span><span style="color:#666">2</span>)
 
-<span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
-    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">train_loader</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span>
-        <span class="c1"># 1. Prepare data</span>
-        <span class="n">inputs</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">data</span>
-        <span class="c1"># 2. Forward</span>
-        <span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
-        <span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">epoch</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
-        <span class="c1"># 3. Backward</span>
-        <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
-        <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
-        <span class="c1"># 4. Update</span>
-        <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
-</code></pre></td></tr></table>
-</div>
-</div><ul>
+<span style="color:#a2f;font-weight:bold">for</span> epoch <span style="color:#a2f;font-weight:bold">in</span> <span style="color:#a2f">range</span>(<span style="color:#666">100</span>):
+    <span style="color:#a2f;font-weight:bold">for</span> i, data <span style="color:#a2f;font-weight:bold">in</span> <span style="color:#a2f">enumerate</span>(train_loader, <span style="color:#666">0</span>):
+        <span style="color:#080;font-style:italic"># 1. Prepare data</span>
+        inputs, labels <span style="color:#666">=</span> data
+        <span style="color:#080;font-style:italic"># 2. Forward</span>
+        y_pred <span style="color:#666">=</span> model(inputs)
+        loss <span style="color:#666">=</span> criterion(y_pred, labels)
+        <span style="color:#a2f;font-weight:bold">print</span>(epoch, i, loss<span style="color:#666">.</span>item())
+        <span style="color:#080;font-style:italic"># 3. Backward</span>
+        optimizer<span style="color:#666">.</span>zero_grad()
+        loss<span style="color:#666">.</span>backward()
+        <span style="color:#080;font-style:italic"># 4. Update</span>
+        optimizer<span style="color:#666">.</span>step()
+</code></pre></div><ul>
 <li>i代表的是第几组数据，表示每次拿的是 $x[i],y[i]$</li>
 <li>train_loader 拿出来的是一个元组 $(X,Y)$，是 getitem 传过来的</li>
 <li>0代表是从第0个开始枚举</li>
@@ -867,568 +463,239 @@ Number of passes, each pass using <strong>batch size</strong> number of examples
 </ul>
 <h2 id="05-softmax">05. Softmax</h2>
 <h3 id="softmax概念">Softmax概念</h3>
-<p>对于多输出，我们要对输出进行进一步的<strong>规格化</strong>
+<p>对于多输出，我们要对输出进行进一步的<strong class=chinese>规格化</strong>
 $$P(y=i)\ge 0\qquad \sum_{i=0}^9 P(y=i)=1$$
 Suppose $𝑍^𝑙 ∈ ℝ^𝐾$ is the output of the last linear layer, the* Softmax function*:
 $$P(y=i)=\frac{e^{z_i}}{\sum_{j=0}^{K-1} e^{z_j}},\quad i\in {0,\cdots ,K-1}$$</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">torch</span>
-<span class="n">criterion</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span>
-<span class="n">Y</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">LongTensor</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a2f;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">torch</span>
+criterion <span style="color:#666">=</span> torch<span style="color:#666">.</span>nn<span style="color:#666">.</span>CrossEntropyLoss()
+Y <span style="color:#666">=</span> torch<span style="color:#666">.</span>LongTensor([<span style="color:#666">2</span>, <span style="color:#666">0</span>, <span style="color:#666">1</span>])
 
-<span class="n">Y_pred1</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">([[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">],</span>
-                        <span class="p">[</span><span class="mf">1.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">],</span>
-                        <span class="p">[</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">2.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">]])</span>
-<span class="n">Y_pred2</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">([[</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">],</span>
-                        <span class="p">[</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">],</span>
-                        <span class="p">[</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]])</span>
+Y_pred1 <span style="color:#666">=</span> torch<span style="color:#666">.</span>Tensor([[<span style="color:#666">0.1</span>, <span style="color:#666">0.2</span>, <span style="color:#666">0.9</span>],
+                        [<span style="color:#666">1.1</span>, <span style="color:#666">0.1</span>, <span style="color:#666">0.2</span>],
+                        [<span style="color:#666">0.2</span>, <span style="color:#666">2.1</span>, <span style="color:#666">0.1</span>]])
+Y_pred2 <span style="color:#666">=</span> torch<span style="color:#666">.</span>Tensor([[<span style="color:#666">0.8</span>, <span style="color:#666">0.2</span>, <span style="color:#666">0.3</span>],
+                        [<span style="color:#666">0.2</span>, <span style="color:#666">0.3</span>, <span style="color:#666">0.5</span>],
+                        [<span style="color:#666">0.2</span>, <span style="color:#666">0.2</span>, <span style="color:#666">0.5</span>]])
 
-<span class="n">l1</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">Y_pred1</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
-<span class="n">l2</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">Y_pred2</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="s2">&#34;Batch Loss1 = &#34;</span><span class="p">,</span> <span class="n">l1</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="s2">&#34;</span><span class="se">\n</span><span class="s2">Batch Loss2=&#34;</span><span class="p">,</span> <span class="n">l2</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
-</code></pre></td></tr></table>
-</div>
-</div><h3 id="crossentropyloss-vs-nulloss">CrossEntropyLoss vs NULLoss</h3>
+l1 <span style="color:#666">=</span> criterion(Y_pred1, Y)
+l2 <span style="color:#666">=</span> criterion(Y_pred2, Y)
+<span style="color:#a2f;font-weight:bold">print</span>(<span style="color:#b44">&#34;Batch Loss1 = &#34;</span>, l1<span style="color:#666">.</span>data, <span style="color:#b44">&#34;</span><span style="color:#b62;font-weight:bold">\n</span><span style="color:#b44">Batch Loss2=&#34;</span>, l2<span style="color:#666">.</span>data)
+</code></pre></div><h3 id="crossentropyloss-vs-nulloss">CrossEntropyLoss vs NULLoss</h3>
 <h3 id="implementation">Implementation</h3>
 <h4 id="package">Package</h4>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">torch</span>
-<span class="kn">from</span> <span class="nn">torchvision</span> <span class="kn">import</span> <span class="n">transforms</span>
-<span class="kn">from</span> <span class="nn">torchvision</span> <span class="kn">import</span> <span class="n">datasets</span>
-<span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">DataLoader</span>
-<span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="kn">as</span> <span class="nn">F</span>
-<span class="kn">import</span> <span class="nn">torch.optim</span> <span class="kn">as</span> <span class="nn">optim</span>
-</code></pre></td></tr></table>
-</div>
-</div><ul>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a2f;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">torch</span>
+<span style="color:#a2f;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">torchvision</span> <span style="color:#a2f;font-weight:bold">import</span> transforms
+<span style="color:#a2f;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">torchvision</span> <span style="color:#a2f;font-weight:bold">import</span> datasets
+<span style="color:#a2f;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">torch.utils.data</span> <span style="color:#a2f;font-weight:bold">import</span> DataLoader
+<span style="color:#a2f;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">torch.nn.functional</span> <span style="color:#a2f;font-weight:bold">as</span> <span style="color:#00f;font-weight:bold">F</span>
+<span style="color:#a2f;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">torch.optim</span> <span style="color:#a2f;font-weight:bold">as</span> <span style="color:#00f;font-weight:bold">optim</span>
+</code></pre></div><ul>
 <li><code>transform</code>: 对数据集进行处理</li>
 <li><code>F</code>: For using function relu()</li>
 <li><code>optim</code>: For constructing Optimizer</li>
 </ul>
 <h4 id="prepare-dataset-2">Prepare Dataset</h4>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">batch_size</span> <span class="o">=</span> <span class="mi">64</span>
-<span class="n">transform</span> <span class="o">=</span> <span class="n">transforms</span><span class="o">.</span><span class="n">Compose</span><span class="p">([</span>
-    <span class="n">transforms</span><span class="o">.</span><span class="n">ToTensor</span><span class="p">(),</span>
-    <span class="n">transforms</span><span class="o">.</span><span class="n">Normalize</span><span class="p">((</span><span class="mf">0.1307</span><span class="p">,</span> <span class="p">),</span> <span class="p">(</span><span class="mf">0.3081</span><span class="p">,</span> <span class="p">))</span>
-<span class="p">])</span>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">batch_size <span style="color:#666">=</span> <span style="color:#666">64</span>
+transform <span style="color:#666">=</span> transforms<span style="color:#666">.</span>Compose([
+    transforms<span style="color:#666">.</span>ToTensor(),
+    transforms<span style="color:#666">.</span>Normalize((<span style="color:#666">0.1307</span>, ), (<span style="color:#666">0.3081</span>, ))
+])
 
-<span class="n">train_dataset</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">MNIST</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="s1">&#39;../dataset/mnist/&#39;</span><span class="p">,</span>
-                               <span class="n">train</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-                               <span class="n">download</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-                               <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">)</span>
-<span class="n">train_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">,</span>
-                          <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-                          <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">)</span>
+train_dataset <span style="color:#666">=</span> datasets<span style="color:#666">.</span>MNIST(root<span style="color:#666">=</span><span style="color:#b44">&#39;../dataset/mnist/&#39;</span>,
+                               train<span style="color:#666">=</span>True,
+                               download<span style="color:#666">=</span>True,
+                               transform<span style="color:#666">=</span>transform)
+train_loader <span style="color:#666">=</span> DataLoader(train_dataset,
+                          shuffle<span style="color:#666">=</span>True,
+                          batch_size<span style="color:#666">=</span>batch_size)
 
-<span class="n">test_dataset</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">MNIST</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="s1">&#39;../dataset/mnist/&#39;</span><span class="p">,</span>
-                              <span class="n">train</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
-                              <span class="n">download</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-                              <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">)</span>
-<span class="n">test_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">test_dataset</span><span class="p">,</span>
-                         <span class="n">shuffle</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
-                         <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">)</span>
-</code></pre></td></tr></table>
-</div>
-</div><ul>
+test_dataset <span style="color:#666">=</span> datasets<span style="color:#666">.</span>MNIST(root<span style="color:#666">=</span><span style="color:#b44">&#39;../dataset/mnist/&#39;</span>,
+                              train<span style="color:#666">=</span>False,
+                              download<span style="color:#666">=</span>True,
+                              transform<span style="color:#666">=</span>transform)
+test_loader <span style="color:#666">=</span> DataLoader(test_dataset,
+                         shuffle<span style="color:#666">=</span>False,
+                         batch_size<span style="color:#666">=</span>batch_size)
+</code></pre></div><ul>
 <li>transform是为了Normalization数据，0.1307是均值，0.3081是标准差。这是MNIST数据集经过计算所得到的均值和标准差。</li>
 </ul>
 <h4 id="design-model-1">Design Model</h4>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">Net</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="nb">super</span><span class="p">(</span><span class="n">Net</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">l1</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">784</span><span class="p">,</span> <span class="mi">512</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">l2</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">512</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">l3</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">256</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">l4</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">64</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">l5</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">784</span><span class="p">)</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">l1</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">l2</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">l3</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">l4</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">l5</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a2f;font-weight:bold">class</span> <span style="color:#00f">Net</span>(torch<span style="color:#666">.</span>nn<span style="color:#666">.</span>Module):
+    <span style="color:#a2f;font-weight:bold">def</span> __init__(self):
+        <span style="color:#a2f">super</span>(Net, self)<span style="color:#666">.</span>__init__()
+        self<span style="color:#666">.</span>l1 <span style="color:#666">=</span> torch<span style="color:#666">.</span>nn<span style="color:#666">.</span>Linear(<span style="color:#666">784</span>, <span style="color:#666">512</span>)
+        self<span style="color:#666">.</span>l2 <span style="color:#666">=</span> torch<span style="color:#666">.</span>nn<span style="color:#666">.</span>Linear(<span style="color:#666">512</span>, <span style="color:#666">256</span>)
+        self<span style="color:#666">.</span>l3 <span style="color:#666">=</span> torch<span style="color:#666">.</span>nn<span style="color:#666">.</span>Linear(<span style="color:#666">256</span>, <span style="color:#666">128</span>)
+        self<span style="color:#666">.</span>l4 <span style="color:#666">=</span> torch<span style="color:#666">.</span>nn<span style="color:#666">.</span>Linear(<span style="color:#666">128</span>, <span style="color:#666">64</span>)
+        self<span style="color:#666">.</span>l5 <span style="color:#666">=</span> torch<span style="color:#666">.</span>nn<span style="color:#666">.</span>Linear(<span style="color:#666">64</span>, <span style="color:#666">10</span>)
+    <span style="color:#a2f;font-weight:bold">def</span> <span style="color:#00a000">forward</span>(self, x):
+        x <span style="color:#666">=</span> x<span style="color:#666">.</span>view(<span style="color:#666">-</span><span style="color:#666">1</span>, <span style="color:#666">784</span>)
+        x <span style="color:#666">=</span> F<span style="color:#666">.</span>relu(self<span style="color:#666">.</span>l1(x))
+        x <span style="color:#666">=</span> F<span style="color:#666">.</span>relu(self<span style="color:#666">.</span>l2(x))
+        x <span style="color:#666">=</span> F<span style="color:#666">.</span>relu(self<span style="color:#666">.</span>l3(x))
+        x <span style="color:#666">=</span> F<span style="color:#666">.</span>relu(self<span style="color:#666">.</span>l4(x))
+        <span style="color:#a2f;font-weight:bold">return</span> self<span style="color:#666">.</span>l5(x)
 
-<span class="n">model</span> <span class="o">=</span> <span class="n">Net</span><span class="p">()</span>
-</code></pre></td></tr></table>
-</div>
-</div><h4 id="construct-loss-and-optimizer-2">Construct Loss and Optimizer</h4>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">criterion</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span>
-<span class="n">optimizer</span> <span class="o">=</span> <span class="n">optim</span><span class="o">.</span><span class="n">SGD</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">momentum</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
-</code></pre></td></tr></table>
-</div>
-</div><h4 id="train-and-test">Train and Test</h4>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="n">epoch</span><span class="p">):</span>
-    <span class="n">running_loss</span> <span class="o">=</span> <span class="mf">0.0</span>
-    <span class="k">for</span> <span class="n">batch_idx</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">train_loader</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span>
-        <span class="n">inputs</span><span class="p">,</span> <span class="n">target</span> <span class="o">=</span> <span class="n">data</span>
-        <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
-        <span class="c1"># forward + backward + update</span>
-        <span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
-        <span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
-        <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
-        <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
-        <span class="n">running_loss</span> <span class="o">+=</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">batch_idx</span> <span class="o">%</span> <span class="mi">300</span> <span class="o">==</span> <span class="mi">299</span><span class="p">:</span>
-            <span class="k">print</span><span class="p">(</span><span class="s1">&#39;[</span><span class="si">%d</span><span class="s1">, </span><span class="si">%5d</span><span class="s1">] loss: </span><span class="si">%.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">epoch</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">batch_idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">running_loss</span> <span class="o">/</span> <span class="mi">300</span><span class="p">))</span>
-            <span class="n">running_loss</span> <span class="o">=</span> <span class="mf">0.0</span>
-</code></pre></td></tr></table>
-</div>
-</div><div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">test</span><span class="p">():</span>
-    <span class="n">correct</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
-        <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">test_loader</span><span class="p">:</span>
-            <span class="n">images</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">data</span>
-            <span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">images</span><span class="p">)</span>
-            <span class="n">_</span><span class="p">,</span> <span class="n">predicted</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">outputs</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-            <span class="n">total</span> <span class="o">+=</span> <span class="n">labels</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-            <span class="n">correct</span> <span class="o">+=</span> <span class="p">(</span><span class="n">predicted</span> <span class="o">==</span> <span class="n">labels</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
-    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Accuracy on test set: </span><span class="si">%d</span><span class="s1"> </span><span class="si">%%</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">correct</span> <span class="o">/</span> <span class="n">total</span><span class="p">))</span>
-</code></pre></td></tr></table>
-</div>
-</div><div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
-    <span class="n">train</span><span class="p">(</span><span class="n">epoch</span><span class="p">)</span>
-    <span class="n">test</span><span class="p">()</span>
-</code></pre></td></tr></table>
-</div>
-</div><h4 id="mention">MENTION</h4>
+model <span style="color:#666">=</span> Net()
+</code></pre></div><h4 id="construct-loss-and-optimizer-2">Construct Loss and Optimizer</h4>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">criterion <span style="color:#666">=</span> torch<span style="color:#666">.</span>nn<span style="color:#666">.</span>CrossEntropyLoss()
+optimizer <span style="color:#666">=</span> optim<span style="color:#666">.</span>SGD(model<span style="color:#666">.</span>parameters(), lr<span style="color:#666">=</span><span style="color:#666">0.01</span>, momentum<span style="color:#666">=</span><span style="color:#666">0.5</span>)
+</code></pre></div><h4 id="train-and-test">Train and Test</h4>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a2f;font-weight:bold">def</span> <span style="color:#00a000">train</span>(epoch):
+    running_loss <span style="color:#666">=</span> <span style="color:#666">0.0</span>
+    <span style="color:#a2f;font-weight:bold">for</span> batch_idx, data <span style="color:#a2f;font-weight:bold">in</span> <span style="color:#a2f">enumerate</span>(train_loader, <span style="color:#666">0</span>):
+        inputs, target <span style="color:#666">=</span> data
+        optimizer<span style="color:#666">.</span>zero_grad()
+        <span style="color:#080;font-style:italic"># forward + backward + update</span>
+        outputs <span style="color:#666">=</span> model(inputs)
+        loss <span style="color:#666">=</span> criterion(outputs, target)
+        loss<span style="color:#666">.</span>backward()
+        optimizer<span style="color:#666">.</span>step()
+        running_loss <span style="color:#666">+=</span> loss<span style="color:#666">.</span>item()
+        <span style="color:#a2f;font-weight:bold">if</span> batch_idx <span style="color:#666">%</span> <span style="color:#666">300</span> <span style="color:#666">==</span> <span style="color:#666">299</span>:
+            <span style="color:#a2f;font-weight:bold">print</span>(<span style="color:#b44">&#39;[</span><span style="color:#b68;font-weight:bold">%d</span><span style="color:#b44">, </span><span style="color:#b68;font-weight:bold">%5d</span><span style="color:#b44">] loss: </span><span style="color:#b68;font-weight:bold">%.3f</span><span style="color:#b44">&#39;</span> <span style="color:#666">%</span> (epoch <span style="color:#666">+</span> <span style="color:#666">1</span>, batch_idx <span style="color:#666">+</span> <span style="color:#666">1</span>, running_loss <span style="color:#666">/</span> <span style="color:#666">300</span>))
+            running_loss <span style="color:#666">=</span> <span style="color:#666">0.0</span>
+</code></pre></div><div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a2f;font-weight:bold">def</span> <span style="color:#00a000">test</span>():
+    correct <span style="color:#666">=</span> <span style="color:#666">0</span>
+    total <span style="color:#666">=</span> <span style="color:#666">0</span>
+    <span style="color:#a2f;font-weight:bold">with</span> torch<span style="color:#666">.</span>no_grad():
+        <span style="color:#a2f;font-weight:bold">for</span> data <span style="color:#a2f;font-weight:bold">in</span> test_loader:
+            images, labels <span style="color:#666">=</span> data
+            outputs <span style="color:#666">=</span> model(images)
+            _, predicted <span style="color:#666">=</span> torch<span style="color:#666">.</span>max(outputs<span style="color:#666">.</span>data, dim<span style="color:#666">=</span><span style="color:#666">1</span>)
+            total <span style="color:#666">+=</span> labels<span style="color:#666">.</span>size(<span style="color:#666">0</span>)
+            correct <span style="color:#666">+=</span> (predicted <span style="color:#666">==</span> labels)<span style="color:#666">.</span>sum()<span style="color:#666">.</span>item()
+    <span style="color:#a2f;font-weight:bold">print</span>(<span style="color:#b44">&#39;Accuracy on test set: </span><span style="color:#b68;font-weight:bold">%d</span><span style="color:#b44"> </span><span style="color:#b68;font-weight:bold">%%</span><span style="color:#b44">&#39;</span> <span style="color:#666">%</span> (<span style="color:#666">100</span> <span style="color:#666">*</span> correct <span style="color:#666">/</span> total))
+</code></pre></div><div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a2f;font-weight:bold">for</span> epoch <span style="color:#a2f;font-weight:bold">in</span> <span style="color:#a2f">range</span>(<span style="color:#666">10</span>):
+    train(epoch)
+    test()
+</code></pre></div><h4 id="mention">MENTION</h4>
 <p>我们在打标签的时候需要从0开始，否则是有问题的。</p>
 <h2 id="06-cnn">06. CNN</h2>
 <p>卷积神经网络可以做到保留原始的空间信息，而全连接层是展开成一个，无法保留空间信息。</p>
 <p><img src="/img/20210915121409.png" alt=""></p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">torch</span>
-<span class="n">in_channels</span><span class="p">,</span> <span class="n">out_channels</span><span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span>
-<span class="n">width</span><span class="p">,</span> <span class="n">height</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span>
-<span class="n">kernel_size</span> <span class="o">=</span> <span class="mi">3</span>
-<span class="n">batch_size</span> <span class="o">=</span> <span class="mi">1</span>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a2f;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">torch</span>
+in_channels, out_channels<span style="color:#666">=</span> <span style="color:#666">5</span>, <span style="color:#666">10</span>
+width, height <span style="color:#666">=</span> <span style="color:#666">100</span>, <span style="color:#666">100</span>
+kernel_size <span style="color:#666">=</span> <span style="color:#666">3</span>
+batch_size <span style="color:#666">=</span> <span style="color:#666">1</span>
 
-<span class="nb">input</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">batch_size</span><span class="p">,</span>
-                    <span class="n">in_channels</span><span class="p">,</span>
-                    <span class="n">width</span><span class="p">,</span>
-                    <span class="n">height</span><span class="p">)</span>
+<span style="color:#a2f">input</span> <span style="color:#666">=</span> torch<span style="color:#666">.</span>randn(batch_size,
+                    in_channels,
+                    width,
+                    height)
 
-<span class="n">conv_layer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">in_channels</span><span class="p">,</span>
-                             <span class="n">out_channels</span><span class="p">,</span>
-                             <span class="n">kernel_size</span><span class="o">=</span><span class="n">kernel_size</span><span class="p">)</span>
+conv_layer <span style="color:#666">=</span> torch<span style="color:#666">.</span>nn<span style="color:#666">.</span>Conv2d(in_channels,
+                             out_channels,
+                             kernel_size<span style="color:#666">=</span>kernel_size)
 
-<span class="n">output</span> <span class="o">=</span> <span class="n">conv_layer</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+output <span style="color:#666">=</span> conv_layer(<span style="color:#a2f">input</span>)
 
-<span class="k">print</span><span class="p">(</span><span class="nb">input</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">conv_layer</span><span class="o">.</span><span class="n">weight</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-</code></pre></td></tr></table>
-</div>
-</div><p>输出为：</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">torch</span><span class="o">.</span><span class="n">Size</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">])</span>
-<span class="n">torch</span><span class="o">.</span><span class="n">Size</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">98</span><span class="p">,</span> <span class="mi">98</span><span class="p">])</span>
-<span class="n">torch</span><span class="o">.</span><span class="n">Size</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
-</code></pre></td></tr></table>
-</div>
-</div><h3 id="mnist-example">MNIST Example</h3>
+<span style="color:#a2f;font-weight:bold">print</span>(<span style="color:#a2f">input</span><span style="color:#666">.</span>shape)
+<span style="color:#a2f;font-weight:bold">print</span>(output<span style="color:#666">.</span>shape)
+<span style="color:#a2f;font-weight:bold">print</span>(conv_layer<span style="color:#666">.</span>weight<span style="color:#666">.</span>shape)
+</code></pre></div><p>输出为：</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">torch<span style="color:#666">.</span>Size([<span style="color:#666">1</span>, <span style="color:#666">5</span>, <span style="color:#666">100</span>, <span style="color:#666">100</span>])
+torch<span style="color:#666">.</span>Size([<span style="color:#666">1</span>, <span style="color:#666">10</span>, <span style="color:#666">98</span>, <span style="color:#666">98</span>])
+torch<span style="color:#666">.</span>Size([<span style="color:#666">10</span>, <span style="color:#666">5</span>, <span style="color:#666">3</span>, <span style="color:#666">3</span>])
+</code></pre></div><h3 id="mnist-example">MNIST Example</h3>
 <p><img src="/img/20210915122114.png" alt=""></p>
 <h4 id="move-model-to-gpu">Move Model to GPU</h4>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre class="chroma"><code><span class="lnt"> 1
-</span><span class="lnt"> 2
-</span><span class="lnt"> 3
-</span><span class="lnt"> 4
-</span><span class="lnt"> 5
-</span><span class="lnt"> 6
-</span><span class="lnt"> 7
-</span><span class="lnt"> 8
-</span><span class="lnt"> 9
-</span><span class="lnt">10
-</span><span class="lnt">11
-</span><span class="lnt">12
-</span><span class="lnt">13
-</span><span class="lnt">14
-</span><span class="lnt">15
-</span><span class="lnt">16
-</span><span class="lnt">17
-</span><span class="lnt">18
-</span><span class="lnt">19
-</span><span class="lnt">20
-</span><span class="lnt">21
-</span><span class="lnt">22
-</span><span class="lnt">23
-</span><span class="lnt">24
-</span><span class="lnt">25
-</span><span class="lnt">26
-</span><span class="lnt">27
-</span><span class="lnt">28
-</span><span class="lnt">29
-</span><span class="lnt">30
-</span><span class="lnt">31
-</span><span class="lnt">32
-</span><span class="lnt">33
-</span></code></pre></td>
-<td class="lntd">
-<pre class="chroma"><code class="language-python" data-lang="python"><span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&#34;cuda:0&#34;</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&#34;cpu&#34;</span><span class="p">)</span>
-<span class="n">model</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">device <span style="color:#666">=</span> torch<span style="color:#666">.</span>device(<span style="color:#b44">&#34;cuda:0&#34;</span> <span style="color:#a2f;font-weight:bold">if</span> torch<span style="color:#666">.</span>cuda<span style="color:#666">.</span>is_available() <span style="color:#a2f;font-weight:bold">else</span> <span style="color:#b44">&#34;cpu&#34;</span>)
+model<span style="color:#666">.</span>to(device)
 
-<span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="n">epoch</span><span class="p">):</span>
-    <span class="n">running_loss</span> <span class="o">=</span> <span class="mf">0.0</span>
-    <span class="k">for</span> <span class="n">batch_idx</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">train_loader</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span>
-        <span class="n">inputs</span><span class="p">,</span> <span class="n">target</span> <span class="o">=</span> <span class="n">data</span>
-        <span class="n">inputs</span><span class="p">,</span> <span class="n">target</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">),</span> <span class="n">target</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
-        <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+<span style="color:#a2f;font-weight:bold">def</span> <span style="color:#00a000">train</span>(epoch):
+    running_loss <span style="color:#666">=</span> <span style="color:#666">0.0</span>
+    <span style="color:#a2f;font-weight:bold">for</span> batch_idx, data <span style="color:#a2f;font-weight:bold">in</span> <span style="color:#a2f">enumerate</span>(train_loader, <span style="color:#666">0</span>):
+        inputs, target <span style="color:#666">=</span> data
+        inputs, target <span style="color:#666">=</span> inputs<span style="color:#666">.</span>to(device), target<span style="color:#666">.</span>to(device)
+        optimizer<span style="color:#666">.</span>zero_grad()
         
-        <span class="c1"># forward + backward + update</span>
-        <span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
-        <span class="n">loss</span> <span class="o">=</span> <span class="n">criterion</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
-        <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
-        <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
-        <span class="n">running_loss</span> <span class="o">+=</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">batch_idx</span> <span class="o">%</span> <span class="mi">300</span> <span class="o">==</span> <span class="mi">299</span><span class="p">:</span>
-            <span class="k">print</span><span class="p">(</span><span class="s1">&#39;[</span><span class="si">%d</span><span class="s1">, </span><span class="si">%5d</span><span class="s1">] loss: </span><span class="si">%.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">epoch</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">batch_idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">running_loss</span> <span class="o">/</span> <span class="mi">2000</span><span class="p">))</span>
-            <span class="n">running_loss</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span style="color:#080;font-style:italic"># forward + backward + update</span>
+        outputs <span style="color:#666">=</span> model(inputs)
+        loss <span style="color:#666">=</span> criterion(outputs, target)
+        loss<span style="color:#666">.</span>backward()
+        optimizer<span style="color:#666">.</span>step()
+        running_loss <span style="color:#666">+=</span> loss<span style="color:#666">.</span>item()
+        <span style="color:#a2f;font-weight:bold">if</span> batch_idx <span style="color:#666">%</span> <span style="color:#666">300</span> <span style="color:#666">==</span> <span style="color:#666">299</span>:
+            <span style="color:#a2f;font-weight:bold">print</span>(<span style="color:#b44">&#39;[</span><span style="color:#b68;font-weight:bold">%d</span><span style="color:#b44">, </span><span style="color:#b68;font-weight:bold">%5d</span><span style="color:#b44">] loss: </span><span style="color:#b68;font-weight:bold">%.3f</span><span style="color:#b44">&#39;</span> <span style="color:#666">%</span> (epoch <span style="color:#666">+</span> <span style="color:#666">1</span>, batch_idx <span style="color:#666">+</span> <span style="color:#666">1</span>, running_loss <span style="color:#666">/</span> <span style="color:#666">2000</span>))
+            running_loss <span style="color:#666">=</span> <span style="color:#666">0.0</span>
             
-<span class="k">def</span> <span class="nf">test</span><span class="p">():</span>
-    <span class="n">correct</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
-        <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">test_loader</span><span class="p">:</span>
-            <span class="n">inputs</span><span class="p">,</span> <span class="n">target</span> <span class="o">=</span> <span class="n">data</span>
-            <span class="n">inputs</span><span class="p">,</span> <span class="n">target</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">),</span> <span class="n">target</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
-            <span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
-            <span class="n">_</span><span class="p">,</span> <span class="n">predicted</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">outputs</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-            <span class="n">total</span> <span class="o">+=</span> <span class="n">target</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-            <span class="n">correct</span> <span class="o">+=</span> <span class="p">(</span><span class="n">predicted</span> <span class="o">==</span> <span class="n">target</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
-    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Accuracy on test set: </span><span class="si">%d</span><span class="s1"> </span><span class="si">%%</span><span class="s1"> [</span><span class="si">%d</span><span class="s1">/</span><span class="si">%d</span><span class="s1">]&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="mi">100</span> <span class="o">*</span> <span class="n">correct</span> <span class="o">/</span> <span class="n">total</span><span class="p">,</span> <span class="n">correct</span><span class="p">,</span> <span class="n">total</span><span class="p">))</span>
+<span style="color:#a2f;font-weight:bold">def</span> <span style="color:#00a000">test</span>():
+    correct <span style="color:#666">=</span> <span style="color:#666">0</span>
+    total <span style="color:#666">=</span> <span style="color:#666">0</span>
+    <span style="color:#a2f;font-weight:bold">with</span> torch<span style="color:#666">.</span>no_grad():
+        <span style="color:#a2f;font-weight:bold">for</span> data <span style="color:#a2f;font-weight:bold">in</span> test_loader:
+            inputs, target <span style="color:#666">=</span> data
+            inputs, target <span style="color:#666">=</span> inputs<span style="color:#666">.</span>to(device), target<span style="color:#666">.</span>to(device)
+            outputs <span style="color:#666">=</span> model(inputs)
+            _, predicted <span style="color:#666">=</span> torch<span style="color:#666">.</span>max(outputs<span style="color:#666">.</span>data, dim<span style="color:#666">=</span><span style="color:#666">1</span>)
+            total <span style="color:#666">+=</span> target<span style="color:#666">.</span>size(<span style="color:#666">0</span>)
+            correct <span style="color:#666">+=</span> (predicted <span style="color:#666">==</span> target)<span style="color:#666">.</span>sum()<span style="color:#666">.</span>item()
+    <span style="color:#a2f;font-weight:bold">print</span>(<span style="color:#b44">&#39;Accuracy on test set: </span><span style="color:#b68;font-weight:bold">%d</span><span style="color:#b44"> </span><span style="color:#b68;font-weight:bold">%%</span><span style="color:#b44"> [</span><span style="color:#b68;font-weight:bold">%d</span><span style="color:#b44">/</span><span style="color:#b68;font-weight:bold">%d</span><span style="color:#b44">]&#39;</span> <span style="color:#666">%</span> (<span style="color:#666">100</span> <span style="color:#666">*</span> correct <span style="color:#666">/</span> total, correct, total))
 
-</code></pre></td></tr></table>
-</div>
-</div><h3 id="inception-module">Inception Module</h3>
+</code></pre></div><h3 id="inception-module">Inception Module</h3>
 <p><img src="/img/20210915173840.png" alt=""></p>
 <h4 id="1x1-convolution">1x1 convolution</h4>
-<p>可以<strong>改变通道数量</strong>，可以跨越不同通道相同像素的值，做到了信息融合的目的。
+<p>可以<strong class=chinese>改变通道数量</strong>，可以跨越不同通道相同像素的值，做到了信息融合的目的。
 卷积核的数量就代表了通道的数量。
 作用：降低运算量</p>
 <p><img src="/img/20210915175019.png" alt=""></p>
 
-    </div>
-
-    <div class="post-copyright">
-  <p class="copyright-item">
-    <span class="item-title">Author</span>
-    <span class="item-content">Hanshi Sun</span>
-  </p>
-  <p class="copyright-item">
-    <span class="item-title">LastMod</span>
-    <span class="item-content">
-        2021-10-17
-        
-    </span>
-  </p>
-  
-  <p class="copyright-item">
-    <span class="item-title">License</span>
-    <span class="item-content"><a rel="license noopener" href="https://creativecommons.org/licenses/by-nc-nd/4.0/" target="_blank">CC BY-NC-ND 4.0</a></span>
-  </p>
-</div>
-<div class="post-reward">
-  <input type="checkbox" name="reward" id="reward" hidden />
-  <label class="reward-button" for="reward">Reward</label>
-  <div class="qr-code">
     
-    <label class="qr-code-image" for="reward">
-        <img class="image" src="/img/wechat.jpg">
-        <span>wechat</span>
-      </label>
-    <label class="qr-code-image" for="reward">
-        <img class="image" src="/img/alipay.jpg">
-        <span>alipay</span>
-      </label>
-  </div>
-</div><footer class="post-footer">
-      <div class="post-tags">
-          <a href="/blog/tags/pytorch/">Pytorch</a>
-          <a href="/blog/tags/deep-learning/">Deep Learning</a>
-          </div>
-      <nav class="post-nav">
-        <a class="prev" href="/blog/post/2021/10/17/quantization-compression/">
-            <i class="iconfont icon-left"></i>
-            <span class="prev-text nav-default">Quantization Compression</span>
-            <span class="prev-text nav-mobile">Prev</span>
-          </a>
-        <a class="next" href="/blog/post/2021/10/17/vim-basics/">
-            <span class="next-text nav-default">Vim Basics</span>
-            <span class="next-text nav-mobile">Next</span>
-            <i class="iconfont icon-right"></i>
-          </a>
-      </nav>
-    </footer>
   </article>
-        </div>
-        <div id="gitalk-container"></div>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js" crossorigin="anonymous"></script>
-    <script type="text/javascript">
-      var gitalk = new Gitalk({
-        id: '2021-10-17 00:25:41 \x2b0800 CST',
-        title: 'Pytorch Basics',
-        clientID: '9d4d5bfb5872b737a756',
-        clientSecret: '2677eacb9eedb58e0e8e7463a2c6a5ff70054601',
-        repo: 'gitalk',
-        owner: 'preminstrel',
-        admin: ['preminstrel'],
-        body: decodeURI(location.href)
-      });
-      gitalk.render('gitalk-container');
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="https://github.com/gitalk/gitalk">comments powered by gitalk.</a></noscript>
-
-  
-
-  
-
-  
-  
-
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="social-links">
-      <a href="mailto:preminstrel@gmail.com" class="iconfont icon-email" title="email"></a>
-      <a href="https://twitter.com/preminstrel" class="iconfont icon-twitter" title="twitter"></a>
-      <a href="https://github.com/preminstrel" class="iconfont icon-github" title="github"></a>
-      <a href="https://www.zhihu.com/people/preminstrel" class="iconfont icon-zhihu" title="zhihu"></a>
-      <a href="https://space.bilibili.com/23354645" class="iconfont icon-bilibili" title="bilibili"></a>
-  <a href="https://preminstrel.github.io/blog/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
-</div>
-
-<div class="copyright">
-  <span class="power-by">
-    Powered by <a class="hexo-link" href="https://gohugo.io">Hugo</a>
-  </span>
-  <span class="division">|</span>
-  <span class="theme-info">
-    Theme - 
-    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
-  </span>
-
-  <div class="busuanzi-footer">
+  <div class="paginator">
+    
+    <a class="link" href="https://preminstrel.github.io/blog/post/2021/10/17/vim-basics/">← prev</a>
+    
+    
+    <a class="link" href="https://preminstrel.github.io/blog/post/2021/10/17/quantization-compression/">next →</a>
+    
+  </div>
+  <div class="comment">
+    
+    
+    
+    
     
     
   </div>
+  
+</main>
 
-  <span class="copyright-year">
-    &copy; 
-    2021 - 
-    2022<span class="heart"><i class="iconfont icon-heart"></i></span><span>Hanshi Sun</span>
-  </span>
-  <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.js"></script>
-  <script src="https://cdn.bootcdn.net/ajax/libs/mermaid/8.8.3/mermaid.min.js"></script>
-  <script>
-    $(".language-mermaid").addClass("mermaid");
-  </script>
-</div>
-
-
-    </footer>
-
-    <div class="back-to-top" id="back-to-top">
-      <i class="iconfont icon-up"></i>
-    </div>
+    <footer id="footer">
+  <div>
+    <span>© 2021</span> - <span>2022</span>
   </div>
-  
-  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
 
+  <div>
+    <span>Powered by </span>
+    <a class="link" href="https://gohugo.io/">Hugo</a>
+    <span> 🍦 Theme </span>
+    <a class="link" href="https://github.com/queensferryme/hugo-theme-texify">TeXify</a>
+  </div>
 
+  <div class="footnote">
+    <span>Follow me on <a class=link href=https://github.com/preminstrel>GitHub</a>,
+<a class=link href=https://twitter.com/preminstrel>Twitter</a> or
+<a class=link href=/index.xml>RSS</a> |
+<a class=link href=https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh target=_blank rel=noopener>CC BY-NC-SA 4.0</a>
+</span>
+  </div>
+</footer>
 
-<script type="text/javascript" src="/blog/js/main.min.c12618f9a600c40bd024996677e951e64d3487006775aeb22e200c990006c5c7.js"></script>
-  <script type="text/javascript">
-    window.MathJax = {
-      tex: {
-        inlineMath: [['$','$'], ['\\(','\\)']],
-        }
-    };
-  </script>
-  <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.0.5/es5/tex-mml-chtml.js" integrity="sha256-HGLuEfFcsUJGhvB8cQ8nr0gai9EucOOaIxFw7qxmd+w=" crossorigin="anonymous"></script>
-
-
-
-
-
-<script src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
-<script>
-docsearch({
-    apiKey: "67ddc142183934ec2d0aa925bf40c09a",
-    indexName: "blog",
-    appId: "RQO6N4CQFD",
-    inputSelector: '.docsearch-input',
-    debug: false,
-});
-</script>
-
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
-
-<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/algoliasearch.min.js"></script>
-<script src="https://res.cloudinary.com/jimmysong/raw/upload/rootsongjc-hugo/autocomplete.min.js"></script>
-
-
- 
-<script src= "/blog/js/search.js" type="text/javascript"></script>
-
-</script>
-
+  </div>
 
   
   
+
+  
+  
+
+  
+  
+
 </body>
+
 </html>
