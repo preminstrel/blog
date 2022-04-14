@@ -133,10 +133,24 @@
   </div>
   
   
+  
+  <details>
+    <summary>
+      <b>Table of Contents</b>
+    </summary>
+    <div class="toc"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#zynq-apsoc-architecture">Zynq APSoC Architecture</a></li>
+  </ul>
+</nav></div>
+  </details>
+  
+  
   <article class="content">
     
     <p>最近要在 FPGA 上部署之前的 ECGNet，所以导师给了我一块 Digilent 的 <em><strong>ZYBO Z7-20</strong></em>，搭载 ZYNQ 7020 芯片，让我们自学并实现硬件部署。</p>
-<h1 id="overview">Overview</h1>
+<h2 id="overview">Overview</h2>
 <p>Zybo Z7是一款功能丰富、随时可用的嵌入式软件和数字电路开发板，围绕 Xilinx Zynq-7000 系列构建。Zynq系列基于 Xilinx All Programmable System-on-Chip (AP SoC)架构，将双核 ARM Cortex-A9 处理器与 Xilinx 7 系列可编程门阵列(FPGA)逻辑紧密集成。在考虑 FPGA 的灵活性和功率损耗的基础上，Zybo Z7 围绕 Zynq 配备了丰富的多媒体和连接外设，打造了一个强大的单板机。Zybo Z7 的视频功能集，包括 MIPI SCI-2 兼容 Pcam 连接器、HDMI 输入、HDMI 输出和高 DDR3L 带宽，使其成为 Xilinx FPGA 高端嵌入式视觉应用的负担得起的解决方案。通过 Zybo Z7 的 Pmod 连接器，可以方便地附加额外的硬件，允许访问 Digilent 的超过 70 个 Pmod 外设板目录，包括电机控制器，传感器，显示器等等。</p>
 <p><em><strong>ZYNQ Processor</strong></em></p>
 <ul>
@@ -189,7 +203,7 @@ compatible identifier</li>
 </li>
 </ul>
 <div align=center>
-<img src="/img/20211030223155.png" width="600px" />
+<a href="https://sm.ms/image/mfJbKnsdAWoBkph" target="_blank"><img src="https://s2.loli.net/2022/04/14/mfJbKnsdAWoBkph.png" width="600px></a>
 </div>
 <table>
 <thead>
@@ -299,10 +313,10 @@ compatible identifier</li>
 </tr>
 </tbody>
 </table>
-<h1 id="zynq-apsoc-architecture">Zynq APSoC Architecture</h1>
+<h2 id="zynq-apsoc-architecture">Zynq APSoC Architecture</h2>
 <p>Zynq APSoC 分为两个不同的子系统：处理系统(<em><strong>PS</strong></em>)和可编程逻辑(<em><strong>PL</strong></em>)。下图展示了 Zynq APSoC 架构的概述，其中 PS 为浅绿色，PL 为黄色。需要注意的是，Zynq-7020 和 Zynq-7010 设备上没有 PCIe Gen2 控制器和千兆收发器。</p>
 <div align=center>
-<img src="/img/20211030232502.png" width="400px" />
+<a href="https://sm.ms/image/Fkp9G5tZnxcOL68" target="_blank"><img src="https://s2.loli.net/2022/04/14/Fkp9G5tZnxcOL68.png" width="400px></a>
 </div>
 <p>PL 和 Xilinx 7 系的 Artix FPGA 几乎一模一样，除了它包含几个紧密结合 PS 的专用接口和总线。PL 也不包含和典型 7 系 FPGA 相同的配置硬件，它必须直接由处理器或通过 JTAG 端口进行配置。</p>
 <p>PS 由许多组件组成，包括应用处理单元(APU，包括 2 个 Cortex-A9 处理器)、高级微控制器总线架构(AMBA)互连、DDR3 内存控制器和各种外设控制器，它们的输入和输出复用到 54 个专用引脚(称为复用 I/O，或 MIO 引脚)。没有将其输入和输出连接到 MIO 引脚的外围控制器可以通过 PL，通过扩展 MIO (EMIO) 接口路由其 I/O。外围控制器通过 AMBA 互连连接到处理器作为 slaves，并包含可在处理器内存空间寻址的可读/可写控制寄存器。可编程逻辑也作为一个从属连接到互连，设计可以在 FPGA fabric 中实现多个核，每个核也包含可寻址的控制寄存器。此外，在 PL 中实现的核心可以触发对处理器的中断，并执行对 DDR3 内存的 DMA 访问。</p>
@@ -311,7 +325,7 @@ compatible identifier</li>
   </article>
   <div class="paginator">
     
-    <a class="link" href="https://preminstrel.github.io/blog/post/2021/10/29/dcdc-%E5%BC%80%E5%85%B3%E7%94%B5%E6%BA%90/">← prev</a>
+    <a class="link" href="https://preminstrel.github.io/blog/post/2021/10/25/mcs-51-basics-3/">← prev</a>
     
     
     <a class="link" href="https://preminstrel.github.io/blog/post/2021/10/31/zybo-z7-basics-2/">next →</a>
@@ -332,14 +346,6 @@ compatible identifier</li>
   <div>
     <span>© 2021</span> - <span>2022</span>
   </div>
-
-  <div>
-    <span>Powered by </span>
-    <a class="link" href="https://gohugo.io/">Hugo</a>
-    <span> 🍦 Theme </span>
-    <a class="link" href="https://github.com/queensferryme/hugo-theme-texify">TeXify</a>
-  </div>
-
   <div class="footnote">
     <span>Follow me on <a class=link href=https://github.com/preminstrel>GitHub</a>,
 <a class=link href=https://twitter.com/preminstrel>Twitter</a> or

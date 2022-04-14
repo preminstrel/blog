@@ -133,10 +133,26 @@
   </div>
   
   
+  
+  <details>
+    <summary>
+      <b>Table of Contents</b>
+    </summary>
+    <div class="toc"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#basic-theory">Basic Theory</a></li>
+    <li><a href="#formula">Formula</a></li>
+    <li><a href="#algorithm">Algorithm</a></li>
+    <li><a href="#reference">Reference</a></li>
+  </ul>
+</nav></div>
+  </details>
+  
+  
   <article class="content">
     
     <p>最近科研要用到 CycleGAN，借此机会，便对 <em><strong>GAN(Generative Adversarial Networks)</strong></em> 进行一个学习。Ian Goodfellow 大牛的 Generative Adversarial Networks（arxiv：<a href="https://link.zhihu.com/?target=https%3A//arxiv.org/abs/1406.2661">https://arxiv.org/abs/1406.2661</a>），是这个领域的开天辟地之作。就像 Yann LeCun 所说的，Adversarial training is the coolest thing since sliced bread.</p>
-<h1 id="basic-theory">Basic Theory</h1>
+<h2 id="basic-theory">Basic Theory</h2>
 <p>这里用生成图片为例对GAN的原理进行说明。假设我们有两个网络，<em><strong>G(Generator)</strong></em> 和 <em><strong>D(Discriminator)</strong></em>，它们的功能分别是：</p>
 <ul>
 <li>$G$ 是一个生成图片的网络，它接收一个随机的噪声 $z$，通过这个噪声生成图片，记做 $G(z)$。其输出是一个 vector。</li>
@@ -144,9 +160,9 @@
 </ul>
 <p>在训练过程中，<strong>生成网络 $G$ 的目标就是尽量生成真实的图片去欺骗判别网络 $D$。而 $D$ 的目标就是尽量把 $G$ 生成的图片和真实的图片分别开来。</strong> 这样，$G$ 和 $D$ 构成了一个动态的“博弈过程”。最后博弈的结果是：<strong>在最理想的状态下，</strong> $G$ 可以生成足以“以假乱真”的图片 $G(z)$。对于 $D$ 来说，它难以判定 $G$ 生成的图片究竟是不是真实的，因此 $D(G(z)) = 0.5$。这样，我们就成功地得到了一个生成式的模型 $G$，它可以用来生成图片。</p>
 <div align=center>
-<img src="/img/20220109125533.png" width="500px"/>
+<a href="https://sm.ms/image/5BDQFhomMHzyfLs" target="_blank"><img src="https://s2.loli.net/2022/04/14/5BDQFhomMHzyfLs.png" width = "600px"></a>
 </div>
-<h1 id="formula">Formula</h1>
+<h2 id="formula">Formula</h2>
 <p>以上只是大致说了一下 GAN 的核心原理，如何用数学语言描述呢？这里直接摘录论文里的公式：</p>
 <p>$$\min_{G} \max_{D} V(D, G)=\mathbb{E}_{\boldsymbol{x} \sim p_{\text {data }}(\boldsymbol{x})}[\log D(\boldsymbol{x})]+\mathbb{E}_{\boldsymbol{z} \sim p_{\boldsymbol{z}}(\boldsymbol{z})}[\log (1-D(G(\boldsymbol{z})))]$$</p>
 <p>公式中：</p>
@@ -158,9 +174,9 @@
 </ul>
 <p>下面这幅图片很好地描述了这个过程：</p>
 <div align=center>
-<img src="/img/20220106234555.png" width="400px"/>
+<a href="https://sm.ms/image/EzTPYgcI91aVnfk" target="_blank"><img src="https://s2.loli.net/2022/04/14/EzTPYgcI91aVnfk.png" width = "400px"></a>
 </div>
-<h1 id="algorithm">Algorithm</h1>
+<h2 id="algorithm">Algorithm</h2>
 <p><em><strong>Step 1</strong></em>: Fix generator $G$, and update discriminator $D$. Discriminator learns to assign high scores to real objects and low scores to generated objects.</p>
 <ul>
 <li>Sample $m$ examples $\{ x^1, x^2, &hellip; , x^m \}$ from database</li>
@@ -173,7 +189,7 @@
 <li>Sample m noise samples $\{z^1, z^2, &hellip; , z^m\}$ from a distribution</li>
 <li>Update generator parameters $\theta_g$ to maximize $$\tilde{V}=\frac{1}{m}\sum_{i=1}^m\log \left(D(G(z^i))\right)$$$$\theta_g\leftarrow \theta_g-\eta\nabla\tilde{V}(\theta_g)$$</li>
 </ul>
-<h1 id="reference">Reference</h1>
+<h2 id="reference">Reference</h2>
 <ul>
 <li><a href="https://zhuanlan.zhihu.com/p/24767059">GAN学习指南：从原理入门到制作生成Demo</a></li>
 </ul>
@@ -203,14 +219,6 @@
   <div>
     <span>© 2021</span> - <span>2022</span>
   </div>
-
-  <div>
-    <span>Powered by </span>
-    <a class="link" href="https://gohugo.io/">Hugo</a>
-    <span> 🍦 Theme </span>
-    <a class="link" href="https://github.com/queensferryme/hugo-theme-texify">TeXify</a>
-  </div>
-
   <div class="footnote">
     <span>Follow me on <a class=link href=https://github.com/preminstrel>GitHub</a>,
 <a class=link href=https://twitter.com/preminstrel>Twitter</a> or

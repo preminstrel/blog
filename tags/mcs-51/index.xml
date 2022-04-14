@@ -16,12 +16,12 @@
       <author>preminstrel@gmail.com (Hanshi Sun)</author>
       <guid>https://preminstrel.github.io/blog/post/2021/10/25/mcs-51-basics-3/</guid>
       
-      <description>&lt;h1 id=&#34;独立按键&#34;&gt;独立按键&lt;/h1&gt;
+      <description>&lt;h2 id=&#34;独立按键&#34;&gt;独立按键&lt;/h2&gt;
 &lt;p&gt;前面介绍的都是 IO 口输出的使用，这一章我们通过独立按键实验来介绍 IO 口作为输入的使用。开发板上板载 4 个独立按键。我们所要实现的功能是：通过开发板上的独立按键 K1 控制 D1 指示灯亮灭。&lt;/p&gt;
-&lt;h2 id=&#34;按键介绍&#34;&gt;按键介绍&lt;/h2&gt;
+&lt;h3 id=&#34;按键介绍&#34;&gt;按键介绍&lt;/h3&gt;
 &lt;p&gt;按键是一种电子开关，使用时轻轻按开关按钮就可使开关接通，当松开手时, 开关断开。开发板上使用的按键及内部简易图如下图所示：&lt;/p&gt;
 &lt;div align=center&gt;
-&lt;img src=&#34;https://preminstrel.github.io/blog/img/20211025230539.png&#34; width=&#34;300px&#34; /&gt;
+&lt;a href=&#34;https://sm.ms/image/OrcqkP573EoFpt1&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://s2.loli.net/2022/04/14/OrcqkP573EoFpt1.png&#34; width=&#34;300px&#34;&gt;&lt;/a&gt;
 &lt;/div&gt;
 &lt;p&gt;按键管脚两端距离长的表示默认是导通状态，距离短的默认是断开状态，如果按键按下，初始导通状态变为断开，初始断开状态变为导通。通常的按键所用开关为机械弹性开关，当机械触点断开、闭合时，电压信号如下图所示：&lt;/p&gt;
 &lt;p&gt;由于机械点的弹性作用，按键开关在闭合时不会马上稳定的接通，在断开时也不会一下子断开，因而在闭合和断开的瞬间均伴随着一连串的抖动。抖动时间的长短由按键的机械特性决定的，一般为 5ms 到 10ms。按键稳定闭合时间的长短则由操作人员的按键动作决定的，一般为零点几秒至数秒。按键抖动会引起按键被误读多次。为了确保 CPU 对按键的一次闭合仅作一次处理，必须进行消抖。按键消抖有两种方式，一种是&lt;strong&gt;硬件消抖&lt;/strong&gt;，另一种是&lt;strong&gt;软件消抖&lt;/strong&gt;。为了使电路更加简单，通常采用软件消抖。我们开发板也是采用软件消抖，一般来说一个简单的按键消抖就是先读取按键的状态，如果得到按键按下之后，延时 10ms，再次读取按键的状态，如果按键还是按下状态，那么说明按键已经按下。其中延时 10ms 就是软件消抖处理，至于硬件消抖，网上都有非常详细的介绍。
@@ -35,8 +35,8 @@
 &lt;/ol&gt;
 &lt;p&gt;独立按键电路构成是由各个按键的一个管脚连接在一起接地，按键其他引脚分别接到单片机 IO 口。&lt;/p&gt;
 &lt;p&gt;我们知道单片机的 IO 口既可作为输出也可作为输入使用，当检测按键时用的是它的输入功能，独立按键的一端接地，另一端与单片机的 I/O 口相连，开始时先给该 IO 口赋一高电平，然后让单片机不断地检测该 I/O 口是否变为低电平，当按键闭合时，即相当于该 I/O 口通过按键与地相连，变成低电平，程序一旦检测到 I/O 口变为低电平则说明按键被按下，然后执行相应的指令。&lt;/p&gt;
-&lt;h2 id=&#34;hardware-design&#34;&gt;Hardware Design&lt;/h2&gt;
-&lt;h2 id=&#34;software-design&#34;&gt;Software Design&lt;/h2&gt;
+&lt;h3 id=&#34;hardware-design&#34;&gt;Hardware Design&lt;/h3&gt;
+&lt;h3 id=&#34;software-design&#34;&gt;Software Design&lt;/h3&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;color:#080&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#080&#34;&gt;&amp;#34;reg52.h&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#080&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#080&#34;&gt;&lt;/span&gt;
 &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;typedef&lt;/span&gt; &lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;unsigned&lt;/span&gt; &lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;int&lt;/span&gt; u16;    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//对系统默认数据类型进行重定义
@@ -121,21 +121,21 @@ u8 &lt;span style=&#34;color:#00a000&#34;&gt;key_scan&lt;/span&gt;(u8 mode)
       <author>preminstrel@gmail.com (Hanshi Sun)</author>
       <guid>https://preminstrel.github.io/blog/post/2021/10/24/mcs-51-basics-2/</guid>
       
-      <description>&lt;h1 id=&#34;buzzer&#34;&gt;Buzzer&lt;/h1&gt;
+      <description>&lt;h2 id=&#34;buzzer&#34;&gt;Buzzer&lt;/h2&gt;
 &lt;p&gt;前面我们已经介绍了如何控制 51 单片机的 IO 口输出高低电平，这次我们通过另外一个实验来讲述 51 单片机 IO 口的输出。通过单片机的一个 IO 口控制板载无源蜂鸣器，实现蜂鸣器控制。&lt;/p&gt;
-&lt;h2 id=&#34;introduction-to-buzzer&#34;&gt;Introduction to buzzer&lt;/h2&gt;
+&lt;h3 id=&#34;introduction-to-buzzer&#34;&gt;Introduction to buzzer&lt;/h3&gt;
 &lt;p&gt;蜂鸣器是一种一体化结构的电子讯响器，采用&lt;strong&gt;直流电压&lt;/strong&gt;供电，作发声器件。蜂鸣器主要分为压电式蜂鸣器和电磁式蜂鸣器两种类型。 压电式蜂鸣器主要由多谐振荡器、压电蜂鸣片、阻抗匹配器及共鸣箱、外壳等组成。多谐振荡器由晶体管或集成电路构成，当接通电源后（1.5~15V 直流工作电压），多谐振荡器起振,输出 1.5~5kHZ 的音频信号，阻抗匹配器推动压电蜂鸣片发声。电磁式蜂鸣器由振荡器、电磁线圈、磁铁、振动膜片及外壳等组成。接通电源后，振荡器产生的音频信号电流通过电磁线圈，使电磁线圈产生磁场，振动膜片在电磁线圈和磁铁的相互作用下，周期性地振动发声。&lt;/p&gt;
 &lt;p&gt;其实一句话就可概括它们之间的区别，想要压电式蜂鸣器发声，需提供&lt;strong&gt;一定频率的脉冲信号&lt;/strong&gt;；想要电磁式蜂鸣器发声，&lt;strong&gt;只需提供电源即可&lt;/strong&gt;。 我们开发板上使用的蜂鸣器是无源蜂鸣器，属于压电式蜂鸣器类型。这里说的有源和无源，并不是指电源的意思，而是指蜂鸣器内部&lt;strong&gt;是否含有振荡电路&lt;/strong&gt;，有源蜂鸣器内部自带振荡电路，只需提供电源即可发声，而无源蜂鸣器则需提供一定频率的脉冲信号才能发声，频率大小通常在 1.5-5KHz 之间。&lt;/p&gt;
 &lt;p&gt;对于无源蜂鸣器，如果改变频率就可以调节蜂鸣器音调，产生各种不同音色、音调的声音。如果改变输出电平的高低电平占空比，则可以改变蜂鸣器的声音大小。对于有源蜂鸣器，通常内部已经固定了频率，对于调节频率或占空比可能改变不了蜂鸣器的音调和音量，当然也有的有源蜂鸣器可以实现和无源蜂鸣器一样的效果。&lt;/p&gt;
-&lt;h2 id=&#34;hardware-design&#34;&gt;Hardware Design&lt;/h2&gt;
+&lt;h3 id=&#34;hardware-design&#34;&gt;Hardware Design&lt;/h3&gt;
 &lt;p&gt;前面我们已经对 51 单片机的 GPIO 做了简单介绍，并且还使用了其中 IO 口直接控制开发板上的 LED。对于本次要实现蜂鸣器的控制，我们能否直接使用单片机的 IO 口驱动呢？&lt;/p&gt;
 &lt;p&gt;答案是&lt;strong&gt;否定&lt;/strong&gt;的，因为 51 单片机 IO 口的驱动能力较弱（即使外接上拉电阻），而蜂鸣器驱动需要约 30mA，所以非常困难，即使可以驱动，那对于整个芯片的其它 IO 剩下驱动能力就更加弱甚至无法工作。所以我们不会直接使用 IO 口驱动蜂鸣器，而是通过三极管把电流放大后再驱动蜂鸣器，这样 51 单片机的 IO 口只需要提供不到 1mA 的电流就可控制蜂鸣器。**所以我们也经常说到 51 单片机是用来做控制的，而不是驱动。**我们开发板上的蜂鸣器模块电路如下图所示：&lt;/p&gt;
 &lt;div align=center&gt;
-&lt;img src=&#34;https://preminstrel.github.io/blog/img/20211024223243.png&#34; width=&#34;500px&#34; /&gt;
+&lt;a href=&#34;https://sm.ms/image/PwexrqMAKNE1nH9&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://s2.loli.net/2022/04/14/PwexrqMAKNE1nH9.png&#34; width=&#34;500px&#34;&gt;&lt;/a&gt;
 &lt;/div&gt;
 &lt;p&gt;从图中可以看出，蜂鸣器控制管脚直接连接到 51 单片机的 &lt;code&gt;P2.5&lt;/code&gt; 管脚上。图中并没有使用三极管进行电流放大，而是使用 ULN2003 芯片来驱动，当 &lt;code&gt;P25&lt;/code&gt; 输出高电平，&lt;code&gt;BEEP&lt;/code&gt; 则输出低电平；当 &lt;code&gt;P25&lt;/code&gt; 输出低电平，&lt;code&gt;BEEP&lt;/code&gt; 则输出高电平，类似一个非门。&lt;/p&gt;
 &lt;p&gt;开发板上使用的是无源蜂鸣器，它需要一定频率的脉冲（高低电平）才会发声，因此需要让 &lt;code&gt;P25&lt;/code&gt; 脚以一定频率不断输出高低电平信号才能控制蜂鸣器发出声音。&lt;/p&gt;
-&lt;h2 id=&#34;software-design&#34;&gt;Software Design&lt;/h2&gt;
+&lt;h3 id=&#34;software-design&#34;&gt;Software Design&lt;/h3&gt;
 &lt;p&gt;我们所要实现的功能是：让蜂鸣器发出声音，一段时间后再关闭，即让 &lt;code&gt;P2.5&lt;/code&gt; 管脚输出一定频率的脉冲信号（高低电平）控制无源蜂鸣器。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;color:#080&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#080&#34;&gt;&amp;#34;reg52.h&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#080&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#080&#34;&gt;&lt;/span&gt;
@@ -165,12 +165,12 @@ sbit BEEP&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;P2&lt;span style=&
 &lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;        BEEP&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//关闭蜂鸣器
 &lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;    }        
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h1 id=&#34;静态数码管&#34;&gt;静态数码管&lt;/h1&gt;
-&lt;h2 id=&#34;introduction&#34;&gt;Introduction&lt;/h2&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;静态数码管&#34;&gt;静态数码管&lt;/h2&gt;
+&lt;h3 id=&#34;introduction&#34;&gt;Introduction&lt;/h3&gt;
 &lt;p&gt;数码管是一种半导体发光器件，其基本单元是发光二极管。数码管也称 LED 数码管。数码管按段数可分为七段数码管和八段数码管，八段数码管比七段数码管多一个发光二极管单元，也就是多一个小数点（DP），这个小数点可以更精确的表示数码管想要显示的内容；按能显示多少个（8）可分为 1 位、 2 位、 3 位、 4 位、 5 位、 6 位、7 位等数码管。按发光二极管单元连接方式可分为共&lt;strong&gt;阳&lt;/strong&gt;极数码管和共&lt;strong&gt;阴&lt;/strong&gt;极数码管。&lt;/p&gt;
 &lt;p&gt;共阳数码管是指将所有发光二极管的阳极接到一起形成公共阳极（COM）的数码管，共阳数码管在应用时应将公共极 COM 接到 +5V，当某一字段发光二极管的阴极为低电平时，相应字段就点亮，当某一字段的阴极为高电平时，相应字段就不亮。&lt;/p&gt;
 &lt;p&gt;共阴数码管是指将所有发光二极管的阴极接到一起形成公共阴极（COM）的数码管，共阴数码管在应用时应将公共极 COM 接到地线 GND 上，当某一字段发光二极管的阳极为高电平时，相应字段就点亮，当某一字段的阳极为低电平时，相应字段就不亮。&lt;/p&gt;
-&lt;h2 id=&#34;数码管表&#34;&gt;数码管表&lt;/h2&gt;
+&lt;h3 id=&#34;数码管表&#34;&gt;数码管表&lt;/h3&gt;
 &lt;p&gt;不管将几位数码管连在一起，数码管的显示原理都是一样的，都是靠点亮内部的发光二极管来发光。从上述共阳和共阴码表中不难发现，它们的数据正好是相互取反的值。比如共阴数码管数字 0 段码：0x3f，其二进制是：0011 1111，取反后为：1100 0000， 转换成 16 进制即为 0XC0，其他段码依此类推。该段码数据由来，是将 a 段作为 最低位，b 段作为次低位，其他按顺序类推，dp 段为最高位，共 8 位，正好和 51 单片机的一组端口数一样，因此可以直接使用某一组端口控制数码管的段选数据口，比如 P0 口。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;共阴数码管码表&lt;/strong&gt;&lt;/p&gt;
 &lt;table&gt;
@@ -274,15 +274,15 @@ sbit BEEP&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;P2&lt;span style=&
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h2 id=&#34;显示原理&#34;&gt;显示原理&lt;/h2&gt;
+&lt;h3 id=&#34;显示原理&#34;&gt;显示原理&lt;/h3&gt;
 &lt;p&gt;LED 数码管显示器工作方式有两种：静态显示方式和动态显示方式。静态显示的特点是每个数码管的段选必须接一个 8 位数据线来保持显示的字形码。当送入一次字形码后，显示字形可一直保持，直到送入新字形码为止。这种方法的&lt;strong&gt;优点是占用 CPU 时间少，显示便于监测和控制&lt;/strong&gt;。&lt;strong&gt;缺点是硬件电路比较复杂，成本较高&lt;/strong&gt;，比如使用 4 个静态数码管，那么就得 32 个 IO 来控制，这对 51 单片机来说是无法承受的，正因为如此才会有后面章节动态数码实验的讲解。&lt;/p&gt;
 &lt;p&gt;动态显示的特点是将所有数码管的段选线并联在一起，由位选线控制是哪一位数码管有效。选亮数码管采用动态扫描显示。所谓动态扫描显示即轮流向各位数码管送出字形码和相应的位选，利用发光管的余辉和人眼视觉暂留作用，使人的感觉好像各位数码管同时都在显示。&lt;strong&gt;动态显示的亮度比静态显示要差一些，所以在选择限流电阻时应略小于静态显示电路中的。&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;本次实验使用的数码管虽然是动态数码管电路，但我们依然可以使用数码管其中一位来学习静态数码管知识。本次实验主要介绍静态数码管的控制，有关动态数码管控制将在以后介绍。&lt;/p&gt;
-&lt;h2 id=&#34;hardware-design-1&#34;&gt;Hardware Design&lt;/h2&gt;
+&lt;h3 id=&#34;hardware-design-1&#34;&gt;Hardware Design&lt;/h3&gt;
 &lt;div align=center&gt;
-&lt;img src=&#34;https://preminstrel.github.io/blog/img/20211024231932.png&#34; width=&#34;700px&#34; /&gt;
+&lt;a href=&#34;https://sm.ms/image/faxAij1VzSNPk5s&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://s2.loli.net/2022/04/14/faxAij1VzSNPk5s.png&#34; &gt;&lt;/a&gt;
 &lt;/div&gt;
-&lt;h2 id=&#34;software-design-1&#34;&gt;Software Design&lt;/h2&gt;
+&lt;h3 id=&#34;software-design-1&#34;&gt;Software Design&lt;/h3&gt;
 &lt;p&gt;我们所要实现的功能是：控制静态数码管显示数字 0，即让 &lt;code&gt;P0&lt;/code&gt; 端口输出数字 0 的段码 &lt;code&gt;0x3f&lt;/code&gt;（共阴）。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;color:#080&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#080&#34;&gt;&amp;#34;reg52.h&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#080&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#080&#34;&gt;&lt;/span&gt;
@@ -303,16 +303,16 @@ sbit BEEP&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;P2&lt;span style=&
            
     }        
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h1 id=&#34;动态数码管&#34;&gt;动态数码管&lt;/h1&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;动态数码管&#34;&gt;动态数码管&lt;/h2&gt;
 &lt;p&gt;前面我们已经介绍了如何使用 51 单片机控制静态数码管显示，在实际应用中通常都需要显示多位数值，如果采用静态数码管显示就不够好，因此就需要采用另外一种显示方式，即数码管动态显示。开发板上板载 2 个四位一体的共阴数码管，我们就来介绍下如何使用 51 单片机控制动态数码管显示。所要实现的功能是：控制动态数码管从左至右显示数字 0-7。&lt;/p&gt;
-&lt;h2 id=&#34;introduction-1&#34;&gt;Introduction&lt;/h2&gt;
+&lt;h3 id=&#34;introduction-1&#34;&gt;Introduction&lt;/h3&gt;
 &lt;p&gt;多位数码管，即两个或两个以上单个数码管并列集中在一起形成一体的数码管。当多位一体时，它们内部的公共端是独立的，而负责显示什么数字的段线（a-dp）全部是连接在一起的，独立的公共端可以控制多位一体中的哪一位数码管点亮，而连接在一起的段线可以控制这个能点亮数码管亮什么数字，通常我们把公共端叫做“位选线”，连接在一起的段线叫做“段选线”，有了这两个线后，通过单片机及外部驱动电路就可以控制任意的数码管显示任意的数字了。&lt;/p&gt;
 &lt;p&gt;一般一位数码管有 10 个引脚，二位数码管也是 10 个引脚，四位数码管是 12 个引脚，关于具体的引脚及段、位标号大家可以查询相关资料，最简单的办法就是用数字万用表测量，若没有数字万用表也可用 5V 直流电源串接 1k 电阻后测量，将测量结果记录，通过统计便可绘制出引脚标号。多位数码管有许多是按 一定要求设计的，引脚不完全按照一般规则设定，所以需要在使用时查找手册，最直接的办法就是按照数码管上的标示向生产商要求。我们开发板上使用了 2 个四位一体的共阴数码管，这样可在上面同时显示 8 个数值。&lt;/p&gt;
 &lt;h3 id=&#34;显示原理-1&#34;&gt;显示原理&lt;/h3&gt;
 &lt;p&gt;多位数码管依然可以静态显示，但是显示时要么只显示一位数码管，要么多位同时显示相同内容。当多位数码管应用于某一系统时，它们的“位选”是可独立控制的，而“段选”是连接在一起的，我们可以通过位选信号控制哪几个数码管亮，而在同一时刻，位选选通的所有数码管上显示的数字始终都是一样的，因为它们的段选是连接在一起的，送入所有数码管的段选信号都是相同的，所以它们显示的数字必定一样，数码管的这种显示方法叫做静态显示。&lt;/p&gt;
 &lt;p&gt;而动态显示，就是利用减少段选线，分开位选线，&lt;strong&gt;利用位选线不同时选择通断，改变段选数据来实现的&lt;/strong&gt;。比如在第一次选中第一位数码管时，给段选数据 0，下一次位选中第二位数码管时显示 1。为了在显示 1 的时候，0 不会消失（当然实际上是消失了），必须在人肉眼观察不到的时间里再次点亮第一次点亮的 0。 而这时就需要记住，人的肉眼正常情况下只能分辨变化超过 24ms 间隔的运动。也就是说，在下一次点亮 0 这个数字的时间差不得大于 24ms。这时就会发现，数码管点亮是在向右或者向左一位一位点亮，形成了动态效果。如果把间隔时间改长就能直接展现这一现象。&lt;/p&gt;
 &lt;p&gt;74HC138 总结：A0、A1、A2 输入就相当于 3 位 2 进制数，A0 是低位，A1 是次高位，A2 是高位。而 Y0-Y7 具体哪一个输出有效电平，就看输入二进制对应的十进制数值。比如输入是 101（A2，A1，A0），其对应的十进制数是 5，所以 Y5 输出有效电平（低电平）。&lt;/p&gt;
-&lt;h2 id=&#34;software-design-2&#34;&gt;Software Design&lt;/h2&gt;
+&lt;h3 id=&#34;software-design-2&#34;&gt;Software Design&lt;/h3&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;color:#080&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#080&#34;&gt;&amp;#34;reg52.h&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#080&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#080&#34;&gt;&lt;/span&gt;
 &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;typedef&lt;/span&gt; &lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;unsigned&lt;/span&gt; &lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;int&lt;/span&gt; u16;    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//对系统默认数据类型进行重定义
@@ -367,7 +367,7 @@ sbit LSC&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;P2&lt;span style=&#
     }        
 }
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;该程序是根据动态数码管显示原理所编写，即选中所要显示的那位数码管，然后发送在该位数码管上所要显示的段码数据，延时一定时间后在将段选口清零即消隐（消除之前的显示），如此循环 8 次即可实现 8 位数码管显示。&lt;strong&gt;在动态显示中，要注意延时时间，只要保证在人肉眼所能感觉时间之内即可，让我们看到所要显示的内容就像是同时显示一样。&lt;/strong&gt;&lt;/p&gt;
-&lt;h1 id=&#34;reference&#34;&gt;Reference&lt;/h1&gt;
+&lt;h2 id=&#34;reference&#34;&gt;Reference&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;普中51单片机开发攻略&lt;/li&gt;
 &lt;/ul&gt;
@@ -383,16 +383,16 @@ sbit LSC&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;P2&lt;span style=&#
       <guid>https://preminstrel.github.io/blog/post/2021/10/18/mcs-51-basics-1/</guid>
       
       <description>&lt;p&gt;最近因为在上微机原理课，所以买了51单片机（MCS 51）来进行实验学习。&lt;/p&gt;
-&lt;h1 id=&#34;introduction-to-mcu&#34;&gt;Introduction to MCU&lt;/h1&gt;
+&lt;h2 id=&#34;introduction-to-mcu&#34;&gt;Introduction to MCU&lt;/h2&gt;
 &lt;p&gt;一台能够工作的计算机要有这样几个部件构成：CPU（进行运算、控制）、RAM （&lt;strong&gt;数据&lt;/strong&gt;存储）、ROM（&lt;strong&gt;程序&lt;/strong&gt;存储）、输入/输出设备（例如：串行口、并行输出口等）。&lt;/p&gt;
 &lt;p&gt;在个人计算机上这些部件被分成若干块芯片，安装一个称之为&lt;strong&gt;主板&lt;/strong&gt;的印刷线路板上。而在单片机中，这些部件全部被做到一块集成电路芯片中，所以就称为&lt;strong&gt;单片机（也称微控制器 MCU）&lt;/strong&gt;，而且有一些单片机中除了上述部份外，还集成了其它部份如 A/D，D/A 等。体积不大，一般用 40 脚封装， 当然功能多一些单片机也有引脚比较多的，如 68 引脚， 功能少的只有 10 多个或 20 多个引脚，有的甚至只 8 只引脚。&lt;/p&gt;
-&lt;h2 id=&#34;mcs-51&#34;&gt;MCS 51&lt;/h2&gt;
+&lt;h3 id=&#34;mcs-51&#34;&gt;MCS 51&lt;/h3&gt;
 &lt;p&gt;51 单片机是对所有兼容 Intel 8031 指令系统的单片机的统称。51 单片机是基础入门的 一个单片机，还是应用最广泛的一种。需要注意的是 &lt;strong&gt;51 系列的单片机一般不具备自编程能力&lt;/strong&gt;。 80C51 是 MCS-51 系列中的一个典型品种；其它厂商以 8051 为基核开发出的CMOS 工艺单片机产品统称为 80C51 系列。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;总线（BUS）&lt;strong&gt;是单片机各部件之间传送信息的公共通道。单片机中有&lt;/strong&gt;内部总线&lt;/strong&gt;和&lt;strong&gt;外部总线&lt;/strong&gt;两类，内部总线是 CPU 内部之间的连线，外部总线是指 CPU 与其它部件之间的连线；外部总线有三种: &lt;strong&gt;数据总线 DB（Data Bus）,地址总线 AB（Address Bus）和控制总线 CB（Control Bus）&lt;/strong&gt;。&lt;/p&gt;
-&lt;h2 id=&#34;stc89cxx-chip&#34;&gt;STC89Cxx Chip&lt;/h2&gt;
+&lt;h3 id=&#34;stc89cxx-chip&#34;&gt;STC89Cxx Chip&lt;/h3&gt;
 &lt;p&gt;我国芯片技术的快速发展，宏晶公司推出了增强型51单片机 STC89Cxx/STC90Cxx 等系列，除内部资源及功能大大增强外，还有一个非常重要的是它支持 &lt;strong&gt;ISP（在系统可编程）/IAP（在应用可编程）&lt;/strong&gt;，无需专用编程器或专用仿真器。开发板上使用的 STC89C52 或者 STC89C516，这两款芯片以及其他 STC89Cxx 或者 STC90Cxx 除 Flash 和 RAM 容量差异外，内部资源功能几乎一样。下面我们看下常见 PDIP 封装（直插封装）的 51 单片机芯片实物图如下所示：&lt;/p&gt;
 &lt;div align=center&gt;
-&lt;img src=&#34;https://preminstrel.github.io/blog/img/20211018225338.png&#34; width=&#34;500px&#34; /&gt;
+&lt;a href=&#34;https://sm.ms/image/MAjzmNpRBqv2k3Y&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://s2.loli.net/2022/04/14/MAjzmNpRBqv2k3Y.png&#34; width=&#34;400px&#34;&gt;&lt;/a&gt;
 &lt;/div&gt;
 &lt;table&gt;
 &lt;thead&gt;
@@ -530,7 +530,7 @@ sbit LSC&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;P2&lt;span style=&#
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h1 id=&#34;单片机最小系统构成&#34;&gt;单片机最小系统构成&lt;/h1&gt;
+&lt;h2 id=&#34;单片机最小系统构成&#34;&gt;单片机最小系统构成&lt;/h2&gt;
 &lt;p&gt;若要使系统正常运行，必须确保单片机的最小系统稳定工作。51 单片机的最小系统由以下几部分组成：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;晶振电路&lt;/li&gt;
@@ -540,21 +540,21 @@ sbit LSC&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;P2&lt;span style=&#
 &lt;p&gt;晶振电路提供时钟给单片机工作，犹如人的心脏。&lt;/p&gt;
 &lt;p&gt;复位电路提供系统复位操作，当系统出现运行不正常或者死机等情况时，可以通过复位按键重新启动系统。&lt;/p&gt;
 &lt;p&gt;电源电路也是非常关键的一个部分，因为单片机对供电电压是有要求的，如果电压过大将烧坏芯片，如果电压过小系统将运行不了。所以选择一个合适稳定的电源电路是非常关键的。 还有一点非常重要，由于 51 单片机的 P0 口是漏极开路，即&lt;strong&gt;输出高电平会导致高阻态，要让它输出高电平就必须外接上拉电阻&lt;/strong&gt;。&lt;/p&gt;
-&lt;h2 id=&#34;晶振电路&#34;&gt;晶振电路&lt;/h2&gt;
+&lt;h3 id=&#34;晶振电路&#34;&gt;晶振电路&lt;/h3&gt;
 &lt;p&gt;由于单片机正常工作需要一个&lt;strong&gt;时钟&lt;/strong&gt;，因此就需要在其晶振引脚上外接晶振 （我们使用的 STC89CXX 单片机晶振引脚是 18 和 19 脚），至于需要多大晶振这就取决于你所使用的单片机，由于使用的是 51 单片机，其时钟频率可在 0-40MHZ 上运行，一般情况下建议选择 12M（适合计算延时时间）或者是 11.0592M（适合串口通信）。&lt;/p&gt;
 &lt;p&gt;若直接将此晶振接入单片机晶振引脚，会发现系统工作不稳定，这是因为晶振起振的一瞬间会产生一些电感，为了消除这个电感所带来的干扰，可以在此晶振两端分别加上一个电容，电容的选取需要无极性的， 另一端需要共地。根据选取的晶振大小决定电容值，通常电容可在 10-33PF 值范围内选取。我们使用的是 33PF 电容。这样一来就构成了晶振电路。只有保证晶振电路稳定，单片机才能继续工作。&lt;/p&gt;
 &lt;div align=center&gt;
-&lt;img src=&#34;https://preminstrel.github.io/blog/img/20211022115957.png&#34; width=&#34;400px&#34; /&gt;
+&lt;a href=&#34;https://sm.ms/image/BvQfGUjyoqA4mDa&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://s2.loli.net/2022/04/14/BvQfGUjyoqA4mDa.png&#34; width=&#34;400px&#34;&gt;&lt;/a&gt;
 &lt;/div&gt;
-&lt;h2 id=&#34;复位电路&#34;&gt;复位电路&lt;/h2&gt;
+&lt;h3 id=&#34;复位电路&#34;&gt;复位电路&lt;/h3&gt;
 &lt;p&gt;前面已经将晶振电路搭建完成，晶振需要无时无刻给单片机提供运行周期。但即使时钟周期在不停的运行，系统也有可能会出现崩溃或者瘫痪状态。&lt;/p&gt;
 &lt;p&gt;为了处理这一情况，需要设计一个复位电路来实现此功能。单片机引脚当中有一个 &lt;code&gt;RST&lt;/code&gt; 复位引脚，STC89CXX 单片机是&lt;strong&gt;高电平复位&lt;/strong&gt;，所以只需要让这个引脚保持一段时间高电平就可以。要实现此功能通常有两种方式，一种是通过按键进行手动复位，还有一种是上电复位，即电源开启后自动复位。&lt;/p&gt;
 &lt;p&gt;手动复位是通过一个按键及电容电阻所组成，利用按键的开关功能实现复位，按键按下后 &lt;code&gt;VCC&lt;/code&gt; 直接进入到单片机 &lt;code&gt;RST&lt;/code&gt; 引脚，松开后 &lt;code&gt;VCC&lt;/code&gt; 断开，&lt;code&gt;RST&lt;/code&gt; 被电阻拉为低电平。这一合一开就实现了手动复位。当按下按键 &lt;code&gt;RSTK1&lt;/code&gt;，&lt;code&gt;VCC&lt;/code&gt; 直接连接到 &lt;code&gt;RST&lt;/code&gt; 复位脚，&lt;code&gt;VCC&lt;/code&gt; 是高电平所以系统复位。&lt;/p&gt;
 &lt;p&gt;而自动复位主要是利用 RC 充放电功能，电源已开启，由于电容隔直，&lt;code&gt;VCC&lt;/code&gt; 直接进入 &lt;code&gt;RST&lt;/code&gt;，然后电容开始慢慢充电，直到充电完成，此时 &lt;code&gt;RST&lt;/code&gt; 被电阻拉低。 这样就起到上电复位的效果。&lt;/p&gt;
-&lt;h2 id=&#34;电源电路&#34;&gt;电源电路&lt;/h2&gt;
+&lt;h3 id=&#34;电源电路&#34;&gt;电源电路&lt;/h3&gt;
 &lt;p&gt;任何电子器件都需要有一个合适的电源进行供电，没有电源，系统是不会工作的。STC89CXX 单片机的工作电压是 3.3-5.5V 范围， 通常我们使用 5V 直流。将电源接入到各芯片电源引脚即可。&lt;/p&gt;
 &lt;p&gt;开发板上还预留了 &lt;code&gt;P3&lt;/code&gt;（5V/3V）端子，这些端子可以很方便的给外部模块连接电源。&lt;/p&gt;
-&lt;h1 id=&#34;keil-c51-template&#34;&gt;Keil C51 template&lt;/h1&gt;
+&lt;h2 id=&#34;keil-c51-template&#34;&gt;Keil C51 template&lt;/h2&gt;
 &lt;p&gt;我们使用 Keil 来创建完美地工程模板，为后面的程序编写带来方便。&lt;/p&gt;
 &lt;p&gt;CPU 型号选择 &lt;code&gt;AT89C52&lt;/code&gt;，在 &lt;code&gt;Configuration&lt;/code&gt; 中配置好合适的字体后，我们创建一个 &lt;code&gt;main.c&lt;/code&gt; 文件，写入以下代码。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;/* main.c */&lt;/span&gt;
@@ -568,17 +568,17 @@ sbit LSC&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;P2&lt;span style=&#
         
     }
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;头文件作用&#34;&gt;头文件作用&lt;/h2&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;头文件作用&#34;&gt;头文件作用&lt;/h3&gt;
 &lt;p&gt;在代码中引用头文件，其实际意义就是将这个头文件中的全部内容放到引用头文件的位置处，免去我们每次编写同类程序都要将头文件中的语句重复编写。&lt;/p&gt;
 &lt;p&gt;在代码中加入头文件有两种书写方法，分别为&lt;code&gt;#include &amp;lt;reg52.h&amp;gt;&lt;/code&gt;和&lt;code&gt;#include&amp;quot;reg52.h&amp;quot;&lt;/code&gt;，这两种写法是有区别的。&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;使用&lt;code&gt;&amp;lt;&amp;gt;&lt;/code&gt;包含头文件时，编译器先进入到&lt;strong&gt;软件安装文件夹&lt;/strong&gt;处开始搜索这个头文件，也就是 &lt;code&gt;KEILC51/C51/INC&lt;/code&gt; 这个文件夹下，如果这个文件夹没有引用的头文件，编译器将会报错。&lt;/li&gt;
 &lt;li&gt;使用&lt;code&gt;&amp;quot;&amp;quot;&lt;/code&gt;包含头文件时，编译器先进入到&lt;strong&gt;当前工程所在文件夹&lt;/strong&gt;处开始搜索该头文件，如果当前工程所在文件夹下没有该头文件，编译器&lt;strong&gt;将继续回到软件安装文件夹处搜索这个头文件&lt;/strong&gt;，若找不到该头文件，编译器将报错。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h1 id=&#34;点亮第一个-led&#34;&gt;点亮第一个 LED&lt;/h1&gt;
+&lt;h2 id=&#34;点亮第一个-led&#34;&gt;点亮第一个 LED&lt;/h2&gt;
 &lt;p&gt;不论学习什么单片机，最简单的外设莫过于 IO 口的高低电平控制，这里我们使用创建好的工程模板上，通过控制 51 单片机的 GPIO 使开发板上的 LED 灯点亮。&lt;/p&gt;
-&lt;h2 id=&#34;introduction-to-gpio&#34;&gt;Introduction to GPIO&lt;/h2&gt;
-&lt;h3 id=&#34;concepts&#34;&gt;Concepts&lt;/h3&gt;
+&lt;h3 id=&#34;introduction-to-gpio&#34;&gt;Introduction to GPIO&lt;/h3&gt;
+&lt;h4 id=&#34;concepts&#34;&gt;Concepts&lt;/h4&gt;
 &lt;p&gt;GPIO（&lt;em&gt;general purpose intput output&lt;/em&gt;）是通用输入输出端口的简称，可以&lt;strong&gt;通过软件来控制其输入和输出&lt;/strong&gt;。51 单片机芯片的 GPIO 引脚与外部设备连接 起来，从而实现与外部通讯、控制以及数据采集的功能。GPIO 最简单的应用还属点亮 LED 灯了，只需通过软件控制 GPIO 输出高低电平即可。&lt;/p&gt;
 &lt;p&gt;GPIO 还可以作为输入控制，比如在引脚上接入一个按键，通过电平的高低判断按键是否按下。 我们开发板上使用的 51 单片机型号是 STC89C52 或 STC89C516，此芯片共有 40 引脚。注意，并不是所有的引脚都是 GPIO，51 单片机引脚可以分为以下三个大类：&lt;/p&gt;
 &lt;ul&gt;
@@ -588,37 +588,37 @@ sbit LSC&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;P2&lt;span style=&#
 &lt;li&gt;下载引脚：51 单片机的串口功能引脚（&lt;code&gt;TXD&lt;/code&gt;、&lt;code&gt;RXD&lt;/code&gt;）可以作为下载引脚使用。&lt;/li&gt;
 &lt;li&gt;GPIO 引脚：引脚图中带有 &lt;code&gt;Px.x&lt;/code&gt; 等字样的均属于 GPIO 引脚。从引脚图可以看出，GPIO 占用了芯片大部分的引脚，共达 32 个，分为了 4 组，&lt;code&gt;P0&lt;/code&gt;、&lt;code&gt;P1&lt;/code&gt;、 &lt;code&gt;P2&lt;/code&gt;、&lt;code&gt;P3&lt;/code&gt;，每组为 8 个 IO，而且在 &lt;code&gt;P3&lt;/code&gt; 组中每个 IO 都具备额外功能，只要通过相应的寄存器设置即可配置对应的附加功能，同一时刻，每个引脚只能使用该引脚。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&#34;framework&#34;&gt;Framework&lt;/h3&gt;
-&lt;h4 id=&#34;p0-端口&#34;&gt;&lt;code&gt;P0&lt;/code&gt; 端口&lt;/h4&gt;
+&lt;h4 id=&#34;framework&#34;&gt;Framework&lt;/h4&gt;
+&lt;h5 id=&#34;p0-端口&#34;&gt;&lt;code&gt;P0&lt;/code&gt; 端口&lt;/h5&gt;
 &lt;p&gt;&lt;code&gt;P0&lt;/code&gt; 端口含有 8 位引脚，下图为其中一个，其它几个与之完全一致，因此只需了解当中一个即可。&lt;/p&gt;
 &lt;p&gt;&lt;code&gt;P0&lt;/code&gt; 端口由锁存器、输入缓冲器、切换开关、一个非门、一个与非门及场效应管驱动电路构成。再看图的最右边，标号为 &lt;code&gt;P0.x&lt;/code&gt; 引脚的图标，也就是说 &lt;code&gt;P0.x&lt;/code&gt; 引脚可以是 &lt;code&gt;P0.0&lt;/code&gt; 到 &lt;code&gt;P0.7&lt;/code&gt; 的任何一位，即在 &lt;code&gt;P0&lt;/code&gt; 口有 8 个与上图相同的电路组成。&lt;/p&gt;
 &lt;div align=center&gt;
-&lt;img src=&#34;https://preminstrel.github.io/blog/img/20211022225548.png&#34; width=&#34;400px&#34; /&gt;
+&lt;a href=&#34;https://sm.ms/image/CYAwn5UVmJ4vFrL&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://s2.loli.net/2022/04/14/CYAwn5UVmJ4vFrL.png&#34; width=&#34;400px&#34;&gt;&lt;/a&gt;
 &lt;/div&gt;
-&lt;h5 id=&#34;输入缓冲器&#34;&gt;输入缓冲器&lt;/h5&gt;
+&lt;h6 id=&#34;输入缓冲器&#34;&gt;输入缓冲器&lt;/h6&gt;
 &lt;p&gt;在 &lt;code&gt;P0&lt;/code&gt; 口中，有两个三态的缓冲器，在学数字电路时，我们已知道，三态门有三个状态，即在输出端可以是高电平、低电平，同时还有一种就是高阻状态（或称为禁止状态）。&lt;/p&gt;
 &lt;p&gt;上图一个是读锁存器的缓冲器，也就是说，要读取 D 锁存器输出端 Q 的数据，那就得使读锁存器的这个缓冲器的三态控制端（上图中标号为‘读锁存器’端）有效。下面一个是读引脚的缓冲器，要读取 &lt;code&gt;P0.x&lt;/code&gt; 引脚上的数据，也要使标号为‘读引脚’的这个三态缓冲器的控制端有效，引脚上的数据才会传输到我们单片机的内部数据总线上。&lt;/p&gt;
-&lt;h5 id=&#34;d-锁存器&#34;&gt;D 锁存器&lt;/h5&gt;
+&lt;h6 id=&#34;d-锁存器&#34;&gt;D 锁存器&lt;/h6&gt;
 &lt;p&gt;构成一个锁存器，通常要用一个时序电路，时序的单元电路在学数字电路时我们知道，一个触发器可以保存一位的二进制数（即具有保持功能），在 51 单片机的 32 根 I/O 口线中都是用一个 D 触发器来构成锁存器的。上图中的 D 锁存器，D 端是数据输入端，CP（CLK）是控制端（也就是时序控制信号输 入端），Q 是输出端，Q 非是反向输出端。&lt;/p&gt;
 &lt;p&gt;对于 D 触发器来讲，当 D 输入端有一个输入信号，如果这时控制端 CP 没有信号（也就是时序脉冲没有到来），这时输入端 D 的数据是无法传输到输出端 Q 及反向输出端 Q 非的。如果时序控制端 CP 的时序脉冲一旦到了，这时 D 端输入的数据就会传输到 Q 及 Q 非端。数据传送过来后，当 CP 时序控制端的时序信号消失了，这时，输出端还会保持着上次输入端 D 的数据（即把上次的数据锁存起来了）。如果下一个时序控制脉冲信号来了，这时 D 端的数据才再次传送到 Q 端，从而改变 Q 端的状态。&lt;/p&gt;
-&lt;h5 id=&#34;多路开关&#34;&gt;多路开关&lt;/h5&gt;
+&lt;h6 id=&#34;多路开关&#34;&gt;多路开关&lt;/h6&gt;
 &lt;p&gt;在 51 单片机中，当内部的存储器够用（也就是不需要外扩展存储器时，这里讲的存储器包括数据存储器及程序存储器）时，&lt;code&gt;P0&lt;/code&gt; 口可以作为通用的输入输出端口（即 I/O）使用，对于 8031（内部没有 ROM）的单片机或者编写的程序超 过了单片机内部的存储器容量，需要外扩存储器时，&lt;code&gt;P0&lt;/code&gt; 口就作为‘地址/数据’ 总线使用。那么这个多路选择开关就是用于选择是做为普通 I/O 口使用还是作为 ‘数据/地址’总线使用的选择开关了。上图当多路开关与下面接通时， &lt;code&gt;P0&lt;/code&gt; 口是作为普通的 I/O 口使用的，当多路开关是与上面接通时，&lt;code&gt;P0&lt;/code&gt; 口是作为‘地址/数据’总线使用的。&lt;/p&gt;
-&lt;h4 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h4&gt;
+&lt;h5 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h5&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;P0&lt;/code&gt; 口是漏极开路，要使其输出高电平，必须外接上拉电阻，通常选择 4.7K~10K 阻值。&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;P0&lt;/code&gt;、&lt;code&gt;P1&lt;/code&gt;、&lt;code&gt;P2&lt;/code&gt; 几乎都用作普通 I/O 口使用，既可作为输入，又可作为输出。&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;P3&lt;/code&gt; 口既可用作普通 I/O 口，又可作为第二功能使用，比如串口、外部中断、计数器等。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id=&#34;introduction-to-led&#34;&gt;Introduction to LED&lt;/h2&gt;
+&lt;h3 id=&#34;introduction-to-led&#34;&gt;Introduction to LED&lt;/h3&gt;
 &lt;p&gt;LED 即发光二极管。它具有单向导电性，&lt;strong&gt;通过 5mA 左右电流即可发光，电流越大，其亮度越强，但若电流过大，会烧毁二极管，一般我们控制在 3 mA-20mA 之间&lt;/strong&gt;，通常我们会在 LED 管脚上串联一个电阻，目的就是为了限制通过发光二极管的电流不要太大，因此这些电阻又可以称为“限流电阻”。当发光二极管发光时，测量它两端电压约为 1.7V，这个电压又叫做发光二极管的“导通压降”。&lt;/p&gt;
-&lt;h2 id=&#34;hardware-design&#34;&gt;Hardware Design&lt;/h2&gt;
+&lt;h3 id=&#34;hardware-design&#34;&gt;Hardware Design&lt;/h3&gt;
 &lt;div align=center&gt;
-&lt;img src=&#34;https://preminstrel.github.io/blog/img/image-20211023131351130.png&#34; width=&#34;300px&#34; /&gt;
+&lt;a href=&#34;https://sm.ms/image/MxnmPLjEJ3Qigrl&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://s2.loli.net/2022/04/14/MxnmPLjEJ3Qigrl.png&#34; width=&#34;400px&#34;&gt;&lt;/a&gt;
 &lt;/div&gt;
 在前面介绍过如何查看原理图，相同网络标号表示它们是连接在一起 的，因此 `D1`-`D8` 连接到单片机的 `P20`-`P27` 口。图中 LED 采用共阳接法，即所有 LED 阳极管脚接电源 `VCC`，阴极管脚通过一个 470 欧的限流电阻接到 `P2` 口上。
 &lt;p&gt;根据前面 LED 的介绍我们知道，要让 LED 发光即对应的阴极管脚应该为低电平，若为高电平则熄灭。 如果要想 51 单片机控制 LED，就必须通过单片机管脚在 &lt;code&gt;P2&lt;/code&gt; 口上输出低电平。&lt;/p&gt;
-&lt;h2 id=&#34;software-design&#34;&gt;Software Design&lt;/h2&gt;
-&lt;h3 id=&#34;点亮第一个-led-1&#34;&gt;点亮第一个 LED&lt;/h3&gt;
+&lt;h3 id=&#34;software-design&#34;&gt;Software Design&lt;/h3&gt;
+&lt;h4 id=&#34;点亮第一个-led-1&#34;&gt;点亮第一个 LED&lt;/h4&gt;
 &lt;p&gt;这里所要实现的功能是：点亮 &lt;code&gt;D1&lt;/code&gt; 指示灯，即让 &lt;code&gt;P2.0&lt;/code&gt; 管脚输出一个低电平。 完成后可再控制 &lt;code&gt;D1&lt;/code&gt; 指示灯闪烁，即间隔一段时间点亮和熄灭 &lt;code&gt;D1&lt;/code&gt; 指示灯。具体过程是使用 &lt;code&gt;sbit&lt;/code&gt; 关键字来定义 &lt;code&gt;P2.0&lt;/code&gt; 管脚，定义好后即可使用 &lt;code&gt;LED1&lt;/code&gt; 来替代 &lt;code&gt;P2.0&lt;/code&gt; 口的操作。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;color:#080&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#080&#34;&gt;&amp;#34;reg52.h&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#080&#34;&gt;
 &lt;/span&gt;&lt;span style=&#34;color:#080&#34;&gt;&lt;/span&gt;
@@ -648,7 +648,7 @@ sbit LED1 &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; P2&lt;span style
 &lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;        delay_10us(&lt;span style=&#34;color:#666&#34;&gt;50000&lt;/span&gt;); 
     }
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;led-流水灯实验&#34;&gt;LED 流水灯实验&lt;/h3&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;led-流水灯实验&#34;&gt;LED 流水灯实验&lt;/h4&gt;
 &lt;p&gt;如果要实现 LED 流水灯，只需循环让 &lt;code&gt;D1&lt;/code&gt;-&lt;code&gt;D8&lt;/code&gt; 指示灯逐个点亮。同样本实验也需要延时。要实现循环点亮，点亮 &lt;code&gt;D1&lt;/code&gt; 且把 &lt;code&gt;D2&lt;/code&gt;-&lt;code&gt;D8&lt;/code&gt; 熄灭，延时一段时间后再点亮 &lt;code&gt;D2&lt;/code&gt; 且把 &lt;code&gt;D1&lt;/code&gt;、 &lt;code&gt;D3&lt;/code&gt;-&lt;code&gt;D8&lt;/code&gt; 熄灭，延时一段时间后再点亮 &lt;code&gt;D3&lt;/code&gt; 且把 &lt;code&gt;D1&lt;/code&gt;-&lt;code&gt;D2&lt;/code&gt;、&lt;code&gt;D4&lt;/code&gt;-&lt;code&gt;D8&lt;/code&gt; 熄灭，如此循环，这样就可以很简单的实现 LED 流水灯实验，当然不推荐此种方法。&lt;/p&gt;
 &lt;p&gt;在前面我们学习了 C 语言相关的基础知识，里面有移位以及循环语句操作，根据流水灯实现原理，即 IO 口由低往高或者由高往低逐个输出低电平特点，那么我们可以将移位操作以及循环结合进来。实现代码如下：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;color:#080&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#080&#34;&gt;&amp;#34;reg52.h&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#080&#34;&gt;
@@ -681,7 +681,7 @@ sbit LED1 &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; P2&lt;span style
     }
 }
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;0X01&amp;lt;&amp;lt;i&lt;/code&gt; 表示 i 增加 1 次，&lt;code&gt;0x01&lt;/code&gt; 中的 1 就移动多少位，因为 1（高电平）不会让 LED 点亮，需要取反后变为低电平 0 才能点亮，所以最后的结果需要取反后给 &lt;code&gt;LED_PORT&lt;/code&gt; 口，并且每次循环都要延时一段时间，这样才能分辨出来 LED 在流水。&lt;/p&gt;
-&lt;h1 id=&#34;reference&#34;&gt;Reference&lt;/h1&gt;
+&lt;h2 id=&#34;reference&#34;&gt;Reference&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;普中51单片机开发攻略&lt;/li&gt;
 &lt;/ul&gt;

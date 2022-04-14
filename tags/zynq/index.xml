@@ -17,34 +17,33 @@
       <guid>https://preminstrel.github.io/blog/post/2021/11/04/zybo-z7-basics-4/</guid>
       
       <description>&lt;p&gt;我们已经学会了纯 PL 端的 LED 点灯实验，也学会了如何建立一个空的项目，现在我们来学习一下 PS 端的裸机运行 Hello World。&lt;/p&gt;
-&lt;h1 id=&#34;建立新工程&#34;&gt;建立新工程&lt;/h1&gt;
+&lt;h2 id=&#34;new-project&#34;&gt;New Project&lt;/h2&gt;
 &lt;p&gt;首先，建立一个新工程。和上次一样，添加好必要的约束文件。&lt;/p&gt;
-&lt;h1 id=&#34;添加处理器ip内核&#34;&gt;添加处理器（IP）内核&lt;/h1&gt;
+&lt;h2 id=&#34;add-ip-kernel&#34;&gt;Add IP Kernel&lt;/h2&gt;
 &lt;p&gt;在 &lt;code&gt;Flow Navigatot&lt;/code&gt; 窗口下的 &lt;code&gt;IP INTEGRATOR&lt;/code&gt; 子窗口点击 &lt;code&gt;Create Block Design&lt;/code&gt; 按钮，新建一个 Block Design，填好文件名字和选好所在位置之后点击 OK。&lt;/p&gt;
 &lt;div align=center&gt;
-&lt;img src=&#34;https://preminstrel.github.io/blog/img/20211104204503.png&#34; width=&#34;600px&#34; /&gt;
+&lt;a href=&#34;https://sm.ms/image/1dNfczpXhxwvGP7&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://s2.loli.net/2022/04/14/1dNfczpXhxwvGP7.png&#34; &gt;&lt;/a&gt;
 &lt;/div&gt;
 &lt;p&gt;建立完成后的 Block Design 如下图所示。&lt;/p&gt;
 &lt;div align=center&gt;
-&lt;img src=&#34;https://preminstrel.github.io/blog/img/20211104205259.png&#34; width=&#34;600px&#34; /&gt;
+&lt;a href=&#34;https://sm.ms/image/BqvJ3S8eUn7V96x&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://s2.loli.net/2022/04/14/BqvJ3S8eUn7V96x.png&#34; &gt;&lt;/a&gt;
 &lt;/div&gt;
 &lt;p&gt;选中 IP 核后，系统会以图形界面的形式把 IP 核显示出来&lt;/p&gt;
 &lt;div align=center&gt;
-&lt;img src=&#34;https://preminstrel.github.io/blog/img/20211104205636.png&#34; width=&#34;600px&#34; /&gt;
+&lt;a href=&#34;https://sm.ms/image/nsLIEVha76gAibH&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://s2.loli.net/2022/04/14/nsLIEVha76gAibH.png&#34; &gt;&lt;/a&gt;
 &lt;/div&gt;
 &lt;p&gt;点击上图浅绿色条带中的 &lt;code&gt;Run Block Automation&lt;/code&gt;。勾选 &lt;code&gt;Apply Board Preset&lt;/code&gt;，将这个 IP 核相关的输入/输出信号映射到芯片具体的引脚上，并添加必要的约束。点击 OK 按钮后启动自动化，完成后结果如下图&lt;/p&gt;
 &lt;div align=center&gt;
-&lt;img src=&#34;https://preminstrel.github.io/blog/img/20211104205914.png&#34; width=&#34;400px&#34; /&gt;
+&lt;a href=&#34;https://sm.ms/image/2o4Mx8pNESyX3Bq&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://s2.loli.net/2022/04/14/2o4Mx8pNESyX3Bq.png&#34; &gt;&lt;/a&gt;
 &lt;/div&gt;
 &lt;p&gt;通过双击图中的 IP 核（图案会变成橙色）可以更改其内部配置。默认状态下使能了 &lt;code&gt;M_AXI_GP0&lt;/code&gt;，可以将 PL 部分带 AXI 从接口的 IP 连接到 PS 进行控制。这里我们需要把 PL 端和 PS 端的时钟连接起来，即把 &lt;code&gt;M_AXI_GP0_ACLK&lt;/code&gt; 与 &lt;code&gt;FCLK_CLK0&lt;/code&gt; 连接起来。&lt;/p&gt;
 &lt;div align=center&gt;
-&lt;img src=&#34;https://preminstrel.github.io/blog/img/20211104210320.png&#34; width=&#34;400px&#34; /&gt;
+&lt;a href=&#34;https://sm.ms/image/tbaTyGoBmdkOZ8L&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://s2.loli.net/2022/04/14/tbaTyGoBmdkOZ8L.png&#34; &gt;&lt;/a&gt;
 &lt;/div&gt;
 &lt;p&gt;完成配置后，右击图案，选择 &lt;code&gt;Validate Design&lt;/code&gt;（或者使用快捷键 F6）进行规则检查。&lt;/p&gt;
-&lt;h1 id=&#34;生成输出文件并封装成-hdl-形式&#34;&gt;生成输出文件并封装成 HDL 形式&lt;/h1&gt;
+&lt;h2 id=&#34;hdl-wrapper&#34;&gt;HDL Wrapper&lt;/h2&gt;
 &lt;p&gt;Generate Output Products 主要是把 IP 参数和连接信息 update 到 project 中，同时也会检查错误。（一般 synth 也会更新，但是有目标的 update 下更放心）
 右键 &lt;code&gt;Create HDL Wrapper&lt;/code&gt;，给整个 bd 加个 hdl 的壳。（因为综合工具不处理原理图 bd，所以再次倒腾回 hdl 的 code 模式）&lt;/p&gt;
-&lt;h1 id=&#34;reference&#34;&gt;Reference&lt;/h1&gt;
 </description>
       
     </item>
@@ -56,21 +55,21 @@
       <author>preminstrel@gmail.com (Hanshi Sun)</author>
       <guid>https://preminstrel.github.io/blog/post/2021/10/31/zybo-z7-basics-3/</guid>
       
-      <description>&lt;h1 id=&#34;硬件连接与上电验证&#34;&gt;硬件连接与上电验证&lt;/h1&gt;
+      <description>&lt;h2 id=&#34;硬件连接与上电验证&#34;&gt;硬件连接与上电验证&lt;/h2&gt;
 &lt;p&gt;PC 与 ZYBO 之间通过 micro USB 线连接，ZYBO 端连接到 PROG-UART 接口上。&lt;/p&gt;
 &lt;p&gt;打开电源开关，确认电源供电正常。如果是第一次将 ZYBO 与 PC 相连，那么 PC 端会自动识别该 USB 设备并安装相应驱动。
 ZYBO 的板载 PROG-UART 接口集供电、编程与 UART 功能为一体，PC 端识别该设备时会有 2 部分：一部分是对应 UART 功能的 COM 端口；另一部分是对应 USB 编程功能。&lt;/p&gt;
 &lt;p&gt;进入 PC 的设备管理器，如下图，&lt;code&gt;COM7&lt;/code&gt; 对应 UART 功能；&lt;code&gt;USB Serial Converter A/B&lt;/code&gt; 对应 USB 编程功能。&lt;/p&gt;
 &lt;div align=center&gt;
-&lt;img src=&#34;https://preminstrel.github.io/blog/img/20211031141550.png&#34; width=&#34;400px&#34; /&gt;
+&lt;a href=&#34;https://sm.ms/image/ASaVdOp4RionjgJ&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://s2.loli.net/2022/04/14/ASaVdOp4RionjgJ.png&#34; width=&#34;400px&#34;&gt;&lt;/a&gt;
 &lt;/div&gt;
-&lt;h1 id=&#34;添加开发板信息&#34;&gt;添加开发板信息&lt;/h1&gt;
+&lt;h2 id=&#34;添加开发板信息&#34;&gt;添加开发板信息&lt;/h2&gt;
 &lt;p&gt;下面我们直接开始利用 Vivado 开发环境进行 PL 端的设计。&lt;/p&gt;
 &lt;p&gt;创建中，有一步是根据自己的开发板选择器件型号，可以通过 Parts 直接通过型号进行搜索，例如 Zybo Z7-20 开发板上的芯片型号为 &lt;code&gt;xc7z020clg400-1&lt;/code&gt;。也可以通过 Boards 找到开发板名字进行添加，这种方法需要先在 Vivado 中添加 Zybo Z7 开发板信息。这里推荐一个 GitHub 上的 &lt;a href=&#34;https://github.com/Digilent/vivado-boards&#34;&gt;Repo&lt;/a&gt;，可以通过复制仓库的文件到 Vivado 相应的文件夹中实现开发板信息的添加。&lt;/p&gt;
 &lt;div align=center&gt;
-&lt;img src=&#34;https://preminstrel.github.io/blog/img/20211101222815.png&#34; width=&#34;700px&#34; /&gt;
+&lt;a href=&#34;https://sm.ms/image/IXN6pelByVkC1oi&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://s2.loli.net/2022/04/14/IXN6pelByVkC1oi.png&#34; width=&#34;700px&#34;&gt;&lt;/a&gt;
 &lt;/div&gt;
-&lt;h1 id=&#34;design-sources&#34;&gt;Design Sources&lt;/h1&gt;
+&lt;h2 id=&#34;design-sources&#34;&gt;Design Sources&lt;/h2&gt;
 &lt;p&gt;这一部分是对功能的 Verilog 代码实现，将下面的代码添加到工程的 &lt;code&gt;Design Sources&lt;/code&gt; 中。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;实现功能&lt;/strong&gt;：四个开关 &lt;code&gt;SW0-SW3&lt;/code&gt; 分别控制四个 LED &lt;code&gt;LD0-LD3&lt;/code&gt; 的亮灭。&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-verilog&#34; data-lang=&#34;verilog&#34;&gt;&lt;span style=&#34;color:#800&#34;&gt;`timescale&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;ns &lt;span style=&#34;color:#666&#34;&gt;/&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;ps
@@ -159,7 +158,7 @@ ZYBO 的板载 PROG-UART 接口集供电、编程与 UART 功能为一体，PC �
     &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;end&lt;/span&gt;
 
 &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;endmodule&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h1 id=&#34;约束文件&#34;&gt;约束文件&lt;/h1&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;约束文件&#34;&gt;约束文件&lt;/h2&gt;
 &lt;p&gt;我们用 Vivado 生成 Bitstream 的时候，会用到相对应芯片的 &lt;code&gt;.xdc&lt;/code&gt; 文件。我在 GitHub 上面找到相应的 &lt;a href=&#34;https://github.com/Digilent/digilent-xdc/blob/master/Zybo-Z7-Master.xdc&#34;&gt;GitHub Digilent-Zybo Z7 .xdc&lt;/a&gt; 文件，只要在工程的 &lt;code&gt;Constraints&lt;/code&gt; 处新建一个约束文件，然后将里面的文本复制进去即可。&lt;/p&gt;
 &lt;p&gt;我们需要对给定的 &lt;code&gt;.xdc&lt;/code&gt; 文件进行注释的修改，标准如下：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;## This file is a general .xdc for the Zybo Z7 Rev. B
@@ -167,13 +166,13 @@ ZYBO 的板载 PROG-UART 接口集供电、编程与 UART 功能为一体，PC �
 ## To use it in a project:
 ## - uncomment the lines corresponding to used pins
 ## - rename the used ports (in each line, after get_ports) according to the top level signal names in the project
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h1 id=&#34;开发板下载&#34;&gt;开发板下载&lt;/h1&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;开发板下载&#34;&gt;开发板下载&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;生成 Bitstream&lt;/li&gt;
 &lt;li&gt;打开 &lt;code&gt;Flow -&amp;gt; Hardware Manager&lt;/code&gt;，连接后进行自动下载&lt;/li&gt;
 &lt;li&gt;观察现象，符合预期&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h1 id=&#34;reference&#34;&gt;Reference&lt;/h1&gt;
+&lt;h2 id=&#34;reference&#34;&gt;Reference&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;https://blog.csdn.net/a646123070/article/details/83793947&#34;&gt;CSDN&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://github.com/Digilent/digilent-xdc/blob/master/Zybo-Z7-Master.xdc&#34;&gt;GitHub Digilent-Zybo Z7 .xdc&lt;/a&gt;&lt;/li&gt;
@@ -190,7 +189,7 @@ ZYBO 的板载 PROG-UART 接口集供电、编程与 UART 功能为一体，PC �
       <author>preminstrel@gmail.com (Hanshi Sun)</author>
       <guid>https://preminstrel.github.io/blog/post/2021/10/31/zybo-z7-basics-2/</guid>
       
-      <description>&lt;h1 id=&#34;zybo编程模式配置&#34;&gt;ZYBO编程模式配置&lt;/h1&gt;
+      <description>&lt;h2 id=&#34;zybo编程模式配置&#34;&gt;ZYBO编程模式配置&lt;/h2&gt;
 &lt;p&gt;ZYBO支持3种默认编程模式，分别是：&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;JTAG 编程模式：上电启动时，默认从 PROG-UART USB 接口编程&lt;/li&gt;
@@ -199,15 +198,15 @@ ZYBO 的板载 PROG-UART 接口集供电、编程与 UART 功能为一体，PC �
 &lt;/ol&gt;
 &lt;p&gt;可以通过编程模式选择跳线 &lt;code&gt;JP5&lt;/code&gt; 来配置 ZYBO 的编程模式，如下图所示。&lt;/p&gt;
 &lt;div align=center&gt;
-&lt;img src=&#34;https://preminstrel.github.io/blog/img/20211031140401.png&#34; width=&#34;200px&#34; /&gt;
+&lt;a href=&#34;https://sm.ms/image/jFdJtwo7s9NRXrH&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://s2.loli.net/2022/04/14/jFdJtwo7s9NRXrH.png&#34; width=&#34;200px&#34;&gt;&lt;/a&gt;
 &lt;/div&gt;
-&lt;h1 id=&#34;power-supplies&#34;&gt;Power Supplies&lt;/h1&gt;
+&lt;h2 id=&#34;power-supplies&#34;&gt;Power Supplies&lt;/h2&gt;
 &lt;p&gt;Zybo Z7 电源电路经过精心设计，以满足 Zynq-7000 和所有其他外围设备的要求，同时还提供灵活的输入电源选项。电源电路如图所示。&lt;/p&gt;
 &lt;div align=center&gt;
-&lt;img src=&#34;https://preminstrel.github.io/blog/img/20211031113010.png&#34; width=&#34;600px&#34; /&gt;
+&lt;a href=&#34;https://sm.ms/image/wcVxyX1NJnABFfv&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://s2.loli.net/2022/04/14/wcVxyX1NJnABFfv.png&#34; &gt;&lt;/a&gt;
 &lt;/div&gt;
 &lt;p&gt;通过电源开关（&lt;code&gt;SW4&lt;/code&gt;）开启或关闭单板上的所有电源。 当所有电源轨达到额定电压时，电源指示灯 LED（LD13，标记为 PGOOD）亮。&lt;/p&gt;
-&lt;h2 id=&#34;power-input-sources&#34;&gt;Power Input Sources&lt;/h2&gt;
+&lt;h3 id=&#34;power-input-sources&#34;&gt;Power Input Sources&lt;/h3&gt;
 &lt;p&gt;Zybo Z7 可以从几个不同的来源供电。 跳线 &lt;code&gt;JP6&lt;/code&gt;（靠近电源开关）决定使用哪个电源。 该跳线有三种有效配置，对应于三个电源选项：USB、wall wart supply with barrel jack 和电池组。 上图描述了所有这三种，并在板丝印图上做了同样的工作。&lt;/p&gt;
 &lt;p&gt;一般来说，是从 USB 编程端口（&lt;code&gt;J12&lt;/code&gt;）为 Zybo Z7 供电，但 Zybo Z7 通常需要比 USB 2.0 设备允许的 0.5 A 电流更多的电流。 如果超过这个限制，许多 USB 主机将开始降低电压，直到 Zybo Z7 复位，降低电流消耗到可接受的范围。为了防止这种情况发生，应该选择支持更高电流的 USB 主机端口（通常被 laptop/PC 供应商称为“快速充电 USB 端口”或类似的端口)。即使连接到一个能够提供更多电流的主机上，Zybo Z7 也会将自己限制在 0.75 A，如果达到这个电流就会重置。如果当我们使用高电流 USB 端口供电，我们的项目自动复位（通过 PGOOD LED 短暂闪烁和 DONE LED 关闭），则需要降低项目的功耗或使用外部电源。&lt;/p&gt;
 &lt;table&gt;
@@ -248,7 +247,7 @@ ZYBO 的板载 PROG-UART 接口集供电、编程与 UART 功能为一体，PC �
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h1 id=&#34;zybo-上电&#34;&gt;ZYBO 上电&lt;/h1&gt;
+&lt;h2 id=&#34;zybo-上电&#34;&gt;ZYBO 上电&lt;/h2&gt;
 &lt;p&gt;在电源接口左侧的拨码开关（&lt;code&gt;SW4&lt;/code&gt;）是电源开关。在选择供电模式之后，将其由 off 拨到 on，观察电源状态指示灯（PGOOD, LD11）。电源状态指示灯亮起，并且稳定（没有闪烁的情况），说明 ZYBO 供电正常。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;注意&lt;/strong&gt;：ZYBO 的很多接口是&lt;strong&gt;不支持热插拔&lt;/strong&gt;的，所以每次要通过板载接口连接外部设备时（例如通过 USB-OTG 接口接 USB 键盘、鼠标等)，请关闭电源后再进行操作。&lt;strong&gt;否则很有可能会导致板卡损毁&lt;/strong&gt;。&lt;/p&gt;
 </description>
@@ -263,7 +262,7 @@ ZYBO 的板载 PROG-UART 接口集供电、编程与 UART 功能为一体，PC �
       <guid>https://preminstrel.github.io/blog/post/2021/10/29/zybo-z7-basics-1/</guid>
       
       <description>&lt;p&gt;最近要在 FPGA 上部署之前的 ECGNet，所以导师给了我一块 Digilent 的 &lt;em&gt;&lt;strong&gt;ZYBO Z7-20&lt;/strong&gt;&lt;/em&gt;，搭载 ZYNQ 7020 芯片，让我们自学并实现硬件部署。&lt;/p&gt;
-&lt;h1 id=&#34;overview&#34;&gt;Overview&lt;/h1&gt;
+&lt;h2 id=&#34;overview&#34;&gt;Overview&lt;/h2&gt;
 &lt;p&gt;Zybo Z7是一款功能丰富、随时可用的嵌入式软件和数字电路开发板，围绕 Xilinx Zynq-7000 系列构建。Zynq系列基于 Xilinx All Programmable System-on-Chip (AP SoC)架构，将双核 ARM Cortex-A9 处理器与 Xilinx 7 系列可编程门阵列(FPGA)逻辑紧密集成。在考虑 FPGA 的灵活性和功率损耗的基础上，Zybo Z7 围绕 Zynq 配备了丰富的多媒体和连接外设，打造了一个强大的单板机。Zybo Z7 的视频功能集，包括 MIPI SCI-2 兼容 Pcam 连接器、HDMI 输入、HDMI 输出和高 DDR3L 带宽，使其成为 Xilinx FPGA 高端嵌入式视觉应用的负担得起的解决方案。通过 Zybo Z7 的 Pmod 连接器，可以方便地附加额外的硬件，允许访问 Digilent 的超过 70 个 Pmod 外设板目录，包括电机控制器，传感器，显示器等等。&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;&lt;strong&gt;ZYNQ Processor&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
 &lt;ul&gt;
@@ -316,7 +315,7 @@ compatible identifier&lt;/li&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;div align=center&gt;
-&lt;img src=&#34;https://preminstrel.github.io/blog/img/20211030223155.png&#34; width=&#34;600px&#34; /&gt;
+&lt;a href=&#34;https://sm.ms/image/mfJbKnsdAWoBkph&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://s2.loli.net/2022/04/14/mfJbKnsdAWoBkph.png&#34; width=&#34;600px&gt;&lt;/a&gt;
 &lt;/div&gt;
 &lt;table&gt;
 &lt;thead&gt;
@@ -426,10 +425,10 @@ compatible identifier&lt;/li&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;h1 id=&#34;zynq-apsoc-architecture&#34;&gt;Zynq APSoC Architecture&lt;/h1&gt;
+&lt;h2 id=&#34;zynq-apsoc-architecture&#34;&gt;Zynq APSoC Architecture&lt;/h2&gt;
 &lt;p&gt;Zynq APSoC 分为两个不同的子系统：处理系统(&lt;em&gt;&lt;strong&gt;PS&lt;/strong&gt;&lt;/em&gt;)和可编程逻辑(&lt;em&gt;&lt;strong&gt;PL&lt;/strong&gt;&lt;/em&gt;)。下图展示了 Zynq APSoC 架构的概述，其中 PS 为浅绿色，PL 为黄色。需要注意的是，Zynq-7020 和 Zynq-7010 设备上没有 PCIe Gen2 控制器和千兆收发器。&lt;/p&gt;
 &lt;div align=center&gt;
-&lt;img src=&#34;https://preminstrel.github.io/blog/img/20211030232502.png&#34; width=&#34;400px&#34; /&gt;
+&lt;a href=&#34;https://sm.ms/image/Fkp9G5tZnxcOL68&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://s2.loli.net/2022/04/14/Fkp9G5tZnxcOL68.png&#34; width=&#34;400px&gt;&lt;/a&gt;
 &lt;/div&gt;
 &lt;p&gt;PL 和 Xilinx 7 系的 Artix FPGA 几乎一模一样，除了它包含几个紧密结合 PS 的专用接口和总线。PL 也不包含和典型 7 系 FPGA 相同的配置硬件，它必须直接由处理器或通过 JTAG 端口进行配置。&lt;/p&gt;
 &lt;p&gt;PS 由许多组件组成，包括应用处理单元(APU，包括 2 个 Cortex-A9 处理器)、高级微控制器总线架构(AMBA)互连、DDR3 内存控制器和各种外设控制器，它们的输入和输出复用到 54 个专用引脚(称为复用 I/O，或 MIO 引脚)。没有将其输入和输出连接到 MIO 引脚的外围控制器可以通过 PL，通过扩展 MIO (EMIO) 接口路由其 I/O。外围控制器通过 AMBA 互连连接到处理器作为 slaves，并包含可在处理器内存空间寻址的可读/可写控制寄存器。可编程逻辑也作为一个从属连接到互连，设计可以在 FPGA fabric 中实现多个核，每个核也包含可寻址的控制寄存器。此外，在 PL 中实现的核心可以触发对处理器的中断，并执行对 DDR3 内存的 DMA 访问。&lt;/p&gt;

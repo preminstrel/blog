@@ -133,6 +133,25 @@
   </div>
   
   
+  
+  <details>
+    <summary>
+      <b>Table of Contents</b>
+    </summary>
+    <div class="toc"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#create-project">Create Project</a></li>
+    <li><a href="#code">Code</a></li>
+    <li><a href="#compile">Compile</a></li>
+    <li><a href="#assign-pins">Assign Pins</a></li>
+    <li><a href="#program-device">Program Device</a></li>
+    <li><a href="#debug">Debug</a></li>
+    <li><a href="#program-flash">Program Flash</a></li>
+  </ul>
+</nav></div>
+  </details>
+  
+  
   <article class="content">
     
     <p>在学习 FPGA 的过程中，我们需要用到 Vivado软件，这里我用的是 Vivado2021.1版本的软件。一般来说， FPGA 开发的流程分为以下几个部分来实现。</p>
@@ -141,7 +160,7 @@ graph LR
     id1(Create Project)-->id2(Code)-->id3(Complie)-->id4(Assign Pins)-->id5(Program Device)-->id6(Debug)-->id7(Program Flash)
     id6-.->id2
 </div>
-<h3 id="create-project">Create Project</h3>
+<h2 id="create-project">Create Project</h2>
 <p><strong>Project Name</strong></p>
 <p>可以新建一个工程，注意，location 中可以选择 <code>create project subdirectory</code> 来创建存放工程的文件夹，这一步的引导比较简单。</p>
 <p><strong>Project Type</strong></p>
@@ -150,7 +169,7 @@ graph LR
 <p>我们可以将之前已经写好的 Verilog 等文件加进工程中。</p>
 <p><strong>Default Part</strong></p>
 <p>选择合适的芯片型号</p>
-<h3 id="code">Code</h3>
+<h2 id="code">Code</h2>
 <p>这里用 Verilog 写代码，编辑器建议用 VS Code。设计了一个双路灯控电路</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-verilog" data-lang="verilog"><span style="color:#a2f;font-weight:bold">module</span> light(
     <span style="color:#a2f;font-weight:bold">input</span> x1,
@@ -162,22 +181,22 @@ graph LR
         
 <span style="color:#a2f;font-weight:bold">endmodule</span>
 </code></pre></div><p>写完代码后直接 <code>Add Sources</code> 添加文件即可。</p>
-<h3 id="compile">Compile</h3>
+<h2 id="compile">Compile</h2>
 <p>设计完整个工程之后，要经过 Vivado 软件中几个工具的处理，分别是<strong>分析代码、综合电路以及生成目标芯片</strong>的实现内容。这些应用工具被聚集在一起，统称为编译器。</p>
 <div class="mermaid">
 graph LR
     id1(Run Synthesis)-->id2(Run Implementation)-->id3(Generate Bitstream)
 </div>
 <p>如果工程编译不通过，那么信息栏里就会提示报 Bug。建议<strong>查阅 <em>Log</em> 一栏下的报错信息</strong>，因为 Log 一栏下的信息打印是按<strong class=chinese>顺序</strong>来进行的，那么在进行问题定位的时候就方便查找第一个报错的信息。一般来说， 往往后面顺序的信息很多都是由于第一个报错原因导致的，所以解决了第一个报错问题，基本上就可以同时解决其它的报错问题了。要注意的是，<strong>报错信息栏里的提示不会随时更新，它的信息是过时的</strong>，在解决了某些问题或者修改了代码后请<strong class=chinese>重新编译更新信息状态栏</strong>。</p>
-<h3 id="assign-pins">Assign Pins</h3>
+<h2 id="assign-pins">Assign Pins</h2>
 <p>Vivado 需要先对工程进行编译再进行管脚配置，编译完后 ，在左侧工具栏中选 中 <code>IMPLEMENTATION</code>，然后选择 <code>Open Implemented Design</code>，在随后跳转的窗口右上角选择切换到 <code>I/O Planning</code>，开始管脚配置。</p>
 <p>配置完成后，保存管脚配置信息，命名管脚约束文件名后， 点击 <code>OK</code> 生成管脚约束文件。</p>
-<h3 id="program-device">Program Device</h3>
+<h2 id="program-device">Program Device</h2>
 <p>引脚分配完毕之后，需要重新进行一次<strong class=chinese>全编译</strong>。当全编译通过后 Vivado 软件即可生成可以烧录到 FPGA 中的配置文件。将下载器 USB-Blaster 与 FPGA 开发板进行连接，打开 FPGA 开发板电源后回到 Vivado 主界面，在左侧工具栏 <code>PROGRAM AND DEGUG</code> 下展开 <code>Open Hardware Manager</code>，点击 <code>Open Target</code>，选择选项 <code>Auto Connect</code>，连接下载器。</p>
 <p>在左侧工具栏 <code>PROGRAM AND DEGUG</code> 下展开 <code>Open Hardware Manager</code>，点击 <code>Program Device</code>，选择相应的型号，打开下载界面。</p>
-<h3 id="debug">Debug</h3>
+<h2 id="debug">Debug</h2>
 <p>下载完毕后即可进行电路的测试，我们可以利用 ILA 工具进行问题的定位和错误的排查。</p>
-<h3 id="program-flash">Program Flash</h3>
+<h2 id="program-flash">Program Flash</h2>
 <ol>
 <li>
 <p>在 Vivado 软件里找到 <code>Settings</code> 设置选项，进入后点击 <code>Bitstream</code> 选项，将 <code>bin_file</code> 勾选。</p>
@@ -227,14 +246,6 @@ graph LR
   <div>
     <span>© 2021</span> - <span>2022</span>
   </div>
-
-  <div>
-    <span>Powered by </span>
-    <a class="link" href="https://gohugo.io/">Hugo</a>
-    <span> 🍦 Theme </span>
-    <a class="link" href="https://github.com/queensferryme/hugo-theme-texify">TeXify</a>
-  </div>
-
   <div class="footnote">
     <span>Follow me on <a class=link href=https://github.com/preminstrel>GitHub</a>,
 <a class=link href=https://twitter.com/preminstrel>Twitter</a> or

@@ -11,7 +11,7 @@
 
   
   
-  <meta name="description" content="我们已经学会了纯 PL 端的 LED 点灯实验，也学会了如何建立一个空的项目，现在我们来学习一下 PS 端的裸机运行 Hello World。 建立新工程 首先，建立一个新工程">
+  <meta name="description" content="我们已经学会了纯 PL 端的 LED 点灯实验，也学会了如何建立一个空的项目，现在我们来学习一下 PS 端的裸机运行 Hello World。 New Project 首先，建立一个新工程。和上">
   
 
   
@@ -51,7 +51,7 @@
 
   
   <meta property="og:title" content="ZYBO Z7 Basics: PS 端裸机实现 Hello World" />
-<meta property="og:description" content="我们已经学会了纯 PL 端的 LED 点灯实验，也学会了如何建立一个空的项目，现在我们来学习一下 PS 端的裸机运行 Hello World。 建立新工程 首先，建立一个新工程" />
+<meta property="og:description" content="我们已经学会了纯 PL 端的 LED 点灯实验，也学会了如何建立一个空的项目，现在我们来学习一下 PS 端的裸机运行 Hello World。 New Project 首先，建立一个新工程。和上" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://preminstrel.github.io/blog/post/2021/11/04/zybo-z7-basics-4/" />
 <meta property="article:published_time" content="2021-11-04T20:28:55+08:00" />
@@ -64,10 +64,10 @@
   
   
   <meta itemprop="name" content="ZYBO Z7 Basics: PS 端裸机实现 Hello World">
-<meta itemprop="description" content="我们已经学会了纯 PL 端的 LED 点灯实验，也学会了如何建立一个空的项目，现在我们来学习一下 PS 端的裸机运行 Hello World。 建立新工程 首先，建立一个新工程">
+<meta itemprop="description" content="我们已经学会了纯 PL 端的 LED 点灯实验，也学会了如何建立一个空的项目，现在我们来学习一下 PS 端的裸机运行 Hello World。 New Project 首先，建立一个新工程。和上">
 <meta itemprop="datePublished" content="2021-11-04T20:28:55&#43;08:00" />
 <meta itemprop="dateModified" content="2021-11-04T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="531">
+<meta itemprop="wordCount" content="508">
 
 
 
@@ -85,7 +85,7 @@
   
   <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="ZYBO Z7 Basics: PS 端裸机实现 Hello World"/>
-<meta name="twitter:description" content="我们已经学会了纯 PL 端的 LED 点灯实验，也学会了如何建立一个空的项目，现在我们来学习一下 PS 端的裸机运行 Hello World。 建立新工程 首先，建立一个新工程"/>
+<meta name="twitter:description" content="我们已经学会了纯 PL 端的 LED 点灯实验，也学会了如何建立一个空的项目，现在我们来学习一下 PS 端的裸机运行 Hello World。 New Project 首先，建立一个新工程。和上"/>
 
 
   
@@ -133,37 +133,51 @@
   </div>
   
   
+  
+  <details>
+    <summary>
+      <b>Table of Contents</b>
+    </summary>
+    <div class="toc"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#new-project">New Project</a></li>
+    <li><a href="#add-ip-kernel">Add IP Kernel</a></li>
+    <li><a href="#hdl-wrapper">HDL Wrapper</a></li>
+  </ul>
+</nav></div>
+  </details>
+  
+  
   <article class="content">
     
     <p>我们已经学会了纯 PL 端的 LED 点灯实验，也学会了如何建立一个空的项目，现在我们来学习一下 PS 端的裸机运行 Hello World。</p>
-<h1 id="建立新工程">建立新工程</h1>
+<h2 id="new-project">New Project</h2>
 <p>首先，建立一个新工程。和上次一样，添加好必要的约束文件。</p>
-<h1 id="添加处理器ip内核">添加处理器（IP）内核</h1>
+<h2 id="add-ip-kernel">Add IP Kernel</h2>
 <p>在 <code>Flow Navigatot</code> 窗口下的 <code>IP INTEGRATOR</code> 子窗口点击 <code>Create Block Design</code> 按钮，新建一个 Block Design，填好文件名字和选好所在位置之后点击 OK。</p>
 <div align=center>
-<img src="/img/20211104204503.png" width="600px" />
+<a href="https://sm.ms/image/1dNfczpXhxwvGP7" target="_blank"><img src="https://s2.loli.net/2022/04/14/1dNfczpXhxwvGP7.png" ></a>
 </div>
 <p>建立完成后的 Block Design 如下图所示。</p>
 <div align=center>
-<img src="/img/20211104205259.png" width="600px" />
+<a href="https://sm.ms/image/BqvJ3S8eUn7V96x" target="_blank"><img src="https://s2.loli.net/2022/04/14/BqvJ3S8eUn7V96x.png" ></a>
 </div>
 <p>选中 IP 核后，系统会以图形界面的形式把 IP 核显示出来</p>
 <div align=center>
-<img src="/img/20211104205636.png" width="600px" />
+<a href="https://sm.ms/image/nsLIEVha76gAibH" target="_blank"><img src="https://s2.loli.net/2022/04/14/nsLIEVha76gAibH.png" ></a>
 </div>
 <p>点击上图浅绿色条带中的 <code>Run Block Automation</code>。勾选 <code>Apply Board Preset</code>，将这个 IP 核相关的输入/输出信号映射到芯片具体的引脚上，并添加必要的约束。点击 OK 按钮后启动自动化，完成后结果如下图</p>
 <div align=center>
-<img src="/img/20211104205914.png" width="400px" />
+<a href="https://sm.ms/image/2o4Mx8pNESyX3Bq" target="_blank"><img src="https://s2.loli.net/2022/04/14/2o4Mx8pNESyX3Bq.png" ></a>
 </div>
 <p>通过双击图中的 IP 核（图案会变成橙色）可以更改其内部配置。默认状态下使能了 <code>M_AXI_GP0</code>，可以将 PL 部分带 AXI 从接口的 IP 连接到 PS 进行控制。这里我们需要把 PL 端和 PS 端的时钟连接起来，即把 <code>M_AXI_GP0_ACLK</code> 与 <code>FCLK_CLK0</code> 连接起来。</p>
 <div align=center>
-<img src="/img/20211104210320.png" width="400px" />
+<a href="https://sm.ms/image/tbaTyGoBmdkOZ8L" target="_blank"><img src="https://s2.loli.net/2022/04/14/tbaTyGoBmdkOZ8L.png" ></a>
 </div>
 <p>完成配置后，右击图案，选择 <code>Validate Design</code>（或者使用快捷键 F6）进行规则检查。</p>
-<h1 id="生成输出文件并封装成-hdl-形式">生成输出文件并封装成 HDL 形式</h1>
+<h2 id="hdl-wrapper">HDL Wrapper</h2>
 <p>Generate Output Products 主要是把 IP 参数和连接信息 update 到 project 中，同时也会检查错误。（一般 synth 也会更新，但是有目标的 update 下更放心）
 右键 <code>Create HDL Wrapper</code>，给整个 bd 加个 hdl 的壳。（因为综合工具不处理原理图 bd，所以再次倒腾回 hdl 的 code 模式）</p>
-<h1 id="reference">Reference</h1>
 
     
   </article>
@@ -190,14 +204,6 @@
   <div>
     <span>© 2021</span> - <span>2022</span>
   </div>
-
-  <div>
-    <span>Powered by </span>
-    <a class="link" href="https://gohugo.io/">Hugo</a>
-    <span> 🍦 Theme </span>
-    <a class="link" href="https://github.com/queensferryme/hugo-theme-texify">TeXify</a>
-  </div>
-
   <div class="footnote">
     <span>Follow me on <a class=link href=https://github.com/preminstrel>GitHub</a>,
 <a class=link href=https://twitter.com/preminstrel>Twitter</a> or

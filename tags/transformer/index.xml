@@ -31,33 +31,33 @@
       <guid>https://preminstrel.github.io/blog/post/2022/01/26/transformer/</guid>
       
       <description>&lt;p&gt;《Attention Is All You Need》是 Google 团队在 2017 年提出的一篇论文。该论文以“attention”为核心，提出了 Transformer 模型。Transformer 基于 Encoder-Decoder，摒弃了 CNNs，完全由 Attention mechanism 实现。&lt;/p&gt;
-&lt;h1 id=&#34;features&#34;&gt;Features&lt;/h1&gt;
-&lt;p&gt;传统 seq2seq 最大的问题在于将 Encoder 端的&lt;strong&gt;所有信息压缩到一个固定长度的向量&lt;/strong&gt;中，并将其作为 Decoder 端首个隐藏状态的输入，来预测 Decoder 端第一个单词(token)的隐藏状态。在输入序列比较长的时候，这样做显然会损失 Encoder 端的很多信息，而且这样一股脑的把该固定向量送入 Decoder 端，Decoder 端不能够关注到其想要关注的信息。并且模型计算不可并行，计算隐层状态 $h_t$ 依赖于 $h_{t-1}$ 以及状态 $t$ 时刻的输入，因此需要耗费大量时间。&lt;/p&gt;
+&lt;h2 id=&#34;features&#34;&gt;Features&lt;/h2&gt;
+&lt;p&gt;传统 seq2seq 最大的问题在于将 Encoder 端的所有信息&lt;strong&gt;压缩到一个固定长度的向量&lt;/strong&gt;中，并将其作为 Decoder 端首个隐藏状态的输入，来预测 Decoder 端第一个单词(token)的隐藏状态。在输入序列比较长的时候，这样做显然会损失 Encoder 端的很多信息，而且这样一股脑的把该固定向量送入 Decoder 端，Decoder 端不能够关注到其想要关注的信息。并且模型计算不可并行，计算隐层状态 $h_t$ 依赖于 $h_{t-1}$ 以及状态 $t$ 时刻的输入，因此需要耗费大量时间。&lt;/p&gt;
 &lt;p&gt;Transformer 完全依赖于 Attention Mechanism，解决了输入输出的长期依赖问题，并且拥有并行计算的能力，大大减少了计算资源的消耗。Self-Attention模块，让源序列和目标序列首先“自关联”起来，这样的话，源序列和目标序列自身的 embedding 表示所蕴含的信息更加丰富，而且后续的 FFN 层也增强了模型的表达能力。Muti-Head Attention 模块使得 Encoder 端拥有并行计算的能力。&lt;/p&gt;
-&lt;h1 id=&#34;theory&#34;&gt;Theory&lt;/h1&gt;
-&lt;h2 id=&#34;structure&#34;&gt;Structure&lt;/h2&gt;
+&lt;h2 id=&#34;theory&#34;&gt;Theory&lt;/h2&gt;
+&lt;h3 id=&#34;structure&#34;&gt;Structure&lt;/h3&gt;
 &lt;p&gt;Transformer 采用 Encoder-Decoder 架构，如下图所示。Encoder 层和 Decoder 层分别由 6 个相同的 Encoder 和decoder堆叠而成，模型架构更加复杂。其中，Encoder 层引入了 &lt;em&gt;&lt;strong&gt;Multi-Head&lt;/strong&gt;&lt;/em&gt; 机制，可以并行计算，Decoder 层仍旧需要串行计算。&lt;/p&gt;
 &lt;div align=center&gt;
-&lt;img src=&#34;https://preminstrel.github.io/blog/img/20220126181556.png&#34; width=&#34;500px&#34;/&gt;
+&lt;a href=&#34;https://sm.ms/image/Ml7Wiqra8TdAZv2&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://s2.loli.net/2022/04/14/Ml7Wiqra8TdAZv2.png&#34; width=&#34;500px&#34;&gt;&lt;/a&gt;
 &lt;/div&gt;
 &lt;p&gt;Encoder 层和 Decoder 层内部结构如下图所示。&lt;/p&gt;
 &lt;div align=center&gt;
-&lt;img src=&#34;https://preminstrel.github.io/blog/img/20220126181925.png&#34; width=&#34;500px&#34;/&gt;
+&lt;a href=&#34;https://sm.ms/image/rCmxoUspEFbhfSd&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://s2.loli.net/2022/04/14/rCmxoUspEFbhfSd.png&#34; width=&#34;500px&#34;&gt;&lt;/a&gt;
 &lt;/div&gt;
 &lt;ul&gt;
 &lt;li&gt;Encoder 具有两层结构，&lt;strong&gt;Self-Attention 和前馈神经网络&lt;/strong&gt;。Self-Attention 计算句子中的每个词都和其他词的关联，从而帮助模型更好地理解上下文语义，引入 Muti-Head Attention 后，每个头关注句子的不同位置，增强了Attention 机制关注句子内部单词之间作用的表达能力。前馈神经网络为 Encoder 引入非线性变换，增强了模型的拟合能力。&lt;/li&gt;
 &lt;li&gt;Decoder 接受 output 输入的&lt;strong&gt;同时接受 Encoder 的输入&lt;/strong&gt;，帮助当前节点获取到需要重点关注的内容。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2 id=&#34;multi-head-attention&#34;&gt;Multi-Head Attention&lt;/h2&gt;
+&lt;h3 id=&#34;multi-head-attention&#34;&gt;Multi-Head Attention&lt;/h3&gt;
 &lt;p&gt;Multi-Head Attention 计算过程如下图，在讲解Multi-Head Attention 之前，我们需要了解Self-Attention。&lt;/p&gt;
 &lt;div align=center&gt;
-&lt;img src=&#34;https://preminstrel.github.io/blog/img/20220126182618.png&#34; width=&#34;500px&#34;/&gt;
+&lt;a href=&#34;https://sm.ms/image/vuW2BzLpKig3lrV&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://s2.loli.net/2022/04/14/vuW2BzLpKig3lrV.png&#34; width=&#34;500px&#34;&gt;&lt;/a&gt;
 &lt;/div&gt;
 &lt;p&gt;&lt;strong&gt;Query 与 Key 作用得到 Attention 的权值，之后这个权值作用在 Value 上得到 Attention值。&lt;/strong&gt; 这种通过 Query 和 Key 的相似性程度来确定 value 的权重分布的方法被称为 &lt;em&gt;&lt;strong&gt;scaled dot-product attention&lt;/strong&gt;&lt;/em&gt;。&lt;/p&gt;
 &lt;p&gt;$$\text{Attention}(Q,K,V)=\text{softmax}(\frac{QK^T}{\sqrt{D_k}})V$$&lt;/p&gt;
 &lt;p&gt;这里给出我在知乎上看到的一个很不错的帖子里面的图片解释 scaled dot-product attention：&lt;/p&gt;
 &lt;div align=center&gt;
-&lt;img src=&#34;https://preminstrel.github.io/blog/img/20220126183300.jpg&#34; width=&#34;500px&#34;/&gt;
+&lt;a href=&#34;https://sm.ms/image/1VaBDNAm4S2Yex9&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://s2.loli.net/2022/04/14/1VaBDNAm4S2Yex9.jpg&#34; width=&#34;500px&#34;&gt;&lt;/a&gt;
 &lt;/div&gt;
 &lt;p&gt;但是，在 Transformer 模型中，作者使用了 Muti-Head 机制代替了 single self-attention。&lt;/p&gt;
 &lt;p&gt;$$
@@ -69,15 +69,15 @@ $$&lt;/p&gt;
 &lt;p&gt;Where the projections are parameter matrices $W_{i}^{Q} \in \mathbb{R}^{d_{model} \times d_{k}}, W_{i}^{K} \in \mathbb{R}^{d_{model} \times d_{k}}, W_{i}^{V} \in \mathbb{R}^{d_{model} \times d_{v}}$ and $W^{O} \in \mathbb{R}^{h d_{v} \times d_{model}}$.&lt;/p&gt;
 &lt;p&gt;论文中采用 8 个头，$h=8,d_{k}=d_{v}=d_{model} / h=64$。通过权重矩阵 $W_{i}^{Q},W_{i}^{K},W_{i}^{V}$ 将 $Q,K,V$ 分割，每个头分别计算 single self-attention，因为权重矩阵 $W_{i}^{Q},W_{i}^{K},W_{i}^{V}$ 不相同，$QW_i^Q,KW_i^K,VW_i^V$ 的结果各不相同，因此我们说每个头的关注点各有侧重。最后，将每个头计算出的 single self-attention 进行 concat，通过总的权重矩阵 $W^O$ 决定对每个头的关注程度，从而能够做到在不同语境下对相同句子进行不同理解。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Attention 是将 Query 和 Key 映射到同一高维空间中去计算相似度，而对应的 Multi-head Attention 把 Query 和 Key 映射到高维空间 $\alpha$ 的不同子空间 $(\alpha_1,\alpha_2,\dots, \alpha_h)$ 中去计算相似度。&lt;/strong&gt;&lt;/p&gt;
-&lt;h2 id=&#34;position-wise-feed-forward&#34;&gt;Position-wise Feed Forward&lt;/h2&gt;
+&lt;h3 id=&#34;position-wise-feed-forward&#34;&gt;Position-wise Feed Forward&lt;/h3&gt;
 &lt;p&gt;$$\text{FFN}(x)=\max(0,xW_1+b_1)W_2+b_2$$&lt;/p&gt;
 &lt;p&gt;每一层经过 Attention 之后，还会有一个 FFN，这个 FFN 的作用就是&lt;strong&gt;空间变换&lt;/strong&gt;。FFN 包含了 2 层 Linear Transformation 层，中间的激活函数是 ReLU。&lt;/p&gt;
 &lt;p&gt;Attention 层的 output 最后会和 $W^O$ 相乘，为什么这里又要增加一个 2 层的 FFN 网络？其实，FFN 的加入&lt;strong&gt;引入了非线性(ReLu激活函数)，变换了 Attention Output 的空间, 从而增加了模型的表现能力&lt;/strong&gt;。把 FFN 去掉模型也是可以用的，但是效果差了很多。&lt;/p&gt;
-&lt;h2 id=&#34;layer-normalization&#34;&gt;Layer Normalization&lt;/h2&gt;
+&lt;h3 id=&#34;layer-normalization&#34;&gt;Layer Normalization&lt;/h3&gt;
 &lt;p&gt;在每个 block 中，最后出现的是 Layer Normalization，其作用是规范优化空间，加速收敛。&lt;/p&gt;
 &lt;p&gt;$$\text{LN}(x_i)=\alpha\frac{x_i-\mu_i}{\sqrt{\sigma^2+\xi}}+\beta$$&lt;/p&gt;
 &lt;p&gt;当我们使用梯度下降算法做优化时，我们可能会对输入数据进行归一化，但是经过网络层作用后，我们的数据已经不是归一化的了。随着网络层数的增加，数据分布不断发生变化，偏差越来越大，导致我们不得不使用&lt;strong&gt;更小的学习率&lt;/strong&gt;来稳定梯度。Layer Normalization 的作用就是&lt;strong&gt;保证数据特征分布的稳定性&lt;/strong&gt;，将数据标准化到 ReLU 激活函数的作用区域，可以使得激活函数更好的发挥作用&lt;/p&gt;
-&lt;h2 id=&#34;positional-encoding&#34;&gt;Positional Encoding&lt;/h2&gt;
+&lt;h3 id=&#34;positional-encoding&#34;&gt;Positional Encoding&lt;/h3&gt;
 &lt;p&gt;位置信息编码位于 Encoder 和 Decoder 的 Embedding 之后，每个 block 之前。它非常重要，没有这部分模型就无法运行。Positional Encoding 是 Transformer 的特有机制，弥补了 Attention 机制无法捕捉 sequence 中 token 位置信息的缺点。&lt;/p&gt;
 &lt;p&gt;$$
 PE_{(pos, 2i)}=\sin\left(pos/10000^{2i/d_{\text{model}}}\right)
@@ -96,12 +96,11 @@ $$&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;$$
-\begin{gathered}
-P E_{(p o s+k, 2 i)}=\sin \left((p o s+k) / 10000^{2 i / d_{\text {model }}}\right) \&lt;br&gt;
+P E_{(p o s+k, 2 i)}=\sin \left((p o s+k) / 10000^{2 i / d_{\text {model }}}\right)
+$$$$
 P E_{(p o s+k, 2 i+1)}=\cos \left((p o s+k) / 10000^{2 i / d_{\text {model }}}\right)
-\end{gathered}
 $$&lt;/p&gt;
-&lt;h2 id=&#34;mask&#34;&gt;Mask&lt;/h2&gt;
+&lt;h3 id=&#34;mask&#34;&gt;Mask&lt;/h3&gt;
 &lt;p&gt;&lt;em&gt;&lt;strong&gt;Mask&lt;/strong&gt;&lt;/em&gt; 表示掩码，它&lt;strong&gt;对某些值进行掩盖，使其在参数更新时不产生效果&lt;/strong&gt;。Transformer 模型里面涉及两种 Mask，分别是 Padding Mask 和 Sequence Mask。其中，Padding Mask 在所有的 scaled dot-product attention 里面都需要用到，而 Sequence Mask 只有在 Decoder 的 Self-Attention 里面用到。&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
@@ -117,15 +116,15 @@ $$&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;对于 Decoder 的 Self-Attention，里面使用到的 scaled dot-product attention，同时需要 Padding Mask 和 Sequence mask 作为 attn_mask，具体实现就是两个 Mask 相加作为 attn_mask。其他情况，attn_mask 一律等于 Padding mask。&lt;/p&gt;
-&lt;h2 id=&#34;linear--softmax&#34;&gt;Linear &amp;amp; Softmax&lt;/h2&gt;
+&lt;h3 id=&#34;linear--softmax&#34;&gt;Linear &amp;amp; Softmax&lt;/h3&gt;
 &lt;p&gt;Decoder 最后是一个线性变换和 Softmax 层。解码组件最后会输出一个实数向量。我们如何把浮点数变成一个单词？这便是线性变换层要做的工作，它之后就是 Softmax 层。&lt;/p&gt;
 &lt;p&gt;线性变换层是一个简单的全连接神经网络，它可以&lt;strong&gt;把解码组件产生的向量投射到一个比它大得多的、被称作对数几率（logits）的向量里&lt;/strong&gt;。不妨假设我们的模型从训练集中学习一万个不同的英语单词（我们模型的“输出词表”）。因此对数几率向量为一万个单元格长度的向量——每个单元格对应某一个单词的分数（&lt;strong&gt;相当于做 vocaburary_size 大小的分类&lt;/strong&gt;）。接下来的 Softmax 层便会把那些分数变成概率（都为正数、上限 1.0）。&lt;strong&gt;概率最高的单元格被选中，并且它对应的单词被作为这个时间步的输出。&lt;/strong&gt;&lt;/p&gt;
-&lt;h1 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h1&gt;
+&lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
 &lt;p&gt;整体运行效果图如下：&lt;/p&gt;
 &lt;div align=center&gt;
-&lt;video autoplay=&#34;true&#34; loop=&#34;true&#34; src=&#34;https://preminstrel.github.io/blog/video/20220126190500.mp4&#34; /&gt;
+&lt;a href=&#34;https://sm.ms/image/7wBRdlvJnzeVUL9&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://s2.loli.net/2022/04/14/7wBRdlvJnzeVUL9.gif&#34; &gt;&lt;/a&gt;
 &lt;/div&gt;
-&lt;h1 id=&#34;reference&#34;&gt;Reference&lt;/h1&gt;
+&lt;h2 id=&#34;reference&#34;&gt;Reference&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;https://zhuanlan.zhihu.com/p/311156298&#34;&gt;Transformer - Attention is all you need&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
@@ -145,7 +144,7 @@ $$&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;最近刚接触到 Transformer，感觉其模型比 CNNs 要复杂了不少，看了一些论文也仅仅是草草看过，不理解其原理，在网上读了一些 blog，本次来进行一次总结。首先便是 Self-Attention 的公式&lt;/p&gt;
 &lt;p&gt;$$\text{Attention}(Q,K,V)=\text{softmax}(\frac{QK^T}{\sqrt{D_k}})V$$&lt;/p&gt;
-&lt;h1 id=&#34;terminology&#34;&gt;Terminology&lt;/h1&gt;
+&lt;h2 id=&#34;terminology&#34;&gt;Terminology&lt;/h2&gt;
 &lt;p&gt;公式种出现的 $Q,K,V$ 分别是 Query、Key、Value的缩写，我们的表达式如下：&lt;/p&gt;
 &lt;p&gt;$$X W^Q=Q$$
 $$XW^K=K$$
@@ -153,12 +152,12 @@ $$XW^V=V$$&lt;/p&gt;
 &lt;p&gt;文章中所谓的 $Q,K,V$ 矩阵来源于 $X$ 与矩阵的乘积，本质上是 $X$ 的一系列的线性变换。做线性变换是为了提升模型的拟合能力，矩阵 $W$ 都是可以训练的，起到一个缓冲的效果。&lt;/p&gt;
 &lt;p&gt;我们假设 $Q,K$ 种元素的均值为 0，方差为 1，$A^T=Q^TK$ 的均值为 0，方程为 $D$。当 $D$ 变得很大时，$A$ 中的元素的方差也会变得很大，如果 $A$ 中的元素方差很大，那么 $A$ 的分布会趋于陡峭(分布的方差大，分布集中在绝对值大的区域)。我们可以将分布“陡峭”程度与 $D$ 解耦，从而使得训练过程中梯度值保持稳定。&lt;/p&gt;
 &lt;p&gt;$$A\leftarrow \dfrac{A}{\sqrt{D_k}}$$&lt;/p&gt;
-&lt;h1 id=&#34;theory&#34;&gt;Theory&lt;/h1&gt;
+&lt;h2 id=&#34;theory&#34;&gt;Theory&lt;/h2&gt;
 &lt;p&gt;公式中的 $QK^T$ 表示的是 $Q,K$ 的内积，也可以说是一方在另一方的&lt;strong&gt;投影&lt;/strong&gt;，其大小也可以表示其&lt;strong&gt;相关性&lt;/strong&gt;。Softmax 是为了将一系列的值&lt;strong&gt;归一化&lt;/strong&gt;而存在的。&lt;/p&gt;
 &lt;p&gt;$$\text{softmax}(z_k)=\frac{e^{z_k}}{\sum_{i=1}^Ie^{z_i}}$$&lt;/p&gt;
 &lt;p&gt;而随后与 $V$ 的乘积，代表的是&lt;strong&gt;向量经过注意力机制加权求和之后的结果&lt;/strong&gt;。也就是说，softmax 管的是一个相关度权值大小，与后面的 $V$ 相乘，得到的是通过相关度权值标准而重新计算得到的量。&lt;/p&gt;
 &lt;p&gt;对 Self-Attention 来说，它跟每一个输入的向量都做 Attention，所以没有考虑到输入的顺序。更通俗来讲，大家可以发现我们前文的计算每一个词向量都与其他词向量计算内积，得到的结果丢失了我们原来文本的顺序信息。对比来说，LSTM 是对于文本顺序信息的解释是输出词向量的先后顺序，而我们上文的计算对 sequence 的顺序这一部分则完全没有提及，你打乱词向量的顺序，得到的结果仍然是相同的，此处便可以引出 Transformer 的位置编码部分。&lt;strong&gt;Query 与 Key 作用得到 Attention 的权值，之后这个权值作用在 Value 上得到 Attention值。&lt;/strong&gt;&lt;/p&gt;
-&lt;h1 id=&#34;code&#34;&gt;Code&lt;/h1&gt;
+&lt;h2 id=&#34;code&#34;&gt;Code&lt;/h2&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# Attention 机制的实现&lt;/span&gt;
 &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color:#00f;font-weight:bold&#34;&gt;math&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;import&lt;/span&gt; sqrt
 &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#00f;font-weight:bold&#34;&gt;torch&lt;/span&gt;
@@ -188,7 +187,7 @@ $$XW^V=V$$&lt;/p&gt;
         output &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;bmm(atten,V) &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# Q * K.T() * V # batch_size * seq_len * dim_v&lt;/span&gt;
         
         &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;return&lt;/span&gt; output
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h1 id=&#34;reference&#34;&gt;Reference&lt;/h1&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;reference&#34;&gt;Reference&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;https://zhuanlan.zhihu.com/p/410776234&#34;&gt;超详细图解Self-Attention&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;

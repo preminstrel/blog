@@ -46,7 +46,7 @@ graph LR
     id1(Create Project)--&gt;id2(Code)--&gt;id3(Complie)--&gt;id4(Assign Pins)--&gt;id5(Program Device)--&gt;id6(Debug)--&gt;id7(Program Flash)
     id6-.-&gt;id2
 &lt;/div&gt;
-&lt;h3 id=&#34;create-project&#34;&gt;Create Project&lt;/h3&gt;
+&lt;h2 id=&#34;create-project&#34;&gt;Create Project&lt;/h2&gt;
 &lt;p&gt;&lt;strong&gt;Project Name&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;可以新建一个工程，注意，location 中可以选择 &lt;code&gt;create project subdirectory&lt;/code&gt; 来创建存放工程的文件夹，这一步的引导比较简单。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Project Type&lt;/strong&gt;&lt;/p&gt;
@@ -55,7 +55,7 @@ graph LR
 &lt;p&gt;我们可以将之前已经写好的 Verilog 等文件加进工程中。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Default Part&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;选择合适的芯片型号&lt;/p&gt;
-&lt;h3 id=&#34;code&#34;&gt;Code&lt;/h3&gt;
+&lt;h2 id=&#34;code&#34;&gt;Code&lt;/h2&gt;
 &lt;p&gt;这里用 Verilog 写代码，编辑器建议用 VS Code。设计了一个双路灯控电路&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-verilog&#34; data-lang=&#34;verilog&#34;&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;module&lt;/span&gt; light(
     &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;input&lt;/span&gt; x1,
@@ -67,22 +67,22 @@ graph LR
         
 &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;endmodule&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;写完代码后直接 &lt;code&gt;Add Sources&lt;/code&gt; 添加文件即可。&lt;/p&gt;
-&lt;h3 id=&#34;compile&#34;&gt;Compile&lt;/h3&gt;
+&lt;h2 id=&#34;compile&#34;&gt;Compile&lt;/h2&gt;
 &lt;p&gt;设计完整个工程之后，要经过 Vivado 软件中几个工具的处理，分别是&lt;strong&gt;分析代码、综合电路以及生成目标芯片&lt;/strong&gt;的实现内容。这些应用工具被聚集在一起，统称为编译器。&lt;/p&gt;
 &lt;div class=&#34;mermaid&#34;&gt;
 graph LR
     id1(Run Synthesis)--&gt;id2(Run Implementation)--&gt;id3(Generate Bitstream)
 &lt;/div&gt;
 &lt;p&gt;如果工程编译不通过，那么信息栏里就会提示报 Bug。建议&lt;strong&gt;查阅 &lt;em&gt;Log&lt;/em&gt; 一栏下的报错信息&lt;/strong&gt;，因为 Log 一栏下的信息打印是按&lt;strong&gt;顺序&lt;/strong&gt;来进行的，那么在进行问题定位的时候就方便查找第一个报错的信息。一般来说， 往往后面顺序的信息很多都是由于第一个报错原因导致的，所以解决了第一个报错问题，基本上就可以同时解决其它的报错问题了。要注意的是，&lt;strong&gt;报错信息栏里的提示不会随时更新，它的信息是过时的&lt;/strong&gt;，在解决了某些问题或者修改了代码后请&lt;strong&gt;重新编译更新信息状态栏&lt;/strong&gt;。&lt;/p&gt;
-&lt;h3 id=&#34;assign-pins&#34;&gt;Assign Pins&lt;/h3&gt;
+&lt;h2 id=&#34;assign-pins&#34;&gt;Assign Pins&lt;/h2&gt;
 &lt;p&gt;Vivado 需要先对工程进行编译再进行管脚配置，编译完后 ，在左侧工具栏中选 中 &lt;code&gt;IMPLEMENTATION&lt;/code&gt;，然后选择 &lt;code&gt;Open Implemented Design&lt;/code&gt;，在随后跳转的窗口右上角选择切换到 &lt;code&gt;I/O Planning&lt;/code&gt;，开始管脚配置。&lt;/p&gt;
 &lt;p&gt;配置完成后，保存管脚配置信息，命名管脚约束文件名后， 点击 &lt;code&gt;OK&lt;/code&gt; 生成管脚约束文件。&lt;/p&gt;
-&lt;h3 id=&#34;program-device&#34;&gt;Program Device&lt;/h3&gt;
+&lt;h2 id=&#34;program-device&#34;&gt;Program Device&lt;/h2&gt;
 &lt;p&gt;引脚分配完毕之后，需要重新进行一次&lt;strong&gt;全编译&lt;/strong&gt;。当全编译通过后 Vivado 软件即可生成可以烧录到 FPGA 中的配置文件。将下载器 USB-Blaster 与 FPGA 开发板进行连接，打开 FPGA 开发板电源后回到 Vivado 主界面，在左侧工具栏 &lt;code&gt;PROGRAM AND DEGUG&lt;/code&gt; 下展开 &lt;code&gt;Open Hardware Manager&lt;/code&gt;，点击 &lt;code&gt;Open Target&lt;/code&gt;，选择选项 &lt;code&gt;Auto Connect&lt;/code&gt;，连接下载器。&lt;/p&gt;
 &lt;p&gt;在左侧工具栏 &lt;code&gt;PROGRAM AND DEGUG&lt;/code&gt; 下展开 &lt;code&gt;Open Hardware Manager&lt;/code&gt;，点击 &lt;code&gt;Program Device&lt;/code&gt;，选择相应的型号，打开下载界面。&lt;/p&gt;
-&lt;h3 id=&#34;debug&#34;&gt;Debug&lt;/h3&gt;
+&lt;h2 id=&#34;debug&#34;&gt;Debug&lt;/h2&gt;
 &lt;p&gt;下载完毕后即可进行电路的测试，我们可以利用 ILA 工具进行问题的定位和错误的排查。&lt;/p&gt;
-&lt;h3 id=&#34;program-flash&#34;&gt;Program Flash&lt;/h3&gt;
+&lt;h2 id=&#34;program-flash&#34;&gt;Program Flash&lt;/h2&gt;
 &lt;ol&gt;
 &lt;li&gt;
 &lt;p&gt;在 Vivado 软件里找到 &lt;code&gt;Settings&lt;/code&gt; 设置选项，进入后点击 &lt;code&gt;Bitstream&lt;/code&gt; 选项，将 &lt;code&gt;bin_file&lt;/code&gt; 勾选。&lt;/p&gt;

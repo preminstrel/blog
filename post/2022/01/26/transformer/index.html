@@ -67,7 +67,7 @@
 <meta itemprop="description" content="《Attention Is All You Need》是 Google 团队在 2017 年提出的一篇论文。该论文以“attention”为核心，提出了 Transformer 模型。Transformer">
 <meta itemprop="datePublished" content="2022-01-26T17:47:40&#43;08:00" />
 <meta itemprop="dateModified" content="2022-01-26T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="3061">
+<meta itemprop="wordCount" content="3059">
 
 
 
@@ -133,36 +133,62 @@
   </div>
   
   
+  
+  <details>
+    <summary>
+      <b>Table of Contents</b>
+    </summary>
+    <div class="toc"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#theory">Theory</a>
+      <ul>
+        <li><a href="#structure">Structure</a></li>
+        <li><a href="#multi-head-attention">Multi-Head Attention</a></li>
+        <li><a href="#position-wise-feed-forward">Position-wise Feed Forward</a></li>
+        <li><a href="#layer-normalization">Layer Normalization</a></li>
+        <li><a href="#positional-encoding">Positional Encoding</a></li>
+        <li><a href="#mask">Mask</a></li>
+        <li><a href="#linear--softmax">Linear &amp; Softmax</a></li>
+      </ul>
+    </li>
+    <li><a href="#conclusion">Conclusion</a></li>
+    <li><a href="#reference">Reference</a></li>
+  </ul>
+</nav></div>
+  </details>
+  
+  
   <article class="content">
     
     <p>《Attention Is All You Need》是 Google 团队在 2017 年提出的一篇论文。该论文以“attention”为核心，提出了 Transformer 模型。Transformer 基于 Encoder-Decoder，摒弃了 CNNs，完全由 Attention mechanism 实现。</p>
-<h1 id="features">Features</h1>
-<p>传统 seq2seq 最大的问题在于将 Encoder 端的<strong class=chinese>所有信息压缩到一个固定长度的向量</strong>中，并将其作为 Decoder 端首个隐藏状态的输入，来预测 Decoder 端第一个单词(token)的隐藏状态。在输入序列比较长的时候，这样做显然会损失 Encoder 端的很多信息，而且这样一股脑的把该固定向量送入 Decoder 端，Decoder 端不能够关注到其想要关注的信息。并且模型计算不可并行，计算隐层状态 $h_t$ 依赖于 $h_{t-1}$ 以及状态 $t$ 时刻的输入，因此需要耗费大量时间。</p>
+<h2 id="features">Features</h2>
+<p>传统 seq2seq 最大的问题在于将 Encoder 端的所有信息<strong class=chinese>压缩到一个固定长度的向量</strong>中，并将其作为 Decoder 端首个隐藏状态的输入，来预测 Decoder 端第一个单词(token)的隐藏状态。在输入序列比较长的时候，这样做显然会损失 Encoder 端的很多信息，而且这样一股脑的把该固定向量送入 Decoder 端，Decoder 端不能够关注到其想要关注的信息。并且模型计算不可并行，计算隐层状态 $h_t$ 依赖于 $h_{t-1}$ 以及状态 $t$ 时刻的输入，因此需要耗费大量时间。</p>
 <p>Transformer 完全依赖于 Attention Mechanism，解决了输入输出的长期依赖问题，并且拥有并行计算的能力，大大减少了计算资源的消耗。Self-Attention模块，让源序列和目标序列首先“自关联”起来，这样的话，源序列和目标序列自身的 embedding 表示所蕴含的信息更加丰富，而且后续的 FFN 层也增强了模型的表达能力。Muti-Head Attention 模块使得 Encoder 端拥有并行计算的能力。</p>
-<h1 id="theory">Theory</h1>
-<h2 id="structure">Structure</h2>
+<h2 id="theory">Theory</h2>
+<h3 id="structure">Structure</h3>
 <p>Transformer 采用 Encoder-Decoder 架构，如下图所示。Encoder 层和 Decoder 层分别由 6 个相同的 Encoder 和decoder堆叠而成，模型架构更加复杂。其中，Encoder 层引入了 <em><strong>Multi-Head</strong></em> 机制，可以并行计算，Decoder 层仍旧需要串行计算。</p>
 <div align=center>
-<img src="/img/20220126181556.png" width="500px"/>
+<a href="https://sm.ms/image/Ml7Wiqra8TdAZv2" target="_blank"><img src="https://s2.loli.net/2022/04/14/Ml7Wiqra8TdAZv2.png" width="500px"></a>
 </div>
 <p>Encoder 层和 Decoder 层内部结构如下图所示。</p>
 <div align=center>
-<img src="/img/20220126181925.png" width="500px"/>
+<a href="https://sm.ms/image/rCmxoUspEFbhfSd" target="_blank"><img src="https://s2.loli.net/2022/04/14/rCmxoUspEFbhfSd.png" width="500px"></a>
 </div>
 <ul>
 <li>Encoder 具有两层结构，<strong>Self-Attention 和前馈神经网络</strong>。Self-Attention 计算句子中的每个词都和其他词的关联，从而帮助模型更好地理解上下文语义，引入 Muti-Head Attention 后，每个头关注句子的不同位置，增强了Attention 机制关注句子内部单词之间作用的表达能力。前馈神经网络为 Encoder 引入非线性变换，增强了模型的拟合能力。</li>
 <li>Decoder 接受 output 输入的<strong>同时接受 Encoder 的输入</strong>，帮助当前节点获取到需要重点关注的内容。</li>
 </ul>
-<h2 id="multi-head-attention">Multi-Head Attention</h2>
+<h3 id="multi-head-attention">Multi-Head Attention</h3>
 <p>Multi-Head Attention 计算过程如下图，在讲解Multi-Head Attention 之前，我们需要了解Self-Attention。</p>
 <div align=center>
-<img src="/img/20220126182618.png" width="500px"/>
+<a href="https://sm.ms/image/vuW2BzLpKig3lrV" target="_blank"><img src="https://s2.loli.net/2022/04/14/vuW2BzLpKig3lrV.png" width="500px"></a>
 </div>
 <p><strong>Query 与 Key 作用得到 Attention 的权值，之后这个权值作用在 Value 上得到 Attention值。</strong> 这种通过 Query 和 Key 的相似性程度来确定 value 的权重分布的方法被称为 <em><strong>scaled dot-product attention</strong></em>。</p>
 <p>$$\text{Attention}(Q,K,V)=\text{softmax}(\frac{QK^T}{\sqrt{D_k}})V$$</p>
 <p>这里给出我在知乎上看到的一个很不错的帖子里面的图片解释 scaled dot-product attention：</p>
 <div align=center>
-<img src="/img/20220126183300.jpg" width="500px"/>
+<a href="https://sm.ms/image/1VaBDNAm4S2Yex9" target="_blank"><img src="https://s2.loli.net/2022/04/14/1VaBDNAm4S2Yex9.jpg" width="500px"></a>
 </div>
 <p>但是，在 Transformer 模型中，作者使用了 Muti-Head 机制代替了 single self-attention。</p>
 <p>$$
@@ -174,15 +200,15 @@ $$</p>
 <p>Where the projections are parameter matrices $W_{i}^{Q} \in \mathbb{R}^{d_{model} \times d_{k}}, W_{i}^{K} \in \mathbb{R}^{d_{model} \times d_{k}}, W_{i}^{V} \in \mathbb{R}^{d_{model} \times d_{v}}$ and $W^{O} \in \mathbb{R}^{h d_{v} \times d_{model}}$.</p>
 <p>论文中采用 8 个头，$h=8,d_{k}=d_{v}=d_{model} / h=64$。通过权重矩阵 $W_{i}^{Q},W_{i}^{K},W_{i}^{V}$ 将 $Q,K,V$ 分割，每个头分别计算 single self-attention，因为权重矩阵 $W_{i}^{Q},W_{i}^{K},W_{i}^{V}$ 不相同，$QW_i^Q,KW_i^K,VW_i^V$ 的结果各不相同，因此我们说每个头的关注点各有侧重。最后，将每个头计算出的 single self-attention 进行 concat，通过总的权重矩阵 $W^O$ 决定对每个头的关注程度，从而能够做到在不同语境下对相同句子进行不同理解。</p>
 <p><strong>Attention 是将 Query 和 Key 映射到同一高维空间中去计算相似度，而对应的 Multi-head Attention 把 Query 和 Key 映射到高维空间 $\alpha$ 的不同子空间 $(\alpha_1,\alpha_2,\dots, \alpha_h)$ 中去计算相似度。</strong></p>
-<h2 id="position-wise-feed-forward">Position-wise Feed Forward</h2>
+<h3 id="position-wise-feed-forward">Position-wise Feed Forward</h3>
 <p>$$\text{FFN}(x)=\max(0,xW_1+b_1)W_2+b_2$$</p>
 <p>每一层经过 Attention 之后，还会有一个 FFN，这个 FFN 的作用就是<strong class=chinese>空间变换</strong>。FFN 包含了 2 层 Linear Transformation 层，中间的激活函数是 ReLU。</p>
 <p>Attention 层的 output 最后会和 $W^O$ 相乘，为什么这里又要增加一个 2 层的 FFN 网络？其实，FFN 的加入<strong>引入了非线性(ReLu激活函数)，变换了 Attention Output 的空间, 从而增加了模型的表现能力</strong>。把 FFN 去掉模型也是可以用的，但是效果差了很多。</p>
-<h2 id="layer-normalization">Layer Normalization</h2>
+<h3 id="layer-normalization">Layer Normalization</h3>
 <p>在每个 block 中，最后出现的是 Layer Normalization，其作用是规范优化空间，加速收敛。</p>
 <p>$$\text{LN}(x_i)=\alpha\frac{x_i-\mu_i}{\sqrt{\sigma^2+\xi}}+\beta$$</p>
 <p>当我们使用梯度下降算法做优化时，我们可能会对输入数据进行归一化，但是经过网络层作用后，我们的数据已经不是归一化的了。随着网络层数的增加，数据分布不断发生变化，偏差越来越大，导致我们不得不使用<strong class=chinese>更小的学习率</strong>来稳定梯度。Layer Normalization 的作用就是<strong class=chinese>保证数据特征分布的稳定性</strong>，将数据标准化到 ReLU 激活函数的作用区域，可以使得激活函数更好的发挥作用</p>
-<h2 id="positional-encoding">Positional Encoding</h2>
+<h3 id="positional-encoding">Positional Encoding</h3>
 <p>位置信息编码位于 Encoder 和 Decoder 的 Embedding 之后，每个 block 之前。它非常重要，没有这部分模型就无法运行。Positional Encoding 是 Transformer 的特有机制，弥补了 Attention 机制无法捕捉 sequence 中 token 位置信息的缺点。</p>
 <p>$$
 PE_{(pos, 2i)}=\sin\left(pos/10000^{2i/d_{\text{model}}}\right)
@@ -201,12 +227,11 @@ $$</p>
 </li>
 </ul>
 <p>$$
-\begin{gathered}
-P E_{(p o s+k, 2 i)}=\sin \left((p o s+k) / 10000^{2 i / d_{\text {model }}}\right) \<br>
+P E_{(p o s+k, 2 i)}=\sin \left((p o s+k) / 10000^{2 i / d_{\text {model }}}\right)
+$$$$
 P E_{(p o s+k, 2 i+1)}=\cos \left((p o s+k) / 10000^{2 i / d_{\text {model }}}\right)
-\end{gathered}
 $$</p>
-<h2 id="mask">Mask</h2>
+<h3 id="mask">Mask</h3>
 <p><em><strong>Mask</strong></em> 表示掩码，它<strong>对某些值进行掩盖，使其在参数更新时不产生效果</strong>。Transformer 模型里面涉及两种 Mask，分别是 Padding Mask 和 Sequence Mask。其中，Padding Mask 在所有的 scaled dot-product attention 里面都需要用到，而 Sequence Mask 只有在 Decoder 的 Self-Attention 里面用到。</p>
 <ul>
 <li>
@@ -222,15 +247,15 @@ $$</p>
 </li>
 </ul>
 <p>对于 Decoder 的 Self-Attention，里面使用到的 scaled dot-product attention，同时需要 Padding Mask 和 Sequence mask 作为 attn_mask，具体实现就是两个 Mask 相加作为 attn_mask。其他情况，attn_mask 一律等于 Padding mask。</p>
-<h2 id="linear--softmax">Linear &amp; Softmax</h2>
+<h3 id="linear--softmax">Linear &amp; Softmax</h3>
 <p>Decoder 最后是一个线性变换和 Softmax 层。解码组件最后会输出一个实数向量。我们如何把浮点数变成一个单词？这便是线性变换层要做的工作，它之后就是 Softmax 层。</p>
 <p>线性变换层是一个简单的全连接神经网络，它可以<strong>把解码组件产生的向量投射到一个比它大得多的、被称作对数几率（logits）的向量里</strong>。不妨假设我们的模型从训练集中学习一万个不同的英语单词（我们模型的“输出词表”）。因此对数几率向量为一万个单元格长度的向量——每个单元格对应某一个单词的分数（<strong>相当于做 vocaburary_size 大小的分类</strong>）。接下来的 Softmax 层便会把那些分数变成概率（都为正数、上限 1.0）。<strong>概率最高的单元格被选中，并且它对应的单词被作为这个时间步的输出。</strong></p>
-<h1 id="conclusion">Conclusion</h1>
+<h2 id="conclusion">Conclusion</h2>
 <p>整体运行效果图如下：</p>
 <div align=center>
-<video autoplay="true" loop="true" src="/video/20220126190500.mp4" />
+<a href="https://sm.ms/image/7wBRdlvJnzeVUL9" target="_blank"><img src="https://s2.loli.net/2022/04/14/7wBRdlvJnzeVUL9.gif" ></a>
 </div>
-<h1 id="reference">Reference</h1>
+<h2 id="reference">Reference</h2>
 <ul>
 <li><a href="https://zhuanlan.zhihu.com/p/311156298">Transformer - Attention is all you need</a></li>
 </ul>
@@ -260,14 +285,6 @@ $$</p>
   <div>
     <span>© 2021</span> - <span>2022</span>
   </div>
-
-  <div>
-    <span>Powered by </span>
-    <a class="link" href="https://gohugo.io/">Hugo</a>
-    <span> 🍦 Theme </span>
-    <a class="link" href="https://github.com/queensferryme/hugo-theme-texify">TeXify</a>
-  </div>
-
   <div class="footnote">
     <span>Follow me on <a class=link href=https://github.com/preminstrel>GitHub</a>,
 <a class=link href=https://twitter.com/preminstrel>Twitter</a> or

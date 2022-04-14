@@ -26,7 +26,7 @@
 &lt;/ul&gt;
 &lt;p&gt;工业界最终选择了 INT8 量化—— FP32 在推理（inference）期间被 INT8 取代，而训练（training）仍然是 FP32。&lt;a href=&#34;http://on-demand.gputechconf.com/gtc/2017/presentation/s7310-8-bit-inference-with-tensorrt.pdf&#34;&gt;TensorRT&lt;/a&gt;，&lt;a href=&#34;https://www.tensorflow.org/lite/performance/post_training_quantization&#34;&gt;TensorFlow&lt;/a&gt;，&lt;a href=&#34;https://github.com/pytorch/glow/blob/master/docs/Quantization.md&#34;&gt;PyTorch&lt;/a&gt;，&lt;a href=&#34;https://github.com/apache/incubator%20-mxnet/blob/master/python/mxnet/contrib/quantization.py&#34;&gt;MxNet&lt;/a&gt; 和许多其他深度学习软件都已启用（或正在启用）量化。&lt;/p&gt;
 &lt;p&gt;通常，可以根据 FP32 和 INT8 的转换机制对解决方案进行分类。一些框架简单地引入了 &lt;code&gt;Quantize&lt;/code&gt; 和 &lt;code&gt;Dequantize&lt;/code&gt; 层，当从卷积或全链接层送入或取出时，它将 FP32 转换为 INT8 或相反。在这种情况下，如图的上半部分所示，模型本身和输入/输出采用 FP32 格式。深度学习框架加载模型，重写网络以插入&lt;code&gt;Quantize&lt;/code&gt; 和 &lt;code&gt;Dequantize&lt;/code&gt; 层，并将权重转换为 INT8 格式。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://preminstrel.github.io/blog/img/20210916155908.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://sm.ms/image/Mfj8QXZxsqUSRna&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://s2.loli.net/2022/04/14/Mfj8QXZxsqUSRna.png&#34; &gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;其他一些框架将网络整体转换为 INT8 格式，因此在推理期间没有格式转换，如图的下半部分。该方法要求算子（Operator）都支持量化，因为运算符之间的数据流是INT8。对于尚未支持的那些，它可能会回落到 Quantize/Dequantize 方案。下文的讨论都基于这种方式。&lt;/p&gt;
 &lt;p&gt;由于 INT8 使用的比特数只有 FP32 的 25% ，在 INT8 和 FP32 之间转换数值的方法非常重要，因为它会显着影响预测精度。&lt;/p&gt;
 &lt;h2 id=&#34;量化的算术&#34;&gt;量化的算术&lt;/h2&gt;
@@ -34,10 +34,10 @@
 &lt;h3 id=&#34;定点和浮点&#34;&gt;定点和浮点&lt;/h3&gt;
 &lt;p&gt;从事计算机科学的人很少了解算术运算的执行方式。由于量化桥接了固定点（fixed point）和浮点（floating point），在接触相关研究和解决方案之前，有必要先了解它们的基础知识。&lt;/p&gt;
 &lt;p&gt;定点和浮点都是数值的表示（representation），它们区别在于，将整数（integer）部分和小数（fractional）部分分开的点，点在哪里。 &lt;strong&gt;定点保留特定位数整数和小数，而浮点保留特定位数的有效数字（significand）和指数（exponent）&lt;/strong&gt;。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://preminstrel.github.io/blog/img/20210916160421.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://sm.ms/image/Xli9bQO3GjZmzwI&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://s2.loli.net/2022/04/14/Xli9bQO3GjZmzwI.png&#34; &gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;上图给出了定点和浮点表示的格式和示例。对于定点，II 表示整数，FF 表示 IIIII.FFFFF中的分数。对于浮点数，base分别为二进制、十进制和十六进制格式的 2、10 和 16 。定点和浮点的数值示例在图中是一一对应的。&lt;/p&gt;
 &lt;p&gt;在指令集（Instruction Set Architecture）的内置数据类型中，&lt;strong&gt;定点是整数，浮点是二进制格式&lt;/strong&gt;。一般来说，指令集层面的定点是连续的，因为它是整数，且两个邻近的可表示数字的间隙是 1 。另一方面，浮点代表实数，其数值间隙由指数确定，因而具有非常宽的值域（32 位数值最大整数是 $2^{31}−1$，而浮点值域为 $(2−2^{-23})×2^{127}$），值越接近零就越准确。一个观察结果是，在给定指数时，浮点在不同范围内拥有数值数量相同数量，如下图。例如，$[1,2)$中浮点值的数量与 $[0.5,1)、[2,4]、[4,8]$等相同。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://preminstrel.github.io/blog/img/20210916161741.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://sm.ms/image/8CBADo39zfO5FPR&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://s2.loli.net/2022/04/14/8CBADo39zfO5FPR.png&#34; &gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;浮点运算可以由整数运算组成，在计算机发展的早期，浮点计算都是用软件在定点硬件上模拟的。下面的等式展示了如何将浮点乘法用定点乘法和加法表示。加法的表示方法要复杂得多，这里不做进一步讨论，有需求的可以参考计算机体系结构相关资料。&lt;/p&gt;
 &lt;p&gt;$$\begin{aligned}
 z &amp;amp;=x \times y \\&lt;br&gt;
@@ -46,11 +46,10 @@ z_{\text {significand }} \times b a s e^{z_{\text {exponent }}} &amp;amp;=\left(
 &amp;amp;=\left(x_{\text {significand }} \times y_{\text {significand }}\right) \times \text { base }^{x_{exponent}+y_{exponent }}
 \end{aligned}$$&lt;/p&gt;
 &lt;p&gt;实际上，在上面有效数字的整数乘法之后，当乘法结果相对于表示范围太大时，通常需要&lt;strong&gt;重新缩放&lt;/strong&gt;，如下图。&lt;strong&gt;重新缩放移动将有效数字结果的一部分转移到指数&lt;/strong&gt;，并以最近舍入方法舍入剩余的有效数字。图的右半部分是一个例子。&lt;strong&gt;由于部分数字被舍弃，浮点乘法会丢失一些信息&lt;/strong&gt;。&lt;/p&gt;
-&lt;p&gt;![[Pasted image 20210916162555.png]]&lt;/p&gt;
 &lt;h3 id=&#34;量化浮点&#34;&gt;量化浮点&lt;/h3&gt;
 &lt;p&gt;神经网络由浮点运算构成。如&lt;a href=&#34;https://jackwish.net/2019/%EF%BC%83fixed-point-and-floating-point&#34;&gt;定点与浮点&lt;/a&gt;所述，FP32 和 INT8 的值域是$[(2−2^{-23})×2^{127},(2^{23}-2)×2^{127}]$ 和 $[−128,127]$，而取值数量大约分别为 $2^{32}$ 和 $2^8$ 。因此，&lt;strong&gt;将网络从 FP32 转换为 INT8 并不像数据类型转换截断那样简单&lt;/strong&gt;。&lt;/p&gt;
 &lt;p&gt;幸运的是，&lt;strong&gt;神经网络权重的值分布范围很窄，非常接近零&lt;/strong&gt;。下图给出了 MobileNetV1 中十层（拥有最多值的层）的权重分布。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://preminstrel.github.io/blog/img/20210916164452.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://sm.ms/image/ECAOkrn1HR7TBLa&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://s2.loli.net/2022/04/14/ECAOkrn1HR7TBLa.png&#34; &gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;当值落在 $(−1,1)$ 中，量化浮点使用类似$x_{float}=x_{scale}\times x_{quantized}$ 的方法将 FP32 映射到 INT8，其中 $x_{float}$ 表示 FP32 权重，$x_{quantized}$ 表示量化的 INT8 权重，$x_{scale}$ 是映射因子（缩放因子）。有时我们不希望将 FP32 零映射到 INT8 零，即&lt;a href=&#34;https://en.wikipedia.org/wiki/Digital_signal_processing&#34;&gt;数字信号处理&lt;/a&gt;中的&lt;a href=&#34;https://en.wikipedia.org/wiki/Quantization_(signal_processing)&#34;&gt;均一量化&lt;/a&gt;和如下等式 。&lt;/p&gt;
 &lt;p&gt;$$x_{float}=x_{scale}\times (x_{quantized}−x_{zero\_point})$$&lt;/p&gt;
 &lt;p&gt;大多数情况下量化选用无符号整数，那么 INT8 值域为 $[0,255]$ 。zero_point 在这种情况下更有意义。具体而言，如下面的 等式所示，量化浮点值可以分为两个步骤&lt;/p&gt;
@@ -66,7 +65,7 @@ x_{\text {quantized }} &amp;amp;=x_{\text {float }} \div x_{\text {scale }}+x_{\
 \end{aligned}$$&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;注意，当浮点运算结果不等于整数时，需要额外的舍入步骤&lt;/strong&gt;。例如将 FP32 值域 $[−1,1]$ 映射到 INT8 值域 $[0,255]$，有 $x_{scale}=\frac{2}{255}$，而$x_{zero_point}=255−\frac{255}{2}\approx 127$。&lt;/p&gt;
 &lt;p&gt;量化过程中存在误差是不可避免的，就像数字信号处理中量化一样。下图显示了数字信号处理的&lt;a href=&#34;https://en.wikipedia.org/wiki/Quantization_(signal_processing)#Quantization_error_models&#34;&gt;量化和误差&lt;/a&gt;。&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://preminstrel.github.io/blog/img/20210916170741.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://sm.ms/image/8CBADo39zfO5FPR&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://s2.loli.net/2022/04/14/8CBADo39zfO5FPR.png&#34; &gt;&lt;/a&gt;&lt;/p&gt;
 &lt;h2 id=&#34;implementation&#34;&gt;Implementation&lt;/h2&gt;
 &lt;h3 id=&#34;background&#34;&gt;Background&lt;/h3&gt;
 &lt;p&gt;量化并不是什么新知识，我们在对图像做预处理时就用到了量化。回想一下，我们通常会将一张 uint8 类型、数值范围在 0~255 的图片归一成 float32 类型、数值范围在 0.0~1.0 的张量，这个过程就是反量化。类似地，我们经常将网络输出的范围在 0.0~1.0 之间的张量调整成数值为 0~255、uint8 类型的图片数据，这个过程就是量化。所以量化本质上只是对数值范围的重新调整，可以「粗略」理解为是一种线性映射。(之所以加「粗略」二字，是因为有些论文会用非线性量化，但目前在工业界落地的还都是线性量化，所以本文只讨论线性量化的方案)。&lt;/p&gt;

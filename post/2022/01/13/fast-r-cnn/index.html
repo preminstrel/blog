@@ -135,13 +135,35 @@
   </div>
   
   
+  
+  <details>
+    <summary>
+      <b>Table of Contents</b>
+    </summary>
+    <div class="toc"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#pipeline">Pipeline</a>
+      <ul>
+        <li><a href="#rol-pooling">Rol Pooling</a></li>
+        <li><a href="#end-to-end-model">End-to-End Model</a></li>
+        <li><a href="#multi-task-loss">Multi-task Loss</a></li>
+      </ul>
+    </li>
+    <li><a href="#results">Results</a></li>
+    <li><a href="#drawbacks">Drawbacks</a></li>
+    <li><a href="#reference">Reference</a></li>
+  </ul>
+</nav></div>
+  </details>
+  
+  
   <article class="content">
     
     <p>SPP-net 的性能已经得到很大的改善，但是由于网络之间不统一训练，造成很大的麻烦，所以 <em><strong>Fast R-CNN</strong></em> 就是为了解决这样的问题。其改进的之处为：提出一个 <em><strong>Rol pooling</strong></em>，然后整合整个模型，把 CNN、Rol pooling、分类器、bbox 回归几个模块<strong class=chinese>整个一起训练</strong>。</p>
 <div align=center>
-<img src="/img/20220113223634.png" width="600px"/>
+<a href="https://sm.ms/image/AWih7QImN5c9zYC" target="_blank"><img src="https://s2.loli.net/2022/04/14/AWih7QImN5c9zYC.png" widt="600px"></a>
 </div>
-<h1 id="pipeline">Pipeline</h1>
+<h2 id="pipeline">Pipeline</h2>
 <ul>
 <li>
 <p>首先将整个图片输入到一个基础卷积网络，得到整张图的 feature map</p>
@@ -157,23 +179,23 @@
 </ul>
 </li>
 </ul>
-<h2 id="rol-pooling">Rol Pooling</h2>
+<h3 id="rol-pooling">Rol Pooling</h3>
 <p>首先 Rol pooling 只是一个简单版本的 SSP，目的是为了减少计算时间并得到固定长度的向量。Rol 池化层使用最大池化将任何有效的 Rol 区域内的特征转换为具有 $H\times W$ 的固定空间范围的小 feature map，其中 $H,W$ 是超参数，它们独立于任何特定的 Rol。</p>
 <ul>
 <li><em><strong>single scale</strong></em>：直接将 image 定为某种 scale，直接输入网络来训练即可。（Fast R-CNN）</li>
 <li><em><strong>multi scale</strong></em>：生成一个金字塔，即 SPP-net</li>
 </ul>
 <p>后者比前者更加准确，没有突出很多，但是第一种节省了很多的时间，所以 Fast R-CNN 要比 SPP-net 快很多。</p>
-<h2 id="end-to-end-model">End-to-End Model</h2>
+<h3 id="end-to-end-model">End-to-End Model</h3>
 <p>输出端可以直接进行完整的反向传播，整体优化目标函数。</p>
 <ul>
 <li>特征提取 CNN 和训练 SVM 分类器的训练在时间上是先后顺序，二者训练方式独立，因此 SVMs 的训练 Loss 无法更新之前的卷积层参数，于是去掉 SVM，便可以形成 End-to-End 模型。</li>
 <li>使用了 softmax</li>
 </ul>
 <div align=center>
-<img src="/img/20220114131936.png" width="600px"/>
+<a href="https://sm.ms/image/SOFVNrZXLalG7fm" target="_blank"><img src="https://s2.loli.net/2022/04/14/SOFVNrZXLalG7fm.png" width="600px"></a>
 </div>
-<h2 id="multi-task-loss">Multi-task Loss</h2>
+<h3 id="multi-task-loss">Multi-task Loss</h3>
 <p>两个 loss，分别是：</p>
 <ul>
 <li>对于分类 loss，是一个 N+1 路的 softmax 输出，其中 N 是类别个数，1 是背景，使用<strong class=chinese>交叉熵损失</strong></li>
@@ -184,7 +206,7 @@
 <li>调整 CNN + Rol pooling + softmax</li>
 <li>调整 bbox regressor 回归当中的参数</li>
 </ul>
-<h1 id="results">Results</h1>
+<h2 id="results">Results</h2>
 <table>
 <thead>
 <tr>
@@ -215,12 +237,12 @@
 </tr>
 </tbody>
 </table>
-<h1 id="drawbacks">Drawbacks</h1>
+<h2 id="drawbacks">Drawbacks</h2>
 <ul>
 <li>使用 Selective Search 提取 Region Proposals，没有实现真正意义山东个端对端，操作十分耗时间。</li>
 <li>一个更高效的方法来求出候选框—— <em><strong>Faster R-CNN</strong></em></li>
 </ul>
-<h1 id="reference">Reference</h1>
+<h2 id="reference">Reference</h2>
 <ul>
 <li><a href="https://arxiv.org/abs/1504.08083">Fast R-CNN</a></li>
 </ul>
@@ -250,14 +272,6 @@
   <div>
     <span>© 2021</span> - <span>2022</span>
   </div>
-
-  <div>
-    <span>Powered by </span>
-    <a class="link" href="https://gohugo.io/">Hugo</a>
-    <span> 🍦 Theme </span>
-    <a class="link" href="https://github.com/queensferryme/hugo-theme-texify">TeXify</a>
-  </div>
-
   <div class="footnote">
     <span>Follow me on <a class=link href=https://github.com/preminstrel>GitHub</a>,
 <a class=link href=https://twitter.com/preminstrel>Twitter</a> or

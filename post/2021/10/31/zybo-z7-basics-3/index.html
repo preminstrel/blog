@@ -133,23 +133,41 @@
   </div>
   
   
+  
+  <details>
+    <summary>
+      <b>Table of Contents</b>
+    </summary>
+    <div class="toc"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#硬件连接与上电验证">硬件连接与上电验证</a></li>
+    <li><a href="#添加开发板信息">添加开发板信息</a></li>
+    <li><a href="#design-sources">Design Sources</a></li>
+    <li><a href="#约束文件">约束文件</a></li>
+    <li><a href="#开发板下载">开发板下载</a></li>
+    <li><a href="#reference">Reference</a></li>
+  </ul>
+</nav></div>
+  </details>
+  
+  
   <article class="content">
     
-    <h1 id="硬件连接与上电验证">硬件连接与上电验证</h1>
+    <h2 id="硬件连接与上电验证">硬件连接与上电验证</h2>
 <p>PC 与 ZYBO 之间通过 micro USB 线连接，ZYBO 端连接到 PROG-UART 接口上。</p>
 <p>打开电源开关，确认电源供电正常。如果是第一次将 ZYBO 与 PC 相连，那么 PC 端会自动识别该 USB 设备并安装相应驱动。
 ZYBO 的板载 PROG-UART 接口集供电、编程与 UART 功能为一体，PC 端识别该设备时会有 2 部分：一部分是对应 UART 功能的 COM 端口；另一部分是对应 USB 编程功能。</p>
 <p>进入 PC 的设备管理器，如下图，<code>COM7</code> 对应 UART 功能；<code>USB Serial Converter A/B</code> 对应 USB 编程功能。</p>
 <div align=center>
-<img src="/img/20211031141550.png" width="400px" />
+<a href="https://sm.ms/image/ASaVdOp4RionjgJ" target="_blank"><img src="https://s2.loli.net/2022/04/14/ASaVdOp4RionjgJ.png" width="400px"></a>
 </div>
-<h1 id="添加开发板信息">添加开发板信息</h1>
+<h2 id="添加开发板信息">添加开发板信息</h2>
 <p>下面我们直接开始利用 Vivado 开发环境进行 PL 端的设计。</p>
 <p>创建中，有一步是根据自己的开发板选择器件型号，可以通过 Parts 直接通过型号进行搜索，例如 Zybo Z7-20 开发板上的芯片型号为 <code>xc7z020clg400-1</code>。也可以通过 Boards 找到开发板名字进行添加，这种方法需要先在 Vivado 中添加 Zybo Z7 开发板信息。这里推荐一个 GitHub 上的 <a href="https://github.com/Digilent/vivado-boards">Repo</a>，可以通过复制仓库的文件到 Vivado 相应的文件夹中实现开发板信息的添加。</p>
 <div align=center>
-<img src="/img/20211101222815.png" width="700px" />
+<a href="https://sm.ms/image/IXN6pelByVkC1oi" target="_blank"><img src="https://s2.loli.net/2022/04/14/IXN6pelByVkC1oi.png" width="700px"></a>
 </div>
-<h1 id="design-sources">Design Sources</h1>
+<h2 id="design-sources">Design Sources</h2>
 <p>这一部分是对功能的 Verilog 代码实现，将下面的代码添加到工程的 <code>Design Sources</code> 中。</p>
 <p><strong class=chinese>实现功能</strong>：四个开关 <code>SW0-SW3</code> 分别控制四个 LED <code>LD0-LD3</code> 的亮灭。</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-verilog" data-lang="verilog"><span style="color:#800">`timescale</span> <span style="color:#666">1</span>ns <span style="color:#666">/</span> <span style="color:#666">1</span>ps
@@ -238,7 +256,7 @@ ZYBO 的板载 PROG-UART 接口集供电、编程与 UART 功能为一体，PC �
     <span style="color:#a2f;font-weight:bold">end</span>
 
 <span style="color:#a2f;font-weight:bold">endmodule</span>
-</code></pre></div><h1 id="约束文件">约束文件</h1>
+</code></pre></div><h2 id="约束文件">约束文件</h2>
 <p>我们用 Vivado 生成 Bitstream 的时候，会用到相对应芯片的 <code>.xdc</code> 文件。我在 GitHub 上面找到相应的 <a href="https://github.com/Digilent/digilent-xdc/blob/master/Zybo-Z7-Master.xdc">GitHub Digilent-Zybo Z7 .xdc</a> 文件，只要在工程的 <code>Constraints</code> 处新建一个约束文件，然后将里面的文本复制进去即可。</p>
 <p>我们需要对给定的 <code>.xdc</code> 文件进行注释的修改，标准如下：</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">## This file is a general .xdc for the Zybo Z7 Rev. B
@@ -246,13 +264,13 @@ ZYBO 的板载 PROG-UART 接口集供电、编程与 UART 功能为一体，PC �
 ## To use it in a project:
 ## - uncomment the lines corresponding to used pins
 ## - rename the used ports (in each line, after get_ports) according to the top level signal names in the project
-</code></pre></div><h1 id="开发板下载">开发板下载</h1>
+</code></pre></div><h2 id="开发板下载">开发板下载</h2>
 <ul>
 <li>生成 Bitstream</li>
 <li>打开 <code>Flow -&gt; Hardware Manager</code>，连接后进行自动下载</li>
 <li>观察现象，符合预期</li>
 </ul>
-<h1 id="reference">Reference</h1>
+<h2 id="reference">Reference</h2>
 <ul>
 <li><a href="https://blog.csdn.net/a646123070/article/details/83793947">CSDN</a></li>
 <li><a href="https://github.com/Digilent/digilent-xdc/blob/master/Zybo-Z7-Master.xdc">GitHub Digilent-Zybo Z7 .xdc</a></li>
@@ -284,14 +302,6 @@ ZYBO 的板载 PROG-UART 接口集供电、编程与 UART 功能为一体，PC �
   <div>
     <span>© 2021</span> - <span>2022</span>
   </div>
-
-  <div>
-    <span>Powered by </span>
-    <a class="link" href="https://gohugo.io/">Hugo</a>
-    <span> 🍦 Theme </span>
-    <a class="link" href="https://github.com/queensferryme/hugo-theme-texify">TeXify</a>
-  </div>
-
   <div class="footnote">
     <span>Follow me on <a class=link href=https://github.com/preminstrel>GitHub</a>,
 <a class=link href=https://twitter.com/preminstrel>Twitter</a> or

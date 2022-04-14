@@ -12,7 +12,7 @@
 
   
   
-  <meta name="description" content="an example site for hugo theme TeXify">
+  <meta name="description" content="Blog de Preminstrel">
   
 
   
@@ -52,7 +52,7 @@
 
   
   <meta property="og:title" content="Blog de Preminstrel" />
-<meta property="og:description" content="an example site for hugo theme TeXify" />
+<meta property="og:description" content="Blog de Preminstrel" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://preminstrel.github.io/blog/" />
 <meta property="og:updated_time" content="2021-10-16T10:40:02+08:00" />
@@ -66,7 +66,7 @@
   <link rel="alternate" type="application/rss+xml" href="https://preminstrel.github.io/blog/index.xml" title="Blog de Preminstrel" />
   
   <meta itemprop="name" content="Blog de Preminstrel">
-<meta itemprop="description" content="an example site for hugo theme TeXify">
+<meta itemprop="description" content="Blog de Preminstrel">
 
   
   <link media="screen" rel="stylesheet" href='https://preminstrel.github.io/blog/css/common.css'>
@@ -80,7 +80,7 @@
   
   <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Blog de Preminstrel"/>
-<meta name="twitter:description" content="an example site for hugo theme TeXify"/>
+<meta name="twitter:description" content="Blog de Preminstrel"/>
 
 
   
@@ -184,8 +184,8 @@
   
   <div class="post">
     <h2>
-      <a href="https://preminstrel.github.io/blog/post/2022/01/17/mmdetection-head/">MMDetection Head</a>
-      <time>2022-01-17</time>
+      <a href="https://preminstrel.github.io/blog/post/2022/01/14/faster-r-cnn/">Faster R-CNN</a>
+      <time>2022-01-14</time>
     </h2>
     
     <div>
@@ -195,21 +195,21 @@
       
       <a class="link" href='https://preminstrel.github.io/blog/tags/deep-learning'>#Deep Learning</a>
       
-      <a class="link" href='https://preminstrel.github.io/blog/tags/mmdetection'>#MMDetection</a>
+      <a class="link" href='https://preminstrel.github.io/blog/tags/r-cnn'>#R-CNN</a>
       
     </div>
     
     <div class="content">
       
-      目前 MMDetection 中 Head 模块主要是按照 stage 来划分，主要包括两个 package: dense_heads 和 roi_heads ，分别对应 two-stage 算法中的第一和第二个 stage 模块，如果是 one-stage 算法则仅仅有 dense_heads 而已。 dense_heads dense_heads 部分主要是按照
+      Faster R-CNN 可以简单看成是区域生成网络 + Fast R-CNN 的模型，用区域生成网络(Region Proposal Network, RPN)来替代 Fast R-CNN 中的选择性搜索方法，结构如下： Pipeline 首先向 CNN 网络(
       
     </div>
   </div>
   
   <div class="post">
     <h2>
-      <a href="https://preminstrel.github.io/blog/post/2022/01/16/mmdetection-framework/">MMDetection Framework</a>
-      <time>2022-01-16</time>
+      <a href="https://preminstrel.github.io/blog/post/2022/01/13/fast-r-cnn/">Fast R-CNN</a>
+      <time>2022-01-13</time>
     </h2>
     
     <div>
@@ -219,13 +219,13 @@
       
       <a class="link" href='https://preminstrel.github.io/blog/tags/deep-learning'>#Deep Learning</a>
       
-      <a class="link" href='https://preminstrel.github.io/blog/tags/mmdetection'>#MMDetection</a>
+      <a class="link" href='https://preminstrel.github.io/blog/tags/r-cnn'>#R-CNN</a>
       
     </div>
     
     <div class="content">
       
-      本文核心内容是按照抽象到具体方式，从多个层次进行训练和测试流程深入解析，从最抽象层开始，到最后核心代码实现，进一步理解 MMDetection 开源框架整体构建细节
+      SPP-net 的性能已经得到很大的改善，但是由于网络之间不统一训练，造成很大的麻烦，所以 Fast R-CNN 就是为了解决这样的问题。其改进的之处为：提出一个 Rol pooli
       
     </div>
   </div>
@@ -246,14 +246,6 @@
   <div>
     <span>© 2021</span> - <span>2022</span>
   </div>
-
-  <div>
-    <span>Powered by </span>
-    <a class="link" href="https://gohugo.io/">Hugo</a>
-    <span> 🍦 Theme </span>
-    <a class="link" href="https://github.com/queensferryme/hugo-theme-texify">TeXify</a>
-  </div>
-
   <div class="footnote">
     <span>Follow me on <a class=link href=https://github.com/preminstrel>GitHub</a>,
 <a class=link href=https://twitter.com/preminstrel>Twitter</a> or

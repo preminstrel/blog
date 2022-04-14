@@ -135,13 +135,32 @@
   </div>
   
   
+  
+  <details>
+    <summary>
+      <b>Table of Contents</b>
+    </summary>
+    <div class="toc"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#pipeline">Pipeline</a>
+      <ul>
+        <li><a href="#features">Features</a></li>
+      </ul>
+    </li>
+    <li><a href="#results">Results</a></li>
+    <li><a href="#drawbacks">Drawbacks</a></li>
+  </ul>
+</nav></div>
+  </details>
+  
+  
   <article class="content">
     
     <p><em><strong>R-CNN(Regions with CNN features)</strong></em>，是 R-CNN 系列的第一代算法，其实没有过多的使用“深度学习”思想，而是将 DL 和传统的 CV 的知识相结合。比如 R-CNN pipeline 中的第二步和第四步其实就属于传统的 CV 技术。使用 selective search 提取 region proposals，使用 SVM 实现分类。</p>
 <div align=center>
-<img src="/img/20220113124041.png" width="600px"/>
+<a href="https://sm.ms/image/UrKWeidxpXHAPZV" target="_blank"><img src="https://s2.loli.net/2022/04/14/UrKWeidxpXHAPZV.png" width="600px"></a>
 </div>
-<h1 id="pipeline">Pipeline</h1>
+<h2 id="pipeline">Pipeline</h2>
 <p>CNN 具有良好的特征提取和分类性能，采用 RegionProposal  方法实现目标检测问题。算法可以分为三步：</p>
 <div class="mermaid">
 graph LR
@@ -154,7 +173,7 @@ graph LR
 <li>分别对 $2000\times 20$ 维矩阵中进行<strong>非极大值抑制(NMS)剔除重叠建议框</strong>，得到与目标物体最高的一些建议框</li>
 <li>修正 bbox，对 bbox 做<strong class=chinese>回归</strong>微调</li>
 </ol>
-<h2 id="features">Features</h2>
+<h3 id="features">Features</h3>
 <ul>
 <li>选择一个 pre-trained 神经网络(AlexNet、VGG)</li>
 <li>使用需要检测的目标重新训练(re-train)最后全连接层(connected layer)</li>
@@ -162,13 +181,13 @@ graph LR
 <li>利用 feature map 训练 SVM 来对目标和背景进行分类(每个类一个二进制 SVM)</li>
 <li>边界框回归(Bounding boxes Regression)：训练将输出一些校正因子的线性回归分类器</li>
 </ul>
-<h1 id="results">Results</h1>
+<h2 id="results">Results</h2>
 <ul>
 <li>在 Pascal VOC 2012 的数据集上，能够将目标检测的验证指标 mAP 提升到 53.3%,这相对于之前最好的结果提升了整整 30%.</li>
 <li>这篇论文证明了可以讲神经网络应用在自底向上的候选区域，这样就可以进行目标分类和目标定位。</li>
 <li>这篇论文也带来了一个观点，那就是当你缺乏大量的标注数据时，比较好的可行的手段是，进行神经网络的迁移学习，采用在其他大型数据集训练过后的神经网络，然后在小规模特定的数据集中进行 fine-tune 微调。</li>
 </ul>
-<h1 id="drawbacks">Drawbacks</h1>
+<h2 id="drawbacks">Drawbacks</h2>
 <ul>
 <li>重复计算，每个 region proposal，都需要经过一个 AlexNet 特征提取，为所有的 RoI(region of interest) 提取特征大约花费 47 秒，占用空间</li>
 <li>selective search 方法生成 region proposal，对一帧图像，需要花费 2 秒</li>
@@ -204,14 +223,6 @@ graph LR
   <div>
     <span>© 2021</span> - <span>2022</span>
   </div>
-
-  <div>
-    <span>Powered by </span>
-    <a class="link" href="https://gohugo.io/">Hugo</a>
-    <span> 🍦 Theme </span>
-    <a class="link" href="https://github.com/queensferryme/hugo-theme-texify">TeXify</a>
-  </div>
-
   <div class="footnote">
     <span>Follow me on <a class=link href=https://github.com/preminstrel>GitHub</a>,
 <a class=link href=https://twitter.com/preminstrel>Twitter</a> or

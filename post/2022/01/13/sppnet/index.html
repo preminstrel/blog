@@ -135,13 +135,29 @@
   </div>
   
   
+  
+  <details>
+    <summary>
+      <b>Table of Contents</b>
+    </summary>
+    <div class="toc"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#r-cnn-vs-spp-net">R-CNN v.s. SPP-net</a></li>
+    <li><a href="#advantages">Advantages</a></li>
+    <li><a href="#drawbacks">Drawbacks</a></li>
+    <li><a href="#reference">Reference</a></li>
+  </ul>
+</nav></div>
+  </details>
+  
+  
   <article class="content">
     
     <p>SPP-net 的强大功能在目标检测中也很重要。使用 <em><strong>SPP-net(Spatial Pyramid Pooling-net)</strong></em>，我们只计算整个图像的特征图一次，然后将任意区域(子图像)中的特征池化以生成用于训练检测器的固定长度表示。这种方法<strong class=chinese>避免了重复计算卷积特征</strong>。在处理测试图像时，此方法比 R-CNN 方法快，同时在 Pascal VOC 2007 上实现了更好或相当的准确度。</p>
 <div align=center>
-<img src="/img/20220113221324.png" width="600px"/>
+<a href="https://sm.ms/image/NfZ6v2S1tTEgmC5" target="_blank"><img src="https://s2.loli.net/2022/04/14/NfZ6v2S1tTEgmC5.png" ></a>
 </div>
-<h1 id="r-cnn-vs-spp-net">R-CNN v.s. SPP-net</h1>
+<h2 id="r-cnn-vs-spp-net">R-CNN v.s. SPP-net</h2>
 <ul>
 <li>
 <p><em><strong>R-CNN</strong></em></p>
@@ -170,18 +186,18 @@
 </li>
 </ul>
 <div align=center>
-<img src="/img/20220113222248.png" width="600px"/>
+<a href="https://sm.ms/image/Ngk5SU1qdteRwbT" target="_blank"><img src="https://s2.loli.net/2022/04/14/Ngk5SU1qdteRwbT.png" width="600px"></a>
 </div>
-<h1 id="advantages">Advantages</h1>
+<h2 id="advantages">Advantages</h2>
 <ul>
 <li>SPP-net 在 R-CNN 的基础上提出了改进，通过候选区域和 feature map 的映射，配合 SPP 层的使用，从而达到了CNN 层的共享计算，减少了运算时间，后面的 <em><strong>Fast R-CNN</strong></em> 等也是受 SPPNet 的启发</li>
 </ul>
-<h1 id="drawbacks">Drawbacks</h1>
+<h2 id="drawbacks">Drawbacks</h2>
 <ul>
 <li>训练依然过慢、效率低，特征需要写入磁盘(因为 SVM 的存在)</li>
 <li>分阶段训练网络︰选取候选区域、训练 CNN、训练 SVM、训练 bbox 回归器，SPP-net 反向传播效率低</li>
 </ul>
-<h1 id="reference">Reference</h1>
+<h2 id="reference">Reference</h2>
 <ul>
 <li><a href="https://arxiv.org/abs/1406.4729">Spatial Pyramid Pooling in Deep Convolutional Networks for Visual Recognition</a></li>
 </ul>
@@ -211,14 +227,6 @@
   <div>
     <span>© 2021</span> - <span>2022</span>
   </div>
-
-  <div>
-    <span>Powered by </span>
-    <a class="link" href="https://gohugo.io/">Hugo</a>
-    <span> 🍦 Theme </span>
-    <a class="link" href="https://github.com/queensferryme/hugo-theme-texify">TeXify</a>
-  </div>
-
   <div class="footnote">
     <span>Follow me on <a class=link href=https://github.com/preminstrel>GitHub</a>,
 <a class=link href=https://twitter.com/preminstrel>Twitter</a> or

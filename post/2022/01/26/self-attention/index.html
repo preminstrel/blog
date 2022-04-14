@@ -133,6 +133,22 @@
   </div>
   
   
+  
+  <details>
+    <summary>
+      <b>Table of Contents</b>
+    </summary>
+    <div class="toc"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#terminology">Terminology</a></li>
+    <li><a href="#theory">Theory</a></li>
+    <li><a href="#code">Code</a></li>
+    <li><a href="#reference">Reference</a></li>
+  </ul>
+</nav></div>
+  </details>
+  
+  
   <article class="content">
     
     <blockquote>
@@ -140,7 +156,7 @@
 </blockquote>
 <p>最近刚接触到 Transformer，感觉其模型比 CNNs 要复杂了不少，看了一些论文也仅仅是草草看过，不理解其原理，在网上读了一些 blog，本次来进行一次总结。首先便是 Self-Attention 的公式</p>
 <p>$$\text{Attention}(Q,K,V)=\text{softmax}(\frac{QK^T}{\sqrt{D_k}})V$$</p>
-<h1 id="terminology">Terminology</h1>
+<h2 id="terminology">Terminology</h2>
 <p>公式种出现的 $Q,K,V$ 分别是 Query、Key、Value的缩写，我们的表达式如下：</p>
 <p>$$X W^Q=Q$$
 $$XW^K=K$$
@@ -148,12 +164,12 @@ $$XW^V=V$$</p>
 <p>文章中所谓的 $Q,K,V$ 矩阵来源于 $X$ 与矩阵的乘积，本质上是 $X$ 的一系列的线性变换。做线性变换是为了提升模型的拟合能力，矩阵 $W$ 都是可以训练的，起到一个缓冲的效果。</p>
 <p>我们假设 $Q,K$ 种元素的均值为 0，方差为 1，$A^T=Q^TK$ 的均值为 0，方程为 $D$。当 $D$ 变得很大时，$A$ 中的元素的方差也会变得很大，如果 $A$ 中的元素方差很大，那么 $A$ 的分布会趋于陡峭(分布的方差大，分布集中在绝对值大的区域)。我们可以将分布“陡峭”程度与 $D$ 解耦，从而使得训练过程中梯度值保持稳定。</p>
 <p>$$A\leftarrow \dfrac{A}{\sqrt{D_k}}$$</p>
-<h1 id="theory">Theory</h1>
+<h2 id="theory">Theory</h2>
 <p>公式中的 $QK^T$ 表示的是 $Q,K$ 的内积，也可以说是一方在另一方的<strong class=chinese>投影</strong>，其大小也可以表示其<strong class=chinese>相关性</strong>。Softmax 是为了将一系列的值<strong class=chinese>归一化</strong>而存在的。</p>
 <p>$$\text{softmax}(z_k)=\frac{e^{z_k}}{\sum_{i=1}^Ie^{z_i}}$$</p>
 <p>而随后与 $V$ 的乘积，代表的是<strong class=chinese>向量经过注意力机制加权求和之后的结果</strong>。也就是说，softmax 管的是一个相关度权值大小，与后面的 $V$ 相乘，得到的是通过相关度权值标准而重新计算得到的量。</p>
 <p>对 Self-Attention 来说，它跟每一个输入的向量都做 Attention，所以没有考虑到输入的顺序。更通俗来讲，大家可以发现我们前文的计算每一个词向量都与其他词向量计算内积，得到的结果丢失了我们原来文本的顺序信息。对比来说，LSTM 是对于文本顺序信息的解释是输出词向量的先后顺序，而我们上文的计算对 sequence 的顺序这一部分则完全没有提及，你打乱词向量的顺序，得到的结果仍然是相同的，此处便可以引出 Transformer 的位置编码部分。<strong>Query 与 Key 作用得到 Attention 的权值，之后这个权值作用在 Value 上得到 Attention值。</strong></p>
-<h1 id="code">Code</h1>
+<h2 id="code">Code</h2>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#080;font-style:italic"># Attention 机制的实现</span>
 <span style="color:#a2f;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">math</span> <span style="color:#a2f;font-weight:bold">import</span> sqrt
 <span style="color:#a2f;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">torch</span>
@@ -183,7 +199,7 @@ $$XW^V=V$$</p>
         output <span style="color:#666">=</span> torch<span style="color:#666">.</span>bmm(atten,V) <span style="color:#080;font-style:italic"># Q * K.T() * V # batch_size * seq_len * dim_v</span>
         
         <span style="color:#a2f;font-weight:bold">return</span> output
-</code></pre></div><h1 id="reference">Reference</h1>
+</code></pre></div><h2 id="reference">Reference</h2>
 <ul>
 <li><a href="https://zhuanlan.zhihu.com/p/410776234">超详细图解Self-Attention</a></li>
 </ul>
@@ -192,7 +208,7 @@ $$XW^V=V$$</p>
   </article>
   <div class="paginator">
     
-    <a class="link" href="https://preminstrel.github.io/blog/post/2022/01/17/mmdetection-head/">← prev</a>
+    <a class="link" href="https://preminstrel.github.io/blog/post/2022/01/14/faster-r-cnn/">← prev</a>
     
     
     <a class="link" href="https://preminstrel.github.io/blog/post/2022/01/26/transformer/">next →</a>
@@ -213,14 +229,6 @@ $$XW^V=V$$</p>
   <div>
     <span>© 2021</span> - <span>2022</span>
   </div>
-
-  <div>
-    <span>Powered by </span>
-    <a class="link" href="https://gohugo.io/">Hugo</a>
-    <span> 🍦 Theme </span>
-    <a class="link" href="https://github.com/queensferryme/hugo-theme-texify">TeXify</a>
-  </div>
-
   <div class="footnote">
     <span>Follow me on <a class=link href=https://github.com/preminstrel>GitHub</a>,
 <a class=link href=https://twitter.com/preminstrel>Twitter</a> or

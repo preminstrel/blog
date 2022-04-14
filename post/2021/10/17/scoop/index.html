@@ -133,12 +133,25 @@
   </div>
   
   
+  
+  <details>
+    <summary>
+      <b>Table of Contents</b>
+    </summary>
+    <div class="toc"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#下载速度">下载速度</a></li>
+  </ul>
+</nav></div>
+  </details>
+  
+  
   <article class="content">
     
     <p>在windows环境下，显然无法像Linux环境一样一开始就有现成的包管理，于是我看到了Scoop，Scoop可以用PowerShell安装。</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">set-executionpolicy remotesigned -scope currentuser
 iex <span style="color:#666">(</span>new-object net.webclient<span style="color:#666">)</span>.downloadstring<span style="color:#666">(</span><span style="color:#b44">&#39;https://get.scoop.sh&#39;</span><span style="color:#666">)</span>
-</code></pre></div><h3 id="下载速度">下载速度</h3>
+</code></pre></div><h2 id="下载速度">下载速度</h2>
 <p>由于我有代理，所以可以直接配置代理。</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#080;font-style:italic"># Use proxy (Mention:1080/1081)</span>
 scoop config proxy 127.0.0.1:1081
@@ -171,14 +184,6 @@ scoop config rm proxy
   <div>
     <span>© 2021</span> - <span>2022</span>
   </div>
-
-  <div>
-    <span>Powered by </span>
-    <a class="link" href="https://gohugo.io/">Hugo</a>
-    <span> 🍦 Theme </span>
-    <a class="link" href="https://github.com/queensferryme/hugo-theme-texify">TeXify</a>
-  </div>
-
   <div class="footnote">
     <span>Follow me on <a class=link href=https://github.com/preminstrel>GitHub</a>,
 <a class=link href=https://twitter.com/preminstrel>Twitter</a> or

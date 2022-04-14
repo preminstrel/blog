@@ -11,7 +11,7 @@
 
   
   
-  <meta name="description" content="Faster R-CNN 可以简单看成是区域生成网络 &#43; Fast R-CNN 的模型，用区域生成网络(Region Proposal Network, RPN)来替代 Fast R-CNN 中的选择性搜索方法，结构如下： # Pipeline 首先向 CNN 网络">
+  <meta name="description" content="Faster R-CNN 可以简单看成是区域生成网络 &#43; Fast R-CNN 的模型，用区域生成网络(Region Proposal Network, RPN)来替代 Fast R-CNN 中的选择性搜索方法，结构如下： Pipeline 首先向 CNN 网络(">
   
 
   
@@ -51,7 +51,7 @@
 
   
   <meta property="og:title" content="Faster R-CNN" />
-<meta property="og:description" content="Faster R-CNN 可以简单看成是区域生成网络 &#43; Fast R-CNN 的模型，用区域生成网络(Region Proposal Network, RPN)来替代 Fast R-CNN 中的选择性搜索方法，结构如下： # Pipeline 首先向 CNN 网络" />
+<meta property="og:description" content="Faster R-CNN 可以简单看成是区域生成网络 &#43; Fast R-CNN 的模型，用区域生成网络(Region Proposal Network, RPN)来替代 Fast R-CNN 中的选择性搜索方法，结构如下： Pipeline 首先向 CNN 网络(" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://preminstrel.github.io/blog/post/2022/01/14/faster-r-cnn/" />
 <meta property="article:published_time" content="2022-01-14T13:32:15+08:00" />
@@ -64,10 +64,10 @@
   
   
   <meta itemprop="name" content="Faster R-CNN">
-<meta itemprop="description" content="Faster R-CNN 可以简单看成是区域生成网络 &#43; Fast R-CNN 的模型，用区域生成网络(Region Proposal Network, RPN)来替代 Fast R-CNN 中的选择性搜索方法，结构如下： # Pipeline 首先向 CNN 网络">
+<meta itemprop="description" content="Faster R-CNN 可以简单看成是区域生成网络 &#43; Fast R-CNN 的模型，用区域生成网络(Region Proposal Network, RPN)来替代 Fast R-CNN 中的选择性搜索方法，结构如下： Pipeline 首先向 CNN 网络(">
 <meta itemprop="datePublished" content="2022-01-14T13:32:15&#43;08:00" />
 <meta itemprop="dateModified" content="2022-01-14T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="799">
+<meta itemprop="wordCount" content="798">
 
 
 
@@ -85,7 +85,7 @@
   
   <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Faster R-CNN"/>
-<meta name="twitter:description" content="Faster R-CNN 可以简单看成是区域生成网络 &#43; Fast R-CNN 的模型，用区域生成网络(Region Proposal Network, RPN)来替代 Fast R-CNN 中的选择性搜索方法，结构如下： # Pipeline 首先向 CNN 网络"/>
+<meta name="twitter:description" content="Faster R-CNN 可以简单看成是区域生成网络 &#43; Fast R-CNN 的模型，用区域生成网络(Region Proposal Network, RPN)来替代 Fast R-CNN 中的选择性搜索方法，结构如下： Pipeline 首先向 CNN 网络("/>
 
 
   
@@ -135,13 +135,35 @@
   </div>
   
   
+  
+  <details>
+    <summary>
+      <b>Table of Contents</b>
+    </summary>
+    <div class="toc"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#pipeline">Pipeline</a>
+      <ul>
+        <li><a href="#rpn">RPN</a></li>
+        <li><a href="#anchors">Anchors</a></li>
+      </ul>
+    </li>
+    <li><a href="#training">Training</a></li>
+    <li><a href="#results">Results</a></li>
+    <li><a href="#evaluation">Evaluation</a></li>
+    <li><a href="#reference">Reference</a></li>
+  </ul>
+</nav></div>
+  </details>
+  
+  
   <article class="content">
     
     <p>Faster R-CNN 可以简单看成是<strong class=chinese>区域生成网络</strong> + Fast R-CNN 的模型，用区域生成网络(<em><strong>Region Proposal Network, RPN</strong></em>)来替代 Fast R-CNN 中的选择性搜索方法，结构如下：</p>
 <div align=center>
-<img src="/img/20220114133150.png" width="400px"/>
+<a href="https://sm.ms/image/iEOGhpnroZqN19w" target="_blank"><img src="https://s2.loli.net/2022/04/14/iEOGhpnroZqN19w.png" width="400px"></a>
 </div>
-# Pipeline
+<h2 id="pipeline">Pipeline</h2>
 <ul>
 <li>
 <p>首先向 CNN 网络(VGG-16)输入图片，Faster R-CNN 使用一组基础的 conv + relu + pooling 层提取 feature map。<strong>该 feature map 被共享用于后续 RPN 层和 fc 层。</strong></p>
@@ -151,28 +173,28 @@
 <ul>
 <li><strong>通过 softmax 判断 anchors 属于 foreground 或者 background</strong></li>
 <li><strong>再利用 bounding box regression 修正 anchors 获得精确的 proposals，输出其 Top-N(默认 300)的区域给 Rol pooling</strong></li>
-<li><strong>生成 anchors -&gt; softmax 分类器提取 fg anchors -&gt; bbox reg 回归 fg anchors -&gt; Proposal Layer 生成proposals</strong></li>
+<li><strong>生成 anchors $\rightarrow$ softmax 分类器提取 fg anchors $\rightarrow$ bbox reg 回归 fg anchors $\rightarrow$ Proposal Layer 生成proposals</strong></li>
 </ul>
 </li>
 <li>
 <p>后续就是 Fast R-CNN 操作</p>
 </li>
 </ul>
-<h1 id="rpn">RPN</h1>
+<h3 id="rpn">RPN</h3>
 <p>RPN 网络的主要作用是得到比较准确的候选区域，整个过程分为两步</p>
 <ul>
 <li>用 $n\times n$ (默认 $3\times 3$) 的大小窗口去扫描特征图，每个滑窗位置映射倒一个低维的向量(默认 256 维)，并为每个滑窗位置考虑 $k$ 种(在论文设计中 $k=9$)<strong>可能的参考窗口(论文中称为 anchors)</strong></li>
 </ul>
 <div align=center>
-<img src="/img/20220114140503.png" width="600px"/>
+<a href="https://sm.ms/image/6ropzGCEjRAw1Fc" target="_blank"><img src="https://s2.loli.net/2022/04/14/6ropzGCEjRAw1Fc.png" width="600px"></a>
 </div>
-<h2 id="anchors">Anchors</h2>
+<h3 id="anchors">Anchors</h3>
 <p>$3\times 3$ 卷积核的中心点对应原图上的位置，将该点作为 anchor 的中心点，在原图中框出多尺度、多种长宽比的 anchors，三种尺度 $\{128,256,512\}$，三种长宽比 $\{1:1,1:2,2:1\}$，每个特征图中的像素点有 9 个框。</p>
 <ul>
 <li>窗口输出 $[N，256]\rightarrow$ 分类：判断是否是背景</li>
 <li>回归位置：N 个候选框与自己对应目标值 GT 做回归，修正位置。得到更好的候选区域提供给 ROl pooling 使用</li>
 </ul>
-<h1 id="training">Training</h1>
+<h2 id="training">Training</h2>
 <p>Faster R-CNN 的训练分为两部分，即两个网络的训练。</p>
 <ul>
 <li><strong>RPN 训练</strong>
@@ -189,9 +211,9 @@
 </ul>
 <p>样本准备：正负 anchors 样本比例为 $1:3$</p>
 <div align=center>
-<img src="/img/20220114143457.png" width="600px"/>
+<a href="https://sm.ms/image/VJW9yaSCjHXeu1E" target="_blank"><img src="https://s2.loli.net/2022/04/14/VJW9yaSCjHXeu1E.png" width="600px"></a>
 </div>
-<h1 id="results">Results</h1>
+<h2 id="results">Results</h2>
 <table>
 <thead>
 <tr>
@@ -216,7 +238,7 @@
 </tr>
 </tbody>
 </table>
-<h1 id="evaluation">Evaluation</h1>
+<h2 id="evaluation">Evaluation</h2>
 <ul>
 <li><em><strong>Pros:</strong></em>
 <ul>
@@ -235,7 +257,7 @@
 <li>RPN(Region Proposal Networks) 改进对于小目标选择利用多尺度特征信息进行 RPN</li>
 <li>速度提升，如 YOLO 系列算法，删去RPN，直接对 proposal 进行分类回归，极大的提升了网络的速度</li>
 </ul>
-<h1 id="reference">Reference</h1>
+<h2 id="reference">Reference</h2>
 <ul>
 <li><a href="https://arxiv.org/abs/1506.01497">Faster R-CNN: Towards Real-Time Object Detection with Region Proposal Networks</a></li>
 </ul>
@@ -247,7 +269,7 @@
     <a class="link" href="https://preminstrel.github.io/blog/post/2022/01/13/fast-r-cnn/">← prev</a>
     
     
-    <a class="link" href="https://preminstrel.github.io/blog/post/2022/01/15/mmdetection-overview/">next →</a>
+    <a class="link" href="https://preminstrel.github.io/blog/post/2022/01/26/self-attention/">next →</a>
     
   </div>
   <div class="comment">
@@ -265,14 +287,6 @@
   <div>
     <span>© 2021</span> - <span>2022</span>
   </div>
-
-  <div>
-    <span>Powered by </span>
-    <a class="link" href="https://gohugo.io/">Hugo</a>
-    <span> 🍦 Theme </span>
-    <a class="link" href="https://github.com/queensferryme/hugo-theme-texify">TeXify</a>
-  </div>
-
   <div class="footnote">
     <span>Follow me on <a class=link href=https://github.com/preminstrel>GitHub</a>,
 <a class=link href=https://twitter.com/preminstrel>Twitter</a> or

@@ -38,32 +38,12 @@
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/blog/tags/mmdetection/</loc>
-    <lastmod>2022-01-17T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://preminstrel.github.io/blog/post/2022/01/17/mmdetection-head/</loc>
-    <lastmod>2022-01-17T00:00:00+00:00</lastmod>
+    <loc>https://preminstrel.github.io/blog/post/2022/01/14/faster-r-cnn/</loc>
+    <lastmod>2022-01-14T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://preminstrel.github.io/blog/tags/object-detection/</loc>
-    <lastmod>2022-01-17T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://preminstrel.github.io/blog/post/2022/01/16/mmdetection-framework/</loc>
-    <lastmod>2022-01-16T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://preminstrel.github.io/blog/post/2022/01/15/mmdetection-overview/</loc>
-    <lastmod>2022-01-15T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://preminstrel.github.io/blog/post/2022/01/14/faster-r-cnn/</loc>
     <lastmod>2022-01-14T00:00:00+00:00</lastmod>
   </url>
   
@@ -153,62 +133,17 @@
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/blog/post/2021/10/29/dcdc-%E5%BC%80%E5%85%B3%E7%94%B5%E6%BA%90/</loc>
-    <lastmod>2021-10-29T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://preminstrel.github.io/blog/tags/mcu/</loc>
-    <lastmod>2021-10-29T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://preminstrel.github.io/blog/tags/power/</loc>
-    <lastmod>2021-10-29T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://preminstrel.github.io/blog/post/2021/10/29/ldo/</loc>
-    <lastmod>2021-10-29T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://preminstrel.github.io/blog/post/2021/10/28/i2s/</loc>
-    <lastmod>2021-10-28T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://preminstrel.github.io/blog/tags/protocol/</loc>
-    <lastmod>2021-10-28T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://preminstrel.github.io/blog/post/2021/10/28/i2c/</loc>
-    <lastmod>2021-10-28T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://preminstrel.github.io/blog/post/2021/10/28/spi/</loc>
-    <lastmod>2021-10-28T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://preminstrel.github.io/blog/post/2021/10/28/uart/</loc>
-    <lastmod>2021-10-28T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://preminstrel.github.io/blog/post/2021/10/28/introduction-to-communication-protocol/</loc>
-    <lastmod>2021-10-28T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://preminstrel.github.io/blog/tags/mcs-51/</loc>
     <lastmod>2021-10-25T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://preminstrel.github.io/blog/post/2021/10/25/mcs-51-basics-3/</loc>
+    <lastmod>2021-10-25T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://preminstrel.github.io/blog/tags/mcu/</loc>
     <lastmod>2021-10-25T00:00:00+00:00</lastmod>
   </url>
   

@@ -133,19 +133,34 @@
   </div>
   
   
+  
+  <details>
+    <summary>
+      <b>Table of Contents</b>
+    </summary>
+    <div class="toc"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#google-colab-pro">Google Colab Pro</a></li>
+    <li><a href="#work-with-google-drive">Work with Google Drive</a></li>
+    <li><a href="#reference">Reference</a></li>
+  </ul>
+</nav></div>
+  </details>
+  
+  
   <article class="content">
     
     <p>当我电脑的 RTX2060 带不动，而导师的实验室算力资源还没到位的时候，就必须去花钱租赁额外的计算资源了，需要在 3 月前的这一段时间内先自掏腰包对付一下。无奈，许多 GPU 虽然性能很棒，也很稳定，但是都是以计算时间计费的，3RMB/h 之类的很常见。</p>
-<h1 id="google-colab-pro">Google Colab Pro</h1>
+<h2 id="google-colab-pro">Google Colab Pro</h2>
 <p>朋友介绍说 Google Colab Pro 不仅价格便宜，而且是包月的，随便用。而且 Google Colab 即使不用 Pro 也可以正常使用，就是只能用一张 K80。白嫖党能使用的 K80 就比 CPU 快了一倍而已，而付费用户可使用的 <strong>P100 比 K80 的训练速度快 6.5 倍</strong>，另外 <strong>P100 的显存也比 K80 多了足足 4 G</strong>。经过我的测试之后，我发现 K80 的算力倒和我电脑的差不多了，于是花了 $11 买了一个月，分配到了一片 Tesla P100。</p>
 <div align=center>
-<img src="/img/20220110214328.png" width="600px"/>
+<a href="https://sm.ms/image/dvwKcL4nB2t7QNf" target="_blank"><img src="https://s2.loli.net/2022/04/14/dvwKcL4nB2t7QNf.png" ></a>
 </div>
 <p>可以看到，这个工作环境还是很不错的，符合 jupyter notebook 的一些习惯。而且，用 Google Colab 配置环境那是十分的丝滑，各种 package 和 git repo 的下载速度十分之快，几乎不需要花时间配置环境。但是需要注意的是，Colab Pro 每个 session 的时间上限为 24h，也就是说，如果数据量很大，P100 不够一天跑完一个 session 的时候，就不能用 Colab Pro 了，所以这个只能算是入门级的炼丹炉。</p>
 <div align=center>
-<img src="/img/20220110222236.png" width="800px"/>
+<a href="https://sm.ms/image/LlnhxAkyYm8Dot6" target="_blank"><img src="https://s2.loli.net/2022/04/14/LlnhxAkyYm8Dot6.png" ></a>
 </div>
-<h1 id="work-with-google-drive">Work with Google Drive</h1>
+<h2 id="work-with-google-drive">Work with Google Drive</h2>
 <p>Google Drive 是 Google 生态中不可或缺的一部分，得益于此，可以和 Google Colab Pro 联动工作。我们知道，训练模型需要给出数据集留出一定的空间，这次我拿到的数据集大概是 3GB 左右，是完全无法每次训练之前都上传到 Colab 的，所以 Google Drive 便派上了用场。我们可以将 Google Drive 与 Google Colab 相连，访问和修改 Drive 中的数据。</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a2f;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">google.colab</span> <span style="color:#a2f;font-weight:bold">import</span> drive
 drive<span style="color:#666">.</span>mount(<span style="color:#b44">&#39;/content/gdrive&#39;</span>)
@@ -153,7 +168,7 @@ drive<span style="color:#666">.</span>mount(<span style="color:#b44">&#39;/conte
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a2f;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">os</span>
 os<span style="color:#666">.</span>chdir(<span style="color:#b44">&#39;/content/gdrive/MyDrive/{TARGET FOLDER NAME}/&#39;</span>)
 <span style="color:#666">%</span>ls
-</code></pre></div><h1 id="reference">Reference</h1>
+</code></pre></div><h2 id="reference">Reference</h2>
 <ul>
 <li><a href="https://zhuanlan.zhihu.com/p/218133131">Google Colab 的正确使用姿势</a></li>
 </ul>
@@ -183,14 +198,6 @@ os<span style="color:#666">.</span>chdir(<span style="color:#b44">&#39;/content/
   <div>
     <span>© 2021</span> - <span>2022</span>
   </div>
-
-  <div>
-    <span>Powered by </span>
-    <a class="link" href="https://gohugo.io/">Hugo</a>
-    <span> 🍦 Theme </span>
-    <a class="link" href="https://github.com/queensferryme/hugo-theme-texify">TeXify</a>
-  </div>
-
   <div class="footnote">
     <span>Follow me on <a class=link href=https://github.com/preminstrel>GitHub</a>,
 <a class=link href=https://twitter.com/preminstrel>Twitter</a> or

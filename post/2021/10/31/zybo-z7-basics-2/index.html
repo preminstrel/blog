@@ -133,9 +133,28 @@
   </div>
   
   
+  
+  <details>
+    <summary>
+      <b>Table of Contents</b>
+    </summary>
+    <div class="toc"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#zybo编程模式配置">ZYBO编程模式配置</a></li>
+    <li><a href="#power-supplies">Power Supplies</a>
+      <ul>
+        <li><a href="#power-input-sources">Power Input Sources</a></li>
+      </ul>
+    </li>
+    <li><a href="#zybo-上电">ZYBO 上电</a></li>
+  </ul>
+</nav></div>
+  </details>
+  
+  
   <article class="content">
     
-    <h1 id="zybo编程模式配置">ZYBO编程模式配置</h1>
+    <h2 id="zybo编程模式配置">ZYBO编程模式配置</h2>
 <p>ZYBO支持3种默认编程模式，分别是：</p>
 <ol>
 <li>JTAG 编程模式：上电启动时，默认从 PROG-UART USB 接口编程</li>
@@ -144,15 +163,15 @@
 </ol>
 <p>可以通过编程模式选择跳线 <code>JP5</code> 来配置 ZYBO 的编程模式，如下图所示。</p>
 <div align=center>
-<img src="/img/20211031140401.png" width="200px" />
+<a href="https://sm.ms/image/jFdJtwo7s9NRXrH" target="_blank"><img src="https://s2.loli.net/2022/04/14/jFdJtwo7s9NRXrH.png" width="200px"></a>
 </div>
-<h1 id="power-supplies">Power Supplies</h1>
+<h2 id="power-supplies">Power Supplies</h2>
 <p>Zybo Z7 电源电路经过精心设计，以满足 Zynq-7000 和所有其他外围设备的要求，同时还提供灵活的输入电源选项。电源电路如图所示。</p>
 <div align=center>
-<img src="/img/20211031113010.png" width="600px" />
+<a href="https://sm.ms/image/wcVxyX1NJnABFfv" target="_blank"><img src="https://s2.loli.net/2022/04/14/wcVxyX1NJnABFfv.png" ></a>
 </div>
 <p>通过电源开关（<code>SW4</code>）开启或关闭单板上的所有电源。 当所有电源轨达到额定电压时，电源指示灯 LED（LD13，标记为 PGOOD）亮。</p>
-<h2 id="power-input-sources">Power Input Sources</h2>
+<h3 id="power-input-sources">Power Input Sources</h3>
 <p>Zybo Z7 可以从几个不同的来源供电。 跳线 <code>JP6</code>（靠近电源开关）决定使用哪个电源。 该跳线有三种有效配置，对应于三个电源选项：USB、wall wart supply with barrel jack 和电池组。 上图描述了所有这三种，并在板丝印图上做了同样的工作。</p>
 <p>一般来说，是从 USB 编程端口（<code>J12</code>）为 Zybo Z7 供电，但 Zybo Z7 通常需要比 USB 2.0 设备允许的 0.5 A 电流更多的电流。 如果超过这个限制，许多 USB 主机将开始降低电压，直到 Zybo Z7 复位，降低电流消耗到可接受的范围。为了防止这种情况发生，应该选择支持更高电流的 USB 主机端口（通常被 laptop/PC 供应商称为“快速充电 USB 端口”或类似的端口)。即使连接到一个能够提供更多电流的主机上，Zybo Z7 也会将自己限制在 0.75 A，如果达到这个电流就会重置。如果当我们使用高电流 USB 端口供电，我们的项目自动复位（通过 PGOOD LED 短暂闪烁和 DONE LED 关闭），则需要降低项目的功耗或使用外部电源。</p>
 <table>
@@ -193,7 +212,7 @@
 </tr>
 </tbody>
 </table>
-<h1 id="zybo-上电">ZYBO 上电</h1>
+<h2 id="zybo-上电">ZYBO 上电</h2>
 <p>在电源接口左侧的拨码开关（<code>SW4</code>）是电源开关。在选择供电模式之后，将其由 off 拨到 on，观察电源状态指示灯（PGOOD, LD11）。电源状态指示灯亮起，并且稳定（没有闪烁的情况），说明 ZYBO 供电正常。</p>
 <p><strong class=chinese>注意</strong>：ZYBO 的很多接口是<strong class=chinese>不支持热插拔</strong>的，所以每次要通过板载接口连接外部设备时（例如通过 USB-OTG 接口接 USB 键盘、鼠标等)，请关闭电源后再进行操作。<strong class=chinese>否则很有可能会导致板卡损毁</strong>。</p>
 
@@ -222,14 +241,6 @@
   <div>
     <span>© 2021</span> - <span>2022</span>
   </div>
-
-  <div>
-    <span>Powered by </span>
-    <a class="link" href="https://gohugo.io/">Hugo</a>
-    <span> 🍦 Theme </span>
-    <a class="link" href="https://github.com/queensferryme/hugo-theme-texify">TeXify</a>
-  </div>
-
   <div class="footnote">
     <span>Follow me on <a class=link href=https://github.com/preminstrel>GitHub</a>,
 <a class=link href=https://twitter.com/preminstrel>Twitter</a> or

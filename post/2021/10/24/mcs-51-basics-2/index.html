@@ -133,23 +133,59 @@
   </div>
   
   
+  
+  <details>
+    <summary>
+      <b>Table of Contents</b>
+    </summary>
+    <div class="toc"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#buzzer">Buzzer</a>
+      <ul>
+        <li><a href="#introduction-to-buzzer">Introduction to buzzer</a></li>
+        <li><a href="#hardware-design">Hardware Design</a></li>
+        <li><a href="#software-design">Software Design</a></li>
+      </ul>
+    </li>
+    <li><a href="#静态数码管">静态数码管</a>
+      <ul>
+        <li><a href="#introduction">Introduction</a></li>
+        <li><a href="#数码管表">数码管表</a></li>
+        <li><a href="#显示原理">显示原理</a></li>
+        <li><a href="#hardware-design-1">Hardware Design</a></li>
+        <li><a href="#software-design-1">Software Design</a></li>
+      </ul>
+    </li>
+    <li><a href="#动态数码管">动态数码管</a>
+      <ul>
+        <li><a href="#introduction-1">Introduction</a></li>
+        <li><a href="#显示原理-1">显示原理</a></li>
+        <li><a href="#software-design-2">Software Design</a></li>
+      </ul>
+    </li>
+    <li><a href="#reference">Reference</a></li>
+  </ul>
+</nav></div>
+  </details>
+  
+  
   <article class="content">
     
-    <h1 id="buzzer">Buzzer</h1>
+    <h2 id="buzzer">Buzzer</h2>
 <p>前面我们已经介绍了如何控制 51 单片机的 IO 口输出高低电平，这次我们通过另外一个实验来讲述 51 单片机 IO 口的输出。通过单片机的一个 IO 口控制板载无源蜂鸣器，实现蜂鸣器控制。</p>
-<h2 id="introduction-to-buzzer">Introduction to buzzer</h2>
+<h3 id="introduction-to-buzzer">Introduction to buzzer</h3>
 <p>蜂鸣器是一种一体化结构的电子讯响器，采用<strong class=chinese>直流电压</strong>供电，作发声器件。蜂鸣器主要分为压电式蜂鸣器和电磁式蜂鸣器两种类型。 压电式蜂鸣器主要由多谐振荡器、压电蜂鸣片、阻抗匹配器及共鸣箱、外壳等组成。多谐振荡器由晶体管或集成电路构成，当接通电源后（1.5~15V 直流工作电压），多谐振荡器起振,输出 1.5~5kHZ 的音频信号，阻抗匹配器推动压电蜂鸣片发声。电磁式蜂鸣器由振荡器、电磁线圈、磁铁、振动膜片及外壳等组成。接通电源后，振荡器产生的音频信号电流通过电磁线圈，使电磁线圈产生磁场，振动膜片在电磁线圈和磁铁的相互作用下，周期性地振动发声。</p>
 <p>其实一句话就可概括它们之间的区别，想要压电式蜂鸣器发声，需提供<strong class=chinese>一定频率的脉冲信号</strong>；想要电磁式蜂鸣器发声，<strong class=chinese>只需提供电源即可</strong>。 我们开发板上使用的蜂鸣器是无源蜂鸣器，属于压电式蜂鸣器类型。这里说的有源和无源，并不是指电源的意思，而是指蜂鸣器内部<strong class=chinese>是否含有振荡电路</strong>，有源蜂鸣器内部自带振荡电路，只需提供电源即可发声，而无源蜂鸣器则需提供一定频率的脉冲信号才能发声，频率大小通常在 1.5-5KHz 之间。</p>
 <p>对于无源蜂鸣器，如果改变频率就可以调节蜂鸣器音调，产生各种不同音色、音调的声音。如果改变输出电平的高低电平占空比，则可以改变蜂鸣器的声音大小。对于有源蜂鸣器，通常内部已经固定了频率，对于调节频率或占空比可能改变不了蜂鸣器的音调和音量，当然也有的有源蜂鸣器可以实现和无源蜂鸣器一样的效果。</p>
-<h2 id="hardware-design">Hardware Design</h2>
+<h3 id="hardware-design">Hardware Design</h3>
 <p>前面我们已经对 51 单片机的 GPIO 做了简单介绍，并且还使用了其中 IO 口直接控制开发板上的 LED。对于本次要实现蜂鸣器的控制，我们能否直接使用单片机的 IO 口驱动呢？</p>
 <p>答案是<strong class=chinese>否定</strong>的，因为 51 单片机 IO 口的驱动能力较弱（即使外接上拉电阻），而蜂鸣器驱动需要约 30mA，所以非常困难，即使可以驱动，那对于整个芯片的其它 IO 剩下驱动能力就更加弱甚至无法工作。所以我们不会直接使用 IO 口驱动蜂鸣器，而是通过三极管把电流放大后再驱动蜂鸣器，这样 51 单片机的 IO 口只需要提供不到 1mA 的电流就可控制蜂鸣器。**所以我们也经常说到 51 单片机是用来做控制的，而不是驱动。**我们开发板上的蜂鸣器模块电路如下图所示：</p>
 <div align=center>
-<img src="/img/20211024223243.png" width="500px" />
+<a href="https://sm.ms/image/PwexrqMAKNE1nH9" target="_blank"><img src="https://s2.loli.net/2022/04/14/PwexrqMAKNE1nH9.png" width="500px"></a>
 </div>
 <p>从图中可以看出，蜂鸣器控制管脚直接连接到 51 单片机的 <code>P2.5</code> 管脚上。图中并没有使用三极管进行电流放大，而是使用 ULN2003 芯片来驱动，当 <code>P25</code> 输出高电平，<code>BEEP</code> 则输出低电平；当 <code>P25</code> 输出低电平，<code>BEEP</code> 则输出高电平，类似一个非门。</p>
 <p>开发板上使用的是无源蜂鸣器，它需要一定频率的脉冲（高低电平）才会发声，因此需要让 <code>P25</code> 脚以一定频率不断输出高低电平信号才能控制蜂鸣器发出声音。</p>
-<h2 id="software-design">Software Design</h2>
+<h3 id="software-design">Software Design</h3>
 <p>我们所要实现的功能是：让蜂鸣器发出声音，一段时间后再关闭，即让 <code>P2.5</code> 管脚输出一定频率的脉冲信号（高低电平）控制无源蜂鸣器。</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#080">#include</span> <span style="color:#080">&#34;reg52.h&#34;</span><span style="color:#080">
 </span><span style="color:#080"></span>
@@ -179,12 +215,12 @@ sbit BEEP<span style="color:#666">=</span>P2<span style="color:#666">^</span><sp
 </span><span style="color:#080;font-style:italic"></span>        BEEP<span style="color:#666">=</span><span style="color:#666">0</span>;<span style="color:#080;font-style:italic">//关闭蜂鸣器
 </span><span style="color:#080;font-style:italic"></span>    }        
 }
-</code></pre></div><h1 id="静态数码管">静态数码管</h1>
-<h2 id="introduction">Introduction</h2>
+</code></pre></div><h2 id="静态数码管">静态数码管</h2>
+<h3 id="introduction">Introduction</h3>
 <p>数码管是一种半导体发光器件，其基本单元是发光二极管。数码管也称 LED 数码管。数码管按段数可分为七段数码管和八段数码管，八段数码管比七段数码管多一个发光二极管单元，也就是多一个小数点（DP），这个小数点可以更精确的表示数码管想要显示的内容；按能显示多少个（8）可分为 1 位、 2 位、 3 位、 4 位、 5 位、 6 位、7 位等数码管。按发光二极管单元连接方式可分为共<strong class=chinese>阳</strong>极数码管和共<strong class=chinese>阴</strong>极数码管。</p>
 <p>共阳数码管是指将所有发光二极管的阳极接到一起形成公共阳极（COM）的数码管，共阳数码管在应用时应将公共极 COM 接到 +5V，当某一字段发光二极管的阴极为低电平时，相应字段就点亮，当某一字段的阴极为高电平时，相应字段就不亮。</p>
 <p>共阴数码管是指将所有发光二极管的阴极接到一起形成公共阴极（COM）的数码管，共阴数码管在应用时应将公共极 COM 接到地线 GND 上，当某一字段发光二极管的阳极为高电平时，相应字段就点亮，当某一字段的阳极为低电平时，相应字段就不亮。</p>
-<h2 id="数码管表">数码管表</h2>
+<h3 id="数码管表">数码管表</h3>
 <p>不管将几位数码管连在一起，数码管的显示原理都是一样的，都是靠点亮内部的发光二极管来发光。从上述共阳和共阴码表中不难发现，它们的数据正好是相互取反的值。比如共阴数码管数字 0 段码：0x3f，其二进制是：0011 1111，取反后为：1100 0000， 转换成 16 进制即为 0XC0，其他段码依此类推。该段码数据由来，是将 a 段作为 最低位，b 段作为次低位，其他按顺序类推，dp 段为最高位，共 8 位，正好和 51 单片机的一组端口数一样，因此可以直接使用某一组端口控制数码管的段选数据口，比如 P0 口。</p>
 <p><strong class=chinese>共阴数码管码表</strong></p>
 <table>
@@ -288,15 +324,15 @@ sbit BEEP<span style="color:#666">=</span>P2<span style="color:#666">^</span><sp
 </tr>
 </tbody>
 </table>
-<h2 id="显示原理">显示原理</h2>
+<h3 id="显示原理">显示原理</h3>
 <p>LED 数码管显示器工作方式有两种：静态显示方式和动态显示方式。静态显示的特点是每个数码管的段选必须接一个 8 位数据线来保持显示的字形码。当送入一次字形码后，显示字形可一直保持，直到送入新字形码为止。这种方法的<strong>优点是占用 CPU 时间少，显示便于监测和控制</strong>。<strong>缺点是硬件电路比较复杂，成本较高</strong>，比如使用 4 个静态数码管，那么就得 32 个 IO 来控制，这对 51 单片机来说是无法承受的，正因为如此才会有后面章节动态数码实验的讲解。</p>
 <p>动态显示的特点是将所有数码管的段选线并联在一起，由位选线控制是哪一位数码管有效。选亮数码管采用动态扫描显示。所谓动态扫描显示即轮流向各位数码管送出字形码和相应的位选，利用发光管的余辉和人眼视觉暂留作用，使人的感觉好像各位数码管同时都在显示。<strong>动态显示的亮度比静态显示要差一些，所以在选择限流电阻时应略小于静态显示电路中的。</strong></p>
 <p>本次实验使用的数码管虽然是动态数码管电路，但我们依然可以使用数码管其中一位来学习静态数码管知识。本次实验主要介绍静态数码管的控制，有关动态数码管控制将在以后介绍。</p>
-<h2 id="hardware-design-1">Hardware Design</h2>
+<h3 id="hardware-design-1">Hardware Design</h3>
 <div align=center>
-<img src="/img/20211024231932.png" width="700px" />
+<a href="https://sm.ms/image/faxAij1VzSNPk5s" target="_blank"><img src="https://s2.loli.net/2022/04/14/faxAij1VzSNPk5s.png" ></a>
 </div>
-<h2 id="software-design-1">Software Design</h2>
+<h3 id="software-design-1">Software Design</h3>
 <p>我们所要实现的功能是：控制静态数码管显示数字 0，即让 <code>P0</code> 端口输出数字 0 的段码 <code>0x3f</code>（共阴）。</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#080">#include</span> <span style="color:#080">&#34;reg52.h&#34;</span><span style="color:#080">
 </span><span style="color:#080"></span>
@@ -317,16 +353,16 @@ sbit BEEP<span style="color:#666">=</span>P2<span style="color:#666">^</span><sp
            
     }        
 }
-</code></pre></div><h1 id="动态数码管">动态数码管</h1>
+</code></pre></div><h2 id="动态数码管">动态数码管</h2>
 <p>前面我们已经介绍了如何使用 51 单片机控制静态数码管显示，在实际应用中通常都需要显示多位数值，如果采用静态数码管显示就不够好，因此就需要采用另外一种显示方式，即数码管动态显示。开发板上板载 2 个四位一体的共阴数码管，我们就来介绍下如何使用 51 单片机控制动态数码管显示。所要实现的功能是：控制动态数码管从左至右显示数字 0-7。</p>
-<h2 id="introduction-1">Introduction</h2>
+<h3 id="introduction-1">Introduction</h3>
 <p>多位数码管，即两个或两个以上单个数码管并列集中在一起形成一体的数码管。当多位一体时，它们内部的公共端是独立的，而负责显示什么数字的段线（a-dp）全部是连接在一起的，独立的公共端可以控制多位一体中的哪一位数码管点亮，而连接在一起的段线可以控制这个能点亮数码管亮什么数字，通常我们把公共端叫做“位选线”，连接在一起的段线叫做“段选线”，有了这两个线后，通过单片机及外部驱动电路就可以控制任意的数码管显示任意的数字了。</p>
 <p>一般一位数码管有 10 个引脚，二位数码管也是 10 个引脚，四位数码管是 12 个引脚，关于具体的引脚及段、位标号大家可以查询相关资料，最简单的办法就是用数字万用表测量，若没有数字万用表也可用 5V 直流电源串接 1k 电阻后测量，将测量结果记录，通过统计便可绘制出引脚标号。多位数码管有许多是按 一定要求设计的，引脚不完全按照一般规则设定，所以需要在使用时查找手册，最直接的办法就是按照数码管上的标示向生产商要求。我们开发板上使用了 2 个四位一体的共阴数码管，这样可在上面同时显示 8 个数值。</p>
 <h3 id="显示原理-1">显示原理</h3>
 <p>多位数码管依然可以静态显示，但是显示时要么只显示一位数码管，要么多位同时显示相同内容。当多位数码管应用于某一系统时，它们的“位选”是可独立控制的，而“段选”是连接在一起的，我们可以通过位选信号控制哪几个数码管亮，而在同一时刻，位选选通的所有数码管上显示的数字始终都是一样的，因为它们的段选是连接在一起的，送入所有数码管的段选信号都是相同的，所以它们显示的数字必定一样，数码管的这种显示方法叫做静态显示。</p>
 <p>而动态显示，就是利用减少段选线，分开位选线，<strong>利用位选线不同时选择通断，改变段选数据来实现的</strong>。比如在第一次选中第一位数码管时，给段选数据 0，下一次位选中第二位数码管时显示 1。为了在显示 1 的时候，0 不会消失（当然实际上是消失了），必须在人肉眼观察不到的时间里再次点亮第一次点亮的 0。 而这时就需要记住，人的肉眼正常情况下只能分辨变化超过 24ms 间隔的运动。也就是说，在下一次点亮 0 这个数字的时间差不得大于 24ms。这时就会发现，数码管点亮是在向右或者向左一位一位点亮，形成了动态效果。如果把间隔时间改长就能直接展现这一现象。</p>
 <p>74HC138 总结：A0、A1、A2 输入就相当于 3 位 2 进制数，A0 是低位，A1 是次高位，A2 是高位。而 Y0-Y7 具体哪一个输出有效电平，就看输入二进制对应的十进制数值。比如输入是 101（A2，A1，A0），其对应的十进制数是 5，所以 Y5 输出有效电平（低电平）。</p>
-<h2 id="software-design-2">Software Design</h2>
+<h3 id="software-design-2">Software Design</h3>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#080">#include</span> <span style="color:#080">&#34;reg52.h&#34;</span><span style="color:#080">
 </span><span style="color:#080"></span>
 <span style="color:#a2f;font-weight:bold">typedef</span> <span style="color:#0b0;font-weight:bold">unsigned</span> <span style="color:#0b0;font-weight:bold">int</span> u16;    <span style="color:#080;font-style:italic">//对系统默认数据类型进行重定义
@@ -381,7 +417,7 @@ sbit LSC<span style="color:#666">=</span>P2<span style="color:#666">^</span><spa
     }        
 }
 </code></pre></div><p>该程序是根据动态数码管显示原理所编写，即选中所要显示的那位数码管，然后发送在该位数码管上所要显示的段码数据，延时一定时间后在将段选口清零即消隐（消除之前的显示），如此循环 8 次即可实现 8 位数码管显示。<strong>在动态显示中，要注意延时时间，只要保证在人肉眼所能感觉时间之内即可，让我们看到所要显示的内容就像是同时显示一样。</strong></p>
-<h1 id="reference">Reference</h1>
+<h2 id="reference">Reference</h2>
 <ul>
 <li>普中51单片机开发攻略</li>
 </ul>
@@ -411,14 +447,6 @@ sbit LSC<span style="color:#666">=</span>P2<span style="color:#666">^</span><spa
   <div>
     <span>© 2021</span> - <span>2022</span>
   </div>
-
-  <div>
-    <span>Powered by </span>
-    <a class="link" href="https://gohugo.io/">Hugo</a>
-    <span> 🍦 Theme </span>
-    <a class="link" href="https://github.com/queensferryme/hugo-theme-texify">TeXify</a>
-  </div>
-
   <div class="footnote">
     <span>Follow me on <a class=link href=https://github.com/preminstrel>GitHub</a>,
 <a class=link href=https://twitter.com/preminstrel>Twitter</a> or

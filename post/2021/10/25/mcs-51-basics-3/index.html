@@ -133,14 +133,33 @@
   </div>
   
   
+  
+  <details>
+    <summary>
+      <b>Table of Contents</b>
+    </summary>
+    <div class="toc"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#独立按键">独立按键</a>
+      <ul>
+        <li><a href="#按键介绍">按键介绍</a></li>
+        <li><a href="#hardware-design">Hardware Design</a></li>
+        <li><a href="#software-design">Software Design</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+  </details>
+  
+  
   <article class="content">
     
-    <h1 id="独立按键">独立按键</h1>
+    <h2 id="独立按键">独立按键</h2>
 <p>前面介绍的都是 IO 口输出的使用，这一章我们通过独立按键实验来介绍 IO 口作为输入的使用。开发板上板载 4 个独立按键。我们所要实现的功能是：通过开发板上的独立按键 K1 控制 D1 指示灯亮灭。</p>
-<h2 id="按键介绍">按键介绍</h2>
+<h3 id="按键介绍">按键介绍</h3>
 <p>按键是一种电子开关，使用时轻轻按开关按钮就可使开关接通，当松开手时, 开关断开。开发板上使用的按键及内部简易图如下图所示：</p>
 <div align=center>
-<img src="/img/20211025230539.png" width="300px" />
+<a href="https://sm.ms/image/OrcqkP573EoFpt1" target="_blank"><img src="https://s2.loli.net/2022/04/14/OrcqkP573EoFpt1.png" width="300px"></a>
 </div>
 <p>按键管脚两端距离长的表示默认是导通状态，距离短的默认是断开状态，如果按键按下，初始导通状态变为断开，初始断开状态变为导通。通常的按键所用开关为机械弹性开关，当机械触点断开、闭合时，电压信号如下图所示：</p>
 <p>由于机械点的弹性作用，按键开关在闭合时不会马上稳定的接通，在断开时也不会一下子断开，因而在闭合和断开的瞬间均伴随着一连串的抖动。抖动时间的长短由按键的机械特性决定的，一般为 5ms 到 10ms。按键稳定闭合时间的长短则由操作人员的按键动作决定的，一般为零点几秒至数秒。按键抖动会引起按键被误读多次。为了确保 CPU 对按键的一次闭合仅作一次处理，必须进行消抖。按键消抖有两种方式，一种是<strong class=chinese>硬件消抖</strong>，另一种是<strong class=chinese>软件消抖</strong>。为了使电路更加简单，通常采用软件消抖。我们开发板也是采用软件消抖，一般来说一个简单的按键消抖就是先读取按键的状态，如果得到按键按下之后，延时 10ms，再次读取按键的状态，如果按键还是按下状态，那么说明按键已经按下。其中延时 10ms 就是软件消抖处理，至于硬件消抖，网上都有非常详细的介绍。
@@ -154,8 +173,8 @@
 </ol>
 <p>独立按键电路构成是由各个按键的一个管脚连接在一起接地，按键其他引脚分别接到单片机 IO 口。</p>
 <p>我们知道单片机的 IO 口既可作为输出也可作为输入使用，当检测按键时用的是它的输入功能，独立按键的一端接地，另一端与单片机的 I/O 口相连，开始时先给该 IO 口赋一高电平，然后让单片机不断地检测该 I/O 口是否变为低电平，当按键闭合时，即相当于该 I/O 口通过按键与地相连，变成低电平，程序一旦检测到 I/O 口变为低电平则说明按键被按下，然后执行相应的指令。</p>
-<h2 id="hardware-design">Hardware Design</h2>
-<h2 id="software-design">Software Design</h2>
+<h3 id="hardware-design">Hardware Design</h3>
+<h3 id="software-design">Software Design</h3>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#080">#include</span> <span style="color:#080">&#34;reg52.h&#34;</span><span style="color:#080">
 </span><span style="color:#080"></span>
 <span style="color:#a2f;font-weight:bold">typedef</span> <span style="color:#0b0;font-weight:bold">unsigned</span> <span style="color:#0b0;font-weight:bold">int</span> u16;    <span style="color:#080;font-style:italic">//对系统默认数据类型进行重定义
@@ -237,7 +256,7 @@ u8 <span style="color:#00a000">key_scan</span>(u8 mode)
     <a class="link" href="https://preminstrel.github.io/blog/post/2021/10/24/mcs-51-basics-2/">← prev</a>
     
     
-    <a class="link" href="https://preminstrel.github.io/blog/post/2021/10/28/introduction-to-communication-protocol/">next →</a>
+    <a class="link" href="https://preminstrel.github.io/blog/post/2021/10/29/zybo-z7-basics-1/">next →</a>
     
   </div>
   <div class="comment">
@@ -255,14 +274,6 @@ u8 <span style="color:#00a000">key_scan</span>(u8 mode)
   <div>
     <span>© 2021</span> - <span>2022</span>
   </div>
-
-  <div>
-    <span>Powered by </span>
-    <a class="link" href="https://gohugo.io/">Hugo</a>
-    <span> 🍦 Theme </span>
-    <a class="link" href="https://github.com/queensferryme/hugo-theme-texify">TeXify</a>
-  </div>
-
   <div class="footnote">
     <span>Follow me on <a class=link href=https://github.com/preminstrel>GitHub</a>,
 <a class=link href=https://twitter.com/preminstrel>Twitter</a> or

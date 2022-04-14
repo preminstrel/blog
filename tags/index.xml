@@ -32,20 +32,9 @@
     </item>
     
     <item>
-      <title>MMDetection</title>
-      <link>https://preminstrel.github.io/blog/tags/mmdetection/</link>
-      <pubDate>Mon, 17 Jan 2022 13:21:36 +0800</pubDate>
-      <author>preminstrel@gmail.com (Hanshi Sun)</author>
-      <guid>https://preminstrel.github.io/blog/tags/mmdetection/</guid>
-      
-      <description></description>
-      
-    </item>
-    
-    <item>
       <title>Object Detection</title>
       <link>https://preminstrel.github.io/blog/tags/object-detection/</link>
-      <pubDate>Mon, 17 Jan 2022 13:21:36 +0800</pubDate>
+      <pubDate>Fri, 14 Jan 2022 13:32:15 +0800</pubDate>
       <author>preminstrel@gmail.com (Hanshi Sun)</author>
       <guid>https://preminstrel.github.io/blog/tags/object-detection/</guid>
       
@@ -114,6 +103,17 @@
       <pubDate>Thu, 04 Nov 2021 20:28:55 +0800</pubDate>
       <author>preminstrel@gmail.com (Hanshi Sun)</author>
       <guid>https://preminstrel.github.io/blog/tags/zynq/</guid>
+      
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>MCS 51</title>
+      <link>https://preminstrel.github.io/blog/tags/mcs-51/</link>
+      <pubDate>Mon, 25 Oct 2021 22:59:29 +0800</pubDate>
+      <author>preminstrel@gmail.com (Hanshi Sun)</author>
+      <guid>https://preminstrel.github.io/blog/tags/mcs-51/</guid>
       
       <description></description>
       
