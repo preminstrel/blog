@@ -8,7 +8,18 @@
     <language>en</language>
     <managingEditor>preminstrel@gmail.com (Hanshi Sun)</managingEditor>
     <webMaster>preminstrel@gmail.com (Hanshi Sun)</webMaster>
-    <lastBuildDate>Fri, 28 Jan 2022 17:59:08 +0800</lastBuildDate><atom:link href="https://preminstrel.github.io/blog/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 15 Apr 2022 13:47:07 +0800</lastBuildDate><atom:link href="https://preminstrel.github.io/blog/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>animation-review</title>
+      <link>https://preminstrel.github.io/blog/tags/animation-review/</link>
+      <pubDate>Fri, 15 Apr 2022 13:47:07 +0800</pubDate>
+      <author>preminstrel@gmail.com (Hanshi Sun)</author>
+      <guid>https://preminstrel.github.io/blog/tags/animation-review/</guid>
+      
+      <description></description>
+      
+    </item>
+    
     <item>
       <title>Deep Learning</title>
       <link>https://preminstrel.github.io/blog/tags/deep-learning/</link>
@@ -103,17 +114,6 @@
       <pubDate>Thu, 04 Nov 2021 20:28:55 +0800</pubDate>
       <author>preminstrel@gmail.com (Hanshi Sun)</author>
       <guid>https://preminstrel.github.io/blog/tags/zynq/</guid>
-      
-      <description></description>
-      
-    </item>
-    
-    <item>
-      <title>MCS 51</title>
-      <link>https://preminstrel.github.io/blog/tags/mcs-51/</link>
-      <pubDate>Mon, 25 Oct 2021 22:59:29 +0800</pubDate>
-      <author>preminstrel@gmail.com (Hanshi Sun)</author>
-      <guid>https://preminstrel.github.io/blog/tags/mcs-51/</guid>
       
       <description></description>
       

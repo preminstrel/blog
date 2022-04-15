@@ -8,7 +8,18 @@
     <language>en</language>
     <managingEditor>preminstrel@gmail.com (Hanshi Sun)</managingEditor>
     <webMaster>preminstrel@gmail.com (Hanshi Sun)</webMaster>
-    <lastBuildDate>Fri, 28 Jan 2022 17:59:08 +0800</lastBuildDate><atom:link href="https://preminstrel.github.io/blog/categories/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 15 Apr 2022 13:47:07 +0800</lastBuildDate><atom:link href="https://preminstrel.github.io/blog/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Animation</title>
+      <link>https://preminstrel.github.io/blog/categories/animation/</link>
+      <pubDate>Fri, 15 Apr 2022 13:47:07 +0800</pubDate>
+      <author>preminstrel@gmail.com (Hanshi Sun)</author>
+      <guid>https://preminstrel.github.io/blog/categories/animation/</guid>
+      
+      <description></description>
+      
+    </item>
+    
     <item>
       <title>Transformer</title>
       <link>https://preminstrel.github.io/blog/categories/transformer/</link>
@@ -103,17 +114,6 @@
       <pubDate>Sun, 17 Oct 2021 13:37:23 +0800</pubDate>
       <author>preminstrel@gmail.com (Hanshi Sun)</author>
       <guid>https://preminstrel.github.io/blog/categories/publication/</guid>
-      
-      <description></description>
-      
-    </item>
-    
-    <item>
-      <title>Model Compression</title>
-      <link>https://preminstrel.github.io/blog/categories/model-compression/</link>
-      <pubDate>Sun, 17 Oct 2021 10:48:26 +0800</pubDate>
-      <author>preminstrel@gmail.com (Hanshi Sun)</author>
-      <guid>https://preminstrel.github.io/blog/categories/model-compression/</guid>
       
       <description></description>
       
