@@ -3,22 +3,27 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://preminstrel.github.io/blog/post/2022/04/15/eighty-six-review/</loc>
+    <loc>https://preminstrel.github.io/blog/tags/canada/</loc>
     <lastmod>2022-04-15T13:47:07+08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://preminstrel.github.io/blog/categories/animation/</loc>
-    <lastmod>2022-04-15T13:47:07+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://preminstrel.github.io/blog/tags/animation-review/</loc>
+    <loc>https://preminstrel.github.io/blog/categories/canada/</loc>
     <lastmod>2022-04-15T13:47:07+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://preminstrel.github.io/blog/categories/</loc>
+    <lastmod>2022-04-15T13:47:07+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://preminstrel.github.io/blog/tags/mitacs/</loc>
+    <lastmod>2022-04-15T13:47:07+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://preminstrel.github.io/blog/post/2022/04/15/eighty-six-review/</loc>
     <lastmod>2022-04-15T13:47:07+08:00</lastmod>
   </url>
   
@@ -34,22 +39,17 @@
   
   <url>
     <loc>https://preminstrel.github.io/blog/tags/deep-learning/</loc>
-    <lastmod>2022-01-28T00:00:00+00:00</lastmod>
+    <lastmod>2022-01-26T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://preminstrel.github.io/blog/tags/transformer/</loc>
-    <lastmod>2022-01-28T00:00:00+00:00</lastmod>
+    <lastmod>2022-01-26T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://preminstrel.github.io/blog/categories/transformer/</loc>
-    <lastmod>2022-01-28T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://preminstrel.github.io/blog/post/2022/01/28/vision-transformer/</loc>
-    <lastmod>2022-01-28T00:00:00+00:00</lastmod>
+    <lastmod>2022-01-26T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -380,6 +380,16 @@
   <url>
     <loc>https://preminstrel.github.io/blog/categories/video/</loc>
     <lastmod>2021-07-23T23:53:14+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://preminstrel.github.io/blog/categories/animation/</loc>
+    <lastmod>2021-07-20T23:53:14+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://preminstrel.github.io/blog/tags/animation-review/</loc>
+    <lastmod>2021-07-20T23:53:14+08:00</lastmod>
   </url>
   
   <url>

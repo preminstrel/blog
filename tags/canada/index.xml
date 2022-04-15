@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Canada on Blog de Preminstrel</title>
+    <link>https://preminstrel.github.io/blog/tags/canada/</link>
+    <description>Recent content in Canada on Blog de Preminstrel</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <managingEditor>preminstrel@gmail.com (Hanshi Sun)</managingEditor>
+    <webMaster>preminstrel@gmail.com (Hanshi Sun)</webMaster>
+    <lastBuildDate>Fri, 15 Apr 2022 13:47:07 +0800</lastBuildDate><atom:link href="https://preminstrel.github.io/blog/tags/canada/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Mitacs Globalink Research Interns</title>
+      <link>https://preminstrel.github.io/blog/post/2022/04/15/eighty-six-review/</link>
+      <pubDate>Fri, 15 Apr 2022 13:47:07 +0800</pubDate>
+      <author>preminstrel@gmail.com (Hanshi Sun)</author>
+      <guid>https://preminstrel.github.io/blog/post/2022/04/15/eighty-six-review/</guid>
+      
+      <description>&lt;p&gt;去年八月份的时候，学校教务处官网发了申报 Mitacs 项目的相关申报流程。简单来说，这个项目是加拿大 Mitasc 和 CSC 的合作项目，每年选派 200 名本科生在大三暑假去加拿大各高校去进行 Research。这个项目和自己套的暑研比，优缺点也是比较明显的。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Pros&lt;/strong&gt;: 每个月国家提供经费 $1800，国家承担来回机票，报销签证费用；Mitacs 免费帮买保险，也有理由可以去进行课内的暑期短学期的学分替换，签证申请比较方便等。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Cons&lt;/strong&gt;: 套到的项目和学校都不如自己套的好，项目匹配机制比较迷，周期很长，需要填很多材料，申请流程比较繁琐。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;我最后是录到了 University of Alberta 的 ECE department 的一个华人老师 &lt;a href=&#34;https://www.ece.ualberta.ca/~xingyu/index.html&#34;&gt;Xingyu Li&lt;/a&gt; 的 Weak/self supervision for abnormal detection in medical image analysis 项目，下面我来简单谈谈申请流程。&lt;/p&gt;
+&lt;h2 id=&#34;personal-background&#34;&gt;Personal Background&lt;/h2&gt;
+&lt;p&gt;首先提供我申请时的背景。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;本科 SEU，CGPA: 3.98/4, 93.8/100&lt;/li&gt;
+&lt;li&gt;无语言成绩，无竞赛，有国奖等零碎的奖学金&lt;/li&gt;
+&lt;li&gt;有一段相关科研和毫不相关的科研经历，有一篇 EI 水会并未在 CV 提及&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;timeline&#34;&gt;Timeline&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;em&gt;2021-09-04&lt;/em&gt;   完成 Mitacs 网申，收到自动回复的邮件说 Application Complete&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;2021-09-26&lt;/em&gt;   收到邮件说申请 portal 已关闭：2022 Globalink Research Internship applications now closed&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;2021-11-07&lt;/em&gt;   陆续有人收到拒信&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;2021-11-10&lt;/em&gt;   官网更新消息，CUC (Candidate under consideration)，也就是通过初审，进入项目匹配阶段。这一阶段大家可能会收到一些老师的面试和相关信息&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;2021-11-18&lt;/em&gt;   收到第一个面试邮件，是我 Rank 7 UBC 的一位女老师。提出了以下面试细节：
+&lt;ul&gt;
+&lt;li&gt;5-10 min interview&lt;/li&gt;
+&lt;li&gt;Zoom is required, with video if possible&lt;/li&gt;
+&lt;li&gt;time restricted, on Friday Nov 19th, noon PDT (Vancouver time)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;2021-11-20&lt;/em&gt;   凌晨四点，进入 Zoom 会议，面试的人有七个，我排在倒数第二个，我以为大概五点多到我，但是四点半就到我了。因为这个老师面试极快，先 30s 介绍了自己的项目，然后就问了我一个问题——介绍你以前的project，我讲之前，她问我你能不能在两分钟之内结束。我打开自己做的 Slides 开始讲，成功在两分钟之内讲完了。说好的 5-10 min 呢？我很快讲完之后，她直接说：OK，have a good day, you can leave the zoom room. 面完就感觉她挺急的，这个 rank 7 的项目估计是寄了，不过也不咋心疼&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;2021-12-10&lt;/em&gt;   Portal 出 offer 了 是 Alberta 无面试录了。下午一点收到了 offer 邮件，说匹配成功，Congratulations&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;2021-12-11&lt;/em&gt;   可以在 Portal 上 accept 了，接受之后会有一封感谢信发到邮箱&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;2022-02-17&lt;/em&gt;   收到下一步的邮件，填写一些 agreement 和个人信息。关于疫情是否 on site，Mitacs 觉得是大概率 on site 的。&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;2022-03-01&lt;/em&gt;   在 IRCC Portal 申请了签证&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;2022-03-04&lt;/em&gt;   去上海签证中心录生物信息，进入漫长的 Visa 审核流程&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;2022-03-22&lt;/em&gt;   CSC 系统更新，发贺信，进行签约和一些银行卡开卡手续&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;2022-04-15&lt;/em&gt;   最近上海爆发疫情，CSC 银行卡的寄送受到了影响，我们也封校了，签证还在审理中&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;application-detail&#34;&gt;Application Detail&lt;/h2&gt;
+&lt;p&gt;这里说一说我认为的对成功申请和匹配的一些建议和细节。首先，匹配分两个阶段。第一阶段初审过后，会分为三类：CUC、Waitlist、Rej。CUC 代表经过初审，可以去和教授进行面试和 rerank 来匹配。匹配结束后，CUC 有可能没匹配上，进入 Waitlist。然后是第二轮匹配，这个时候第一轮的 Waitlist 有概率会被录取，但是可能性比较小。&lt;/p&gt;
+&lt;h3 id=&#34;初审-rightarrow-cuc&#34;&gt;初审 $\rightarrow$ CUC&lt;/h3&gt;
+&lt;p&gt;想要通过初审，那么 GPA 和 Resume 是最重要的。也可以看到，我没有任何竞赛和语言成绩，依旧通过了初审。所以 transcript 和 Resume 至关重要。GPA 这个也不好准备，大家都知道，基本上低于 85 分就没啥希望了。主要努力方向还是 Resume。Mitacs 官网会提供 Resume Template，但是我不建议用。个人写自己的 Resume 是要去突出自己的优势，稍微掩盖自己的劣势的。同时，Mitacs 给的模板比较粗糙，不好看。所以我建议用 LaTeX 进行写作，Overleaf 上也可以找到一些好看的模板，不会装 LaTeX 的可以用 Overleaf 在线编译下载 PDF（最好还是学一下 LaTeX，这个不会就去做 Research 也挺离谱的）。&lt;/p&gt;
+&lt;h3 id=&#34;interview-rightarrow-offer&#34;&gt;Interview $\rightarrow$ Offer&lt;/h3&gt;
+&lt;p&gt;这个阶段基本是最难熬的，可能会很焦虑。尤其是当你发现，自己一封邮件没收到，群里小伙伴有的都面完五六个老师的时候，心里会很不是滋味。这里我想说的是，无面试录取的可能性很大，尤其是 University of Alberta，好多都是没面试直接拿 Offer 的。如果你有幸被面试，那么一定要提前做好展示的 Slides，然后配置好网络环境（科学上网），最后面试完给老师发一封感谢信。&lt;/p&gt;
+&lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;这个项目总体来说，由于 Mitacs 的谜一般的匹配机制，所以也是比较看运气的。所以，如果没录不用觉得自己咋样，自己套往往是更好的。祝大家都能拿到 offer。&lt;/p&gt;
+</description>
+      
+    </item>
+    
+  </channel>
+</rss>

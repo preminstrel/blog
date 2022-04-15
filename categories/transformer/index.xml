@@ -8,21 +8,7 @@
     <language>en</language>
     <managingEditor>preminstrel@gmail.com (Hanshi Sun)</managingEditor>
     <webMaster>preminstrel@gmail.com (Hanshi Sun)</webMaster>
-    <lastBuildDate>Fri, 28 Jan 2022 17:59:08 +0800</lastBuildDate><atom:link href="https://preminstrel.github.io/blog/categories/transformer/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Vision Transformer (ViT)</title>
-      <link>https://preminstrel.github.io/blog/post/2022/01/28/vision-transformer/</link>
-      <pubDate>Fri, 28 Jan 2022 17:59:08 +0800</pubDate>
-      <author>preminstrel@gmail.com (Hanshi Sun)</author>
-      <guid>https://preminstrel.github.io/blog/post/2022/01/28/vision-transformer/</guid>
-      
-      <description>&lt;ul&gt;
-&lt;li&gt;我们的模型数据量和运算量都不够大，没有 locality 和 translation equivalence，无法达到很好的效果？&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-      
-    </item>
-    
+    <lastBuildDate>Wed, 26 Jan 2022 17:47:40 +0800</lastBuildDate><atom:link href="https://preminstrel.github.io/blog/categories/transformer/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Transformer</title>
       <link>https://preminstrel.github.io/blog/post/2022/01/26/transformer/</link>
