@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Web on Blog de Preminstrel</title>
+    <link>https://preminstrel.github.io/blog/categories/web/</link>
+    <description>Recent content in Web on Blog de Preminstrel</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <managingEditor>preminstrel@gmail.com (Hanshi Sun)</managingEditor>
+    <webMaster>preminstrel@gmail.com (Hanshi Sun)</webMaster>
+    <lastBuildDate>Sat, 16 Oct 2021 10:06:26 +0800</lastBuildDate><atom:link href="https://preminstrel.github.io/blog/categories/web/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hello Hugo</title>
+      <link>https://preminstrel.github.io/blog/post/2021/10/16/hello_world/</link>
+      <pubDate>Sat, 16 Oct 2021 10:06:26 +0800</pubDate>
+      <author>preminstrel@gmail.com (Hanshi Sun)</author>
+      <guid>https://preminstrel.github.io/blog/post/2021/10/16/hello_world/</guid>
+      
+      <description>&lt;p&gt;This is my first blog on Hugo, based on even theme.&lt;/p&gt;
+&lt;h2 id=&#34;why-hugo-again&#34;&gt;Why Hugo again?&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Simple is best.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Actually, I am familiar with Hexo, Wordpress. I have used hugo themes before, such as &lt;em&gt;Introduction&lt;/em&gt;, &lt;em&gt;Docs&lt;/em&gt;, which are really wonderful themes as well. Before, I was fascinated by a beatiful and complicate Wordpress theme named &lt;em&gt;Sakura&lt;/em&gt;. I pay over 1000 RMB to buy a cloud server to deploy my Wordpress theme. However, you konw, due to the fact that I am a student so that I cannot pay such amout of money every year. Moreover, I notice that I have spent too much time just on the framework and appearance of the blog site, resulting in less time and attention to writing, which is terrible.&lt;/p&gt;
+&lt;h2 id=&#34;how-it-works&#34;&gt;How it works?&lt;/h2&gt;
+&lt;p&gt;The site is powered by Hugo and deployed on GiHub Pages for free.&lt;/p&gt;
+</description>
+      
+    </item>
+    
+  </channel>
+</rss>

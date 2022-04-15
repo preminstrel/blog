@@ -1,158 +1,122 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Categories on Preminstrel&#39;s Blog</title>
+    <title>Categories on Blog de Preminstrel</title>
     <link>https://preminstrel.github.io/blog/categories/</link>
-    <description>Recent content in Categories on Preminstrel&#39;s Blog</description>
+    <description>Recent content in Categories on Blog de Preminstrel</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Fri, 28 Jan 2022 17:59:08 +0800</lastBuildDate>
-    
-	<atom:link href="https://preminstrel.github.io/blog/categories/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <managingEditor>preminstrel@gmail.com (Hanshi Sun)</managingEditor>
+    <webMaster>preminstrel@gmail.com (Hanshi Sun)</webMaster>
+    <lastBuildDate>Fri, 28 Jan 2022 17:59:08 +0800</lastBuildDate><atom:link href="https://preminstrel.github.io/blog/categories/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Transformer</title>
       <link>https://preminstrel.github.io/blog/categories/transformer/</link>
       <pubDate>Fri, 28 Jan 2022 17:59:08 +0800</pubDate>
-      
+      <author>preminstrel@gmail.com (Hanshi Sun)</author>
       <guid>https://preminstrel.github.io/blog/categories/transformer/</guid>
+      
       <description></description>
+      
     </item>
     
     <item>
       <title>Object Detection</title>
       <link>https://preminstrel.github.io/blog/categories/object-detection/</link>
-      <pubDate>Mon, 17 Jan 2022 13:21:36 +0800</pubDate>
-      
+      <pubDate>Fri, 14 Jan 2022 13:32:15 +0800</pubDate>
+      <author>preminstrel@gmail.com (Hanshi Sun)</author>
       <guid>https://preminstrel.github.io/blog/categories/object-detection/</guid>
+      
       <description></description>
+      
     </item>
     
     <item>
-      <title>GPU</title>
-      <link>https://preminstrel.github.io/blog/categories/gpu/</link>
+      <title>Google</title>
+      <link>https://preminstrel.github.io/blog/categories/google/</link>
       <pubDate>Mon, 10 Jan 2022 21:07:50 +0800</pubDate>
+      <author>preminstrel@gmail.com (Hanshi Sun)</author>
+      <guid>https://preminstrel.github.io/blog/categories/google/</guid>
       
-      <guid>https://preminstrel.github.io/blog/categories/gpu/</guid>
       <description></description>
+      
     </item>
     
     <item>
       <title>GAN</title>
       <link>https://preminstrel.github.io/blog/categories/gan/</link>
       <pubDate>Sun, 09 Jan 2022 13:50:22 +0800</pubDate>
-      
+      <author>preminstrel@gmail.com (Hanshi Sun)</author>
       <guid>https://preminstrel.github.io/blog/categories/gan/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>ZYNQ</title>
-      <link>https://preminstrel.github.io/blog/categories/zynq/</link>
-      <pubDate>Thu, 04 Nov 2021 20:28:55 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/blog/categories/zynq/</guid>
       <description></description>
-    </item>
-    
-    <item>
-      <title>MCU</title>
-      <link>https://preminstrel.github.io/blog/categories/mcu/</link>
-      <pubDate>Fri, 29 Oct 2021 17:40:03 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/blog/categories/mcu/</guid>
-      <description></description>
     </item>
     
     <item>
       <title>FPGA</title>
       <link>https://preminstrel.github.io/blog/categories/fpga/</link>
-      <pubDate>Mon, 18 Oct 2021 20:05:26 +0800</pubDate>
-      
+      <pubDate>Thu, 04 Nov 2021 20:28:55 +0800</pubDate>
+      <author>preminstrel@gmail.com (Hanshi Sun)</author>
       <guid>https://preminstrel.github.io/blog/categories/fpga/</guid>
+      
       <description></description>
+      
+    </item>
+    
+    <item>
+      <title>MCU</title>
+      <link>https://preminstrel.github.io/blog/categories/mcu/</link>
+      <pubDate>Mon, 25 Oct 2021 22:59:29 +0800</pubDate>
+      <author>preminstrel@gmail.com (Hanshi Sun)</author>
+      <guid>https://preminstrel.github.io/blog/categories/mcu/</guid>
+      
+      <description></description>
+      
     </item>
     
     <item>
       <title>Productivity</title>
       <link>https://preminstrel.github.io/blog/categories/productivity/</link>
       <pubDate>Sun, 17 Oct 2021 13:46:08 +0800</pubDate>
-      
+      <author>preminstrel@gmail.com (Hanshi Sun)</author>
       <guid>https://preminstrel.github.io/blog/categories/productivity/</guid>
+      
       <description></description>
+      
     </item>
     
     <item>
       <title>Linux</title>
       <link>https://preminstrel.github.io/blog/categories/linux/</link>
       <pubDate>Sun, 17 Oct 2021 13:42:45 +0800</pubDate>
-      
+      <author>preminstrel@gmail.com (Hanshi Sun)</author>
       <guid>https://preminstrel.github.io/blog/categories/linux/</guid>
+      
       <description></description>
+      
     </item>
     
     <item>
       <title>Publication</title>
       <link>https://preminstrel.github.io/blog/categories/publication/</link>
       <pubDate>Sun, 17 Oct 2021 13:37:23 +0800</pubDate>
-      
+      <author>preminstrel@gmail.com (Hanshi Sun)</author>
       <guid>https://preminstrel.github.io/blog/categories/publication/</guid>
+      
       <description></description>
+      
     </item>
     
     <item>
       <title>Model Compression</title>
       <link>https://preminstrel.github.io/blog/categories/model-compression/</link>
       <pubDate>Sun, 17 Oct 2021 10:48:26 +0800</pubDate>
-      
+      <author>preminstrel@gmail.com (Hanshi Sun)</author>
       <guid>https://preminstrel.github.io/blog/categories/model-compression/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Pytorch</title>
-      <link>https://preminstrel.github.io/blog/categories/pytorch/</link>
-      <pubDate>Sun, 17 Oct 2021 00:25:41 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/blog/categories/pytorch/</guid>
       <description></description>
-    </item>
-    
-    <item>
-      <title>Git</title>
-      <link>https://preminstrel.github.io/blog/categories/git/</link>
-      <pubDate>Sat, 16 Oct 2021 23:53:14 +0800</pubDate>
       
-      <guid>https://preminstrel.github.io/blog/categories/git/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Blog</title>
-      <link>https://preminstrel.github.io/blog/categories/blog/</link>
-      <pubDate>Sat, 16 Oct 2021 10:06:26 +0800</pubDate>
-      
-      <guid>https://preminstrel.github.io/blog/categories/blog/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Manim</title>
-      <link>https://preminstrel.github.io/blog/categories/manim/</link>
-      <pubDate>Fri, 23 Jul 2021 23:53:14 +0800</pubDate>
-      
-      <guid>https://preminstrel.github.io/blog/categories/manim/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Animation</title>
-      <link>https://preminstrel.github.io/blog/categories/animation/</link>
-      <pubDate>Tue, 20 Jul 2021 23:53:14 +0800</pubDate>
-      
-      <guid>https://preminstrel.github.io/blog/categories/animation/</guid>
-      <description></description>
     </item>
     
   </channel>

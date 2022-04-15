@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Video on Blog de Preminstrel</title>
+    <link>https://preminstrel.github.io/blog/categories/video/</link>
+    <description>Recent content in Video on Blog de Preminstrel</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <managingEditor>preminstrel@gmail.com (Hanshi Sun)</managingEditor>
+    <webMaster>preminstrel@gmail.com (Hanshi Sun)</webMaster>
+    <lastBuildDate>Fri, 23 Jul 2021 23:53:14 +0800</lastBuildDate><atom:link href="https://preminstrel.github.io/blog/categories/video/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Manim</title>
+      <link>https://preminstrel.github.io/blog/post/2021/07/23/manim/</link>
+      <pubDate>Fri, 23 Jul 2021 23:53:14 +0800</pubDate>
+      <author>preminstrel@gmail.com (Hanshi Sun)</author>
+      <guid>https://preminstrel.github.io/blog/post/2021/07/23/manim/</guid>
+      
+      <description>&lt;h2 id=&#34;video-rendering&#34;&gt;Video rendering&lt;/h2&gt;
+&lt;h3 id=&#34;command-line-flags&#34;&gt;Command line flags&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ manim scene.py &lt;span style=&#34;color:#a2f&#34;&gt;test&lt;/span&gt; -s -pql
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;-p&lt;/code&gt; means preview/play, which can display the rendered video.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-ql&lt;/code&gt; means low quality (480P15)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-qm&lt;/code&gt; means medium quality (720P30)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-qh&lt;/code&gt; means high quality (1080P60) &lt;strong&gt;DEFAULT&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-qp&lt;/code&gt; (1440P60)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-qk&lt;/code&gt; (2160P60)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;-s&lt;/code&gt; means saving the last frame&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;mobjects&#34;&gt;Mobjects&lt;/h2&gt;
+&lt;p&gt;Mobjects are the basic building block for all manim animations. For an instance, &lt;code&gt;Circle&lt;/code&gt;, &lt;code&gt;Arrow&lt;/code&gt; and &lt;code&gt;Rectangle&lt;/code&gt; are mojects. Moreover, &lt;code&gt;Axes&lt;/code&gt;,&lt;code&gt;FucntionGraph&lt;/code&gt; or &lt;code&gt;BarChart&lt;/code&gt; are mojects, too.&lt;/p&gt;
+&lt;h3 id=&#34;position-related-methods&#34;&gt;Position-related Methods&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;add()&lt;/code&gt; and &lt;code&gt;remove()&lt;/code&gt; are basic methods.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;Create()&lt;/code&gt; and &lt;code&gt;FadeOut()&lt;/code&gt; are advanced methods which have anime effect.&lt;/p&gt;
+&lt;h4 id=&#34;shift&#34;&gt;&lt;code&gt;shift()&lt;/code&gt;&lt;/h4&gt;
+&lt;p&gt;&lt;code&gt;shift()&lt;/code&gt; method is designed to adjust the position of the mobjects. By default, mobjects are placed at &lt;em&gt;the center of coordinates&lt;/em&gt;, or &lt;em&gt;origin&lt;/em&gt;, when they are first created. The codes below express that the circle is shifted 2 units UP.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;circle&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;shift(UP &lt;span style=&#34;color:#666&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;2&lt;/span&gt;)
+square &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; Square()&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;shift(LEFT)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;move_to-and-next_to&#34;&gt;&lt;code&gt;move_to()&lt;/code&gt; and &lt;code&gt;next_to()&lt;/code&gt;&lt;/h4&gt;
+&lt;p&gt;&lt;code&gt;move_to()&lt;/code&gt; method uses &lt;em&gt;absolute units&lt;/em&gt; (measured relative to the &lt;code&gt;ORIGIN&lt;/code&gt;), while &lt;code&gt;next_to&lt;/code&gt; uses &lt;em&gt;relative units&lt;/em&gt; (measured from the mobject passed as the first argument). The difference with &lt;code&gt;move_to&lt;/code&gt; is that &lt;code&gt;next_to&lt;/code&gt; represents the distance of the boundary, not the center distance.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# place the circle two units left from the origin&lt;/span&gt;
+circle&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;move_to(LEFT &lt;span style=&#34;color:#666&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;2&lt;/span&gt;)
+&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# place the square to the left of the circle&lt;/span&gt;
+square&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;next_to(circle, LEFT)
+&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# align the left border of the triangle to the left border of the circle&lt;/span&gt;
+triangle&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;align_to(circle, LEFT)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;mobject-on-screen-order&#34;&gt;Mobject on-screen order&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;add(triangle, square, circle)
+self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;add(circle, square, triangle)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The former creates triangle, square and circle in order while the latter creates circle, square and triangle in order.&lt;/p&gt;
+&lt;h4 id=&#34;rotate&#34;&gt;&lt;code&gt;rotate()&lt;/code&gt;&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;square&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;rotate(PI&lt;span style=&#34;color:#666&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;styling-mobjects&#34;&gt;Styling mobjects&lt;/h3&gt;
+&lt;h4 id=&#34;set_stroke-and-set_fill&#34;&gt;&lt;code&gt;set_stroke&lt;/code&gt; and &lt;code&gt;set_fill&lt;/code&gt;&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;circle&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;set_stroke(color&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;GREEN, width&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;20&lt;/span&gt;)
+square&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;set_fill(YELLOW, opacity&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1.0&lt;/span&gt;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;he former changes the visual style of the mobject’s &lt;em&gt;border&lt;/em&gt; while the latter changes the style of the &lt;em&gt;interior&lt;/em&gt;.&lt;/p&gt;
+&lt;h4 id=&#34;scale&#34;&gt;&lt;code&gt;scale()&lt;/code&gt;&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;dot1 &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; Dot()
+dot1&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;scale(&lt;span style=&#34;color:#666&#34;&gt;3&lt;/span&gt;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;animation&#34;&gt;Animation&lt;/h3&gt;
+&lt;p&gt;At the heart of manim is animation. Generally, you can add an animation to your scene by calling the &lt;code&gt;play()&lt;/code&gt; method.&lt;/p&gt;
+&lt;h4 id=&#34;fadein-and-fadeout&#34;&gt;&lt;code&gt;FadeIn()&lt;/code&gt; and &lt;code&gt;FadeOut()&lt;/code&gt;&lt;/h4&gt;
+&lt;h4 id=&#34;rotate-1&#34;&gt;&lt;code&gt;Rotate()&lt;/code&gt;&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;play(Rotate(square, PI&lt;span style=&#34;color:#666&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;))
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;applymethod&#34;&gt;&lt;code&gt;ApplyMethod()&lt;/code&gt;&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# animate the change of color&lt;/span&gt;
+self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;play(ApplyMethod(square&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;set_fill, WHITE))
+&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# animate the change of position&lt;/span&gt;
+self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;play(ApplyMethod(square&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;shift, UP))
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;For example, &lt;code&gt;ApplyMethod(square.shift, UP)&lt;/code&gt; executes &lt;code&gt;square.shift(UP)&lt;/code&gt;, but animates it instead of applying it immediately.&lt;/p&gt;
+&lt;h4 id=&#34;run_time&#34;&gt;&lt;code&gt;run_time&lt;/code&gt;&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;play(ApplyMethod(square&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;shift, UP), run_time&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;3&lt;/span&gt;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;growfromcenter&#34;&gt;&lt;code&gt;GrowFromCenter()&lt;/code&gt;&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;play(GrowFromCenter(circle))
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;transform&#34;&gt;&lt;code&gt;Transform()&lt;/code&gt;&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;play(Transform(dot, dot2))
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;movealongpath&#34;&gt;&lt;code&gt;MoveAlongPath()&lt;/code&gt;&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;play(MoveAlongPath(dot, circle), run_time&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;2&lt;/span&gt;, rate_func&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;linear)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;rate_func&#34;&gt;&lt;code&gt;rate_func&lt;/code&gt;&lt;/h4&gt;
+&lt;p&gt;3 values：&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;there_and_back&lt;/code&gt; just there and back&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;linear&lt;/code&gt; change as a linear speed&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;smooth&lt;/code&gt; The speed of change will start from 0 and increase, decreasing while it will get to the goal.&lt;/p&gt;
+&lt;h4 id=&#34;239-rotating&#34;&gt;2.3.9 &lt;code&gt;Rotating()&lt;/code&gt;&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;play(Rotating(dot, about_point&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;[&lt;span style=&#34;color:#666&#34;&gt;2&lt;/span&gt;, &lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;, &lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;]), run_time&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1.5&lt;/span&gt;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;2310-transform-and-replacementtransform&#34;&gt;2.3.10 &lt;code&gt;Transform()&lt;/code&gt; and &lt;code&gt;ReplacementTransform()&lt;/code&gt;&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;Same: Same effect&lt;/li&gt;
+&lt;li&gt;Difference: &lt;code&gt;Transform()&lt;/code&gt; shows object1 while &lt;code&gt;ReplacementTransform()&lt;/code&gt; shows object2.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;parts&#34;&gt;Parts&lt;/h3&gt;
+&lt;p&gt;circle: &lt;code&gt;Circle(radius=1, color=BLUE)&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;dots: &lt;code&gt;Dot([-2, -3, 0])&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;lines: &lt;code&gt;Line(dot.get_center(),dot2.get_center()).set_color(ORANGE)&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;brace:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;b1 &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; Brace(line,direction &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; line&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;copy()&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;rotate(PI&lt;span style=&#34;color:#666&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;2&lt;/span&gt;)&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;get_unit_vector())
+b1text &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; b1&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;get_text(&lt;span style=&#34;color:#b44&#34;&gt;&amp;#34;Hello&amp;#34;&lt;/span&gt;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;arrow: &lt;code&gt;Arrow(ORIGIN, [2, 2, 0], buff=0)&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;numberplane: &lt;code&gt;NumberPlane()&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;framebox: &lt;code&gt;SurroundingRectangle(text[1], buff = .1)&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;MathTex&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;The format of formulas in Latex, we can use Latex syntax inside it.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h4 id=&#34;syntax&#34;&gt;syntax&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;text &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; MathTex(&lt;span style=&#34;color:#b44&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#b62;font-weight:bold&#34;&gt;\\&lt;/span&gt;&lt;span style=&#34;color:#b44&#34;&gt;left&lt;/span&gt;&lt;span style=&#34;color:#b62;font-weight:bold&#34;&gt;\\&lt;/span&gt;&lt;span style=&#34;color:#b44&#34;&gt;{ &lt;/span&gt;&lt;span style=&#34;color:#b62;font-weight:bold&#34;&gt;\\&lt;/span&gt;&lt;span style=&#34;color:#b44&#34;&gt;begin{aligned} &amp;amp;&lt;/span&gt;&lt;span style=&#34;color:#b62;font-weight:bold&#34;&gt;\\&lt;/span&gt;&lt;span style=&#34;color:#b44&#34;&gt;mu a^2+b^2=c^2 &lt;/span&gt;&lt;span style=&#34;color:#b62;font-weight:bold&#34;&gt;\\&lt;/span&gt;&lt;span style=&#34;color:#b44&#34;&gt;\ &amp;amp;a = 0 &lt;/span&gt;&lt;span style=&#34;color:#b62;font-weight:bold&#34;&gt;\\&lt;/span&gt;&lt;span style=&#34;color:#b44&#34;&gt;end{aligned}&lt;/span&gt;&lt;span style=&#34;color:#b62;font-weight:bold&#34;&gt;\\&lt;/span&gt;&lt;span style=&#34;color:#b44&#34;&gt;right.&amp;#34;&lt;/span&gt;) 
+text &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; MathTex( &lt;span style=&#34;color:#b44&#34;&gt;r&lt;/span&gt;&lt;span style=&#34;color:#b44&#34;&gt;&amp;#34;\left\{ \begin{aligned} &amp;amp;\mu a^2+b^2=c^2 &lt;/span&gt;&lt;span style=&#34;color:#b62;font-weight:bold&#34;&gt;\\&lt;/span&gt;&lt;span style=&#34;color:#b44&#34;&gt; &amp;amp;a = 0 \end{aligned}\right.&amp;#34;&lt;/span&gt;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;blockquote&gt;
+&lt;p&gt;Obviously, &amp;ldquo;r&amp;rdquo; can be used to fix the redundant \ .&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;tex&#34;&gt;Tex&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;The format of words in Latex, which I don&amp;rsquo;t know how to realize the Chinese.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;text&#34;&gt;Text&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Just text, we can easily format fonts.&lt;/p&gt;
+&lt;/blockquote&gt;
+</description>
+      
+    </item>
+    
+  </channel>
+</rss>

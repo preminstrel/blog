@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Google on Blog de Preminstrel</title>
+    <link>https://preminstrel.github.io/blog/categories/google/</link>
+    <description>Recent content in Google on Blog de Preminstrel</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <managingEditor>preminstrel@gmail.com (Hanshi Sun)</managingEditor>
+    <webMaster>preminstrel@gmail.com (Hanshi Sun)</webMaster>
+    <lastBuildDate>Mon, 10 Jan 2022 21:07:50 +0800</lastBuildDate><atom:link href="https://preminstrel.github.io/blog/categories/google/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Google Colab</title>
+      <link>https://preminstrel.github.io/blog/post/2022/01/10/google-colab/</link>
+      <pubDate>Mon, 10 Jan 2022 21:07:50 +0800</pubDate>
+      <author>preminstrel@gmail.com (Hanshi Sun)</author>
+      <guid>https://preminstrel.github.io/blog/post/2022/01/10/google-colab/</guid>
+      
+      <description>&lt;p&gt;当我电脑的 RTX2060 带不动，而导师的实验室算力资源还没到位的时候，就必须去花钱租赁额外的计算资源了，需要在 3 月前的这一段时间内先自掏腰包对付一下。无奈，许多 GPU 虽然性能很棒，也很稳定，但是都是以计算时间计费的，3RMB/h 之类的很常见。&lt;/p&gt;
+&lt;h2 id=&#34;google-colab-pro&#34;&gt;Google Colab Pro&lt;/h2&gt;
+&lt;p&gt;朋友介绍说 Google Colab Pro 不仅价格便宜，而且是包月的，随便用。而且 Google Colab 即使不用 Pro 也可以正常使用，就是只能用一张 K80。白嫖党能使用的 K80 就比 CPU 快了一倍而已，而付费用户可使用的 &lt;strong&gt;P100 比 K80 的训练速度快 6.5 倍&lt;/strong&gt;，另外 &lt;strong&gt;P100 的显存也比 K80 多了足足 4 G&lt;/strong&gt;。经过我的测试之后，我发现 K80 的算力倒和我电脑的差不多了，于是花了 $11 买了一个月，分配到了一片 Tesla P100。&lt;/p&gt;
+&lt;div align=center&gt;
+&lt;a href=&#34;https://sm.ms/image/dvwKcL4nB2t7QNf&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://s2.loli.net/2022/04/14/dvwKcL4nB2t7QNf.png&#34; &gt;&lt;/a&gt;
+&lt;/div&gt;
+&lt;p&gt;可以看到，这个工作环境还是很不错的，符合 jupyter notebook 的一些习惯。而且，用 Google Colab 配置环境那是十分的丝滑，各种 package 和 git repo 的下载速度十分之快，几乎不需要花时间配置环境。但是需要注意的是，Colab Pro 每个 session 的时间上限为 24h，也就是说，如果数据量很大，P100 不够一天跑完一个 session 的时候，就不能用 Colab Pro 了，所以这个只能算是入门级的炼丹炉。&lt;/p&gt;
+&lt;div align=center&gt;
+&lt;a href=&#34;https://sm.ms/image/LlnhxAkyYm8Dot6&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://s2.loli.net/2022/04/14/LlnhxAkyYm8Dot6.png&#34; &gt;&lt;/a&gt;
+&lt;/div&gt;
+&lt;h2 id=&#34;work-with-google-drive&#34;&gt;Work with Google Drive&lt;/h2&gt;
+&lt;p&gt;Google Drive 是 Google 生态中不可或缺的一部分，得益于此，可以和 Google Colab Pro 联动工作。我们知道，训练模型需要给出数据集留出一定的空间，这次我拿到的数据集大概是 3GB 左右，是完全无法每次训练之前都上传到 Colab 的，所以 Google Drive 便派上了用场。我们可以将 Google Drive 与 Google Colab 相连，访问和修改 Drive 中的数据。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color:#00f;font-weight:bold&#34;&gt;google.colab&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;import&lt;/span&gt; drive
+drive&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;mount(&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;/content/gdrive&amp;#39;&lt;/span&gt;)
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;执行完以上指令之后，会弹出窗口让登录 Google 账号，登陆完毕， 成功 &lt;code&gt;Mounted at /content/gdrive&lt;/code&gt;。随后，将 &lt;code&gt;os.chdir&lt;/code&gt; 移动至需要的地方即可。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#00f;font-weight:bold&#34;&gt;os&lt;/span&gt;
+os&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;chdir(&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;/content/gdrive/MyDrive/{TARGET FOLDER NAME}/&amp;#39;&lt;/span&gt;)
+&lt;span style=&#34;color:#666&#34;&gt;%&lt;/span&gt;ls
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;reference&#34;&gt;Reference&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://zhuanlan.zhihu.com/p/218133131&#34;&gt;Google Colab 的正确使用姿势&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+      
+    </item>
+    
+  </channel>
+</rss>
