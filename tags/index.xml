@@ -8,11 +8,11 @@
     <language>en</language>
     <managingEditor>preminstrel@gmail.com (Hanshi Sun)</managingEditor>
     <webMaster>preminstrel@gmail.com (Hanshi Sun)</webMaster>
-    <lastBuildDate>Fri, 15 Apr 2022 13:47:07 +0800</lastBuildDate><atom:link href="https://preminstrel.github.io/blog/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 16 Apr 2022 12:26:10 +0800</lastBuildDate><atom:link href="https://preminstrel.github.io/blog/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Canada</title>
       <link>https://preminstrel.github.io/blog/tags/canada/</link>
-      <pubDate>Fri, 15 Apr 2022 13:47:07 +0800</pubDate>
+      <pubDate>Sat, 16 Apr 2022 12:26:10 +0800</pubDate>
       <author>preminstrel@gmail.com (Hanshi Sun)</author>
       <guid>https://preminstrel.github.io/blog/tags/canada/</guid>
       
@@ -23,9 +23,20 @@
     <item>
       <title>Mitacs</title>
       <link>https://preminstrel.github.io/blog/tags/mitacs/</link>
-      <pubDate>Fri, 15 Apr 2022 13:47:07 +0800</pubDate>
+      <pubDate>Sat, 16 Apr 2022 12:26:10 +0800</pubDate>
       <author>preminstrel@gmail.com (Hanshi Sun)</author>
       <guid>https://preminstrel.github.io/blog/tags/mitacs/</guid>
+      
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Visa</title>
+      <link>https://preminstrel.github.io/blog/tags/visa/</link>
+      <pubDate>Sat, 16 Apr 2022 12:26:10 +0800</pubDate>
+      <author>preminstrel@gmail.com (Hanshi Sun)</author>
+      <guid>https://preminstrel.github.io/blog/tags/visa/</guid>
       
       <description></description>
       
@@ -103,17 +114,6 @@
       <pubDate>Sun, 09 Jan 2022 13:50:22 +0800</pubDate>
       <author>preminstrel@gmail.com (Hanshi Sun)</author>
       <guid>https://preminstrel.github.io/blog/tags/gan/</guid>
-      
-      <description></description>
-      
-    </item>
-    
-    <item>
-      <title>FPGA</title>
-      <link>https://preminstrel.github.io/blog/tags/fpga/</link>
-      <pubDate>Thu, 04 Nov 2021 20:28:55 +0800</pubDate>
-      <author>preminstrel@gmail.com (Hanshi Sun)</author>
-      <guid>https://preminstrel.github.io/blog/tags/fpga/</guid>
       
       <description></description>
       
