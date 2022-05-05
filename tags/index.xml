@@ -8,7 +8,29 @@
     <language>en</language>
     <managingEditor>preminstrel@gmail.com (Hanshi Sun)</managingEditor>
     <webMaster>preminstrel@gmail.com (Hanshi Sun)</webMaster>
-    <lastBuildDate>Sat, 16 Apr 2022 12:26:10 +0800</lastBuildDate><atom:link href="https://preminstrel.github.io/blog/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 05 May 2022 22:18:01 +0800</lastBuildDate><atom:link href="https://preminstrel.github.io/blog/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Game</title>
+      <link>https://preminstrel.github.io/blog/tags/game/</link>
+      <pubDate>Thu, 05 May 2022 22:18:01 +0800</pubDate>
+      <author>preminstrel@gmail.com (Hanshi Sun)</author>
+      <guid>https://preminstrel.github.io/blog/tags/game/</guid>
+      
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>JRPG</title>
+      <link>https://preminstrel.github.io/blog/tags/jrpg/</link>
+      <pubDate>Thu, 05 May 2022 22:18:01 +0800</pubDate>
+      <author>preminstrel@gmail.com (Hanshi Sun)</author>
+      <guid>https://preminstrel.github.io/blog/tags/jrpg/</guid>
+      
+      <description></description>
+      
+    </item>
+    
     <item>
       <title>Canada</title>
       <link>https://preminstrel.github.io/blog/tags/canada/</link>
@@ -92,28 +114,6 @@
       <pubDate>Mon, 10 Jan 2022 21:07:50 +0800</pubDate>
       <author>preminstrel@gmail.com (Hanshi Sun)</author>
       <guid>https://preminstrel.github.io/blog/tags/google/</guid>
-      
-      <description></description>
-      
-    </item>
-    
-    <item>
-      <title>GPU</title>
-      <link>https://preminstrel.github.io/blog/tags/gpu/</link>
-      <pubDate>Mon, 10 Jan 2022 21:07:50 +0800</pubDate>
-      <author>preminstrel@gmail.com (Hanshi Sun)</author>
-      <guid>https://preminstrel.github.io/blog/tags/gpu/</guid>
-      
-      <description></description>
-      
-    </item>
-    
-    <item>
-      <title>GAN</title>
-      <link>https://preminstrel.github.io/blog/tags/gan/</link>
-      <pubDate>Sun, 09 Jan 2022 13:50:22 +0800</pubDate>
-      <author>preminstrel@gmail.com (Hanshi Sun)</author>
-      <guid>https://preminstrel.github.io/blog/tags/gan/</guid>
       
       <description></description>
       
