@@ -8,17 +8,20 @@
     <language>en</language>
     <managingEditor>preminstrel@gmail.com (Hanshi Sun)</managingEditor>
     <webMaster>preminstrel@gmail.com (Hanshi Sun)</webMaster>
-    <lastBuildDate>Sat, 16 Apr 2022 12:26:10 +0800</lastBuildDate><atom:link href="https://preminstrel.github.io/blog/categories/canada/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 09 May 2022 16:15:25 +0800</lastBuildDate><atom:link href="https://preminstrel.github.io/blog/categories/canada/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Canada Visa</title>
-      <link>https://preminstrel.github.io/blog/post/2022/04/16/canada-visa/</link>
-      <pubDate>Sat, 16 Apr 2022 12:26:10 +0800</pubDate>
+      <link>https://preminstrel.github.io/blog/post/2022/05/09/canada-visa/</link>
+      <pubDate>Mon, 09 May 2022 16:15:25 +0800</pubDate>
       <author>preminstrel@gmail.com (Hanshi Sun)</author>
-      <guid>https://preminstrel.github.io/blog/post/2022/04/16/canada-visa/</guid>
+      <guid>https://preminstrel.github.io/blog/post/2022/05/09/canada-visa/</guid>
       
-      <description>&lt;p&gt;参与 Mitacs 项目需要申请加拿大签证，这里进行一个申请的记录。这个项目让我们申请的是 TRV (Temporary Resident Visa)，通过 GSS (Global Skill Strategy) 在入境时申请 Work Exemption，也就是说，我申请的是 Visitor Visa V-1。但是实际上，目前很多人下的签都是 WX-1，是工签，有人是 MULTIPLE，也有人是 ONE。由于我还没贴签，所以不太清楚自己下的是什么。&lt;/p&gt;
+      <description>&lt;h2 id=&#34;application---march&#34;&gt;Application - March&lt;/h2&gt;
+&lt;p&gt;参与 Mitacs 项目需要申请加拿大签证，这里进行一个申请的记录。这个项目让我们申请的是 TRV (Temporary Resident Visa)，通过 GSS (Global Skill Strategy) 在入境时申请 Work Exemption，也就是说，我申请的是 Visitor Visa V-1。但是实际上，目前很多人下的签都是 WX-1，是工签，有人是 MULTIPLE，也有人是 ONE。由于我还没贴签，所以不太清楚自己下的是什么。&lt;/p&gt;
 &lt;p&gt;申请的时候，有两个通道，分别是 GCKey 和 IRCC Portal，前者是老通道，后者是疫情之后才开放的新通道。老通道是填表，同时要上传很多材料；新通道是类似于做问卷一样，填入一些信息，eye-friendly。我选择了 Portal 进行申报，在三月一号的时候完成了签证的申请。在缴费 $185 的时候，我发现用 Mastercard 付款失败了，但是用银联的信用卡反而成功了，群里也有人反应说借记卡也可以付款成功。指纹采集信当天就下来了，我预约了三月四号中午去上海的签证中心录指纹。&lt;/p&gt;
+&lt;h2 id=&#34;biometrics---march&#34;&gt;Biometrics - March&lt;/h2&gt;
 &lt;p&gt;三月四日，我坐动车去上海的加拿大签证中心进行生物信息采集 (Biometrics)，本想去一趟斌斌舅舅家玩，但是由于他有事还是算了。录指纹的时候要携带：护照、护照复印件、同意书、指纹采集信；在采集完之后会给你一个热敏打印一样的小贴纸，这个不能扔，要好好保管住了，在贴签的时候以及出入境都要查看。指纹有效期是十年，所以十年之内再申请加签是不用再录指纹的。录完指纹后，我在南京路逛了逛，中午吃了西餐，下午去了一趟外文书店看了看。随后改签了动车，早早就回无锡了。&lt;/p&gt;
+&lt;h2 id=&#34;webform---april&#34;&gt;Webform - April&lt;/h2&gt;
 &lt;p&gt;签证迟迟不下，我便利用 Webform 进行了催签，上海和北京和加拿大的都催了一下，收到了北京签证中心的回复，但是回复令人心寒，通篇的基调是 negative 的。&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Email from &lt;code&gt;beijing-immigration@international.gc.ca&lt;/code&gt;:&lt;/p&gt;
@@ -32,6 +35,7 @@
 &lt;p&gt;Thank you for contacting Immigration, Refugees and Citizenship Canada (IRCC).&lt;/p&gt;
 &lt;p&gt;We verified the information you provided and can confirm that your application is still in process.&lt;/p&gt;
 &lt;/blockquote&gt;
+&lt;h2 id=&#34;re-application---april&#34;&gt;Re-application - April&lt;/h2&gt;
 &lt;p&gt;由于害怕自己被拒签，所以又在 GCKey 上申请了一次，多花了 $100，还申请了调档，花了 ￥100。GCKey申请后指纹自动同步了，这次没过几天就开始了 review。过了仅仅五个工作日，在 2022-04-29 的凌晨 02:00，我的邮箱先后收到了 IRCC Portal 的 Withdraw 和 GCKey 的 Original Passport Request，重新递交的效果显著！&lt;/p&gt;
 &lt;p&gt;GCKey Timeline:&lt;/p&gt;
 &lt;table&gt;
@@ -39,28 +43,23 @@
 &lt;tr&gt;
 &lt;th&gt;Subject&lt;/th&gt;
 &lt;th&gt;Date sent&lt;/th&gt;
-&lt;th&gt;Date read&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
 &lt;td&gt;Original Passport Request&lt;/td&gt;
 &lt;td&gt;April 28, 2022&lt;/td&gt;
-&lt;td&gt;April 28, 2022&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;Correspondence Letter&lt;/td&gt;
 &lt;td&gt;April 28, 2022&lt;/td&gt;
-&lt;td&gt;April 29, 2022&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;Submission Confirmation&lt;/td&gt;
 &lt;td&gt;April 21, 2022&lt;/td&gt;
-&lt;td&gt;April 21, 2022&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
 &lt;td&gt;Confirmation of Online Application Transmission&lt;/td&gt;
-&lt;td&gt;April 21, 2022&lt;/td&gt;
 &lt;td&gt;April 21, 2022&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
@@ -81,6 +80,38 @@
 &lt;li&gt;Schedule 1 - Application for a Temporary Resident Visa Made Outside Canada (IMM 5257): &lt;code&gt;imm5257b_1.pdf&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;当天将护照和相关材料用顺丰寄出，寄到北京加拿大签证申请中心，静候贴签的 tracking number。&lt;/p&gt;
+&lt;h2 id=&#34;vfs---may&#34;&gt;VFS - May&lt;/h2&gt;
+&lt;p&gt;五月四号，五一节之后的第一天，收到 VFS 邮件，&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Tracking ID No. - 20220504CNBJPKT72344 - Your application has been dispatched from the Canada Visa Application Centre to the IRCC Office on Wed May 04 2022 for processing.&lt;/p&gt;
+&lt;p&gt;Regards,&lt;/p&gt;
+&lt;p&gt;VFS Global&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;第二封：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Tracking ID No. - 20220504CNBJPKT72344 - Your application has been received and is under process at the IRCC Office on Thu May 05 2022.&lt;/p&gt;
+&lt;p&gt;Regards,&lt;/p&gt;
+&lt;p&gt;VFS Global&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;第三封（五月六日）：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Tracking ID No. - 20220504CNBJPKT72344 - The decision envelope for your application has been dispatched from the IRCC Office to the Canada Visa Application Centre.&lt;/p&gt;
+&lt;p&gt;Regards,&lt;/p&gt;
+&lt;p&gt;VFS Global&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;第四封（五月六日）：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Tracking ID No. - 20220504CNBJPKT72344 - The decision envelope for your application has been received at the Canada Visa Application Centre on Fri May 06 2022 from the IRCC Office, and is ready for collection or further delivery by courier as per your option upon the submission of the application. For details of the VAC locations, please refer to our website at: &lt;a href=&#34;https://visa.vfsglobal.com/chn/en/can/attend-centre;&#34;&gt;https://visa.vfsglobal.com/chn/en/can/attend-centre;&lt;/a&gt; for the business hours of operation under the COVID impact, please refer to our website at: &lt;a href=&#34;https://visa.vfsglobal.com/chn/en/can/news/covid-update&#34;&gt;https://visa.vfsglobal.com/chn/en/can/news/covid-update&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Regards,&lt;/p&gt;
+&lt;p&gt;VFS Global&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;第五封（五月六日）：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;The decision envelope for your application, tracking ID No. 20220504CNBJPKT72344 has been couriered from the Canada Visa Application Centre, Canada Visa Application Centre, Beijing on Fri May 06 2022 via courier partner. Please use Tracking id. or the AWB number provided to track the shipment on the courier partners website after 24hrs.&lt;/p&gt;
+&lt;p&gt;Regards,&lt;/p&gt;
+&lt;p&gt;VFS Global&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;五月九日，收到了北京发来的 EMS，贴签结束。查看签证后，发现是 WX-1，有效期到 2029-07-08，还算满意了。但是申请签证的过程，堪称折磨。&lt;/p&gt;
 </description>
       
     </item>
