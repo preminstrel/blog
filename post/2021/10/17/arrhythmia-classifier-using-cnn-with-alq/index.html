@@ -53,9 +53,10 @@
   <meta property="og:title" content="Arrhythmia Classifier Using CNN With ALQ" />
 <meta property="og:description" content="Introduction 在许多医疗保健方案中，患者被诊断出患有各种各样的疾病，包括心血管疾病（CVDs），这是一种普遍的致命疾病。 心电图描述了人的心电活动，对准确" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://preminstrel.github.io/blog/post/2021/10/17/arrhythmia-classifier-using-cnn-with-alq/" />
+<meta property="og:url" content="https://preminstrel.github.io/blog/post/2021/10/17/arrhythmia-classifier-using-cnn-with-alq/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2021-10-17T13:37:23+08:00" />
 <meta property="article:modified_time" content="2021-10-24T00:00:00+00:00" />
+
 
 
   
@@ -64,13 +65,9 @@
   
   
   <meta itemprop="name" content="Arrhythmia Classifier Using CNN With ALQ">
-<meta itemprop="description" content="Introduction 在许多医疗保健方案中，患者被诊断出患有各种各样的疾病，包括心血管疾病（CVDs），这是一种普遍的致命疾病。 心电图描述了人的心电活动，对准确">
-<meta itemprop="datePublished" content="2021-10-17T13:37:23&#43;08:00" />
-<meta itemprop="dateModified" content="2021-10-24T00:00:00&#43;00:00" />
+<meta itemprop="description" content="Introduction 在许多医疗保健方案中，患者被诊断出患有各种各样的疾病，包括心血管疾病（CVDs），这是一种普遍的致命疾病。 心电图描述了人的心电活动，对准确"><meta itemprop="datePublished" content="2021-10-17T13:37:23+08:00" />
+<meta itemprop="dateModified" content="2021-10-24T00:00:00+00:00" />
 <meta itemprop="wordCount" content="2721">
-
-
-
 <meta itemprop="keywords" content="Deep Learning,Publication," />
 
   
@@ -200,131 +197,131 @@
 <table>
 <thead>
 <tr>
-<th align="center">Layer</th>
+<th style="text-align:center">Layer</th>
 <th>Layer Name</th>
-<th align="center">Other Layer Params</th>
-<th align="center">Kernel $\times$ Unit</th>
+<th style="text-align:center">Other Layer Params</th>
+<th style="text-align:center">Kernel $\times$ Unit</th>
 <th>Params</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="center">1</td>
+<td style="text-align:center">1</td>
 <td>Conv1D</td>
-<td align="center">Activation = ReLU, Strides=2, Padding=7</td>
-<td align="center">$16\times 8$</td>
+<td style="text-align:center">Activation = ReLU, Strides=2, Padding=7</td>
+<td style="text-align:center">$16\times 8$</td>
 <td>136</td>
 </tr>
 <tr>
-<td align="center">2</td>
+<td style="text-align:center">2</td>
 <td>MaxPooling1D</td>
-<td align="center">Stride=4</td>
-<td align="center">$8$</td>
+<td style="text-align:center">Stride=4</td>
+<td style="text-align:center">$8$</td>
 <td>-</td>
 </tr>
 <tr>
-<td align="center">3</td>
+<td style="text-align:center">3</td>
 <td>Conv1D</td>
-<td align="center">Activation = ReLU, Strides=2, Padding=5</td>
-<td align="center">$12\times 12$</td>
+<td style="text-align:center">Activation = ReLU, Strides=2, Padding=5</td>
+<td style="text-align:center">$12\times 12$</td>
 <td>1,164</td>
 </tr>
 <tr>
-<td align="center">4</td>
+<td style="text-align:center">4</td>
 <td>MaxPooling1D</td>
-<td align="center">Stride=2</td>
-<td align="center">$4$</td>
+<td style="text-align:center">Stride=2</td>
+<td style="text-align:center">$4$</td>
 <td>-</td>
 </tr>
 <tr>
-<td align="center">5</td>
+<td style="text-align:center">5</td>
 <td>Conv1D</td>
-<td align="center">Activation = ReLU, Strides=1, Padding=4</td>
-<td align="center">$9\times 32$</td>
+<td style="text-align:center">Activation = ReLU, Strides=1, Padding=4</td>
+<td style="text-align:center">$9\times 32$</td>
 <td>3,488</td>
 </tr>
 <tr>
-<td align="center">6</td>
+<td style="text-align:center">6</td>
 <td>MaxPooling1D</td>
-<td align="center">Stride=2</td>
-<td align="center">$5$</td>
+<td style="text-align:center">Stride=2</td>
+<td style="text-align:center">$5$</td>
 <td>-</td>
 </tr>
 <tr>
-<td align="center">7</td>
+<td style="text-align:center">7</td>
 <td>Conv1D</td>
-<td align="center">Activation = ReLU, Strides=1, Padding=3</td>
-<td align="center">$7\times 64$</td>
+<td style="text-align:center">Activation = ReLU, Strides=1, Padding=3</td>
+<td style="text-align:center">$7\times 64$</td>
 <td>14,400</td>
 </tr>
 <tr>
-<td align="center">8</td>
+<td style="text-align:center">8</td>
 <td>MaxPooling1D</td>
-<td align="center">Stride=2</td>
-<td align="center">$4$</td>
+<td style="text-align:center">Stride=2</td>
+<td style="text-align:center">$4$</td>
 <td>-</td>
 </tr>
 <tr>
-<td align="center">9</td>
+<td style="text-align:center">9</td>
 <td>Conv1D</td>
-<td align="center">Activation = ReLU, Strides=1, Padding=2</td>
-<td align="center">$5\times 64$</td>
+<td style="text-align:center">Activation = ReLU, Strides=1, Padding=2</td>
+<td style="text-align:center">$5\times 64$</td>
 <td>20,544</td>
 </tr>
 <tr>
-<td align="center">10</td>
+<td style="text-align:center">10</td>
 <td>MaxPooling1D</td>
-<td align="center">Stride=2</td>
-<td align="center">$2$</td>
+<td style="text-align:center">Stride=2</td>
+<td style="text-align:center">$2$</td>
 <td>-</td>
 </tr>
 <tr>
-<td align="center">11</td>
+<td style="text-align:center">11</td>
 <td>Conv1D</td>
-<td align="center">Activation = ReLU, Strides=1, Padding=1</td>
-<td align="center">$3\times 64$</td>
+<td style="text-align:center">Activation = ReLU, Strides=1, Padding=1</td>
+<td style="text-align:center">$3\times 64$</td>
 <td>12,352</td>
 </tr>
 <tr>
-<td align="center">12</td>
+<td style="text-align:center">12</td>
 <td>MaxPooling1D</td>
-<td align="center">Strides=2</td>
-<td align="center">$2$</td>
+<td style="text-align:center">Strides=2</td>
+<td style="text-align:center">$2$</td>
 <td>-</td>
 </tr>
 <tr>
-<td align="center">13</td>
+<td style="text-align:center">13</td>
 <td>Conv1D</td>
-<td align="center">Activation = ReLU, Strides=1, Padding=1</td>
-<td align="center">$3\times 72$</td>
+<td style="text-align:center">Activation = ReLU, Strides=1, Padding=1</td>
+<td style="text-align:center">$3\times 72$</td>
 <td>13,896</td>
 </tr>
 <tr>
-<td align="center">14</td>
+<td style="text-align:center">14</td>
 <td>MaxPooling1D</td>
-<td align="center">Strides=2</td>
-<td align="center">$2$</td>
+<td style="text-align:center">Strides=2</td>
+<td style="text-align:center">$2$</td>
 <td>-</td>
 </tr>
 <tr>
-<td align="center">15</td>
+<td style="text-align:center">15</td>
 <td>Flatten</td>
-<td align="center">-</td>
-<td align="center">-</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">-</td>
 <td>-</td>
 </tr>
 <tr>
-<td align="center">16</td>
+<td style="text-align:center">16</td>
 <td>Linear</td>
-<td align="center">Activation = ReLU, Dropout Rate=0.1</td>
-<td align="center">$1\times 216$</td>
+<td style="text-align:center">Activation = ReLU, Dropout Rate=0.1</td>
+<td style="text-align:center">$1\times 216$</td>
 <td>13,888</td>
 </tr>
 <tr>
-<td align="center">17</td>
+<td style="text-align:center">17</td>
 <td>Linear</td>
-<td align="center">Activation = ReLU</td>
-<td align="center">$1\times 17$</td>
+<td style="text-align:center">Activation = ReLU</td>
+<td style="text-align:center">$1\times 17$</td>
 <td>1,105</td>
 </tr>
 </tbody>
@@ -354,7 +351,7 @@
 <table>
 <thead>
 <tr>
-<th align="center">Layer</th>
+<th style="text-align:center">Layer</th>
 <th>Average Bitwidth</th>
 <th>Params</th>
 <th>Size</th>
@@ -362,61 +359,61 @@
 </thead>
 <tbody>
 <tr>
-<td align="center">Conv1d_1</td>
+<td style="text-align:center">Conv1d_1</td>
 <td>1.2500</td>
 <td>136</td>
 <td>170 bit</td>
 </tr>
 <tr>
-<td align="center">Conv1d_2</td>
+<td style="text-align:center">Conv1d_2</td>
 <td>1.9896</td>
 <td>1,164</td>
 <td>2,316 bit</td>
 </tr>
 <tr>
-<td align="center">Conv1d_3</td>
+<td style="text-align:center">Conv1d_3</td>
 <td>1.7005</td>
 <td>3,488</td>
 <td>5,921 bit</td>
 </tr>
 <tr>
-<td align="center">Conv1d_4</td>
+<td style="text-align:center">Conv1d_4</td>
 <td>1.7095</td>
 <td>14,400</td>
 <td>24,617 bit</td>
 </tr>
 <tr>
-<td align="center">Conv1d_5</td>
+<td style="text-align:center">Conv1d_5</td>
 <td>1.4133</td>
 <td>20,544</td>
 <td>29,035 bit</td>
 </tr>
 <tr>
-<td align="center">Conv1d_6</td>
+<td style="text-align:center">Conv1d_6</td>
 <td>0.8545</td>
 <td>12,352</td>
 <td>10,555 bit</td>
 </tr>
 <tr>
-<td align="center">Conv1d_7</td>
+<td style="text-align:center">Conv1d_7</td>
 <td>0.8550</td>
 <td>13,896</td>
 <td>11,881 bit</td>
 </tr>
 <tr>
-<td align="center">Linear_1</td>
+<td style="text-align:center">Linear_1</td>
 <td>1.7422</td>
 <td>13,888</td>
 <td>24,196 bit</td>
 </tr>
 <tr>
-<td align="center">Linear_2</td>
+<td style="text-align:center">Linear_2</td>
 <td>2.0000</td>
 <td>1,105</td>
 <td>2210 bit</td>
 </tr>
 <tr>
-<td align="center">ALL</td>
+<td style="text-align:center">ALL</td>
 <td>1.3696</td>
 <td>80973</td>
 <td>110901 bit= 13.538 KB</td>

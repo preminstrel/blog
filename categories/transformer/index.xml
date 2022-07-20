@@ -144,36 +144,36 @@ $$XW^V=V$$&lt;/p&gt;
 &lt;p&gt;而随后与 $V$ 的乘积，代表的是&lt;strong&gt;向量经过注意力机制加权求和之后的结果&lt;/strong&gt;。也就是说，softmax 管的是一个相关度权值大小，与后面的 $V$ 相乘，得到的是通过相关度权值标准而重新计算得到的量。&lt;/p&gt;
 &lt;p&gt;对 Self-Attention 来说，它跟每一个输入的向量都做 Attention，所以没有考虑到输入的顺序。更通俗来讲，大家可以发现我们前文的计算每一个词向量都与其他词向量计算内积，得到的结果丢失了我们原来文本的顺序信息。对比来说，LSTM 是对于文本顺序信息的解释是输出词向量的先后顺序，而我们上文的计算对 sequence 的顺序这一部分则完全没有提及，你打乱词向量的顺序，得到的结果仍然是相同的，此处便可以引出 Transformer 的位置编码部分。&lt;strong&gt;Query 与 Key 作用得到 Attention 的权值，之后这个权值作用在 Value 上得到 Attention值。&lt;/strong&gt;&lt;/p&gt;
 &lt;h2 id=&#34;code&#34;&gt;Code&lt;/h2&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# Attention 机制的实现&lt;/span&gt;
-&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color:#00f;font-weight:bold&#34;&gt;math&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;import&lt;/span&gt; sqrt
-&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#00f;font-weight:bold&#34;&gt;torch&lt;/span&gt;
-&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#00f;font-weight:bold&#34;&gt;torch.nn&lt;/span&gt;
-
-
-&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#00f&#34;&gt;Self_Attention&lt;/span&gt;(nn&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;Module):
-    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# input : batch_size * seq_len * input_dim&lt;/span&gt;
-    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# q : batch_size * input_dim * dim_k&lt;/span&gt;
-    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# k : batch_size * input_dim * dim_k&lt;/span&gt;
-    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# v : batch_size * input_dim * dim_v&lt;/span&gt;
-    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; __init__(self,input_dim,dim_k,dim_v):
-        &lt;span style=&#34;color:#a2f&#34;&gt;super&lt;/span&gt;(Self_Attention,self)&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;__init__()
-        self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;q &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; nn&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;Linear(input_dim,dim_k)
-        self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;k &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; nn&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;Linear(input_dim,dim_k)
-        self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;v &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; nn&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;Linear(input_dim,dim_v)
-        self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;_norm_fact &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;/&lt;/span&gt; sqrt(dim_k)
-        
-    
-    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;forward&lt;/span&gt;(self,x):
-        Q &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;q(x) &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# Q: batch_size * seq_len * dim_k&lt;/span&gt;
-        K &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;k(x) &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# K: batch_size * seq_len * dim_k&lt;/span&gt;
-        V &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;v(x) &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# V: batch_size * seq_len * dim_v&lt;/span&gt;
-         
-        atten &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; nn&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;Softmax(dim&lt;span style=&#34;color:#666&#34;&gt;=-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)(torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;bmm(Q,K&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;permute(&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;2&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;))) &lt;span style=&#34;color:#666&#34;&gt;*&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;_norm_fact &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# Q * K.T() # batch_size * seq_len * seq_len&lt;/span&gt;
-        
-        output &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;bmm(atten,V) &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# Q * K.T() * V # batch_size * seq_len * dim_v&lt;/span&gt;
-        
-        &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;return&lt;/span&gt; output
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;reference&#34;&gt;Reference&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# Attention 机制的实现&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color:#00f;font-weight:bold&#34;&gt;math&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;import&lt;/span&gt; sqrt
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#00f;font-weight:bold&#34;&gt;torch&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#00f;font-weight:bold&#34;&gt;torch.nn&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#00f&#34;&gt;Self_Attention&lt;/span&gt;(nn&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;Module):
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# input : batch_size * seq_len * input_dim&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# q : batch_size * input_dim * dim_k&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# k : batch_size * input_dim * dim_k&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# v : batch_size * input_dim * dim_v&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; __init__(self,input_dim,dim_k,dim_v):
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#a2f&#34;&gt;super&lt;/span&gt;(Self_Attention,self)&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;__init__()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;q &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; nn&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;Linear(input_dim,dim_k)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;k &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; nn&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;Linear(input_dim,dim_k)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;v &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; nn&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;Linear(input_dim,dim_v)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;_norm_fact &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;/&lt;/span&gt; sqrt(dim_k)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;forward&lt;/span&gt;(self,x):
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        Q &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;q(x) &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# Q: batch_size * seq_len * dim_k&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        K &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;k(x) &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# K: batch_size * seq_len * dim_k&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        V &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;v(x) &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# V: batch_size * seq_len * dim_v&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;         
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        atten &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; nn&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;Softmax(dim&lt;span style=&#34;color:#666&#34;&gt;=-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)(torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;bmm(Q,K&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;permute(&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;2&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;))) &lt;span style=&#34;color:#666&#34;&gt;*&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;_norm_fact &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# Q * K.T() # batch_size * seq_len * seq_len&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        output &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;bmm(atten,V) &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# Q * K.T() * V # batch_size * seq_len * dim_v&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;return&lt;/span&gt; output
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;reference&#34;&gt;Reference&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;https://zhuanlan.zhihu.com/p/410776234&#34;&gt;超详细图解Self-Attention&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;

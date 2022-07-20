@@ -53,9 +53,10 @@
   <meta property="og:title" content="MCS 51 Basics (3)" />
 <meta property="og:description" content="独立按键 前面介绍的都是 IO 口输出的使用，这一章我们通过独立按键实验来介绍 IO 口作为输入的使用。开发板上板载 4 个独立按键。我们所要实现的功能是：通" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://preminstrel.github.io/blog/post/2021/10/25/mcs-51-basics-3/" />
+<meta property="og:url" content="https://preminstrel.github.io/blog/post/2021/10/25/mcs-51-basics-3/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2021-10-25T22:59:29+08:00" />
 <meta property="article:modified_time" content="2021-10-25T00:00:00+00:00" />
+
 
 
   
@@ -64,13 +65,9 @@
   
   
   <meta itemprop="name" content="MCS 51 Basics (3)">
-<meta itemprop="description" content="独立按键 前面介绍的都是 IO 口输出的使用，这一章我们通过独立按键实验来介绍 IO 口作为输入的使用。开发板上板载 4 个独立按键。我们所要实现的功能是：通">
-<meta itemprop="datePublished" content="2021-10-25T22:59:29&#43;08:00" />
-<meta itemprop="dateModified" content="2021-10-25T00:00:00&#43;00:00" />
+<meta itemprop="description" content="独立按键 前面介绍的都是 IO 口输出的使用，这一章我们通过独立按键实验来介绍 IO 口作为输入的使用。开发板上板载 4 个独立按键。我们所要实现的功能是：通"><meta itemprop="datePublished" content="2021-10-25T22:59:29+08:00" />
+<meta itemprop="dateModified" content="2021-10-25T00:00:00+00:00" />
 <meta itemprop="wordCount" content="1374">
-
-
-
 <meta itemprop="keywords" content="MCU,MCS 51," />
 
   
@@ -185,80 +182,80 @@
 <p>我们知道单片机的 IO 口既可作为输出也可作为输入使用，当检测按键时用的是它的输入功能，独立按键的一端接地，另一端与单片机的 I/O 口相连，开始时先给该 IO 口赋一高电平，然后让单片机不断地检测该 I/O 口是否变为低电平，当按键闭合时，即相当于该 I/O 口通过按键与地相连，变成低电平，程序一旦检测到 I/O 口变为低电平则说明按键被按下，然后执行相应的指令。</p>
 <h3 id="hardware-design">Hardware Design</h3>
 <h3 id="software-design">Software Design</h3>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#080">#include</span> <span style="color:#080">&#34;reg52.h&#34;</span><span style="color:#080">
-</span><span style="color:#080"></span>
-<span style="color:#a2f;font-weight:bold">typedef</span> <span style="color:#0b0;font-weight:bold">unsigned</span> <span style="color:#0b0;font-weight:bold">int</span> u16;    <span style="color:#080;font-style:italic">//对系统默认数据类型进行重定义
-</span><span style="color:#080;font-style:italic"></span><span style="color:#a2f;font-weight:bold">typedef</span> <span style="color:#0b0;font-weight:bold">unsigned</span> <span style="color:#0b0;font-weight:bold">char</span> u8;
-
-<span style="color:#080;font-style:italic">//定义独立按键控制脚
-</span><span style="color:#080;font-style:italic"></span>sbit KEY1<span style="color:#666">=</span>P3<span style="color:#666">^</span><span style="color:#666">1</span>;
-sbit KEY2<span style="color:#666">=</span>P3<span style="color:#666">^</span><span style="color:#666">0</span>;
-sbit KEY3<span style="color:#666">=</span>P3<span style="color:#666">^</span><span style="color:#666">2</span>;
-sbit KEY4<span style="color:#666">=</span>P3<span style="color:#666">^</span><span style="color:#666">3</span>;
-
-<span style="color:#080;font-style:italic">//定义LED1控制脚
-</span><span style="color:#080;font-style:italic"></span>sbit LED1<span style="color:#666">=</span>P2<span style="color:#666">^</span><span style="color:#666">0</span>;
-
-<span style="color:#080;font-style:italic">//使用宏定义独立按键按下的键值
-</span><span style="color:#080;font-style:italic"></span><span style="color:#080">#define KEY1_PRESS    1
-</span><span style="color:#080">#define KEY2_PRESS    2
-</span><span style="color:#080">#define KEY3_PRESS    3
-</span><span style="color:#080">#define KEY4_PRESS    4
-</span><span style="color:#080">#define KEY_UNPRESS    0    
-</span><span style="color:#080"></span>
-<span style="color:#0b0;font-weight:bold">void</span> <span style="color:#00a000">delay_10us</span>(u16 ten_us)
-{
-    <span style="color:#a2f;font-weight:bold">while</span>(ten_us<span style="color:#666">--</span>);    
-}
-
-<span style="color:#080;font-style:italic">/***********************************************************
-</span><span style="color:#080;font-style:italic">* 函 数 名       : key_scan
-</span><span style="color:#080;font-style:italic">* 函数功能         : 检测独立按键是否按下，按下则返回对应键值
-</span><span style="color:#080;font-style:italic">* 输    入       : mode=0：单次扫描按键
-</span><span style="color:#080;font-style:italic">                   mode=1：连续扫描按键
-</span><span style="color:#080;font-style:italic">* 输    出         : KEY1_PRESS：K1按下
-</span><span style="color:#080;font-style:italic">                   KEY2_PRESS：K2按下
-</span><span style="color:#080;font-style:italic">                   KEY3_PRESS：K3按下
-</span><span style="color:#080;font-style:italic">                   KEY4_PRESS：K4按下
-</span><span style="color:#080;font-style:italic">                   KEY_UNPRESS：未有按键按下
-</span><span style="color:#080;font-style:italic">************************************************************/</span>
-u8 <span style="color:#00a000">key_scan</span>(u8 mode)
-{
-    <span style="color:#a2f;font-weight:bold">static</span> u8 key<span style="color:#666">=</span><span style="color:#666">1</span>;
-
-    <span style="color:#a2f;font-weight:bold">if</span>(mode)key<span style="color:#666">=</span><span style="color:#666">1</span>;<span style="color:#080;font-style:italic">//连续扫描按键
-</span><span style="color:#080;font-style:italic"></span>    <span style="color:#a2f;font-weight:bold">if</span>(key<span style="color:#666">==</span><span style="color:#666">1</span><span style="color:#666">&amp;&amp;</span>(KEY1<span style="color:#666">==</span><span style="color:#666">0</span><span style="color:#666">||</span>KEY2<span style="color:#666">==</span><span style="color:#666">0</span><span style="color:#666">||</span>KEY3<span style="color:#666">==</span><span style="color:#666">0</span><span style="color:#666">||</span>KEY4<span style="color:#666">==</span><span style="color:#666">0</span>))<span style="color:#080;font-style:italic">//任意按键按下
-</span><span style="color:#080;font-style:italic"></span>    {
-        delay_10us(<span style="color:#666">1000</span>);<span style="color:#080;font-style:italic">//消抖
-</span><span style="color:#080;font-style:italic"></span>        key<span style="color:#666">=</span><span style="color:#666">0</span>;
-        <span style="color:#a2f;font-weight:bold">if</span>(KEY1<span style="color:#666">==</span><span style="color:#666">0</span>)
-            <span style="color:#a2f;font-weight:bold">return</span> KEY1_PRESS;
-        <span style="color:#a2f;font-weight:bold">else</span> <span style="color:#a2f;font-weight:bold">if</span>(KEY2<span style="color:#666">==</span><span style="color:#666">0</span>)
-            <span style="color:#a2f;font-weight:bold">return</span> KEY2_PRESS;
-        <span style="color:#a2f;font-weight:bold">else</span> <span style="color:#a2f;font-weight:bold">if</span>(KEY3<span style="color:#666">==</span><span style="color:#666">0</span>)
-            <span style="color:#a2f;font-weight:bold">return</span> KEY3_PRESS;
-        <span style="color:#a2f;font-weight:bold">else</span> <span style="color:#a2f;font-weight:bold">if</span>(KEY4<span style="color:#666">==</span><span style="color:#666">0</span>)
-            <span style="color:#a2f;font-weight:bold">return</span> KEY4_PRESS;    
-    }
-    <span style="color:#a2f;font-weight:bold">else</span> <span style="color:#a2f;font-weight:bold">if</span>(KEY1<span style="color:#666">==</span><span style="color:#666">1</span><span style="color:#666">&amp;&amp;</span>KEY2<span style="color:#666">==</span><span style="color:#666">1</span><span style="color:#666">&amp;&amp;</span>KEY3<span style="color:#666">==</span><span style="color:#666">1</span><span style="color:#666">&amp;&amp;</span>KEY4<span style="color:#666">==</span><span style="color:#666">1</span>)    <span style="color:#080;font-style:italic">//无按键按下
-</span><span style="color:#080;font-style:italic"></span>    {
-        key<span style="color:#666">=</span><span style="color:#666">1</span>;            
-    }
-    <span style="color:#a2f;font-weight:bold">return</span> KEY_UNPRESS;        
-}
-
-<span style="color:#0b0;font-weight:bold">void</span> <span style="color:#00a000">main</span>()
-{    
-    u8 key<span style="color:#666">=</span><span style="color:#666">0</span>;
-
-    <span style="color:#a2f;font-weight:bold">while</span>(<span style="color:#666">1</span>)
-    {
-        key<span style="color:#666">=</span>key_scan(<span style="color:#666">0</span>);
-        <span style="color:#a2f;font-weight:bold">if</span>(key<span style="color:#666">==</span>KEY1_PRESS)<span style="color:#080;font-style:italic">//检测按键K1是否按下
-</span><span style="color:#080;font-style:italic"></span>            LED1<span style="color:#666">=!</span>LED1;<span style="color:#080;font-style:italic">//LED1状态翻转    
-</span><span style="color:#080;font-style:italic"></span>    }        
-}
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#080">#include</span> <span style="color:#080">&#34;reg52.h&#34;</span><span style="color:#080">
+</span></span></span><span style="display:flex;"><span><span style="color:#080"></span>
+</span></span><span style="display:flex;"><span><span style="color:#a2f;font-weight:bold">typedef</span> <span style="color:#0b0;font-weight:bold">unsigned</span> <span style="color:#0b0;font-weight:bold">int</span> u16;    <span style="color:#080;font-style:italic">//对系统默认数据类型进行重定义
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span><span style="color:#a2f;font-weight:bold">typedef</span> <span style="color:#0b0;font-weight:bold">unsigned</span> <span style="color:#0b0;font-weight:bold">char</span> u8;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic">//定义独立按键控制脚
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span>sbit KEY1<span style="color:#666">=</span>P3<span style="color:#666">^</span><span style="color:#666">1</span>;
+</span></span><span style="display:flex;"><span>sbit KEY2<span style="color:#666">=</span>P3<span style="color:#666">^</span><span style="color:#666">0</span>;
+</span></span><span style="display:flex;"><span>sbit KEY3<span style="color:#666">=</span>P3<span style="color:#666">^</span><span style="color:#666">2</span>;
+</span></span><span style="display:flex;"><span>sbit KEY4<span style="color:#666">=</span>P3<span style="color:#666">^</span><span style="color:#666">3</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic">//定义LED1控制脚
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span>sbit LED1<span style="color:#666">=</span>P2<span style="color:#666">^</span><span style="color:#666">0</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic">//使用宏定义独立按键按下的键值
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span><span style="color:#080">#define KEY1_PRESS    1
+</span></span></span><span style="display:flex;"><span><span style="color:#080">#define KEY2_PRESS    2
+</span></span></span><span style="display:flex;"><span><span style="color:#080">#define KEY3_PRESS    3
+</span></span></span><span style="display:flex;"><span><span style="color:#080">#define KEY4_PRESS    4
+</span></span></span><span style="display:flex;"><span><span style="color:#080">#define KEY_UNPRESS    0    
+</span></span></span><span style="display:flex;"><span><span style="color:#080"></span>
+</span></span><span style="display:flex;"><span><span style="color:#0b0;font-weight:bold">void</span> <span style="color:#00a000">delay_10us</span>(u16 ten_us)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#a2f;font-weight:bold">while</span>(ten_us<span style="color:#666">--</span>);    
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic">/***********************************************************
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic">* 函 数 名       : key_scan
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic">* 函数功能         : 检测独立按键是否按下，按下则返回对应键值
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic">* 输    入       : mode=0：单次扫描按键
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic">                   mode=1：连续扫描按键
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic">* 输    出         : KEY1_PRESS：K1按下
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic">                   KEY2_PRESS：K2按下
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic">                   KEY3_PRESS：K3按下
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic">                   KEY4_PRESS：K4按下
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic">                   KEY_UNPRESS：未有按键按下
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic">************************************************************/</span>
+</span></span><span style="display:flex;"><span>u8 <span style="color:#00a000">key_scan</span>(u8 mode)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#a2f;font-weight:bold">static</span> u8 key<span style="color:#666">=</span><span style="color:#666">1</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a2f;font-weight:bold">if</span>(mode)key<span style="color:#666">=</span><span style="color:#666">1</span>;<span style="color:#080;font-style:italic">//连续扫描按键
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span>    <span style="color:#a2f;font-weight:bold">if</span>(key<span style="color:#666">==</span><span style="color:#666">1</span><span style="color:#666">&amp;&amp;</span>(KEY1<span style="color:#666">==</span><span style="color:#666">0</span><span style="color:#666">||</span>KEY2<span style="color:#666">==</span><span style="color:#666">0</span><span style="color:#666">||</span>KEY3<span style="color:#666">==</span><span style="color:#666">0</span><span style="color:#666">||</span>KEY4<span style="color:#666">==</span><span style="color:#666">0</span>))<span style="color:#080;font-style:italic">//任意按键按下
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span>    {
+</span></span><span style="display:flex;"><span>        delay_10us(<span style="color:#666">1000</span>);<span style="color:#080;font-style:italic">//消抖
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span>        key<span style="color:#666">=</span><span style="color:#666">0</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#a2f;font-weight:bold">if</span>(KEY1<span style="color:#666">==</span><span style="color:#666">0</span>)
+</span></span><span style="display:flex;"><span>            <span style="color:#a2f;font-weight:bold">return</span> KEY1_PRESS;
+</span></span><span style="display:flex;"><span>        <span style="color:#a2f;font-weight:bold">else</span> <span style="color:#a2f;font-weight:bold">if</span>(KEY2<span style="color:#666">==</span><span style="color:#666">0</span>)
+</span></span><span style="display:flex;"><span>            <span style="color:#a2f;font-weight:bold">return</span> KEY2_PRESS;
+</span></span><span style="display:flex;"><span>        <span style="color:#a2f;font-weight:bold">else</span> <span style="color:#a2f;font-weight:bold">if</span>(KEY3<span style="color:#666">==</span><span style="color:#666">0</span>)
+</span></span><span style="display:flex;"><span>            <span style="color:#a2f;font-weight:bold">return</span> KEY3_PRESS;
+</span></span><span style="display:flex;"><span>        <span style="color:#a2f;font-weight:bold">else</span> <span style="color:#a2f;font-weight:bold">if</span>(KEY4<span style="color:#666">==</span><span style="color:#666">0</span>)
+</span></span><span style="display:flex;"><span>            <span style="color:#a2f;font-weight:bold">return</span> KEY4_PRESS;    
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#a2f;font-weight:bold">else</span> <span style="color:#a2f;font-weight:bold">if</span>(KEY1<span style="color:#666">==</span><span style="color:#666">1</span><span style="color:#666">&amp;&amp;</span>KEY2<span style="color:#666">==</span><span style="color:#666">1</span><span style="color:#666">&amp;&amp;</span>KEY3<span style="color:#666">==</span><span style="color:#666">1</span><span style="color:#666">&amp;&amp;</span>KEY4<span style="color:#666">==</span><span style="color:#666">1</span>)    <span style="color:#080;font-style:italic">//无按键按下
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span>    {
+</span></span><span style="display:flex;"><span>        key<span style="color:#666">=</span><span style="color:#666">1</span>;            
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#a2f;font-weight:bold">return</span> KEY_UNPRESS;        
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#0b0;font-weight:bold">void</span> <span style="color:#00a000">main</span>()
+</span></span><span style="display:flex;"><span>{    
+</span></span><span style="display:flex;"><span>    u8 key<span style="color:#666">=</span><span style="color:#666">0</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a2f;font-weight:bold">while</span>(<span style="color:#666">1</span>)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        key<span style="color:#666">=</span>key_scan(<span style="color:#666">0</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#a2f;font-weight:bold">if</span>(key<span style="color:#666">==</span>KEY1_PRESS)<span style="color:#080;font-style:italic">//检测按键K1是否按下
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span>            LED1<span style="color:#666">=!</span>LED1;<span style="color:#080;font-style:italic">//LED1状态翻转    
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span>    }        
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div>
     
   </article>
   <div class="paginator">

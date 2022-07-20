@@ -37,80 +37,80 @@
 &lt;p&gt;我们知道单片机的 IO 口既可作为输出也可作为输入使用，当检测按键时用的是它的输入功能，独立按键的一端接地，另一端与单片机的 I/O 口相连，开始时先给该 IO 口赋一高电平，然后让单片机不断地检测该 I/O 口是否变为低电平，当按键闭合时，即相当于该 I/O 口通过按键与地相连，变成低电平，程序一旦检测到 I/O 口变为低电平则说明按键被按下，然后执行相应的指令。&lt;/p&gt;
 &lt;h3 id=&#34;hardware-design&#34;&gt;Hardware Design&lt;/h3&gt;
 &lt;h3 id=&#34;software-design&#34;&gt;Software Design&lt;/h3&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;color:#080&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#080&#34;&gt;&amp;#34;reg52.h&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#080&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#080&#34;&gt;&lt;/span&gt;
-&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;typedef&lt;/span&gt; &lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;unsigned&lt;/span&gt; &lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;int&lt;/span&gt; u16;    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//对系统默认数据类型进行重定义
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;typedef&lt;/span&gt; &lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;unsigned&lt;/span&gt; &lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;char&lt;/span&gt; u8;
-
-&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//定义独立按键控制脚
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;sbit KEY1&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;P3&lt;span style=&#34;color:#666&#34;&gt;^&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;;
-sbit KEY2&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;P3&lt;span style=&#34;color:#666&#34;&gt;^&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;;
-sbit KEY3&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;P3&lt;span style=&#34;color:#666&#34;&gt;^&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;2&lt;/span&gt;;
-sbit KEY4&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;P3&lt;span style=&#34;color:#666&#34;&gt;^&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;3&lt;/span&gt;;
-
-&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//定义LED1控制脚
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;sbit LED1&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;P2&lt;span style=&#34;color:#666&#34;&gt;^&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;;
-
-&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//使用宏定义独立按键按下的键值
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#080&#34;&gt;#define KEY1_PRESS    1
-&lt;/span&gt;&lt;span style=&#34;color:#080&#34;&gt;#define KEY2_PRESS    2
-&lt;/span&gt;&lt;span style=&#34;color:#080&#34;&gt;#define KEY3_PRESS    3
-&lt;/span&gt;&lt;span style=&#34;color:#080&#34;&gt;#define KEY4_PRESS    4
-&lt;/span&gt;&lt;span style=&#34;color:#080&#34;&gt;#define KEY_UNPRESS    0    
-&lt;/span&gt;&lt;span style=&#34;color:#080&#34;&gt;&lt;/span&gt;
-&lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;delay_10us&lt;/span&gt;(u16 ten_us)
-{
-    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;while&lt;/span&gt;(ten_us&lt;span style=&#34;color:#666&#34;&gt;--&lt;/span&gt;);    
-}
-
-&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;/***********************************************************
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;* 函 数 名       : key_scan
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;* 函数功能         : 检测独立按键是否按下，按下则返回对应键值
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;* 输    入       : mode=0：单次扫描按键
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;                   mode=1：连续扫描按键
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;* 输    出         : KEY1_PRESS：K1按下
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;                   KEY2_PRESS：K2按下
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;                   KEY3_PRESS：K3按下
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;                   KEY4_PRESS：K4按下
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;                   KEY_UNPRESS：未有按键按下
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;************************************************************/&lt;/span&gt;
-u8 &lt;span style=&#34;color:#00a000&#34;&gt;key_scan&lt;/span&gt;(u8 mode)
-{
-    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;static&lt;/span&gt; u8 key&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;;
-
-    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(mode)key&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//连续扫描按键
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(key&lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt;(KEY1&lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;||&lt;/span&gt;KEY2&lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;||&lt;/span&gt;KEY3&lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;||&lt;/span&gt;KEY4&lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;))&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//任意按键按下
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;    {
-        delay_10us(&lt;span style=&#34;color:#666&#34;&gt;1000&lt;/span&gt;);&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//消抖
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;        key&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;;
-        &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(KEY1&lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;)
-            &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;return&lt;/span&gt; KEY1_PRESS;
-        &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(KEY2&lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;)
-            &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;return&lt;/span&gt; KEY2_PRESS;
-        &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(KEY3&lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;)
-            &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;return&lt;/span&gt; KEY3_PRESS;
-        &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(KEY4&lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;)
-            &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;return&lt;/span&gt; KEY4_PRESS;    
-    }
-    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(KEY1&lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt;KEY2&lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt;KEY3&lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt;KEY4&lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//无按键按下
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;    {
-        key&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;;            
-    }
-    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;return&lt;/span&gt; KEY_UNPRESS;        
-}
-
-&lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;main&lt;/span&gt;()
-{    
-    u8 key&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;;
-
-    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;while&lt;/span&gt;(&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
-    {
-        key&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;key_scan(&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;);
-        &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(key&lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt;KEY1_PRESS)&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//检测按键K1是否按下
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;            LED1&lt;span style=&#34;color:#666&#34;&gt;=!&lt;/span&gt;LED1;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//LED1状态翻转    
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;    }        
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#080&#34;&gt;&amp;#34;reg52.h&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#080&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;typedef&lt;/span&gt; &lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;unsigned&lt;/span&gt; &lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;int&lt;/span&gt; u16;    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//对系统默认数据类型进行重定义
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;typedef&lt;/span&gt; &lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;unsigned&lt;/span&gt; &lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;char&lt;/span&gt; u8;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//定义独立按键控制脚
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;sbit KEY1&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;P3&lt;span style=&#34;color:#666&#34;&gt;^&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;sbit KEY2&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;P3&lt;span style=&#34;color:#666&#34;&gt;^&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;sbit KEY3&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;P3&lt;span style=&#34;color:#666&#34;&gt;^&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;2&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;sbit KEY4&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;P3&lt;span style=&#34;color:#666&#34;&gt;^&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;3&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//定义LED1控制脚
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;sbit LED1&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;P2&lt;span style=&#34;color:#666&#34;&gt;^&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//使用宏定义独立按键按下的键值
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#080&#34;&gt;#define KEY1_PRESS    1
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080&#34;&gt;#define KEY2_PRESS    2
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080&#34;&gt;#define KEY3_PRESS    3
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080&#34;&gt;#define KEY4_PRESS    4
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080&#34;&gt;#define KEY_UNPRESS    0    
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;delay_10us&lt;/span&gt;(u16 ten_us)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;while&lt;/span&gt;(ten_us&lt;span style=&#34;color:#666&#34;&gt;--&lt;/span&gt;);    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;/***********************************************************
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;* 函 数 名       : key_scan
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;* 函数功能         : 检测独立按键是否按下，按下则返回对应键值
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;* 输    入       : mode=0：单次扫描按键
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;                   mode=1：连续扫描按键
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;* 输    出         : KEY1_PRESS：K1按下
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;                   KEY2_PRESS：K2按下
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;                   KEY3_PRESS：K3按下
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;                   KEY4_PRESS：K4按下
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;                   KEY_UNPRESS：未有按键按下
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;************************************************************/&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;u8 &lt;span style=&#34;color:#00a000&#34;&gt;key_scan&lt;/span&gt;(u8 mode)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;static&lt;/span&gt; u8 key&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(mode)key&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//连续扫描按键
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(key&lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt;(KEY1&lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;||&lt;/span&gt;KEY2&lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;||&lt;/span&gt;KEY3&lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;||&lt;/span&gt;KEY4&lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;))&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//任意按键按下
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;    {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        delay_10us(&lt;span style=&#34;color:#666&#34;&gt;1000&lt;/span&gt;);&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//消抖
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;        key&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(KEY1&lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;return&lt;/span&gt; KEY1_PRESS;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(KEY2&lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;return&lt;/span&gt; KEY2_PRESS;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(KEY3&lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;return&lt;/span&gt; KEY3_PRESS;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(KEY4&lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;return&lt;/span&gt; KEY4_PRESS;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(KEY1&lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt;KEY2&lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt;KEY3&lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt;KEY4&lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//无按键按下
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;    {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        key&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;;            
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;return&lt;/span&gt; KEY_UNPRESS;        
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;main&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;{    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    u8 key&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;while&lt;/span&gt;(&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        key&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;key_scan(&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(key&lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt;KEY1_PRESS)&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//检测按键K1是否按下
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;            LED1&lt;span style=&#34;color:#666&#34;&gt;=!&lt;/span&gt;LED1;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//LED1状态翻转    
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;    }        
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
       
     </item>
     
@@ -137,35 +137,35 @@ u8 &lt;span style=&#34;color:#00a000&#34;&gt;key_scan&lt;/span&gt;(u8 mode)
 &lt;p&gt;开发板上使用的是无源蜂鸣器，它需要一定频率的脉冲（高低电平）才会发声，因此需要让 &lt;code&gt;P25&lt;/code&gt; 脚以一定频率不断输出高低电平信号才能控制蜂鸣器发出声音。&lt;/p&gt;
 &lt;h3 id=&#34;software-design&#34;&gt;Software Design&lt;/h3&gt;
 &lt;p&gt;我们所要实现的功能是：让蜂鸣器发出声音，一段时间后再关闭，即让 &lt;code&gt;P2.5&lt;/code&gt; 管脚输出一定频率的脉冲信号（高低电平）控制无源蜂鸣器。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;color:#080&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#080&#34;&gt;&amp;#34;reg52.h&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#080&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#080&#34;&gt;&lt;/span&gt;
-&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;typedef&lt;/span&gt; &lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;unsigned&lt;/span&gt; &lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;int&lt;/span&gt; u16;    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//对系统默认数据类型进行重定义
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;typedef&lt;/span&gt; &lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;unsigned&lt;/span&gt; &lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;char&lt;/span&gt; u8;
-
-sbit BEEP&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;P2&lt;span style=&#34;color:#666&#34;&gt;^&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;5&lt;/span&gt;;    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//将P2.5管脚定义为BEEP
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;
-&lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;delay_10us&lt;/span&gt;(u16 ten_us)
-{
-    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;while&lt;/span&gt;(ten_us&lt;span style=&#34;color:#666&#34;&gt;--&lt;/span&gt;);    
-}
-
-
-&lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;main&lt;/span&gt;()
-{    
-    u16 i &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;2000&lt;/span&gt;;
-
-    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;while&lt;/span&gt;(&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
-    {
-        &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;while&lt;/span&gt;(i&lt;span style=&#34;color:#666&#34;&gt;--&lt;/span&gt;)&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//循环2000次
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;        {
-            BEEP&lt;span style=&#34;color:#666&#34;&gt;=!&lt;/span&gt;BEEP;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//产生一定频率的脉冲信号
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;            delay_10us(&lt;span style=&#34;color:#666&#34;&gt;100&lt;/span&gt;); &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//改变此处会使得声音的频率变化，越大越低沉
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;        }
-        i&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//清零
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;        BEEP&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//关闭蜂鸣器
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;    }        
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;静态数码管&#34;&gt;静态数码管&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#080&#34;&gt;&amp;#34;reg52.h&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#080&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;typedef&lt;/span&gt; &lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;unsigned&lt;/span&gt; &lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;int&lt;/span&gt; u16;    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//对系统默认数据类型进行重定义
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;typedef&lt;/span&gt; &lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;unsigned&lt;/span&gt; &lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;char&lt;/span&gt; u8;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;sbit BEEP&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;P2&lt;span style=&#34;color:#666&#34;&gt;^&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;5&lt;/span&gt;;    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//将P2.5管脚定义为BEEP
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;delay_10us&lt;/span&gt;(u16 ten_us)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;while&lt;/span&gt;(ten_us&lt;span style=&#34;color:#666&#34;&gt;--&lt;/span&gt;);    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;main&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;{    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    u16 i &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;2000&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;while&lt;/span&gt;(&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;while&lt;/span&gt;(i&lt;span style=&#34;color:#666&#34;&gt;--&lt;/span&gt;)&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//循环2000次
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;        {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            BEEP&lt;span style=&#34;color:#666&#34;&gt;=!&lt;/span&gt;BEEP;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//产生一定频率的脉冲信号
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;            delay_10us(&lt;span style=&#34;color:#666&#34;&gt;100&lt;/span&gt;); &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//改变此处会使得声音的频率变化，越大越低沉
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;        }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        i&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//清零
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;        BEEP&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//关闭蜂鸣器
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;    }        
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;静态数码管&#34;&gt;静态数码管&lt;/h2&gt;
 &lt;h3 id=&#34;introduction&#34;&gt;Introduction&lt;/h3&gt;
 &lt;p&gt;数码管是一种半导体发光器件，其基本单元是发光二极管。数码管也称 LED 数码管。数码管按段数可分为七段数码管和八段数码管，八段数码管比七段数码管多一个发光二极管单元，也就是多一个小数点（DP），这个小数点可以更精确的表示数码管想要显示的内容；按能显示多少个（8）可分为 1 位、 2 位、 3 位、 4 位、 5 位、 6 位、7 位等数码管。按发光二极管单元连接方式可分为共&lt;strong&gt;阳&lt;/strong&gt;极数码管和共&lt;strong&gt;阴&lt;/strong&gt;极数码管。&lt;/p&gt;
 &lt;p&gt;共阳数码管是指将所有发光二极管的阳极接到一起形成公共阳极（COM）的数码管，共阳数码管在应用时应将公共极 COM 接到 +5V，当某一字段发光二极管的阴极为低电平时，相应字段就点亮，当某一字段的阴极为高电平时，相应字段就不亮。&lt;/p&gt;
@@ -176,50 +176,50 @@ sbit BEEP&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;P2&lt;span style=&
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
-&lt;th align=&#34;center&#34;&gt;0x3f&lt;/th&gt;
-&lt;th align=&#34;center&#34;&gt;0x06&lt;/th&gt;
-&lt;th align=&#34;center&#34;&gt;0x5b&lt;/th&gt;
-&lt;th align=&#34;center&#34;&gt;0x4f&lt;/th&gt;
-&lt;th align=&#34;center&#34;&gt;0x66&lt;/th&gt;
-&lt;th align=&#34;center&#34;&gt;0x6d&lt;/th&gt;
-&lt;th align=&#34;center&#34;&gt;0x7d&lt;/th&gt;
-&lt;th align=&#34;center&#34;&gt;0x07&lt;/th&gt;
-&lt;th align=&#34;center&#34;&gt;0x00&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;0x3f&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;0x06&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;0x5b&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;0x4f&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;0x66&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;0x6d&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;0x7d&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;0x07&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;0x00&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
-&lt;td align=&#34;center&#34;&gt;0&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;1&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;2&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;3&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;4&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;5&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;6&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;7&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;-&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;0&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;1&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;2&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;3&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;4&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;5&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;6&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;7&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;-&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align=&#34;center&#34;&gt;&lt;strong&gt;0x7f&lt;/strong&gt;&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;&lt;strong&gt;0x6f&lt;/strong&gt;&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;&lt;strong&gt;0x77&lt;/strong&gt;&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;&lt;strong&gt;0x7c&lt;/strong&gt;&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;&lt;strong&gt;0x39&lt;/strong&gt;&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;&lt;strong&gt;0x5e&lt;/strong&gt;&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;&lt;strong&gt;0x79&lt;/strong&gt;&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;&lt;strong&gt;0x71&lt;/strong&gt;&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;strong&gt;0x7f&lt;/strong&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;strong&gt;0x6f&lt;/strong&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;strong&gt;0x77&lt;/strong&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;strong&gt;0x7c&lt;/strong&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;strong&gt;0x39&lt;/strong&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;strong&gt;0x5e&lt;/strong&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;strong&gt;0x79&lt;/strong&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;strong&gt;0x71&lt;/strong&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align=&#34;center&#34;&gt;8&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;9&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;A&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;B&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;C&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;D&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;E&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;F&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;8&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;9&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;A&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;B&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;C&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;D&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;E&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;F&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -227,50 +227,50 @@ sbit BEEP&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;P2&lt;span style=&
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
-&lt;th align=&#34;center&#34;&gt;0xC0&lt;/th&gt;
-&lt;th align=&#34;center&#34;&gt;0xF9&lt;/th&gt;
-&lt;th align=&#34;center&#34;&gt;0xA4&lt;/th&gt;
-&lt;th align=&#34;center&#34;&gt;0xB0&lt;/th&gt;
-&lt;th align=&#34;center&#34;&gt;0x99&lt;/th&gt;
-&lt;th align=&#34;center&#34;&gt;0x92&lt;/th&gt;
-&lt;th align=&#34;center&#34;&gt;0x82&lt;/th&gt;
-&lt;th align=&#34;center&#34;&gt;0xF8&lt;/th&gt;
-&lt;th align=&#34;center&#34;&gt;0xFF&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;0xC0&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;0xF9&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;0xA4&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;0xB0&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;0x99&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;0x92&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;0x82&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;0xF8&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;0xFF&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
-&lt;td align=&#34;center&#34;&gt;0&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;1&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;2&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;3&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;4&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;5&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;6&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;7&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;-&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;0&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;1&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;2&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;3&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;4&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;5&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;6&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;7&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;-&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align=&#34;center&#34;&gt;&lt;strong&gt;0x80&lt;/strong&gt;&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;&lt;strong&gt;0x90&lt;/strong&gt;&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;&lt;strong&gt;0x88&lt;/strong&gt;&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;&lt;strong&gt;0x83&lt;/strong&gt;&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;&lt;strong&gt;0xC6&lt;/strong&gt;&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;&lt;strong&gt;0xA1&lt;/strong&gt;&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;&lt;strong&gt;0x86&lt;/strong&gt;&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;&lt;strong&gt;0x8E&lt;/strong&gt;&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;strong&gt;0x80&lt;/strong&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;strong&gt;0x90&lt;/strong&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;strong&gt;0x88&lt;/strong&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;strong&gt;0x83&lt;/strong&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;strong&gt;0xC6&lt;/strong&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;strong&gt;0xA1&lt;/strong&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;strong&gt;0x86&lt;/strong&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;strong&gt;0x8E&lt;/strong&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align=&#34;center&#34;&gt;8&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;9&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;A&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;B&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;C&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;D&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;E&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;F&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;8&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;9&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;A&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;B&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;C&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;D&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;E&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;F&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -284,26 +284,26 @@ sbit BEEP&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;P2&lt;span style=&
 &lt;/div&gt;
 &lt;h3 id=&#34;software-design-1&#34;&gt;Software Design&lt;/h3&gt;
 &lt;p&gt;我们所要实现的功能是：控制静态数码管显示数字 0，即让 &lt;code&gt;P0&lt;/code&gt; 端口输出数字 0 的段码 &lt;code&gt;0x3f&lt;/code&gt;（共阴）。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;color:#080&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#080&#34;&gt;&amp;#34;reg52.h&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#080&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#080&#34;&gt;&lt;/span&gt;
-&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;typedef&lt;/span&gt; &lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;unsigned&lt;/span&gt; &lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;int&lt;/span&gt; u16;    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//对系统默认数据类型进行重定义
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;typedef&lt;/span&gt; &lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;unsigned&lt;/span&gt; &lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;char&lt;/span&gt; u8;
-
-&lt;span style=&#34;color:#080&#34;&gt;#define SMG_A_DP_PORT P0    &lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//使用宏定义数码管段码口
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;
-&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//共阴极数码管显示0~F的段码数据
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;u8 gsmg_code[&lt;span style=&#34;color:#666&#34;&gt;17&lt;/span&gt;]&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;{&lt;span style=&#34;color:#666&#34;&gt;0x3f&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;0x06&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;0x5b&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;0x4f&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;0x66&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;0x6d&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;0x7d&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;0x07&lt;/span&gt;,
-                &lt;span style=&#34;color:#666&#34;&gt;0x7f&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;0x6f&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;0x77&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;0x7c&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;0x39&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;0x5e&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;0x79&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;0x71&lt;/span&gt;};
-
-&lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;main&lt;/span&gt;()
-{    
-    SMG_A_DP_PORT&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;gsmg_code[&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;];&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//将数组第1个数据赋值给数码管段选口
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;while&lt;/span&gt;(&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
-    {
-           
-    }        
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;动态数码管&#34;&gt;动态数码管&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#080&#34;&gt;&amp;#34;reg52.h&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#080&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;typedef&lt;/span&gt; &lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;unsigned&lt;/span&gt; &lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;int&lt;/span&gt; u16;    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//对系统默认数据类型进行重定义
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;typedef&lt;/span&gt; &lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;unsigned&lt;/span&gt; &lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;char&lt;/span&gt; u8;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080&#34;&gt;#define SMG_A_DP_PORT P0    &lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//使用宏定义数码管段码口
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//共阴极数码管显示0~F的段码数据
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;u8 gsmg_code[&lt;span style=&#34;color:#666&#34;&gt;17&lt;/span&gt;]&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;{&lt;span style=&#34;color:#666&#34;&gt;0x3f&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;0x06&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;0x5b&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;0x4f&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;0x66&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;0x6d&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;0x7d&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;0x07&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#666&#34;&gt;0x7f&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;0x6f&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;0x77&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;0x7c&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;0x39&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;0x5e&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;0x79&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;0x71&lt;/span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;main&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;{    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    SMG_A_DP_PORT&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;gsmg_code[&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;];&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//将数组第1个数据赋值给数码管段选口
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;while&lt;/span&gt;(&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;           
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }        
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;动态数码管&#34;&gt;动态数码管&lt;/h2&gt;
 &lt;p&gt;前面我们已经介绍了如何使用 51 单片机控制静态数码管显示，在实际应用中通常都需要显示多位数值，如果采用静态数码管显示就不够好，因此就需要采用另外一种显示方式，即数码管动态显示。开发板上板载 2 个四位一体的共阴数码管，我们就来介绍下如何使用 51 单片机控制动态数码管显示。所要实现的功能是：控制动态数码管从左至右显示数字 0-7。&lt;/p&gt;
 &lt;h3 id=&#34;introduction-1&#34;&gt;Introduction&lt;/h3&gt;
 &lt;p&gt;多位数码管，即两个或两个以上单个数码管并列集中在一起形成一体的数码管。当多位一体时，它们内部的公共端是独立的，而负责显示什么数字的段线（a-dp）全部是连接在一起的，独立的公共端可以控制多位一体中的哪一位数码管点亮，而连接在一起的段线可以控制这个能点亮数码管亮什么数字，通常我们把公共端叫做“位选线”，连接在一起的段线叫做“段选线”，有了这两个线后，通过单片机及外部驱动电路就可以控制任意的数码管显示任意的数字了。&lt;/p&gt;
@@ -313,60 +313,60 @@ sbit BEEP&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;P2&lt;span style=&
 &lt;p&gt;而动态显示，就是利用减少段选线，分开位选线，&lt;strong&gt;利用位选线不同时选择通断，改变段选数据来实现的&lt;/strong&gt;。比如在第一次选中第一位数码管时，给段选数据 0，下一次位选中第二位数码管时显示 1。为了在显示 1 的时候，0 不会消失（当然实际上是消失了），必须在人肉眼观察不到的时间里再次点亮第一次点亮的 0。 而这时就需要记住，人的肉眼正常情况下只能分辨变化超过 24ms 间隔的运动。也就是说，在下一次点亮 0 这个数字的时间差不得大于 24ms。这时就会发现，数码管点亮是在向右或者向左一位一位点亮，形成了动态效果。如果把间隔时间改长就能直接展现这一现象。&lt;/p&gt;
 &lt;p&gt;74HC138 总结：A0、A1、A2 输入就相当于 3 位 2 进制数，A0 是低位，A1 是次高位，A2 是高位。而 Y0-Y7 具体哪一个输出有效电平，就看输入二进制对应的十进制数值。比如输入是 101（A2，A1，A0），其对应的十进制数是 5，所以 Y5 输出有效电平（低电平）。&lt;/p&gt;
 &lt;h3 id=&#34;software-design-2&#34;&gt;Software Design&lt;/h3&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;color:#080&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#080&#34;&gt;&amp;#34;reg52.h&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#080&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#080&#34;&gt;&lt;/span&gt;
-&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;typedef&lt;/span&gt; &lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;unsigned&lt;/span&gt; &lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;int&lt;/span&gt; u16;    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//对系统默认数据类型进行重定义
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;typedef&lt;/span&gt; &lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;unsigned&lt;/span&gt; &lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;char&lt;/span&gt; u8;
-
-&lt;span style=&#34;color:#080&#34;&gt;#define SMG_A_DP_PORT    P0    &lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//使用宏定义数码管段码口
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;
-&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//定义数码管位选信号控制脚
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;sbit LSA&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;P2&lt;span style=&#34;color:#666&#34;&gt;^&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;2&lt;/span&gt;;
-sbit LSB&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;P2&lt;span style=&#34;color:#666&#34;&gt;^&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;3&lt;/span&gt;;
-sbit LSC&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;P2&lt;span style=&#34;color:#666&#34;&gt;^&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;;
-
-&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//共阴极数码管显示0~F的段码数据
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;u8 gsmg_code[&lt;span style=&#34;color:#666&#34;&gt;17&lt;/span&gt;]&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;{&lt;span style=&#34;color:#666&#34;&gt;0x3f&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;0x06&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;0x5b&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;0x4f&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;0x66&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;0x6d&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;0x7d&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;0x07&lt;/span&gt;,
-                &lt;span style=&#34;color:#666&#34;&gt;0x7f&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;0x6f&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;0x77&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;0x7c&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;0x39&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;0x5e&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;0x79&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;0x71&lt;/span&gt;};
-
-&lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;delay_10us&lt;/span&gt;(u16 ten_us)
-{
-    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;while&lt;/span&gt;(ten_us&lt;span style=&#34;color:#666&#34;&gt;--&lt;/span&gt;);    
-}
-
-
-&lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;smg_display&lt;/span&gt;(&lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;void&lt;/span&gt;)
-{
-    u8 i&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;;
-
-    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;for&lt;/span&gt;(i&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;;i&lt;span style=&#34;color:#666&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;8&lt;/span&gt;;i&lt;span style=&#34;color:#666&#34;&gt;++&lt;/span&gt;)
-    {
-        &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;switch&lt;/span&gt;(i)&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//位选
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;        {
-            &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;case&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;:&lt;/span&gt; LSC&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;;LSB&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;;LSA&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;break&lt;/span&gt;;
-            &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;case&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;:&lt;/span&gt; LSC&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;;LSB&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;;LSA&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;break&lt;/span&gt;;
-            &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;case&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;2&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;:&lt;/span&gt; LSC&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;;LSB&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;;LSA&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;break&lt;/span&gt;;
-            &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;case&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;3&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;:&lt;/span&gt; LSC&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;;LSB&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;;LSA&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;break&lt;/span&gt;;
-            &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;case&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;:&lt;/span&gt; LSC&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;;LSB&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;;LSA&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;break&lt;/span&gt;;
-            &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;case&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;5&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;:&lt;/span&gt; LSC&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;;LSB&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;;LSA&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;break&lt;/span&gt;;
-            &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;case&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;6&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;:&lt;/span&gt; LSC&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;;LSB&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;;LSA&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;break&lt;/span&gt;;
-            &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;case&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;7&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;:&lt;/span&gt; LSC&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;;LSB&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;;LSA&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;break&lt;/span&gt;;
-        }
-        SMG_A_DP_PORT&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;gsmg_code[i];&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//传送段选数据
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;        delay_10us(&lt;span style=&#34;color:#666&#34;&gt;100&lt;/span&gt;);&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//延时一段时间，等待显示稳定
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;        SMG_A_DP_PORT&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0x00&lt;/span&gt;;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//消音
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;    }
-}
-
-
-&lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;main&lt;/span&gt;()
-{    
-    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;while&lt;/span&gt;(&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
-    {
-        smg_display();
-    }        
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;该程序是根据动态数码管显示原理所编写，即选中所要显示的那位数码管，然后发送在该位数码管上所要显示的段码数据，延时一定时间后在将段选口清零即消隐（消除之前的显示），如此循环 8 次即可实现 8 位数码管显示。&lt;strong&gt;在动态显示中，要注意延时时间，只要保证在人肉眼所能感觉时间之内即可，让我们看到所要显示的内容就像是同时显示一样。&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#080&#34;&gt;&amp;#34;reg52.h&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#080&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;typedef&lt;/span&gt; &lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;unsigned&lt;/span&gt; &lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;int&lt;/span&gt; u16;    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//对系统默认数据类型进行重定义
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;typedef&lt;/span&gt; &lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;unsigned&lt;/span&gt; &lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;char&lt;/span&gt; u8;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080&#34;&gt;#define SMG_A_DP_PORT    P0    &lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//使用宏定义数码管段码口
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//定义数码管位选信号控制脚
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;sbit LSA&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;P2&lt;span style=&#34;color:#666&#34;&gt;^&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;2&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;sbit LSB&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;P2&lt;span style=&#34;color:#666&#34;&gt;^&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;3&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;sbit LSC&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;P2&lt;span style=&#34;color:#666&#34;&gt;^&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//共阴极数码管显示0~F的段码数据
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;u8 gsmg_code[&lt;span style=&#34;color:#666&#34;&gt;17&lt;/span&gt;]&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;{&lt;span style=&#34;color:#666&#34;&gt;0x3f&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;0x06&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;0x5b&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;0x4f&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;0x66&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;0x6d&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;0x7d&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;0x07&lt;/span&gt;,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;                &lt;span style=&#34;color:#666&#34;&gt;0x7f&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;0x6f&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;0x77&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;0x7c&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;0x39&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;0x5e&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;0x79&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;0x71&lt;/span&gt;};
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;delay_10us&lt;/span&gt;(u16 ten_us)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;while&lt;/span&gt;(ten_us&lt;span style=&#34;color:#666&#34;&gt;--&lt;/span&gt;);    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;smg_display&lt;/span&gt;(&lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;void&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    u8 i&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;for&lt;/span&gt;(i&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;;i&lt;span style=&#34;color:#666&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;8&lt;/span&gt;;i&lt;span style=&#34;color:#666&#34;&gt;++&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;switch&lt;/span&gt;(i)&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//位选
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;        {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;case&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;:&lt;/span&gt; LSC&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;;LSB&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;;LSA&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;break&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;case&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;:&lt;/span&gt; LSC&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;;LSB&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;;LSA&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;break&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;case&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;2&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;:&lt;/span&gt; LSC&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;;LSB&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;;LSA&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;break&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;case&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;3&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;:&lt;/span&gt; LSC&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;;LSB&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;;LSA&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;break&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;case&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;:&lt;/span&gt; LSC&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;;LSB&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;;LSA&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;break&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;case&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;5&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;:&lt;/span&gt; LSC&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;;LSB&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;;LSA&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;break&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;case&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;6&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;:&lt;/span&gt; LSC&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;;LSB&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;;LSA&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;break&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;case&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;7&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;:&lt;/span&gt; LSC&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;;LSB&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;;LSA&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;break&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        SMG_A_DP_PORT&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;gsmg_code[i];&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//传送段选数据
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;        delay_10us(&lt;span style=&#34;color:#666&#34;&gt;100&lt;/span&gt;);&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//延时一段时间，等待显示稳定
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;        SMG_A_DP_PORT&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0x00&lt;/span&gt;;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//消音
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;main&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;{    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;while&lt;/span&gt;(&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        smg_display();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }        
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;该程序是根据动态数码管显示原理所编写，即选中所要显示的那位数码管，然后发送在该位数码管上所要显示的段码数据，延时一定时间后在将段选口清零即消隐（消除之前的显示），如此循环 8 次即可实现 8 位数码管显示。&lt;strong&gt;在动态显示中，要注意延时时间，只要保证在人肉眼所能感觉时间之内即可，让我们看到所要显示的内容就像是同时显示一样。&lt;/strong&gt;&lt;/p&gt;
 &lt;h2 id=&#34;reference&#34;&gt;Reference&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;普中51单片机开发攻略&lt;/li&gt;
@@ -557,18 +557,18 @@ sbit LSC&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;P2&lt;span style=&#
 &lt;h2 id=&#34;keil-c51-template&#34;&gt;Keil C51 template&lt;/h2&gt;
 &lt;p&gt;我们使用 Keil 来创建完美地工程模板，为后面的程序编写带来方便。&lt;/p&gt;
 &lt;p&gt;CPU 型号选择 &lt;code&gt;AT89C52&lt;/code&gt;，在 &lt;code&gt;Configuration&lt;/code&gt; 中配置好合适的字体后，我们创建一个 &lt;code&gt;main.c&lt;/code&gt; 文件，写入以下代码。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;/* main.c */&lt;/span&gt;
-
-&lt;span style=&#34;color:#080&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#080&#34;&gt;&amp;#34;reg52.h&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#080&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#080&#34;&gt;&lt;/span&gt;
-&lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;main&lt;/span&gt;()
-{
-    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;while&lt;/span&gt;(&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
-    {
-        
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;头文件作用&#34;&gt;头文件作用&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;/* main.c */&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#080&#34;&gt;&amp;#34;reg52.h&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#080&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;main&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;while&lt;/span&gt;(&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;头文件作用&#34;&gt;头文件作用&lt;/h3&gt;
 &lt;p&gt;在代码中引用头文件，其实际意义就是将这个头文件中的全部内容放到引用头文件的位置处，免去我们每次编写同类程序都要将头文件中的语句重复编写。&lt;/p&gt;
 &lt;p&gt;在代码中加入头文件有两种书写方法，分别为&lt;code&gt;#include &amp;lt;reg52.h&amp;gt;&lt;/code&gt;和&lt;code&gt;#include&amp;quot;reg52.h&amp;quot;&lt;/code&gt;，这两种写法是有区别的。&lt;/p&gt;
 &lt;ul&gt;
@@ -620,67 +620,67 @@ sbit LSC&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;P2&lt;span style=&#
 &lt;h3 id=&#34;software-design&#34;&gt;Software Design&lt;/h3&gt;
 &lt;h4 id=&#34;点亮第一个-led-1&#34;&gt;点亮第一个 LED&lt;/h4&gt;
 &lt;p&gt;这里所要实现的功能是：点亮 &lt;code&gt;D1&lt;/code&gt; 指示灯，即让 &lt;code&gt;P2.0&lt;/code&gt; 管脚输出一个低电平。 完成后可再控制 &lt;code&gt;D1&lt;/code&gt; 指示灯闪烁，即间隔一段时间点亮和熄灭 &lt;code&gt;D1&lt;/code&gt; 指示灯。具体过程是使用 &lt;code&gt;sbit&lt;/code&gt; 关键字来定义 &lt;code&gt;P2.0&lt;/code&gt; 管脚，定义好后即可使用 &lt;code&gt;LED1&lt;/code&gt; 来替代 &lt;code&gt;P2.0&lt;/code&gt; 口的操作。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;color:#080&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#080&#34;&gt;&amp;#34;reg52.h&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#080&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#080&#34;&gt;&lt;/span&gt;
-&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;typedef&lt;/span&gt; &lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;unsigned&lt;/span&gt; &lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;int&lt;/span&gt; u16;    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//对系统默认数据类型进行重定义
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;typedef&lt;/span&gt; &lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;unsigned&lt;/span&gt; &lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;char&lt;/span&gt; u8;
-
-sbit LED1 &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; P2&lt;span style=&#34;color:#666&#34;&gt;^&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;;    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//用sbit将P2.0管脚定义为LED1
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;
-&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;/*******************************************************************************
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;* 函 数 名       : delay_10us
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;* 函数功能         : 延时函数，ten_us=1时，大约延时10us
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;* 输    入       : ten_us
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;* 输    出         : 无
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;*******************************************************************************/&lt;/span&gt;
-&lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;delay_10us&lt;/span&gt;(u16 ten_us)
-{
-    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;while&lt;/span&gt;(ten_us&lt;span style=&#34;color:#666&#34;&gt;--&lt;/span&gt;);    
-}
-
-&lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;main&lt;/span&gt;()
-{
-    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;while&lt;/span&gt;(&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
-    {
-        LED1&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;;    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//点亮
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;        delay_10us(&lt;span style=&#34;color:#666&#34;&gt;50000&lt;/span&gt;); &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//大约延时450ms
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;        LED1&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;;    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//熄灭
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;        delay_10us(&lt;span style=&#34;color:#666&#34;&gt;50000&lt;/span&gt;); 
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;led-流水灯实验&#34;&gt;LED 流水灯实验&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#080&#34;&gt;&amp;#34;reg52.h&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#080&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;typedef&lt;/span&gt; &lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;unsigned&lt;/span&gt; &lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;int&lt;/span&gt; u16;    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//对系统默认数据类型进行重定义
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;typedef&lt;/span&gt; &lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;unsigned&lt;/span&gt; &lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;char&lt;/span&gt; u8;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;sbit LED1 &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; P2&lt;span style=&#34;color:#666&#34;&gt;^&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;;    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//用sbit将P2.0管脚定义为LED1
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;/*******************************************************************************
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;* 函 数 名       : delay_10us
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;* 函数功能         : 延时函数，ten_us=1时，大约延时10us
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;* 输    入       : ten_us
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;* 输    出         : 无
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;*******************************************************************************/&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;delay_10us&lt;/span&gt;(u16 ten_us)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;while&lt;/span&gt;(ten_us&lt;span style=&#34;color:#666&#34;&gt;--&lt;/span&gt;);    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;main&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;while&lt;/span&gt;(&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        LED1&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;;    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//点亮
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;        delay_10us(&lt;span style=&#34;color:#666&#34;&gt;50000&lt;/span&gt;); &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//大约延时450ms
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;        LED1&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;;    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//熄灭
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;        delay_10us(&lt;span style=&#34;color:#666&#34;&gt;50000&lt;/span&gt;); 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;led-流水灯实验&#34;&gt;LED 流水灯实验&lt;/h4&gt;
 &lt;p&gt;如果要实现 LED 流水灯，只需循环让 &lt;code&gt;D1&lt;/code&gt;-&lt;code&gt;D8&lt;/code&gt; 指示灯逐个点亮。同样本实验也需要延时。要实现循环点亮，点亮 &lt;code&gt;D1&lt;/code&gt; 且把 &lt;code&gt;D2&lt;/code&gt;-&lt;code&gt;D8&lt;/code&gt; 熄灭，延时一段时间后再点亮 &lt;code&gt;D2&lt;/code&gt; 且把 &lt;code&gt;D1&lt;/code&gt;、 &lt;code&gt;D3&lt;/code&gt;-&lt;code&gt;D8&lt;/code&gt; 熄灭，延时一段时间后再点亮 &lt;code&gt;D3&lt;/code&gt; 且把 &lt;code&gt;D1&lt;/code&gt;-&lt;code&gt;D2&lt;/code&gt;、&lt;code&gt;D4&lt;/code&gt;-&lt;code&gt;D8&lt;/code&gt; 熄灭，如此循环，这样就可以很简单的实现 LED 流水灯实验，当然不推荐此种方法。&lt;/p&gt;
 &lt;p&gt;在前面我们学习了 C 语言相关的基础知识，里面有移位以及循环语句操作，根据流水灯实现原理，即 IO 口由低往高或者由高往低逐个输出低电平特点，那么我们可以将移位操作以及循环结合进来。实现代码如下：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;color:#080&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#080&#34;&gt;&amp;#34;reg52.h&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#080&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#080&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#080&#34;&gt;&amp;#34;intrins.h&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#080&#34;&gt;
-&lt;/span&gt;&lt;span style=&#34;color:#080&#34;&gt;&lt;/span&gt;
-&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;typedef&lt;/span&gt; &lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;unsigned&lt;/span&gt; &lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;int&lt;/span&gt; u16;    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//对系统默认数据类型进行重定义
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;typedef&lt;/span&gt; &lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;unsigned&lt;/span&gt; &lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;char&lt;/span&gt; u8;
-
-&lt;span style=&#34;color:#080&#34;&gt;#define LED_PORT    P2    &lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//使用宏定义P2端口
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;
-&lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;delay_10us&lt;/span&gt;(u16 ten_us)
-{
-    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;while&lt;/span&gt;(ten_us&lt;span style=&#34;color:#666&#34;&gt;--&lt;/span&gt;);    
-}
-
-
-&lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;main&lt;/span&gt;()
-{    
-    u8 i&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;;
-    LED_PORT&lt;span style=&#34;color:#666&#34;&gt;=~&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0x01&lt;/span&gt;;
-    delay_10us(&lt;span style=&#34;color:#666&#34;&gt;50000&lt;/span&gt;);
-    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;while&lt;/span&gt;(&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
-    {
-        &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//使用移位 + 循环实现流水灯
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;for&lt;/span&gt; (i&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;; i&lt;span style=&#34;color:#666&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;8&lt;/span&gt;; i&lt;span style=&#34;color:#666&#34;&gt;++&lt;/span&gt;)
-        {
-            LED_PORT&lt;span style=&#34;color:#666&#34;&gt;=~&lt;/span&gt;(&lt;span style=&#34;color:#666&#34;&gt;0x01&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt;i);  &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//将 1 右移 i 位，然后取反将结果赋值到 LED_PORT;
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;            delay_10us(&lt;span style=&#34;color:#666&#34;&gt;50000&lt;/span&gt;);
-        }
-    }
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;0X01&amp;lt;&amp;lt;i&lt;/code&gt; 表示 i 增加 1 次，&lt;code&gt;0x01&lt;/code&gt; 中的 1 就移动多少位，因为 1（高电平）不会让 LED 点亮，需要取反后变为低电平 0 才能点亮，所以最后的结果需要取反后给 &lt;code&gt;LED_PORT&lt;/code&gt; 口，并且每次循环都要延时一段时间，这样才能分辨出来 LED 在流水。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-c&#34; data-lang=&#34;c&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#080&#34;&gt;&amp;#34;reg52.h&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#080&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080&#34;&gt;#include&lt;/span&gt; &lt;span style=&#34;color:#080&#34;&gt;&amp;#34;intrins.h&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#080&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;typedef&lt;/span&gt; &lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;unsigned&lt;/span&gt; &lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;int&lt;/span&gt; u16;    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//对系统默认数据类型进行重定义
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;typedef&lt;/span&gt; &lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;unsigned&lt;/span&gt; &lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;char&lt;/span&gt; u8;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080&#34;&gt;#define LED_PORT    P2    &lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//使用宏定义P2端口
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;delay_10us&lt;/span&gt;(u16 ten_us)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;{
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;while&lt;/span&gt;(ten_us&lt;span style=&#34;color:#666&#34;&gt;--&lt;/span&gt;);    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;main&lt;/span&gt;()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;{    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    u8 i&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    LED_PORT&lt;span style=&#34;color:#666&#34;&gt;=~&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0x01&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    delay_10us(&lt;span style=&#34;color:#666&#34;&gt;50000&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;while&lt;/span&gt;(&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//使用移位 + 循环实现流水灯
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;for&lt;/span&gt; (i&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;; i&lt;span style=&#34;color:#666&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;8&lt;/span&gt;; i&lt;span style=&#34;color:#666&#34;&gt;++&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            LED_PORT&lt;span style=&#34;color:#666&#34;&gt;=~&lt;/span&gt;(&lt;span style=&#34;color:#666&#34;&gt;0x01&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&amp;lt;&amp;lt;&lt;/span&gt;i);  &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//将 1 右移 i 位，然后取反将结果赋值到 LED_PORT;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;            delay_10us(&lt;span style=&#34;color:#666&#34;&gt;50000&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    }
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;}
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;0X01&amp;lt;&amp;lt;i&lt;/code&gt; 表示 i 增加 1 次，&lt;code&gt;0x01&lt;/code&gt; 中的 1 就移动多少位，因为 1（高电平）不会让 LED 点亮，需要取反后变为低电平 0 才能点亮，所以最后的结果需要取反后给 &lt;code&gt;LED_PORT&lt;/code&gt; 口，并且每次循环都要延时一段时间，这样才能分辨出来 LED 在流水。&lt;/p&gt;
 &lt;h2 id=&#34;reference&#34;&gt;Reference&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;普中51单片机开发攻略&lt;/li&gt;

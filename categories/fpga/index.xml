@@ -72,101 +72,101 @@ ZYBO 的板载 PROG-UART 接口集供电、编程与 UART 功能为一体，PC �
 &lt;h2 id=&#34;design-sources&#34;&gt;Design Sources&lt;/h2&gt;
 &lt;p&gt;这一部分是对功能的 Verilog 代码实现，将下面的代码添加到工程的 &lt;code&gt;Design Sources&lt;/code&gt; 中。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;实现功能&lt;/strong&gt;：四个开关 &lt;code&gt;SW0-SW3&lt;/code&gt; 分别控制四个 LED &lt;code&gt;LD0-LD3&lt;/code&gt; 的亮灭。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-verilog&#34; data-lang=&#34;verilog&#34;&gt;&lt;span style=&#34;color:#800&#34;&gt;`timescale&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;ns &lt;span style=&#34;color:#666&#34;&gt;/&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;ps
-&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;module&lt;/span&gt; led_2(
-    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;input&lt;/span&gt; sysclk,
-    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;input&lt;/span&gt; [&lt;span style=&#34;color:#666&#34;&gt;3&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;] sw,
-    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;output&lt;/span&gt; &lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;reg&lt;/span&gt;[&lt;span style=&#34;color:#666&#34;&gt;3&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;] led
-       );
-    
-    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;parameter&lt;/span&gt; LED_CNT1 &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;25&lt;/span&gt;_000_000;       &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//每数0.5秒LED闪一次
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;parameter&lt;/span&gt; LED_CNT2 &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; LED_CNT1 &lt;span style=&#34;color:#666&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;2&lt;/span&gt;;
-    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;parameter&lt;/span&gt; LED_CNT3 &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; LED_CNT1 &lt;span style=&#34;color:#666&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;3&lt;/span&gt;;
-    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;parameter&lt;/span&gt; LED_CNT4 &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; LED_CNT1 &lt;span style=&#34;color:#666&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;; 
-    
-    &lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;reg&lt;/span&gt; [&lt;span style=&#34;color:#666&#34;&gt;31&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;] count;
-    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;always&lt;/span&gt; @(&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;posedge&lt;/span&gt; sysclk )  &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//计数器在0~LED_CNT4-1之间循环
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;begin&lt;/span&gt;
-      &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(count &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; LED_CNT4 &lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
-        count &lt;span style=&#34;color:#666&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;;
-      &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt;
-        count &lt;span style=&#34;color:#666&#34;&gt;&amp;lt;=&lt;/span&gt; count &lt;span style=&#34;color:#666&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;;
-    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;end&lt;/span&gt;
-    
-    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;always&lt;/span&gt; @(&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;posedge&lt;/span&gt; sysclk )
-    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;begin&lt;/span&gt;
-    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt; (sw[&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;] &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
-    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;begin&lt;/span&gt;
-      &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(count &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; LED_CNT1&lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
-         led &lt;span style=&#34;color:#666&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&amp;#39;b0001&lt;/span&gt;;
-      &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(count &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; LED_CNT2&lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
-         led &lt;span style=&#34;color:#666&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&amp;#39;b0010&lt;/span&gt;;
-      &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(count &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; LED_CNT3&lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
-         led &lt;span style=&#34;color:#666&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&amp;#39;b0100&lt;/span&gt;;
-      &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(count &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; LED_CNT4&lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)   
-         led &lt;span style=&#34;color:#666&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&amp;#39;b1000&lt;/span&gt;;   
-    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;end&lt;/span&gt;
-    
-        &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt; (sw[&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
-    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;begin&lt;/span&gt;
-      &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(count &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; LED_CNT1&lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
-         led &lt;span style=&#34;color:#666&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&amp;#39;b1000&lt;/span&gt;;
-      &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(count &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; LED_CNT2&lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
-         led &lt;span style=&#34;color:#666&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&amp;#39;b0100&lt;/span&gt;;
-      &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(count &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; LED_CNT3&lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
-         led &lt;span style=&#34;color:#666&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&amp;#39;b0010&lt;/span&gt;;
-      &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(count &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; LED_CNT4&lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)   
-         led &lt;span style=&#34;color:#666&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&amp;#39;b0001&lt;/span&gt;;   
-    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;end&lt;/span&gt;
-    
-       &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt; (sw[&lt;span style=&#34;color:#666&#34;&gt;2&lt;/span&gt;] &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
-    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;begin&lt;/span&gt;
-      &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(count &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; LED_CNT1&lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
-         led &lt;span style=&#34;color:#666&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&amp;#39;b0001&lt;/span&gt;;
-     &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;// else if(count == LED_CNT2-1)
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;// led &amp;lt;= 4&amp;#39;b0010;
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;      &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(count &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; LED_CNT3&lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
-         led &lt;span style=&#34;color:#666&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&amp;#39;b0100&lt;/span&gt;;
-     &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;// else if(count == LED_CNT4-1)   
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;       &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;// led &amp;lt;= 4&amp;#39;b1000;   
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;end&lt;/span&gt;
-    
-        &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt; (sw[&lt;span style=&#34;color:#666&#34;&gt;3&lt;/span&gt;] &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
-    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;begin&lt;/span&gt;
-      &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(count &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; LED_CNT1&lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
-        &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;// led &amp;lt;= 4&amp;#39;b0001;
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;     &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;// else if(count == LED_CNT2-1)
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;         led &lt;span style=&#34;color:#666&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&amp;#39;b0010&lt;/span&gt;;
-     &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;// else if(count == LED_CNT3-1)
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;       &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//  led &amp;lt;= 4&amp;#39;b0100;
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;      &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(count &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; LED_CNT4&lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)   
-         led &lt;span style=&#34;color:#666&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&amp;#39;b1000&lt;/span&gt;;   
-    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;end&lt;/span&gt;
-    
-     &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt; (sw[&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;] &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; sw[&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; sw[&lt;span style=&#34;color:#666&#34;&gt;2&lt;/span&gt;] &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; sw[&lt;span style=&#34;color:#666&#34;&gt;3&lt;/span&gt;] &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;)
-       &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;begin&lt;/span&gt;
-         &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(count &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; LED_CNT1&lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
-            led &lt;span style=&#34;color:#666&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&amp;#39;b0000&lt;/span&gt;;
-         &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(count &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; LED_CNT2&lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
-            led &lt;span style=&#34;color:#666&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&amp;#39;b0000&lt;/span&gt;;
-         &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(count &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; LED_CNT3&lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
-            led &lt;span style=&#34;color:#666&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&amp;#39;b0000&lt;/span&gt;;
-         &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(count &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; LED_CNT4&lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)   
-            led &lt;span style=&#34;color:#666&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&amp;#39;b0000&lt;/span&gt;;   
-       &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;end&lt;/span&gt;
-    
-    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;end&lt;/span&gt;
-
-&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;endmodule&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;约束文件&#34;&gt;约束文件&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-verilog&#34; data-lang=&#34;verilog&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#800&#34;&gt;`timescale&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;ns &lt;span style=&#34;color:#666&#34;&gt;/&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;ps
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;module&lt;/span&gt; led_2(
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;input&lt;/span&gt; sysclk,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;input&lt;/span&gt; [&lt;span style=&#34;color:#666&#34;&gt;3&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;] sw,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;output&lt;/span&gt; &lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;reg&lt;/span&gt;[&lt;span style=&#34;color:#666&#34;&gt;3&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;] led
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;       );
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;parameter&lt;/span&gt; LED_CNT1 &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;25&lt;/span&gt;_000_000;       &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//每数0.5秒LED闪一次
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;parameter&lt;/span&gt; LED_CNT2 &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; LED_CNT1 &lt;span style=&#34;color:#666&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;2&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;parameter&lt;/span&gt; LED_CNT3 &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; LED_CNT1 &lt;span style=&#34;color:#666&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;3&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;parameter&lt;/span&gt; LED_CNT4 &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; LED_CNT1 &lt;span style=&#34;color:#666&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;; 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;reg&lt;/span&gt; [&lt;span style=&#34;color:#666&#34;&gt;31&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;] count;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;always&lt;/span&gt; @(&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;posedge&lt;/span&gt; sysclk )  &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//计数器在0~LED_CNT4-1之间循环
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;begin&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(count &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; LED_CNT4 &lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        count &lt;span style=&#34;color:#666&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        count &lt;span style=&#34;color:#666&#34;&gt;&amp;lt;=&lt;/span&gt; count &lt;span style=&#34;color:#666&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;always&lt;/span&gt; @(&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;posedge&lt;/span&gt; sysclk )
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;begin&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt; (sw[&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;] &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;begin&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(count &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; LED_CNT1&lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;         led &lt;span style=&#34;color:#666&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&amp;#39;b0001&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(count &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; LED_CNT2&lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;         led &lt;span style=&#34;color:#666&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&amp;#39;b0010&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(count &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; LED_CNT3&lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;         led &lt;span style=&#34;color:#666&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&amp;#39;b0100&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(count &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; LED_CNT4&lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)   
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;         led &lt;span style=&#34;color:#666&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&amp;#39;b1000&lt;/span&gt;;   
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt; (sw[&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;begin&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(count &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; LED_CNT1&lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;         led &lt;span style=&#34;color:#666&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&amp;#39;b1000&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(count &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; LED_CNT2&lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;         led &lt;span style=&#34;color:#666&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&amp;#39;b0100&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(count &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; LED_CNT3&lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;         led &lt;span style=&#34;color:#666&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&amp;#39;b0010&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(count &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; LED_CNT4&lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)   
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;         led &lt;span style=&#34;color:#666&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&amp;#39;b0001&lt;/span&gt;;   
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;       &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt; (sw[&lt;span style=&#34;color:#666&#34;&gt;2&lt;/span&gt;] &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;begin&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(count &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; LED_CNT1&lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;         led &lt;span style=&#34;color:#666&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&amp;#39;b0001&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;     &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;// else if(count == LED_CNT2-1)
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;        &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;// led &amp;lt;= 4&amp;#39;b0010;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;      &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(count &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; LED_CNT3&lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;         led &lt;span style=&#34;color:#666&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&amp;#39;b0100&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;     &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;// else if(count == LED_CNT4-1)   
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;       &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;// led &amp;lt;= 4&amp;#39;b1000;   
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt; (sw[&lt;span style=&#34;color:#666&#34;&gt;3&lt;/span&gt;] &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;begin&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(count &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; LED_CNT1&lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;// led &amp;lt;= 4&amp;#39;b0001;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;     &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;// else if(count == LED_CNT2-1)
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;         led &lt;span style=&#34;color:#666&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&amp;#39;b0010&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;     &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;// else if(count == LED_CNT3-1)
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;       &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//  led &amp;lt;= 4&amp;#39;b0100;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;      &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(count &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; LED_CNT4&lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)   
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;         led &lt;span style=&#34;color:#666&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&amp;#39;b1000&lt;/span&gt;;   
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;     &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt; (sw[&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;] &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; sw[&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;] &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; sw[&lt;span style=&#34;color:#666&#34;&gt;2&lt;/span&gt;] &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;&amp;amp;&amp;amp;&lt;/span&gt; sw[&lt;span style=&#34;color:#666&#34;&gt;3&lt;/span&gt;] &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;       &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;begin&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;         &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(count &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; LED_CNT1&lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            led &lt;span style=&#34;color:#666&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&amp;#39;b0000&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;         &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(count &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; LED_CNT2&lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            led &lt;span style=&#34;color:#666&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&amp;#39;b0000&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;         &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(count &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; LED_CNT3&lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            led &lt;span style=&#34;color:#666&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&amp;#39;b0000&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;         &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;if&lt;/span&gt;(count &lt;span style=&#34;color:#666&#34;&gt;==&lt;/span&gt; LED_CNT4&lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)   
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            led &lt;span style=&#34;color:#666&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;4&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;&amp;#39;b0000&lt;/span&gt;;   
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;       &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;endmodule&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;约束文件&#34;&gt;约束文件&lt;/h2&gt;
 &lt;p&gt;我们用 Vivado 生成 Bitstream 的时候，会用到相对应芯片的 &lt;code&gt;.xdc&lt;/code&gt; 文件。我在 GitHub 上面找到相应的 &lt;a href=&#34;https://github.com/Digilent/digilent-xdc/blob/master/Zybo-Z7-Master.xdc&#34;&gt;GitHub Digilent-Zybo Z7 .xdc&lt;/a&gt; 文件，只要在工程的 &lt;code&gt;Constraints&lt;/code&gt; 处新建一个约束文件，然后将里面的文本复制进去即可。&lt;/p&gt;
 &lt;p&gt;我们需要对给定的 &lt;code&gt;.xdc&lt;/code&gt; 文件进行注释的修改，标准如下：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;## This file is a general .xdc for the Zybo Z7 Rev. B
-## It is compatible with the Zybo Z7-20 and Zybo Z7-10
-## To use it in a project:
-## - uncomment the lines corresponding to used pins
-## - rename the used ports (in each line, after get_ports) according to the top level signal names in the project
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;开发板下载&#34;&gt;开发板下载&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;## This file is a general .xdc for the Zybo Z7 Rev. B
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;## It is compatible with the Zybo Z7-20 and Zybo Z7-10
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;## To use it in a project:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;## - uncomment the lines corresponding to used pins
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;## - rename the used ports (in each line, after get_ports) according to the top level signal names in the project
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;开发板下载&#34;&gt;开发板下载&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;生成 Bitstream&lt;/li&gt;
 &lt;li&gt;打开 &lt;code&gt;Flow -&amp;gt; Hardware Manager&lt;/code&gt;，连接后进行自动下载&lt;/li&gt;
@@ -484,16 +484,16 @@ graph LR
 &lt;p&gt;选择合适的芯片型号&lt;/p&gt;
 &lt;h2 id=&#34;code&#34;&gt;Code&lt;/h2&gt;
 &lt;p&gt;这里用 Verilog 写代码，编辑器建议用 VS Code。设计了一个双路灯控电路&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-verilog&#34; data-lang=&#34;verilog&#34;&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;module&lt;/span&gt; light(
-    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;input&lt;/span&gt; x1,
-    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;input&lt;/span&gt; x2,
-    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;output&lt;/span&gt; f
-);
-
-&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;assign&lt;/span&gt; f &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; (x1 &lt;span style=&#34;color:#666&#34;&gt;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;~&lt;/span&gt;x2) &lt;span style=&#34;color:#666&#34;&gt;|&lt;/span&gt; (&lt;span style=&#34;color:#666&#34;&gt;~&lt;/span&gt;x1 &lt;span style=&#34;color:#666&#34;&gt;&amp;amp;&lt;/span&gt; x2)
-        
-&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;endmodule&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;写完代码后直接 &lt;code&gt;Add Sources&lt;/code&gt; 添加文件即可。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-verilog&#34; data-lang=&#34;verilog&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;module&lt;/span&gt; light(
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;input&lt;/span&gt; x1,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;input&lt;/span&gt; x2,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;output&lt;/span&gt; f
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;assign&lt;/span&gt; f &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; (x1 &lt;span style=&#34;color:#666&#34;&gt;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;~&lt;/span&gt;x2) &lt;span style=&#34;color:#666&#34;&gt;|&lt;/span&gt; (&lt;span style=&#34;color:#666&#34;&gt;~&lt;/span&gt;x1 &lt;span style=&#34;color:#666&#34;&gt;&amp;amp;&lt;/span&gt; x2)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;endmodule&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;写完代码后直接 &lt;code&gt;Add Sources&lt;/code&gt; 添加文件即可。&lt;/p&gt;
 &lt;h2 id=&#34;compile&#34;&gt;Compile&lt;/h2&gt;
 &lt;p&gt;设计完整个工程之后，要经过 Vivado 软件中几个工具的处理，分别是&lt;strong&gt;分析代码、综合电路以及生成目标芯片&lt;/strong&gt;的实现内容。这些应用工具被聚集在一起，统称为编译器。&lt;/p&gt;
 &lt;div class=&#34;mermaid&#34;&gt;
@@ -555,36 +555,36 @@ Verilog HDL 的注释符和C++一样&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
-&lt;th align=&#34;center&#34;&gt;数制&lt;/th&gt;
-&lt;th align=&#34;center&#34;&gt;进制符号&lt;/th&gt;
-&lt;th align=&#34;center&#34;&gt;值&lt;/th&gt;
-&lt;th align=&#34;center&#34;&gt;Example&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;数制&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;进制符号&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;值&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Example&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
-&lt;td align=&#34;center&#34;&gt;Binary&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;b/B&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;0,1, x, z&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;8&amp;rsquo;b11000101&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;Binary&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;b/B&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;0,1, x, z&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;8&amp;rsquo;b11000101&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align=&#34;center&#34;&gt;Octal&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;o/O&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;0~7, x, z&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;8&amp;rsquo;o305&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;Octal&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;o/O&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;0~7, x, z&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;8&amp;rsquo;o305&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align=&#34;center&#34;&gt;Decimal&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;d/D&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;0~9&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;4&amp;rsquo;d61&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;Decimal&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;d/D&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;0~9&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;4&amp;rsquo;d61&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align=&#34;center&#34;&gt;Hexadecimal&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;h/H&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;0~f, x, z&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;8&amp;rsquo;hc5&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;Hexadecimal&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;h/H&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;0~f, x, z&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;8&amp;rsquo;hc5&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
@@ -593,10 +593,10 @@ Verilog HDL 的注释符和C++一样&lt;/p&gt;
 &lt;li&gt;Syntax: &lt;code&gt;parameter 参数名1=表达式, 参数名2=表达式, ...;&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;Example:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-verilog&#34; data-lang=&#34;verilog&#34;&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;parameter&lt;/span&gt; count_bits &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;8&lt;/span&gt;;
-&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;parameter&lt;/span&gt; sel &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;8&lt;/span&gt;, code &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;8&amp;#39;ha3&lt;/span&gt;;
-&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;parameter&lt;/span&gt; datawidth &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;8&lt;/span&gt;; addrwidth &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; datawidth &lt;span style=&#34;color:#666&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;2&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;好处：便于阅读、修改、增强 module 的通用性&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-verilog&#34; data-lang=&#34;verilog&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;parameter&lt;/span&gt; count_bits &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;8&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;parameter&lt;/span&gt; sel &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;8&lt;/span&gt;, code &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;8&amp;#39;ha3&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;parameter&lt;/span&gt; datawidth &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;8&lt;/span&gt;; addrwidth &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; datawidth &lt;span style=&#34;color:#666&#34;&gt;*&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;2&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;好处：便于阅读、修改、增强 module 的通用性&lt;/p&gt;
 &lt;h3 id=&#34;变量&#34;&gt;变量&lt;/h3&gt;
 &lt;h4 id=&#34;category&#34;&gt;Category&lt;/h4&gt;
 &lt;h5 id=&#34;网络型nets-type&#34;&gt;网络型（nets type）：&lt;/h5&gt;
@@ -607,40 +607,40 @@ Verilog HDL 的注释符和C++一样&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
-&lt;th align=&#34;center&#34;&gt;Type&lt;/th&gt;
-&lt;th align=&#34;center&#34;&gt;Function&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Type&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Function&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
-&lt;td align=&#34;center&#34;&gt;wire, tri&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;连线类型&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;wire, tri&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;连线类型&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align=&#34;center&#34;&gt;wor, trior&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;多重驱动时，具有&lt;strong&gt;线或&lt;/strong&gt;功能的连线型&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;wor, trior&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;多重驱动时，具有&lt;strong&gt;线或&lt;/strong&gt;功能的连线型&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align=&#34;center&#34;&gt;wand, triand&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;多重驱动时，具有&lt;strong&gt;线与&lt;/strong&gt;功能的连线型&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;wand, triand&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;多重驱动时，具有&lt;strong&gt;线与&lt;/strong&gt;功能的连线型&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align=&#34;center&#34;&gt;tri1/tri0&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;上拉电阻/下拉电阻&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;tri1/tri0&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;上拉电阻/下拉电阻&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align=&#34;center&#34;&gt;supply1/supply0&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;电源（逻辑1）/地（逻辑0）&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;supply1/supply0&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;电源（逻辑1）/地（逻辑0）&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;p&gt;&lt;strong&gt;wire型变量&lt;/strong&gt;
 Syntax: &lt;code&gt;wire data1, data2, ..., datan;&lt;/code&gt;
 Example:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-verilog&#34; data-lang=&#34;verilog&#34;&gt;&lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;wire&lt;/span&gt; a, b, c
-&lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;wire&lt;/span&gt; [&lt;span style=&#34;color:#666&#34;&gt;7&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;] databus  	&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//define 8 bits data bus
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;wire&lt;/span&gt; [&lt;span style=&#34;color:#666&#34;&gt;20&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;] addrbus 	&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//define 20 bits address bus 
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-verilog&#34; data-lang=&#34;verilog&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;wire&lt;/span&gt; a, b, c
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;wire&lt;/span&gt; [&lt;span style=&#34;color:#666&#34;&gt;7&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;] databus  	&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//define 8 bits data bus
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;wire&lt;/span&gt; [&lt;span style=&#34;color:#666&#34;&gt;20&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;] addrbus 	&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//define 20 bits address bus 
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
 &lt;li&gt;最常用的 nets 型变量&lt;/li&gt;
 &lt;li&gt;常用来表示用 assign 语句赋值的组合逻辑信号&lt;/li&gt;
 &lt;li&gt;取值为 0，1，x，z&lt;/li&gt;
@@ -653,40 +653,40 @@ Example:&lt;/p&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
-&lt;th align=&#34;center&#34;&gt;Type&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Type&lt;/th&gt;
 &lt;th&gt;Function&lt;/th&gt;
-&lt;th align=&#34;center&#34;&gt;Instance&lt;/th&gt;
+&lt;th style=&#34;text-align:center&#34;&gt;Instance&lt;/th&gt;
 &lt;/tr&gt;
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
-&lt;td align=&#34;center&#34;&gt;reg&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;reg&lt;/td&gt;
 &lt;td&gt;常用的register型变量&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;如触发器、寄存器等&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;如触发器、寄存器等&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align=&#34;center&#34;&gt;integer&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;integer&lt;/td&gt;
 &lt;td&gt;32位带符号整型变量&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;-&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;-&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align=&#34;center&#34;&gt;real&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;real&lt;/td&gt;
 &lt;td&gt;64位带符号实数型变量&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;-&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;-&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-&lt;td align=&#34;center&#34;&gt;time&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;time&lt;/td&gt;
 &lt;td&gt;无符号时间变量&lt;/td&gt;
-&lt;td align=&#34;center&#34;&gt;-&lt;/td&gt;
+&lt;td style=&#34;text-align:center&#34;&gt;-&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;p&gt;Syntax: &lt;code&gt;reg data1, data2, ..., datan;&lt;/code&gt;
 Example:&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-verilog&#34; data-lang=&#34;verilog&#34;&gt;&lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;reg&lt;/span&gt; a, b, c
-&lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;reg&lt;/span&gt; [&lt;span style=&#34;color:#666&#34;&gt;8&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;] databus  	        &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//define 8 bits register
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;reg&lt;/span&gt; [&lt;span style=&#34;color:#666&#34;&gt;7&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;] mymem[&lt;span style=&#34;color:#666&#34;&gt;1023&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;] 	&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//define 1k bytes memory
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;运算符&#34;&gt;运算符&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-verilog&#34; data-lang=&#34;verilog&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;reg&lt;/span&gt; a, b, c
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;reg&lt;/span&gt; [&lt;span style=&#34;color:#666&#34;&gt;8&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;] databus  	        &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//define 8 bits register
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#0b0;font-weight:bold&#34;&gt;reg&lt;/span&gt; [&lt;span style=&#34;color:#666&#34;&gt;7&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;] mymem[&lt;span style=&#34;color:#666&#34;&gt;1023&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;] 	&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//define 1k bytes memory
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;运算符&#34;&gt;运算符&lt;/h2&gt;
 &lt;table&gt;
 &lt;thead&gt;
 &lt;tr&gt;
@@ -754,33 +754,33 @@ Example:&lt;/p&gt;
 &lt;li&gt;always 过程块是&lt;strong&gt;不能嵌套使用的&lt;/strong&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h5 id=&#34;template&#34;&gt;Template&lt;/h5&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-verilog&#34; data-lang=&#34;verilog&#34;&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;always&lt;/span&gt; @(&lt;span style=&#34;color:#666&#34;&gt;&amp;lt;&lt;/span&gt;signal&lt;span style=&#34;color:#666&#34;&gt;&amp;gt;&lt;/span&gt;)
-&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;begin&lt;/span&gt;
-	&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//过程赋值
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;	&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//if 语句
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;	&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//case 语句
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;	&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//while, repeat, for 语句
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;	&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;// task, functiony 调用
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h5 id=&#34;posedge-和-negedge-关键字&#34;&gt;posedge 和 negedge 关键字&lt;/h5&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-verilog&#34; data-lang=&#34;verilog&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;always&lt;/span&gt; @(&lt;span style=&#34;color:#666&#34;&gt;&amp;lt;&lt;/span&gt;signal&lt;span style=&#34;color:#666&#34;&gt;&amp;gt;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;begin&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//过程赋值
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;	&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//if 语句
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;	&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//case 语句
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;	&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//while, repeat, for 语句
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;	&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;// task, functiony 调用
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h5 id=&#34;posedge-和-negedge-关键字&#34;&gt;posedge 和 negedge 关键字&lt;/h5&gt;
 &lt;p&gt;clk 为同步时序电路的时钟信号，而 clear 为异步清零信号&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-verilog&#34; data-lang=&#34;verilog&#34;&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//上升沿触发、高电平清零有效
-&lt;/span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;always&lt;/span&gt; @(&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;posedge&lt;/span&gt; clk &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;or&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;posedge&lt;/span&gt; clear)
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;initial-过程块&#34;&gt;initial 过程块&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-verilog&#34; data-lang=&#34;verilog&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;//上升沿触发、高电平清零有效
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;&lt;/span&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;always&lt;/span&gt; @(&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;posedge&lt;/span&gt; clk &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;or&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;posedge&lt;/span&gt; clear)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;initial-过程块&#34;&gt;initial 过程块&lt;/h4&gt;
 &lt;h5 id=&#34;template-1&#34;&gt;Template&lt;/h5&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-verilog&#34; data-lang=&#34;verilog&#34;&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;initial&lt;/span&gt;
-	&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;begin&lt;/span&gt;
-		sentence1;
-		sentence2;
-		...;
-	&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Example&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-verilog&#34; data-lang=&#34;verilog&#34;&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;initial&lt;/span&gt;
-	&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;begin&lt;/span&gt;
-		reg1&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;;
-		&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;for&lt;/span&gt; (addr &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;; addr &lt;span style=&#34;color:#666&#34;&gt;&amp;lt;&lt;/span&gt; size; addr &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; addr &lt;span style=&#34;color:#666&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
-			memory[addr] &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;;
-	&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h5 id=&#34;说明&#34;&gt;说明&lt;/h5&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-verilog&#34; data-lang=&#34;verilog&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;initial&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;begin&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		sentence1;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		sentence2;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		...;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Example&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-verilog&#34; data-lang=&#34;verilog&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;initial&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;begin&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		reg1&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;		&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;for&lt;/span&gt; (addr &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;; addr &lt;span style=&#34;color:#666&#34;&gt;&amp;lt;&lt;/span&gt; size; addr &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; addr &lt;span style=&#34;color:#666&#34;&gt;+&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;			memory[addr] &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;end&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h5 id=&#34;说明&#34;&gt;说明&lt;/h5&gt;
 &lt;ul&gt;
 &lt;li&gt;主要面向功能模拟，通常不具有可综合性，只用于测试文件（testbench）&lt;/li&gt;
 &lt;li&gt;模拟 0 时刻开始执行，&lt;strong&gt;只执行一次&lt;/strong&gt;&lt;/li&gt;
@@ -790,10 +790,10 @@ Example:&lt;/p&gt;
 &lt;h3 id=&#34;赋值语句&#34;&gt;赋值语句&lt;/h3&gt;
 &lt;h4 id=&#34;连续赋值语句assign&#34;&gt;连续赋值语句（assign）&lt;/h4&gt;
 &lt;p&gt;常用于对 wire 型变量进行赋值&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-verilog&#34; data-lang=&#34;verilog&#34;&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;input&lt;/span&gt; a, b;
-&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;output&lt;/span&gt; c;
-&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;assign&lt;/span&gt; c &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; a &lt;span style=&#34;color:#666&#34;&gt;&amp;amp;&lt;/span&gt; b;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;过程赋值语句&#34;&gt;过程赋值语句&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-verilog&#34; data-lang=&#34;verilog&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;input&lt;/span&gt; a, b;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;output&lt;/span&gt; c;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;assign&lt;/span&gt; c &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; a &lt;span style=&#34;color:#666&#34;&gt;&amp;amp;&lt;/span&gt; b;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;过程赋值语句&#34;&gt;过程赋值语句&lt;/h4&gt;
 &lt;p&gt;常用于 reg 型变量进行赋值
 &lt;strong&gt;非阻塞赋值&lt;/strong&gt;：一条非阻塞赋值语句的执行是不会阻塞下一条语句的执行，在本条非阻塞赋值语句执行完毕前，下一条语句也可开始执行&lt;/p&gt;
 &lt;ul&gt;

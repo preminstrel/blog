@@ -20,10 +20,10 @@
 &lt;h3 id=&#34;使用hjkl作为方向键&#34;&gt;使用hjkl作为方向键&lt;/h3&gt;
 &lt;p&gt;h左l右，k上j下&lt;/p&gt;
 &lt;h3 id=&#34;快速移动光标至行首和行尾&#34;&gt;快速移动光标至行首和行尾&lt;/h3&gt;
-&lt;p&gt;1）行首：在命令模式中使用快捷键&amp;quot;^&amp;rdquo;（即Shift+6）或0（数字0）。
+&lt;p&gt;1）行首：在命令模式中使用快捷键&amp;quot;^&amp;quot;（即Shift+6）或0（数字0）。
 2）行尾：使用编辑键End；
-也可以在命令模式中使用快捷键&amp;quot;$&amp;rdquo;（Shift+4）。
-快捷键&amp;rdquo;$&amp;quot;前可以加上数字表示移动的行数。例如使用&amp;quot;1$&amp;quot;表示当前行的行尾，&amp;ldquo;25$&amp;quot;表示当前行的下25的行尾。
+也可以在命令模式中使用快捷键&amp;quot;$&amp;quot;（Shift+4）。
+快捷键&amp;quot;$&amp;ldquo;前可以加上数字表示移动的行数。例如使用&amp;quot;1$&amp;ldquo;表示当前行的行尾，&amp;ldquo;25$&amp;ldquo;表示当前行的下25的行尾。
 3）I是定位到行首，A是定位到行末。&lt;/p&gt;
 &lt;h3 id=&#34;向下移动100行适合小范围移动&#34;&gt;向下移动100行（适合小范围移动）&lt;/h3&gt;
 &lt;p&gt;100j表示向下移动100行（从当前位置开始）&lt;/p&gt;

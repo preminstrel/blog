@@ -57,16 +57,16 @@ graph LR
 &lt;p&gt;选择合适的芯片型号&lt;/p&gt;
 &lt;h2 id=&#34;code&#34;&gt;Code&lt;/h2&gt;
 &lt;p&gt;这里用 Verilog 写代码，编辑器建议用 VS Code。设计了一个双路灯控电路&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-verilog&#34; data-lang=&#34;verilog&#34;&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;module&lt;/span&gt; light(
-    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;input&lt;/span&gt; x1,
-    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;input&lt;/span&gt; x2,
-    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;output&lt;/span&gt; f
-);
-
-&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;assign&lt;/span&gt; f &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; (x1 &lt;span style=&#34;color:#666&#34;&gt;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;~&lt;/span&gt;x2) &lt;span style=&#34;color:#666&#34;&gt;|&lt;/span&gt; (&lt;span style=&#34;color:#666&#34;&gt;~&lt;/span&gt;x1 &lt;span style=&#34;color:#666&#34;&gt;&amp;amp;&lt;/span&gt; x2)
-        
-&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;endmodule&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;写完代码后直接 &lt;code&gt;Add Sources&lt;/code&gt; 添加文件即可。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-verilog&#34; data-lang=&#34;verilog&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;module&lt;/span&gt; light(
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;input&lt;/span&gt; x1,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;input&lt;/span&gt; x2,
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;output&lt;/span&gt; f
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;assign&lt;/span&gt; f &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; (x1 &lt;span style=&#34;color:#666&#34;&gt;&amp;amp;&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;~&lt;/span&gt;x2) &lt;span style=&#34;color:#666&#34;&gt;|&lt;/span&gt; (&lt;span style=&#34;color:#666&#34;&gt;~&lt;/span&gt;x1 &lt;span style=&#34;color:#666&#34;&gt;&amp;amp;&lt;/span&gt; x2)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;endmodule&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;写完代码后直接 &lt;code&gt;Add Sources&lt;/code&gt; 添加文件即可。&lt;/p&gt;
 &lt;h2 id=&#34;compile&#34;&gt;Compile&lt;/h2&gt;
 &lt;p&gt;设计完整个工程之后，要经过 Vivado 软件中几个工具的处理，分别是&lt;strong&gt;分析代码、综合电路以及生成目标芯片&lt;/strong&gt;的实现内容。这些应用工具被聚集在一起，统称为编译器。&lt;/p&gt;
 &lt;div class=&#34;mermaid&#34;&gt;

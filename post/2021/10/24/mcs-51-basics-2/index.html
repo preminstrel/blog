@@ -53,9 +53,10 @@
   <meta property="og:title" content="MCS 51 Basics (2)" />
 <meta property="og:description" content="Buzzer 前面我们已经介绍了如何控制 51 单片机的 IO 口输出高低电平，这次我们通过另外一个实验来讲述 51 单片机 IO 口的输出。通过单片机的一个 IO 口控制板载无源蜂" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://preminstrel.github.io/blog/post/2021/10/24/mcs-51-basics-2/" />
+<meta property="og:url" content="https://preminstrel.github.io/blog/post/2021/10/24/mcs-51-basics-2/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2021-10-24T22:18:50+08:00" />
 <meta property="article:modified_time" content="2021-10-25T00:00:00+00:00" />
+
 
 
   
@@ -64,13 +65,9 @@
   
   
   <meta itemprop="name" content="MCS 51 Basics (2)">
-<meta itemprop="description" content="Buzzer 前面我们已经介绍了如何控制 51 单片机的 IO 口输出高低电平，这次我们通过另外一个实验来讲述 51 单片机 IO 口的输出。通过单片机的一个 IO 口控制板载无源蜂">
-<meta itemprop="datePublished" content="2021-10-24T22:18:50&#43;08:00" />
-<meta itemprop="dateModified" content="2021-10-25T00:00:00&#43;00:00" />
+<meta itemprop="description" content="Buzzer 前面我们已经介绍了如何控制 51 单片机的 IO 口输出高低电平，这次我们通过另外一个实验来讲述 51 单片机 IO 口的输出。通过单片机的一个 IO 口控制板载无源蜂"><meta itemprop="datePublished" content="2021-10-24T22:18:50+08:00" />
+<meta itemprop="dateModified" content="2021-10-25T00:00:00+00:00" />
 <meta itemprop="wordCount" content="4263">
-
-
-
 <meta itemprop="keywords" content="MCU,MCS 51," />
 
   
@@ -197,35 +194,35 @@
 <p>开发板上使用的是无源蜂鸣器，它需要一定频率的脉冲（高低电平）才会发声，因此需要让 <code>P25</code> 脚以一定频率不断输出高低电平信号才能控制蜂鸣器发出声音。</p>
 <h3 id="software-design">Software Design</h3>
 <p>我们所要实现的功能是：让蜂鸣器发出声音，一段时间后再关闭，即让 <code>P2.5</code> 管脚输出一定频率的脉冲信号（高低电平）控制无源蜂鸣器。</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#080">#include</span> <span style="color:#080">&#34;reg52.h&#34;</span><span style="color:#080">
-</span><span style="color:#080"></span>
-<span style="color:#a2f;font-weight:bold">typedef</span> <span style="color:#0b0;font-weight:bold">unsigned</span> <span style="color:#0b0;font-weight:bold">int</span> u16;    <span style="color:#080;font-style:italic">//对系统默认数据类型进行重定义
-</span><span style="color:#080;font-style:italic"></span><span style="color:#a2f;font-weight:bold">typedef</span> <span style="color:#0b0;font-weight:bold">unsigned</span> <span style="color:#0b0;font-weight:bold">char</span> u8;
-
-sbit BEEP<span style="color:#666">=</span>P2<span style="color:#666">^</span><span style="color:#666">5</span>;    <span style="color:#080;font-style:italic">//将P2.5管脚定义为BEEP
-</span><span style="color:#080;font-style:italic"></span>
-<span style="color:#0b0;font-weight:bold">void</span> <span style="color:#00a000">delay_10us</span>(u16 ten_us)
-{
-    <span style="color:#a2f;font-weight:bold">while</span>(ten_us<span style="color:#666">--</span>);    
-}
-
-
-<span style="color:#0b0;font-weight:bold">void</span> <span style="color:#00a000">main</span>()
-{    
-    u16 i <span style="color:#666">=</span> <span style="color:#666">2000</span>;
-
-    <span style="color:#a2f;font-weight:bold">while</span>(<span style="color:#666">1</span>)
-    {
-        <span style="color:#a2f;font-weight:bold">while</span>(i<span style="color:#666">--</span>)<span style="color:#080;font-style:italic">//循环2000次
-</span><span style="color:#080;font-style:italic"></span>        {
-            BEEP<span style="color:#666">=!</span>BEEP;<span style="color:#080;font-style:italic">//产生一定频率的脉冲信号
-</span><span style="color:#080;font-style:italic"></span>            delay_10us(<span style="color:#666">100</span>); <span style="color:#080;font-style:italic">//改变此处会使得声音的频率变化，越大越低沉
-</span><span style="color:#080;font-style:italic"></span>        }
-        i<span style="color:#666">=</span><span style="color:#666">0</span>;<span style="color:#080;font-style:italic">//清零
-</span><span style="color:#080;font-style:italic"></span>        BEEP<span style="color:#666">=</span><span style="color:#666">0</span>;<span style="color:#080;font-style:italic">//关闭蜂鸣器
-</span><span style="color:#080;font-style:italic"></span>    }        
-}
-</code></pre></div><h2 id="静态数码管">静态数码管</h2>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#080">#include</span> <span style="color:#080">&#34;reg52.h&#34;</span><span style="color:#080">
+</span></span></span><span style="display:flex;"><span><span style="color:#080"></span>
+</span></span><span style="display:flex;"><span><span style="color:#a2f;font-weight:bold">typedef</span> <span style="color:#0b0;font-weight:bold">unsigned</span> <span style="color:#0b0;font-weight:bold">int</span> u16;    <span style="color:#080;font-style:italic">//对系统默认数据类型进行重定义
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span><span style="color:#a2f;font-weight:bold">typedef</span> <span style="color:#0b0;font-weight:bold">unsigned</span> <span style="color:#0b0;font-weight:bold">char</span> u8;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>sbit BEEP<span style="color:#666">=</span>P2<span style="color:#666">^</span><span style="color:#666">5</span>;    <span style="color:#080;font-style:italic">//将P2.5管脚定义为BEEP
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span>
+</span></span><span style="display:flex;"><span><span style="color:#0b0;font-weight:bold">void</span> <span style="color:#00a000">delay_10us</span>(u16 ten_us)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#a2f;font-weight:bold">while</span>(ten_us<span style="color:#666">--</span>);    
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#0b0;font-weight:bold">void</span> <span style="color:#00a000">main</span>()
+</span></span><span style="display:flex;"><span>{    
+</span></span><span style="display:flex;"><span>    u16 i <span style="color:#666">=</span> <span style="color:#666">2000</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a2f;font-weight:bold">while</span>(<span style="color:#666">1</span>)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#a2f;font-weight:bold">while</span>(i<span style="color:#666">--</span>)<span style="color:#080;font-style:italic">//循环2000次
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span>        {
+</span></span><span style="display:flex;"><span>            BEEP<span style="color:#666">=!</span>BEEP;<span style="color:#080;font-style:italic">//产生一定频率的脉冲信号
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span>            delay_10us(<span style="color:#666">100</span>); <span style="color:#080;font-style:italic">//改变此处会使得声音的频率变化，越大越低沉
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span>        }
+</span></span><span style="display:flex;"><span>        i<span style="color:#666">=</span><span style="color:#666">0</span>;<span style="color:#080;font-style:italic">//清零
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span>        BEEP<span style="color:#666">=</span><span style="color:#666">0</span>;<span style="color:#080;font-style:italic">//关闭蜂鸣器
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span>    }        
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="静态数码管">静态数码管</h2>
 <h3 id="introduction">Introduction</h3>
 <p>数码管是一种半导体发光器件，其基本单元是发光二极管。数码管也称 LED 数码管。数码管按段数可分为七段数码管和八段数码管，八段数码管比七段数码管多一个发光二极管单元，也就是多一个小数点（DP），这个小数点可以更精确的表示数码管想要显示的内容；按能显示多少个（8）可分为 1 位、 2 位、 3 位、 4 位、 5 位、 6 位、7 位等数码管。按发光二极管单元连接方式可分为共<strong class=chinese>阳</strong>极数码管和共<strong class=chinese>阴</strong>极数码管。</p>
 <p>共阳数码管是指将所有发光二极管的阳极接到一起形成公共阳极（COM）的数码管，共阳数码管在应用时应将公共极 COM 接到 +5V，当某一字段发光二极管的阴极为低电平时，相应字段就点亮，当某一字段的阴极为高电平时，相应字段就不亮。</p>
@@ -236,50 +233,50 @@ sbit BEEP<span style="color:#666">=</span>P2<span style="color:#666">^</span><sp
 <table>
 <thead>
 <tr>
-<th align="center">0x3f</th>
-<th align="center">0x06</th>
-<th align="center">0x5b</th>
-<th align="center">0x4f</th>
-<th align="center">0x66</th>
-<th align="center">0x6d</th>
-<th align="center">0x7d</th>
-<th align="center">0x07</th>
-<th align="center">0x00</th>
+<th style="text-align:center">0x3f</th>
+<th style="text-align:center">0x06</th>
+<th style="text-align:center">0x5b</th>
+<th style="text-align:center">0x4f</th>
+<th style="text-align:center">0x66</th>
+<th style="text-align:center">0x6d</th>
+<th style="text-align:center">0x7d</th>
+<th style="text-align:center">0x07</th>
+<th style="text-align:center">0x00</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="center">0</td>
-<td align="center">1</td>
-<td align="center">2</td>
-<td align="center">3</td>
-<td align="center">4</td>
-<td align="center">5</td>
-<td align="center">6</td>
-<td align="center">7</td>
-<td align="center">-</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">7</td>
+<td style="text-align:center">-</td>
 </tr>
 <tr>
-<td align="center"><strong>0x7f</strong></td>
-<td align="center"><strong>0x6f</strong></td>
-<td align="center"><strong>0x77</strong></td>
-<td align="center"><strong>0x7c</strong></td>
-<td align="center"><strong>0x39</strong></td>
-<td align="center"><strong>0x5e</strong></td>
-<td align="center"><strong>0x79</strong></td>
-<td align="center"><strong>0x71</strong></td>
-<td align="center"></td>
+<td style="text-align:center"><strong>0x7f</strong></td>
+<td style="text-align:center"><strong>0x6f</strong></td>
+<td style="text-align:center"><strong>0x77</strong></td>
+<td style="text-align:center"><strong>0x7c</strong></td>
+<td style="text-align:center"><strong>0x39</strong></td>
+<td style="text-align:center"><strong>0x5e</strong></td>
+<td style="text-align:center"><strong>0x79</strong></td>
+<td style="text-align:center"><strong>0x71</strong></td>
+<td style="text-align:center"></td>
 </tr>
 <tr>
-<td align="center">8</td>
-<td align="center">9</td>
-<td align="center">A</td>
-<td align="center">B</td>
-<td align="center">C</td>
-<td align="center">D</td>
-<td align="center">E</td>
-<td align="center">F</td>
-<td align="center"></td>
+<td style="text-align:center">8</td>
+<td style="text-align:center">9</td>
+<td style="text-align:center">A</td>
+<td style="text-align:center">B</td>
+<td style="text-align:center">C</td>
+<td style="text-align:center">D</td>
+<td style="text-align:center">E</td>
+<td style="text-align:center">F</td>
+<td style="text-align:center"></td>
 </tr>
 </tbody>
 </table>
@@ -287,50 +284,50 @@ sbit BEEP<span style="color:#666">=</span>P2<span style="color:#666">^</span><sp
 <table>
 <thead>
 <tr>
-<th align="center">0xC0</th>
-<th align="center">0xF9</th>
-<th align="center">0xA4</th>
-<th align="center">0xB0</th>
-<th align="center">0x99</th>
-<th align="center">0x92</th>
-<th align="center">0x82</th>
-<th align="center">0xF8</th>
-<th align="center">0xFF</th>
+<th style="text-align:center">0xC0</th>
+<th style="text-align:center">0xF9</th>
+<th style="text-align:center">0xA4</th>
+<th style="text-align:center">0xB0</th>
+<th style="text-align:center">0x99</th>
+<th style="text-align:center">0x92</th>
+<th style="text-align:center">0x82</th>
+<th style="text-align:center">0xF8</th>
+<th style="text-align:center">0xFF</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="center">0</td>
-<td align="center">1</td>
-<td align="center">2</td>
-<td align="center">3</td>
-<td align="center">4</td>
-<td align="center">5</td>
-<td align="center">6</td>
-<td align="center">7</td>
-<td align="center">-</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">7</td>
+<td style="text-align:center">-</td>
 </tr>
 <tr>
-<td align="center"><strong>0x80</strong></td>
-<td align="center"><strong>0x90</strong></td>
-<td align="center"><strong>0x88</strong></td>
-<td align="center"><strong>0x83</strong></td>
-<td align="center"><strong>0xC6</strong></td>
-<td align="center"><strong>0xA1</strong></td>
-<td align="center"><strong>0x86</strong></td>
-<td align="center"><strong>0x8E</strong></td>
-<td align="center"></td>
+<td style="text-align:center"><strong>0x80</strong></td>
+<td style="text-align:center"><strong>0x90</strong></td>
+<td style="text-align:center"><strong>0x88</strong></td>
+<td style="text-align:center"><strong>0x83</strong></td>
+<td style="text-align:center"><strong>0xC6</strong></td>
+<td style="text-align:center"><strong>0xA1</strong></td>
+<td style="text-align:center"><strong>0x86</strong></td>
+<td style="text-align:center"><strong>0x8E</strong></td>
+<td style="text-align:center"></td>
 </tr>
 <tr>
-<td align="center">8</td>
-<td align="center">9</td>
-<td align="center">A</td>
-<td align="center">B</td>
-<td align="center">C</td>
-<td align="center">D</td>
-<td align="center">E</td>
-<td align="center">F</td>
-<td align="center"></td>
+<td style="text-align:center">8</td>
+<td style="text-align:center">9</td>
+<td style="text-align:center">A</td>
+<td style="text-align:center">B</td>
+<td style="text-align:center">C</td>
+<td style="text-align:center">D</td>
+<td style="text-align:center">E</td>
+<td style="text-align:center">F</td>
+<td style="text-align:center"></td>
 </tr>
 </tbody>
 </table>
@@ -344,26 +341,26 @@ sbit BEEP<span style="color:#666">=</span>P2<span style="color:#666">^</span><sp
 </div>
 <h3 id="software-design-1">Software Design</h3>
 <p>我们所要实现的功能是：控制静态数码管显示数字 0，即让 <code>P0</code> 端口输出数字 0 的段码 <code>0x3f</code>（共阴）。</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#080">#include</span> <span style="color:#080">&#34;reg52.h&#34;</span><span style="color:#080">
-</span><span style="color:#080"></span>
-<span style="color:#a2f;font-weight:bold">typedef</span> <span style="color:#0b0;font-weight:bold">unsigned</span> <span style="color:#0b0;font-weight:bold">int</span> u16;    <span style="color:#080;font-style:italic">//对系统默认数据类型进行重定义
-</span><span style="color:#080;font-style:italic"></span><span style="color:#a2f;font-weight:bold">typedef</span> <span style="color:#0b0;font-weight:bold">unsigned</span> <span style="color:#0b0;font-weight:bold">char</span> u8;
-
-<span style="color:#080">#define SMG_A_DP_PORT P0    </span><span style="color:#080;font-style:italic">//使用宏定义数码管段码口
-</span><span style="color:#080;font-style:italic"></span>
-<span style="color:#080;font-style:italic">//共阴极数码管显示0~F的段码数据
-</span><span style="color:#080;font-style:italic"></span>u8 gsmg_code[<span style="color:#666">17</span>]<span style="color:#666">=</span>{<span style="color:#666">0x3f</span>,<span style="color:#666">0x06</span>,<span style="color:#666">0x5b</span>,<span style="color:#666">0x4f</span>,<span style="color:#666">0x66</span>,<span style="color:#666">0x6d</span>,<span style="color:#666">0x7d</span>,<span style="color:#666">0x07</span>,
-                <span style="color:#666">0x7f</span>,<span style="color:#666">0x6f</span>,<span style="color:#666">0x77</span>,<span style="color:#666">0x7c</span>,<span style="color:#666">0x39</span>,<span style="color:#666">0x5e</span>,<span style="color:#666">0x79</span>,<span style="color:#666">0x71</span>};
-
-<span style="color:#0b0;font-weight:bold">void</span> <span style="color:#00a000">main</span>()
-{    
-    SMG_A_DP_PORT<span style="color:#666">=</span>gsmg_code[<span style="color:#666">0</span>];<span style="color:#080;font-style:italic">//将数组第1个数据赋值给数码管段选口
-</span><span style="color:#080;font-style:italic"></span>    <span style="color:#a2f;font-weight:bold">while</span>(<span style="color:#666">1</span>)
-    {
-           
-    }        
-}
-</code></pre></div><h2 id="动态数码管">动态数码管</h2>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#080">#include</span> <span style="color:#080">&#34;reg52.h&#34;</span><span style="color:#080">
+</span></span></span><span style="display:flex;"><span><span style="color:#080"></span>
+</span></span><span style="display:flex;"><span><span style="color:#a2f;font-weight:bold">typedef</span> <span style="color:#0b0;font-weight:bold">unsigned</span> <span style="color:#0b0;font-weight:bold">int</span> u16;    <span style="color:#080;font-style:italic">//对系统默认数据类型进行重定义
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span><span style="color:#a2f;font-weight:bold">typedef</span> <span style="color:#0b0;font-weight:bold">unsigned</span> <span style="color:#0b0;font-weight:bold">char</span> u8;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#080">#define SMG_A_DP_PORT P0    </span><span style="color:#080;font-style:italic">//使用宏定义数码管段码口
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span>
+</span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic">//共阴极数码管显示0~F的段码数据
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span>u8 gsmg_code[<span style="color:#666">17</span>]<span style="color:#666">=</span>{<span style="color:#666">0x3f</span>,<span style="color:#666">0x06</span>,<span style="color:#666">0x5b</span>,<span style="color:#666">0x4f</span>,<span style="color:#666">0x66</span>,<span style="color:#666">0x6d</span>,<span style="color:#666">0x7d</span>,<span style="color:#666">0x07</span>,
+</span></span><span style="display:flex;"><span>                <span style="color:#666">0x7f</span>,<span style="color:#666">0x6f</span>,<span style="color:#666">0x77</span>,<span style="color:#666">0x7c</span>,<span style="color:#666">0x39</span>,<span style="color:#666">0x5e</span>,<span style="color:#666">0x79</span>,<span style="color:#666">0x71</span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#0b0;font-weight:bold">void</span> <span style="color:#00a000">main</span>()
+</span></span><span style="display:flex;"><span>{    
+</span></span><span style="display:flex;"><span>    SMG_A_DP_PORT<span style="color:#666">=</span>gsmg_code[<span style="color:#666">0</span>];<span style="color:#080;font-style:italic">//将数组第1个数据赋值给数码管段选口
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span>    <span style="color:#a2f;font-weight:bold">while</span>(<span style="color:#666">1</span>)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>           
+</span></span><span style="display:flex;"><span>    }        
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="动态数码管">动态数码管</h2>
 <p>前面我们已经介绍了如何使用 51 单片机控制静态数码管显示，在实际应用中通常都需要显示多位数值，如果采用静态数码管显示就不够好，因此就需要采用另外一种显示方式，即数码管动态显示。开发板上板载 2 个四位一体的共阴数码管，我们就来介绍下如何使用 51 单片机控制动态数码管显示。所要实现的功能是：控制动态数码管从左至右显示数字 0-7。</p>
 <h3 id="introduction-1">Introduction</h3>
 <p>多位数码管，即两个或两个以上单个数码管并列集中在一起形成一体的数码管。当多位一体时，它们内部的公共端是独立的，而负责显示什么数字的段线（a-dp）全部是连接在一起的，独立的公共端可以控制多位一体中的哪一位数码管点亮，而连接在一起的段线可以控制这个能点亮数码管亮什么数字，通常我们把公共端叫做“位选线”，连接在一起的段线叫做“段选线”，有了这两个线后，通过单片机及外部驱动电路就可以控制任意的数码管显示任意的数字了。</p>
@@ -373,60 +370,60 @@ sbit BEEP<span style="color:#666">=</span>P2<span style="color:#666">^</span><sp
 <p>而动态显示，就是利用减少段选线，分开位选线，<strong>利用位选线不同时选择通断，改变段选数据来实现的</strong>。比如在第一次选中第一位数码管时，给段选数据 0，下一次位选中第二位数码管时显示 1。为了在显示 1 的时候，0 不会消失（当然实际上是消失了），必须在人肉眼观察不到的时间里再次点亮第一次点亮的 0。 而这时就需要记住，人的肉眼正常情况下只能分辨变化超过 24ms 间隔的运动。也就是说，在下一次点亮 0 这个数字的时间差不得大于 24ms。这时就会发现，数码管点亮是在向右或者向左一位一位点亮，形成了动态效果。如果把间隔时间改长就能直接展现这一现象。</p>
 <p>74HC138 总结：A0、A1、A2 输入就相当于 3 位 2 进制数，A0 是低位，A1 是次高位，A2 是高位。而 Y0-Y7 具体哪一个输出有效电平，就看输入二进制对应的十进制数值。比如输入是 101（A2，A1，A0），其对应的十进制数是 5，所以 Y5 输出有效电平（低电平）。</p>
 <h3 id="software-design-2">Software Design</h3>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#080">#include</span> <span style="color:#080">&#34;reg52.h&#34;</span><span style="color:#080">
-</span><span style="color:#080"></span>
-<span style="color:#a2f;font-weight:bold">typedef</span> <span style="color:#0b0;font-weight:bold">unsigned</span> <span style="color:#0b0;font-weight:bold">int</span> u16;    <span style="color:#080;font-style:italic">//对系统默认数据类型进行重定义
-</span><span style="color:#080;font-style:italic"></span><span style="color:#a2f;font-weight:bold">typedef</span> <span style="color:#0b0;font-weight:bold">unsigned</span> <span style="color:#0b0;font-weight:bold">char</span> u8;
-
-<span style="color:#080">#define SMG_A_DP_PORT    P0    </span><span style="color:#080;font-style:italic">//使用宏定义数码管段码口
-</span><span style="color:#080;font-style:italic"></span>
-<span style="color:#080;font-style:italic">//定义数码管位选信号控制脚
-</span><span style="color:#080;font-style:italic"></span>sbit LSA<span style="color:#666">=</span>P2<span style="color:#666">^</span><span style="color:#666">2</span>;
-sbit LSB<span style="color:#666">=</span>P2<span style="color:#666">^</span><span style="color:#666">3</span>;
-sbit LSC<span style="color:#666">=</span>P2<span style="color:#666">^</span><span style="color:#666">4</span>;
-
-<span style="color:#080;font-style:italic">//共阴极数码管显示0~F的段码数据
-</span><span style="color:#080;font-style:italic"></span>u8 gsmg_code[<span style="color:#666">17</span>]<span style="color:#666">=</span>{<span style="color:#666">0x3f</span>,<span style="color:#666">0x06</span>,<span style="color:#666">0x5b</span>,<span style="color:#666">0x4f</span>,<span style="color:#666">0x66</span>,<span style="color:#666">0x6d</span>,<span style="color:#666">0x7d</span>,<span style="color:#666">0x07</span>,
-                <span style="color:#666">0x7f</span>,<span style="color:#666">0x6f</span>,<span style="color:#666">0x77</span>,<span style="color:#666">0x7c</span>,<span style="color:#666">0x39</span>,<span style="color:#666">0x5e</span>,<span style="color:#666">0x79</span>,<span style="color:#666">0x71</span>};
-
-<span style="color:#0b0;font-weight:bold">void</span> <span style="color:#00a000">delay_10us</span>(u16 ten_us)
-{
-    <span style="color:#a2f;font-weight:bold">while</span>(ten_us<span style="color:#666">--</span>);    
-}
-
-
-<span style="color:#0b0;font-weight:bold">void</span> <span style="color:#00a000">smg_display</span>(<span style="color:#0b0;font-weight:bold">void</span>)
-{
-    u8 i<span style="color:#666">=</span><span style="color:#666">0</span>;
-
-    <span style="color:#a2f;font-weight:bold">for</span>(i<span style="color:#666">=</span><span style="color:#666">0</span>;i<span style="color:#666">&lt;</span><span style="color:#666">8</span>;i<span style="color:#666">++</span>)
-    {
-        <span style="color:#a2f;font-weight:bold">switch</span>(i)<span style="color:#080;font-style:italic">//位选
-</span><span style="color:#080;font-style:italic"></span>        {
-            <span style="color:#a2f;font-weight:bold">case</span> <span style="color:#666">0</span><span style="color:#666">:</span> LSC<span style="color:#666">=</span><span style="color:#666">1</span>;LSB<span style="color:#666">=</span><span style="color:#666">1</span>;LSA<span style="color:#666">=</span><span style="color:#666">1</span>;<span style="color:#a2f;font-weight:bold">break</span>;
-            <span style="color:#a2f;font-weight:bold">case</span> <span style="color:#666">1</span><span style="color:#666">:</span> LSC<span style="color:#666">=</span><span style="color:#666">1</span>;LSB<span style="color:#666">=</span><span style="color:#666">1</span>;LSA<span style="color:#666">=</span><span style="color:#666">0</span>;<span style="color:#a2f;font-weight:bold">break</span>;
-            <span style="color:#a2f;font-weight:bold">case</span> <span style="color:#666">2</span><span style="color:#666">:</span> LSC<span style="color:#666">=</span><span style="color:#666">1</span>;LSB<span style="color:#666">=</span><span style="color:#666">0</span>;LSA<span style="color:#666">=</span><span style="color:#666">1</span>;<span style="color:#a2f;font-weight:bold">break</span>;
-            <span style="color:#a2f;font-weight:bold">case</span> <span style="color:#666">3</span><span style="color:#666">:</span> LSC<span style="color:#666">=</span><span style="color:#666">1</span>;LSB<span style="color:#666">=</span><span style="color:#666">0</span>;LSA<span style="color:#666">=</span><span style="color:#666">0</span>;<span style="color:#a2f;font-weight:bold">break</span>;
-            <span style="color:#a2f;font-weight:bold">case</span> <span style="color:#666">4</span><span style="color:#666">:</span> LSC<span style="color:#666">=</span><span style="color:#666">0</span>;LSB<span style="color:#666">=</span><span style="color:#666">1</span>;LSA<span style="color:#666">=</span><span style="color:#666">1</span>;<span style="color:#a2f;font-weight:bold">break</span>;
-            <span style="color:#a2f;font-weight:bold">case</span> <span style="color:#666">5</span><span style="color:#666">:</span> LSC<span style="color:#666">=</span><span style="color:#666">0</span>;LSB<span style="color:#666">=</span><span style="color:#666">1</span>;LSA<span style="color:#666">=</span><span style="color:#666">0</span>;<span style="color:#a2f;font-weight:bold">break</span>;
-            <span style="color:#a2f;font-weight:bold">case</span> <span style="color:#666">6</span><span style="color:#666">:</span> LSC<span style="color:#666">=</span><span style="color:#666">0</span>;LSB<span style="color:#666">=</span><span style="color:#666">0</span>;LSA<span style="color:#666">=</span><span style="color:#666">1</span>;<span style="color:#a2f;font-weight:bold">break</span>;
-            <span style="color:#a2f;font-weight:bold">case</span> <span style="color:#666">7</span><span style="color:#666">:</span> LSC<span style="color:#666">=</span><span style="color:#666">0</span>;LSB<span style="color:#666">=</span><span style="color:#666">0</span>;LSA<span style="color:#666">=</span><span style="color:#666">0</span>;<span style="color:#a2f;font-weight:bold">break</span>;
-        }
-        SMG_A_DP_PORT<span style="color:#666">=</span>gsmg_code[i];<span style="color:#080;font-style:italic">//传送段选数据
-</span><span style="color:#080;font-style:italic"></span>        delay_10us(<span style="color:#666">100</span>);<span style="color:#080;font-style:italic">//延时一段时间，等待显示稳定
-</span><span style="color:#080;font-style:italic"></span>        SMG_A_DP_PORT<span style="color:#666">=</span><span style="color:#666">0x00</span>;<span style="color:#080;font-style:italic">//消音
-</span><span style="color:#080;font-style:italic"></span>    }
-}
-
-
-<span style="color:#0b0;font-weight:bold">void</span> <span style="color:#00a000">main</span>()
-{    
-    <span style="color:#a2f;font-weight:bold">while</span>(<span style="color:#666">1</span>)
-    {
-        smg_display();
-    }        
-}
-</code></pre></div><p>该程序是根据动态数码管显示原理所编写，即选中所要显示的那位数码管，然后发送在该位数码管上所要显示的段码数据，延时一定时间后在将段选口清零即消隐（消除之前的显示），如此循环 8 次即可实现 8 位数码管显示。<strong>在动态显示中，要注意延时时间，只要保证在人肉眼所能感觉时间之内即可，让我们看到所要显示的内容就像是同时显示一样。</strong></p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#080">#include</span> <span style="color:#080">&#34;reg52.h&#34;</span><span style="color:#080">
+</span></span></span><span style="display:flex;"><span><span style="color:#080"></span>
+</span></span><span style="display:flex;"><span><span style="color:#a2f;font-weight:bold">typedef</span> <span style="color:#0b0;font-weight:bold">unsigned</span> <span style="color:#0b0;font-weight:bold">int</span> u16;    <span style="color:#080;font-style:italic">//对系统默认数据类型进行重定义
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span><span style="color:#a2f;font-weight:bold">typedef</span> <span style="color:#0b0;font-weight:bold">unsigned</span> <span style="color:#0b0;font-weight:bold">char</span> u8;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#080">#define SMG_A_DP_PORT    P0    </span><span style="color:#080;font-style:italic">//使用宏定义数码管段码口
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span>
+</span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic">//定义数码管位选信号控制脚
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span>sbit LSA<span style="color:#666">=</span>P2<span style="color:#666">^</span><span style="color:#666">2</span>;
+</span></span><span style="display:flex;"><span>sbit LSB<span style="color:#666">=</span>P2<span style="color:#666">^</span><span style="color:#666">3</span>;
+</span></span><span style="display:flex;"><span>sbit LSC<span style="color:#666">=</span>P2<span style="color:#666">^</span><span style="color:#666">4</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic">//共阴极数码管显示0~F的段码数据
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span>u8 gsmg_code[<span style="color:#666">17</span>]<span style="color:#666">=</span>{<span style="color:#666">0x3f</span>,<span style="color:#666">0x06</span>,<span style="color:#666">0x5b</span>,<span style="color:#666">0x4f</span>,<span style="color:#666">0x66</span>,<span style="color:#666">0x6d</span>,<span style="color:#666">0x7d</span>,<span style="color:#666">0x07</span>,
+</span></span><span style="display:flex;"><span>                <span style="color:#666">0x7f</span>,<span style="color:#666">0x6f</span>,<span style="color:#666">0x77</span>,<span style="color:#666">0x7c</span>,<span style="color:#666">0x39</span>,<span style="color:#666">0x5e</span>,<span style="color:#666">0x79</span>,<span style="color:#666">0x71</span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#0b0;font-weight:bold">void</span> <span style="color:#00a000">delay_10us</span>(u16 ten_us)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#a2f;font-weight:bold">while</span>(ten_us<span style="color:#666">--</span>);    
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#0b0;font-weight:bold">void</span> <span style="color:#00a000">smg_display</span>(<span style="color:#0b0;font-weight:bold">void</span>)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    u8 i<span style="color:#666">=</span><span style="color:#666">0</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a2f;font-weight:bold">for</span>(i<span style="color:#666">=</span><span style="color:#666">0</span>;i<span style="color:#666">&lt;</span><span style="color:#666">8</span>;i<span style="color:#666">++</span>)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#a2f;font-weight:bold">switch</span>(i)<span style="color:#080;font-style:italic">//位选
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#a2f;font-weight:bold">case</span> <span style="color:#666">0</span><span style="color:#666">:</span> LSC<span style="color:#666">=</span><span style="color:#666">1</span>;LSB<span style="color:#666">=</span><span style="color:#666">1</span>;LSA<span style="color:#666">=</span><span style="color:#666">1</span>;<span style="color:#a2f;font-weight:bold">break</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#a2f;font-weight:bold">case</span> <span style="color:#666">1</span><span style="color:#666">:</span> LSC<span style="color:#666">=</span><span style="color:#666">1</span>;LSB<span style="color:#666">=</span><span style="color:#666">1</span>;LSA<span style="color:#666">=</span><span style="color:#666">0</span>;<span style="color:#a2f;font-weight:bold">break</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#a2f;font-weight:bold">case</span> <span style="color:#666">2</span><span style="color:#666">:</span> LSC<span style="color:#666">=</span><span style="color:#666">1</span>;LSB<span style="color:#666">=</span><span style="color:#666">0</span>;LSA<span style="color:#666">=</span><span style="color:#666">1</span>;<span style="color:#a2f;font-weight:bold">break</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#a2f;font-weight:bold">case</span> <span style="color:#666">3</span><span style="color:#666">:</span> LSC<span style="color:#666">=</span><span style="color:#666">1</span>;LSB<span style="color:#666">=</span><span style="color:#666">0</span>;LSA<span style="color:#666">=</span><span style="color:#666">0</span>;<span style="color:#a2f;font-weight:bold">break</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#a2f;font-weight:bold">case</span> <span style="color:#666">4</span><span style="color:#666">:</span> LSC<span style="color:#666">=</span><span style="color:#666">0</span>;LSB<span style="color:#666">=</span><span style="color:#666">1</span>;LSA<span style="color:#666">=</span><span style="color:#666">1</span>;<span style="color:#a2f;font-weight:bold">break</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#a2f;font-weight:bold">case</span> <span style="color:#666">5</span><span style="color:#666">:</span> LSC<span style="color:#666">=</span><span style="color:#666">0</span>;LSB<span style="color:#666">=</span><span style="color:#666">1</span>;LSA<span style="color:#666">=</span><span style="color:#666">0</span>;<span style="color:#a2f;font-weight:bold">break</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#a2f;font-weight:bold">case</span> <span style="color:#666">6</span><span style="color:#666">:</span> LSC<span style="color:#666">=</span><span style="color:#666">0</span>;LSB<span style="color:#666">=</span><span style="color:#666">0</span>;LSA<span style="color:#666">=</span><span style="color:#666">1</span>;<span style="color:#a2f;font-weight:bold">break</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#a2f;font-weight:bold">case</span> <span style="color:#666">7</span><span style="color:#666">:</span> LSC<span style="color:#666">=</span><span style="color:#666">0</span>;LSB<span style="color:#666">=</span><span style="color:#666">0</span>;LSA<span style="color:#666">=</span><span style="color:#666">0</span>;<span style="color:#a2f;font-weight:bold">break</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        SMG_A_DP_PORT<span style="color:#666">=</span>gsmg_code[i];<span style="color:#080;font-style:italic">//传送段选数据
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span>        delay_10us(<span style="color:#666">100</span>);<span style="color:#080;font-style:italic">//延时一段时间，等待显示稳定
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span>        SMG_A_DP_PORT<span style="color:#666">=</span><span style="color:#666">0x00</span>;<span style="color:#080;font-style:italic">//消音
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#0b0;font-weight:bold">void</span> <span style="color:#00a000">main</span>()
+</span></span><span style="display:flex;"><span>{    
+</span></span><span style="display:flex;"><span>    <span style="color:#a2f;font-weight:bold">while</span>(<span style="color:#666">1</span>)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        smg_display();
+</span></span><span style="display:flex;"><span>    }        
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>该程序是根据动态数码管显示原理所编写，即选中所要显示的那位数码管，然后发送在该位数码管上所要显示的段码数据，延时一定时间后在将段选口清零即消隐（消除之前的显示），如此循环 8 次即可实现 8 位数码管显示。<strong>在动态显示中，要注意延时时间，只要保证在人肉眼所能感觉时间之内即可，让我们看到所要显示的内容就像是同时显示一样。</strong></p>
 <h2 id="reference">Reference</h2>
 <ul>
 <li>普中51单片机开发攻略</li>

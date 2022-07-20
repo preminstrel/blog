@@ -40,9 +40,9 @@
 &lt;p&gt;&lt;a href=&#34;https://sm.ms/image/8CBADo39zfO5FPR&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://s2.loli.net/2022/04/14/8CBADo39zfO5FPR.png&#34; &gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;浮点运算可以由整数运算组成，在计算机发展的早期，浮点计算都是用软件在定点硬件上模拟的。下面的等式展示了如何将浮点乘法用定点乘法和加法表示。加法的表示方法要复杂得多，这里不做进一步讨论，有需求的可以参考计算机体系结构相关资料。&lt;/p&gt;
 &lt;p&gt;$$\begin{aligned}
-z &amp;amp;=x \times y \\&lt;br&gt;
-z_{\text {significand }} \times b a s e^{z_{\text {exponent }}} &amp;amp;=\left(x_{\text {significand }} \times \text { base }^{x_{exponent }}\right) \times\left(y_{\text {significand }} \times \text { base }^{y_{{exponent }}}\right) \\&lt;br&gt;
-&amp;amp;=\left(x_{\text {significand }} \times y_{\text {significand }}\right) \times\left(\text { base }^{x_{exponent }} \times \text { base }^{y_{exponent}}\right) \\&lt;br&gt;
+z &amp;amp;=x \times y \\
+z_{\text {significand }} \times b a s e^{z_{\text {exponent }}} &amp;amp;=\left(x_{\text {significand }} \times \text { base }^{x_{exponent }}\right) \times\left(y_{\text {significand }} \times \text { base }^{y_{{exponent }}}\right) \\
+&amp;amp;=\left(x_{\text {significand }} \times y_{\text {significand }}\right) \times\left(\text { base }^{x_{exponent }} \times \text { base }^{y_{exponent}}\right) \\
 &amp;amp;=\left(x_{\text {significand }} \times y_{\text {significand }}\right) \times \text { base }^{x_{exponent}+y_{exponent }}
 \end{aligned}$$&lt;/p&gt;
 &lt;p&gt;实际上，在上面有效数字的整数乘法之后，当乘法结果相对于表示范围太大时，通常需要&lt;strong&gt;重新缩放&lt;/strong&gt;，如下图。&lt;strong&gt;重新缩放移动将有效数字结果的一部分转移到指数&lt;/strong&gt;，并以最近舍入方法舍入剩余的有效数字。图的右半部分是一个例子。&lt;strong&gt;由于部分数字被舍弃，浮点乘法会丢失一些信息&lt;/strong&gt;。&lt;/p&gt;
@@ -58,9 +58,9 @@ z_{\text {significand }} \times b a s e^{z_{\text {exponent }}} &amp;amp;=\left(
 &lt;li&gt;将权重张量的每个值从 FP32 转换为 INT8 。&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;$$\begin{aligned}
-x_{\text {float }} &amp;amp; \in\left[x_{\text {float }}^{\min }, x_{\text {float }}^{\max }\right] \\&lt;br&gt;
-x_{\text {scale }} &amp;amp;=\frac{x_{\text {float }}^{\max }-x_{\text {float }}^{\text {min }}}{x_{\text {quantized }}^{\max }-x_{\text {quantized }}^{\min }} \\&lt;br&gt;
-x_{\text {zero_point }} &amp;amp;=x_{\text {quantized }}^{\max }-x_{\text {float }}^{\max } \div x_{\text {scale }} \\&lt;br&gt;
+x_{\text {float }} &amp;amp; \in\left[x_{\text {float }}^{\min }, x_{\text {float }}^{\max }\right] \\
+x_{\text {scale }} &amp;amp;=\frac{x_{\text {float }}^{\max }-x_{\text {float }}^{\text {min }}}{x_{\text {quantized }}^{\max }-x_{\text {quantized }}^{\min }} \\
+x_{\text {zero_point }} &amp;amp;=x_{\text {quantized }}^{\max }-x_{\text {float }}^{\max } \div x_{\text {scale }} \\
 x_{\text {quantized }} &amp;amp;=x_{\text {float }} \div x_{\text {scale }}+x_{\text {zero_point }}
 \end{aligned}$$&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;注意，当浮点运算结果不等于整数时，需要额外的舍入步骤&lt;/strong&gt;。例如将 FP32 值域 $[−1,1]$ 映射到 INT8 值域 $[0,255]$，有 $x_{scale}=\frac{2}{255}$，而$x_{zero_point}=255−\frac{255}{2}\approx 127$。&lt;/p&gt;
@@ -92,20 +92,20 @@ $$S_3(q_3^{i,k}-Z_3)=\sum_{j=1}^NS_1(q_1^{i,k}-Z_1)S_2(q_2^{i,k}-Z_2)$$
 &lt;p&gt;很多刚接触量化的同学对这一点比较疑惑，下面我就用一个简单的示例说明这一点。我们把 $M=\frac{S_1S_2}{S_3}$  代入可以得到：$$q_3^{i,j}=M\sum_{j=1}^N (q_1^{i,j}-Z_1)(q_2^{i,j}-Z_2)+Z_3=MP+Z_3$$&lt;/p&gt;
 &lt;p&gt;这里面 $P$  是一个在&lt;strong&gt;定点域上计算好的整数&lt;/strong&gt;。&lt;/p&gt;
 &lt;p&gt;假设 $P = 7091,M = 0.0072474273418460$  ($M$ 可以通过 $S$ 事先计算得到)，那下面我们就是要找到一个 $M_0$ 和 $n$ ，使得 $M P =2^{-n}M_0 P$ 成立。我们可以用一段代码来找到这两个数：&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;M &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;0.0072474273418460&lt;/span&gt;
-P &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;7091&lt;/span&gt;
-
-&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;multiply&lt;/span&gt;(n, M, P):
-    result &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; M &lt;span style=&#34;color:#666&#34;&gt;*&lt;/span&gt; P
-    Mo &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a2f&#34;&gt;int&lt;/span&gt;(&lt;span style=&#34;color:#a2f&#34;&gt;round&lt;/span&gt;(&lt;span style=&#34;color:#666&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;**&lt;/span&gt; n &lt;span style=&#34;color:#666&#34;&gt;*&lt;/span&gt; M)) &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 这里不一定要四舍五入截断，因为python定点数不好表示才这样处理&lt;/span&gt;
-
-    approx_result &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; (Mo &lt;span style=&#34;color:#666&#34;&gt;*&lt;/span&gt; P) &lt;span style=&#34;color:#666&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; n
-    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;print&lt;/span&gt;(&lt;span style=&#34;color:#b44&#34;&gt;&amp;#34;n=&lt;/span&gt;&lt;span style=&#34;color:#b68;font-weight:bold&#34;&gt;%d&lt;/span&gt;&lt;span style=&#34;color:#b44&#34;&gt;, Mo=&lt;/span&gt;&lt;span style=&#34;color:#b68;font-weight:bold&#34;&gt;%d&lt;/span&gt;&lt;span style=&#34;color:#b44&#34;&gt;, approx=&lt;/span&gt;&lt;span style=&#34;color:#b68;font-weight:bold&#34;&gt;%f&lt;/span&gt;&lt;span style=&#34;color:#b44&#34;&gt;, error=&lt;/span&gt;&lt;span style=&#34;color:#b68;font-weight:bold&#34;&gt;%f&lt;/span&gt;&lt;span style=&#34;color:#b44&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;%&lt;/span&gt;\
-          (n, Mo, approx_result, result&lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;approx_result))
-
-&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;for&lt;/span&gt; n &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#a2f&#34;&gt;range&lt;/span&gt;(&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color:#666&#34;&gt;16&lt;/span&gt;):
-    multiply(n, M, P)
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;可以看到，在 $n=11、M_0=15$ 的时候，误差就已经在 1 以内了。因此，只要 $M_0P$ 的数值范围在 21(32-11) 个 bit 内，就可以通过对 $M_0P$ 右移 $n$ 个 bit 来近似 $MP$ 了，而这个误差本身在可以接受的范围内。这样一来，就可以完全通过定点运算来计算，即我们实现了&lt;strong&gt;浮点矩阵乘法的量化&lt;/strong&gt;。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;M &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;0.0072474273418460&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;P &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;7091&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;multiply&lt;/span&gt;(n, M, P):
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    result &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; M &lt;span style=&#34;color:#666&#34;&gt;*&lt;/span&gt; P
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    Mo &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a2f&#34;&gt;int&lt;/span&gt;(&lt;span style=&#34;color:#a2f&#34;&gt;round&lt;/span&gt;(&lt;span style=&#34;color:#666&#34;&gt;2&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;**&lt;/span&gt; n &lt;span style=&#34;color:#666&#34;&gt;*&lt;/span&gt; M)) &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# 这里不一定要四舍五入截断，因为python定点数不好表示才这样处理&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    approx_result &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; (Mo &lt;span style=&#34;color:#666&#34;&gt;*&lt;/span&gt; P) &lt;span style=&#34;color:#666&#34;&gt;&amp;gt;&amp;gt;&lt;/span&gt; n
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a2f&#34;&gt;print&lt;/span&gt;(&lt;span style=&#34;color:#b44&#34;&gt;&amp;#34;n=&lt;/span&gt;&lt;span style=&#34;color:#b68;font-weight:bold&#34;&gt;%d&lt;/span&gt;&lt;span style=&#34;color:#b44&#34;&gt;, Mo=&lt;/span&gt;&lt;span style=&#34;color:#b68;font-weight:bold&#34;&gt;%d&lt;/span&gt;&lt;span style=&#34;color:#b44&#34;&gt;, approx=&lt;/span&gt;&lt;span style=&#34;color:#b68;font-weight:bold&#34;&gt;%f&lt;/span&gt;&lt;span style=&#34;color:#b44&#34;&gt;, error=&lt;/span&gt;&lt;span style=&#34;color:#b68;font-weight:bold&#34;&gt;%f&lt;/span&gt;&lt;span style=&#34;color:#b44&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;%&lt;/span&gt;\
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          (n, Mo, approx_result, result&lt;span style=&#34;color:#666&#34;&gt;-&lt;/span&gt;approx_result))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;for&lt;/span&gt; n &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;in&lt;/span&gt; &lt;span style=&#34;color:#a2f&#34;&gt;range&lt;/span&gt;(&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color:#666&#34;&gt;16&lt;/span&gt;):
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    multiply(n, M, P)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;可以看到，在 $n=11、M_0=15$ 的时候，误差就已经在 1 以内了。因此，只要 $M_0P$ 的数值范围在 21(32-11) 个 bit 内，就可以通过对 $M_0P$ 右移 $n$ 个 bit 来近似 $MP$ 了，而这个误差本身在可以接受的范围内。这样一来，就可以完全通过定点运算来计算，即我们实现了&lt;strong&gt;浮点矩阵乘法的量化&lt;/strong&gt;。&lt;/p&gt;
 &lt;h3 id=&#34;卷积网络的量化&#34;&gt;卷积网络的量化&lt;/h3&gt;
 &lt;p&gt;有了上面矩阵乘法的量化，我们就可以进一步尝试对卷积网络的量化。假设一个这样的网络：&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://preminstrel.github.io/blog/img/20210916190953.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;

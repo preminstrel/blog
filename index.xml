@@ -8,7 +8,30 @@
     <language>en</language>
     <managingEditor>preminstrel@gmail.com (Hanshi Sun)</managingEditor>
     <webMaster>preminstrel@gmail.com (Hanshi Sun)</webMaster>
-    <lastBuildDate>Sat, 16 Oct 2021 10:40:02 +0800</lastBuildDate><atom:link href="https://preminstrel.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 20 Jul 2022 12:58:09 -0600</lastBuildDate><atom:link href="https://preminstrel.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Banff Trip</title>
+      <link>https://preminstrel.github.io/blog/post/2022/07/20/banff_trip/</link>
+      <pubDate>Wed, 20 Jul 2022 12:58:09 -0600</pubDate>
+      <author>preminstrel@gmail.com (Hanshi Sun)</author>
+      <guid>https://preminstrel.github.io/blog/post/2022/07/20/banff_trip/</guid>
+      
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Canada Entry</title>
+      <link>https://preminstrel.github.io/blog/post/2022/07/09/canada-entry/</link>
+      <pubDate>Sat, 09 Jul 2022 16:04:30 -0600</pubDate>
+      <author>preminstrel@gmail.com (Hanshi Sun)</author>
+      <guid>https://preminstrel.github.io/blog/post/2022/07/09/canada-entry/</guid>
+      
+      <description>&lt;p&gt;今年 7 月 6 号的时候，坐上了上海浦东 PVG 出发的 AC026 航班，前往加拿大温哥华 YVR 后转机至 YEG。在温哥华办理了入境手续，先取了行李，随后去 Immigration Office 办理了 Visitor Record，给我签到了 2022/10/31。&lt;/p&gt;
+</description>
+      
+    </item>
+    
     <item>
       <title>Canada Visa</title>
       <link>https://preminstrel.github.io/blog/post/2022/05/09/canada-visa/</link>
@@ -337,36 +360,36 @@ $$XW^V=V$$&lt;/p&gt;
 &lt;p&gt;而随后与 $V$ 的乘积，代表的是&lt;strong&gt;向量经过注意力机制加权求和之后的结果&lt;/strong&gt;。也就是说，softmax 管的是一个相关度权值大小，与后面的 $V$ 相乘，得到的是通过相关度权值标准而重新计算得到的量。&lt;/p&gt;
 &lt;p&gt;对 Self-Attention 来说，它跟每一个输入的向量都做 Attention，所以没有考虑到输入的顺序。更通俗来讲，大家可以发现我们前文的计算每一个词向量都与其他词向量计算内积，得到的结果丢失了我们原来文本的顺序信息。对比来说，LSTM 是对于文本顺序信息的解释是输出词向量的先后顺序，而我们上文的计算对 sequence 的顺序这一部分则完全没有提及，你打乱词向量的顺序，得到的结果仍然是相同的，此处便可以引出 Transformer 的位置编码部分。&lt;strong&gt;Query 与 Key 作用得到 Attention 的权值，之后这个权值作用在 Value 上得到 Attention值。&lt;/strong&gt;&lt;/p&gt;
 &lt;h2 id=&#34;code&#34;&gt;Code&lt;/h2&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# Attention 机制的实现&lt;/span&gt;
-&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color:#00f;font-weight:bold&#34;&gt;math&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;import&lt;/span&gt; sqrt
-&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#00f;font-weight:bold&#34;&gt;torch&lt;/span&gt;
-&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#00f;font-weight:bold&#34;&gt;torch.nn&lt;/span&gt;
-
-
-&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#00f&#34;&gt;Self_Attention&lt;/span&gt;(nn&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;Module):
-    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# input : batch_size * seq_len * input_dim&lt;/span&gt;
-    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# q : batch_size * input_dim * dim_k&lt;/span&gt;
-    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# k : batch_size * input_dim * dim_k&lt;/span&gt;
-    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# v : batch_size * input_dim * dim_v&lt;/span&gt;
-    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; __init__(self,input_dim,dim_k,dim_v):
-        &lt;span style=&#34;color:#a2f&#34;&gt;super&lt;/span&gt;(Self_Attention,self)&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;__init__()
-        self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;q &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; nn&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;Linear(input_dim,dim_k)
-        self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;k &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; nn&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;Linear(input_dim,dim_k)
-        self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;v &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; nn&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;Linear(input_dim,dim_v)
-        self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;_norm_fact &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;/&lt;/span&gt; sqrt(dim_k)
-        
-    
-    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;forward&lt;/span&gt;(self,x):
-        Q &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;q(x) &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# Q: batch_size * seq_len * dim_k&lt;/span&gt;
-        K &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;k(x) &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# K: batch_size * seq_len * dim_k&lt;/span&gt;
-        V &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;v(x) &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# V: batch_size * seq_len * dim_v&lt;/span&gt;
-         
-        atten &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; nn&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;Softmax(dim&lt;span style=&#34;color:#666&#34;&gt;=-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)(torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;bmm(Q,K&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;permute(&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;2&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;))) &lt;span style=&#34;color:#666&#34;&gt;*&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;_norm_fact &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# Q * K.T() # batch_size * seq_len * seq_len&lt;/span&gt;
-        
-        output &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;bmm(atten,V) &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# Q * K.T() * V # batch_size * seq_len * dim_v&lt;/span&gt;
-        
-        &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;return&lt;/span&gt; output
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;reference&#34;&gt;Reference&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# Attention 机制的实现&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color:#00f;font-weight:bold&#34;&gt;math&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;import&lt;/span&gt; sqrt
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#00f;font-weight:bold&#34;&gt;torch&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#00f;font-weight:bold&#34;&gt;torch.nn&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#00f&#34;&gt;Self_Attention&lt;/span&gt;(nn&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;Module):
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# input : batch_size * seq_len * input_dim&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# q : batch_size * input_dim * dim_k&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# k : batch_size * input_dim * dim_k&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# v : batch_size * input_dim * dim_v&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; __init__(self,input_dim,dim_k,dim_v):
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#a2f&#34;&gt;super&lt;/span&gt;(Self_Attention,self)&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;__init__()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;q &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; nn&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;Linear(input_dim,dim_k)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;k &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; nn&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;Linear(input_dim,dim_k)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;v &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; nn&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;Linear(input_dim,dim_v)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;_norm_fact &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;/&lt;/span&gt; sqrt(dim_k)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;forward&lt;/span&gt;(self,x):
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        Q &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;q(x) &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# Q: batch_size * seq_len * dim_k&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        K &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;k(x) &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# K: batch_size * seq_len * dim_k&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        V &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;v(x) &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# V: batch_size * seq_len * dim_v&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;         
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        atten &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; nn&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;Softmax(dim&lt;span style=&#34;color:#666&#34;&gt;=-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)(torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;bmm(Q,K&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;permute(&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;2&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;))) &lt;span style=&#34;color:#666&#34;&gt;*&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;_norm_fact &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# Q * K.T() # batch_size * seq_len * seq_len&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        output &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;bmm(atten,V) &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# Q * K.T() * V # batch_size * seq_len * dim_v&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;return&lt;/span&gt; output
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;reference&#34;&gt;Reference&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;https://zhuanlan.zhihu.com/p/410776234&#34;&gt;超详细图解Self-Attention&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
@@ -639,232 +662,6 @@ $$XW^V=V$$&lt;/p&gt;
 &lt;h2 id=&#34;reference&#34;&gt;Reference&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;https://arxiv.org/abs/1406.4729&#34;&gt;Spatial Pyramid Pooling in Deep Convolutional Networks for Visual Recognition&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-      
-    </item>
-    
-    <item>
-      <title>R-CNN</title>
-      <link>https://preminstrel.github.io/blog/post/2022/01/13/r-cnn/</link>
-      <pubDate>Thu, 13 Jan 2022 12:28:23 +0800</pubDate>
-      <author>preminstrel@gmail.com (Hanshi Sun)</author>
-      <guid>https://preminstrel.github.io/blog/post/2022/01/13/r-cnn/</guid>
-      
-      <description>&lt;p&gt;&lt;em&gt;&lt;strong&gt;R-CNN(Regions with CNN features)&lt;/strong&gt;&lt;/em&gt;，是 R-CNN 系列的第一代算法，其实没有过多的使用“深度学习”思想，而是将 DL 和传统的 CV 的知识相结合。比如 R-CNN pipeline 中的第二步和第四步其实就属于传统的 CV 技术。使用 selective search 提取 region proposals，使用 SVM 实现分类。&lt;/p&gt;
-&lt;div align=center&gt;
-&lt;a href=&#34;https://sm.ms/image/UrKWeidxpXHAPZV&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://s2.loli.net/2022/04/14/UrKWeidxpXHAPZV.png&#34; width=&#34;600px&#34;&gt;&lt;/a&gt;
-&lt;/div&gt;
-&lt;h2 id=&#34;pipeline&#34;&gt;Pipeline&lt;/h2&gt;
-&lt;p&gt;CNN 具有良好的特征提取和分类性能，采用 RegionProposal  方法实现目标检测问题。算法可以分为三步：&lt;/p&gt;
-&lt;div class=&#34;mermaid&#34;&gt;
-graph LR
-  id1(候选区域选择)---&gt;id2(CNN特征提取)---&gt;id3(分类与边界回归);
-&lt;/div&gt;
-&lt;ol&gt;
-&lt;li&gt;利用 Selective Search 找出图片中可能存在目标的侯选区域(默认 2000 个)&lt;/li&gt;
-&lt;li&gt;将候选区域调整为了适应 AlexNet 网络的输入图像的大小 $227\times 227$，通过 CNN 对候选区域提取特征向量，2000 个建议框的 CNN 特征组合成网络 AlexNet 最终输出：$2000\times 4096$ 维矩阵&lt;/li&gt;
-&lt;li&gt;将 $2000\times 4096$ 维特征经过 SVM 分类器(20 种分类，SVM 是二分类器，则有 20 个 SVM)，获得 $2000\times 20$ 种类别矩阵&lt;/li&gt;
-&lt;li&gt;分别对 $2000\times 20$ 维矩阵中进行&lt;strong&gt;非极大值抑制(NMS)剔除重叠建议框&lt;/strong&gt;，得到与目标物体最高的一些建议框&lt;/li&gt;
-&lt;li&gt;修正 bbox，对 bbox 做&lt;strong&gt;回归&lt;/strong&gt;微调&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h3 id=&#34;features&#34;&gt;Features&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;选择一个 pre-trained 神经网络(AlexNet、VGG)&lt;/li&gt;
-&lt;li&gt;使用需要检测的目标重新训练(re-train)最后全连接层(connected layer)&lt;/li&gt;
-&lt;li&gt;提取 proposals 并计算 CNN 特征。利用选择性搜索(Selective Search)算法提取所有 proposals(大约 2000 幅 images)，调整(resize/warp)它们成固定大小，以满足 CNN 输入要求(因为全连接层的限制)，然后将 feature map 保存到本地磁盘&lt;/li&gt;
-&lt;li&gt;利用 feature map 训练 SVM 来对目标和背景进行分类(每个类一个二进制 SVM)&lt;/li&gt;
-&lt;li&gt;边界框回归(Bounding boxes Regression)：训练将输出一些校正因子的线性回归分类器&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;results&#34;&gt;Results&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;在 Pascal VOC 2012 的数据集上，能够将目标检测的验证指标 mAP 提升到 53.3%,这相对于之前最好的结果提升了整整 30%.&lt;/li&gt;
-&lt;li&gt;这篇论文证明了可以讲神经网络应用在自底向上的候选区域，这样就可以进行目标分类和目标定位。&lt;/li&gt;
-&lt;li&gt;这篇论文也带来了一个观点，那就是当你缺乏大量的标注数据时，比较好的可行的手段是，进行神经网络的迁移学习，采用在其他大型数据集训练过后的神经网络，然后在小规模特定的数据集中进行 fine-tune 微调。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;drawbacks&#34;&gt;Drawbacks&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;重复计算，每个 region proposal，都需要经过一个 AlexNet 特征提取，为所有的 RoI(region of interest) 提取特征大约花费 47 秒，占用空间&lt;/li&gt;
-&lt;li&gt;selective search 方法生成 region proposal，对一帧图像，需要花费 2 秒&lt;/li&gt;
-&lt;li&gt;三个模块(提取、分类、回归)是分别训练的，并且在训练时候，对于存储空间消耗较大&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h1 id=&#34;reference&#34;&gt;Reference&lt;/h1&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://arxiv.org/abs/1311.2524&#34;&gt;Rich feature hierarchies for accurate object detection and semantic segmentation&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-      
-    </item>
-    
-    <item>
-      <title>Introduction to Object Detection</title>
-      <link>https://preminstrel.github.io/blog/post/2022/01/12/introduction-to-object-detection/</link>
-      <pubDate>Wed, 12 Jan 2022 22:06:06 +0800</pubDate>
-      <author>preminstrel@gmail.com (Hanshi Sun)</author>
-      <guid>https://preminstrel.github.io/blog/post/2022/01/12/introduction-to-object-detection/</guid>
-      
-      <description>&lt;p&gt;目标检测(&lt;em&gt;&lt;strong&gt;Object Detection&lt;/strong&gt;&lt;/em&gt;)的任务是找出图像中所有特定的目标，确定它们的类别和位置。由于各类物体有不同的外观和形状，加上成像时光照、遮挡等因素的干扰，目标检测一直是 CV 领域内具有挑战性的问题。&lt;/p&gt;
-&lt;p&gt;计算机视觉中关于图像识别有四大类任务：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;em&gt;&lt;strong&gt;Classification&lt;/strong&gt;&lt;/em&gt;：给定一张图片或一段视频判断里面包含什么类别的目标。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;em&gt;&lt;strong&gt;Location&lt;/strong&gt;&lt;/em&gt;：定位出这个目标的的位置。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;em&gt;&lt;strong&gt;Detection&lt;/strong&gt;&lt;/em&gt;：定位出这个目标的位置并且知道目标物是什么。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;em&gt;&lt;strong&gt;Segmentation&lt;/strong&gt;&lt;/em&gt;：分为实例的分割(&lt;em&gt;&lt;strong&gt;Instance-level&lt;/strong&gt;&lt;/em&gt;)和场景分割(&lt;em&gt;&lt;strong&gt;Scene-level&lt;/strong&gt;&lt;/em&gt;)，解决“每一个像素属于哪个目标物或场景”的问题。&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div align=center&gt;
-&lt;a href=&#34;https://sm.ms/image/UlCWgbAhcT6jIEd&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://s2.loli.net/2022/04/14/UlCWgbAhcT6jIEd.png&#34; &gt;&lt;/a&gt;
-&lt;/div&gt;
-&lt;h2 id=&#34;algorithm&#34;&gt;Algorithm&lt;/h2&gt;
-&lt;p&gt;基于深度学习的目标检测算法主要分为两类：Two stage 和 One stage。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;em&gt;&lt;strong&gt;Tow Stage&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;先进行区域生成，该区域称之为 &lt;em&gt;&lt;strong&gt;region proposal&lt;/strong&gt;&lt;/em&gt; (简称 &lt;em&gt;&lt;strong&gt;RP&lt;/strong&gt;&lt;/em&gt;，一个有可能包含待检物体的预选框)，再通过卷积神经网络进行样本分类。&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class=&#34;mermaid&#34;&gt;
-graph LR
-  id1(特征提取)---&gt;id2(生成 RP)---&gt;id3(分类/定位回归);
-&lt;/div&gt;
-常见 tow stage 算法有：R-CNN、SPP-Net、Fast R-CNN、Faster R-CNN 和 R-FCN等。
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;em&gt;&lt;strong&gt;One Stage&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;不用 RP，直接在网络中提取特征来预测物体分类和位置。&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class=&#34;mermaid&#34;&gt;
-graph LR
-  id1(特征提取)---&gt;id3(分类/定位回归);
-&lt;/div&gt;
-常见的 one stage 算法有：OverFeat、YOLOv1、YOLOv2、YOLOv3、SSD 和 RetinaNet 等。
-&lt;h2 id=&#34;theory&#34;&gt;Theory&lt;/h2&gt;
-&lt;p&gt;目标检测分为两大系列—— &lt;em&gt;&lt;strong&gt;RCNN&lt;/strong&gt;&lt;/em&gt; 和 &lt;em&gt;&lt;strong&gt;YOLO&lt;/strong&gt;&lt;/em&gt;，RCNN 系列是基于&lt;strong&gt;区域检测&lt;/strong&gt;的代表性算法，YOLO 是基于&lt;strong&gt;区域提取&lt;/strong&gt;的代表性算法，另外还有著名的 &lt;em&gt;&lt;strong&gt;SSD&lt;/strong&gt;&lt;/em&gt; 是基于前两个系列的改进。&lt;/p&gt;
-&lt;h3 id=&#34;bounding-boxes&#34;&gt;Bounding Boxes&lt;/h3&gt;
-&lt;p&gt;很多目标检测技术都会涉及 &lt;strong&gt;候选框(&lt;em&gt;bounding boxes&lt;/em&gt;)&lt;/strong&gt; 的生成，物体候选框获取当前主要使用图像分割与区域生长技术。区域生长(合并)主要由于检测图像中存在的物体具有局部区域相似性(颜色、纹理等)。目标识别与图像分割技术的发展进一步推动有效提取图像中信息。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;em&gt;&lt;strong&gt;Sliding Window&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;首先对输入图像进行不同窗口大小的滑窗进行从左往右、从上到下的滑动。每次滑动时候对当前窗口执行分类器(分类器是事先训练好的)。如果当前窗口得到较高的分类概率，则认为检测到了物体。对每个不同窗口大小的滑窗都进行检测后，会得到不同窗口检测到的物体标记，这些窗口大小会存在重复较高的部分，最后采用&lt;strong&gt;非极大值抑制&lt;/strong&gt;(&lt;em&gt;&lt;strong&gt;Non-Maximum Suppression, NMS&lt;/strong&gt;&lt;/em&gt;)的方法进行筛选。最终，经过 NMS 筛选后获得检测到的物体。滑窗法简单易于理解，但是&lt;strong&gt;不同窗口大小进行图像全局搜索导致效率低下，而且设计窗口大小时候还需要考虑物体的长宽比&lt;/strong&gt;。所以，对于&lt;strong&gt;实时性要求较高&lt;/strong&gt;的分类器，不推荐使用滑窗法。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;em&gt;&lt;strong&gt;Selective Search(SS)&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;滑窗法类似穷举进行图像子区域搜索，但是一般情况下图像中大部分子区域是没有物体的。学者们自然而然想到只对图像中最有可能包含物体的区域进行搜索以此来提高计算效率。&lt;strong&gt;选择搜索方法是当下最为熟知的图像 bounding boxes 提取算法&lt;/strong&gt;，由 Koen E.A 于2011年提出。&lt;/p&gt;
-&lt;p&gt;主要思想：图像中物体可能存在的区域应该是有某些&lt;strong&gt;相似性或者连续性&lt;/strong&gt;区域的。因此，选择搜索基于上面这一想法采用&lt;strong&gt;子区域合并&lt;/strong&gt;的方法进行提取 bounding boxes。首先，对输入图像进行分割算法产生许多小的子区域。其次，根据这些子区域之间相似性(相似性标准主要有颜色、纹理、大小等等)进行区域合并，不断的进行区域迭代合并。每次迭代过程中对这些合并的子区域做 bounding boxes(外切矩形)，这些子区域外切矩形就是通常所说的候选框。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;em&gt;&lt;strong&gt;step0&lt;/strong&gt;&lt;/em&gt;：生成区域集 $R$&lt;/li&gt;
-&lt;li&gt;&lt;em&gt;&lt;strong&gt;step1&lt;/strong&gt;&lt;/em&gt;：计算区域集 $R$ 里每个相邻区域的相似度 $S=\{s_1, s_2,…\}$&lt;/li&gt;
-&lt;li&gt;&lt;em&gt;&lt;strong&gt;step2&lt;/strong&gt;&lt;/em&gt;：找出相似度最高的两个区域，将其合并为新集，添加进 $R$&lt;/li&gt;
-&lt;li&gt;&lt;em&gt;&lt;strong&gt;step3&lt;/strong&gt;&lt;/em&gt;：从 $S$ 中移除所有与 &lt;em&gt;&lt;strong&gt;step2&lt;/strong&gt;&lt;/em&gt; 中有关的子集&lt;/li&gt;
-&lt;li&gt;&lt;em&gt;&lt;strong&gt;step4&lt;/strong&gt;&lt;/em&gt;：计算新集与所有子集的相似度&lt;/li&gt;
-&lt;li&gt;&lt;em&gt;&lt;strong&gt;step5&lt;/strong&gt;&lt;/em&gt;：跳至 &lt;em&gt;&lt;strong&gt;step2&lt;/strong&gt;&lt;/em&gt;，直至 $S$ 为空&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;我们可以把目标标签定义如下：&lt;/p&gt;
-&lt;p&gt;$$
-y=\left[
-\begin{matrix}
-\quad p_c\quad b_x\quad
-b_y\quad
-b_h\quad
-b_w\quad
-c_1\quad
-c_2\quad
-c_3\quad
-\end{matrix}
-\right]^{T}
-$$&lt;/p&gt;
-&lt;p&gt;它是一个向量，$p_c$ 表示是否含有对象，如果存在，则 $p_c=1$，如果是背景，则图片中没有要检测的对象，则 $p_c=0$。我们可这样理解 $p_c$，它表示被检测对象属于某一分类的概率，背景分类除外。如果检测到对象，就输出被检测对象的边界框参数 $b_x$、$b_y$、$b_h$ 和 $b_w$。最后，如果存在某对象，则让 $p_c=1$，同时输出属于某个类别的概率 $c_1$，$c_2$，$c_3$。&lt;/p&gt;
-&lt;h3 id=&#34;iou&#34;&gt;IOU&lt;/h3&gt;
-&lt;p&gt;使用 &lt;em&gt;&lt;strong&gt;IoU(Intersection over Union)&lt;/strong&gt;&lt;/em&gt; 来判断模型的好坏。
-交并比函数做的是计算两个边界框交集和并集之比。两个边界框的并集是这个区域，就是属于包含两个边界框区域，而交集就是比较小的区域，那么交并比就是交集的大小，再除以并集面积。
-$$\text{IoU}=\frac{\text{size of intersection}}{\text{size of union}}$$&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;一般约定，如果 $\text{IoU}\ge 0.5$，我们就可以说检测正确。但是 0.5 并不严格，如果想更加严格一些，可以把阀值从 0.5 改为 0.6 或者 0.7。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&#34;nms&#34;&gt;NMS&lt;/h3&gt;
-&lt;p&gt;预测结果中，可能多个预测结果间存在重叠部分，需要保留交并比最大的、去掉非最大的预测结果，这就是非极大值抑制 &lt;em&gt;&lt;strong&gt;(Non-Maximum Suppression,NMS)&lt;/strong&gt;&lt;/em&gt;。当有许多框框重合都表示他们中间存在检测结果时，我们必须要选择一个最好的。简单来说，就是选局部最大值。步骤如下：&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Discard all boxes with $p_c\le 0.6$&lt;/li&gt;
-&lt;li&gt;While there are any remaining boxes:
-&lt;ul&gt;
-&lt;li&gt;Pick the box with the largest $p_c$ output that as a prediction.&lt;/li&gt;
-&lt;li&gt;Discard any remaining  box with $\text{IoU}\ge 0.5$ with the box output in the previous step.(为了不影响到另外的检测结果）&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;blockquote&gt;
-&lt;p&gt;以上是算法检测单个对象的情况，如果尝试同时检测三个对象， 比如说行人、汽车、摩托，那么输出向量就会有三个额外的分量。事实证明，正确的做法是独立进行三次非极大值抑制，对每个输出类别都做一次。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&#34;anchor-boxes&#34;&gt;Anchor Boxes&lt;/h3&gt;
-&lt;blockquote&gt;
-&lt;p&gt;到目前为止，对象检测中存在的一个问题是每个格子只能检测出一个对象，如果想让一个格子检测出多个对象，可以使用 &lt;em&gt;&lt;strong&gt;anchor box&lt;/strong&gt;&lt;/em&gt; 这个概念。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;假设有这样一张图片，我们继续使用 $3\times 3$ 网格，注意行人的中点和汽车的中点几乎在同一个地方，两者都落入到同一个格子中。而 anchor box 的思路是，这样，预先定义两个不同形状的 anchor box，或者 anchor box 形状，要做的是把预测结果和这两个 anchor box 关联起来。一般来说，可能会用更多的 anchor box，可能要 5 个甚至更多。&lt;/p&gt;
-&lt;p&gt;定义类别标签，用的向量不再是之前的：
-$$
-y=\left[
-\begin{matrix}
-\quad p_c\quad b_x\quad
-b_y\quad
-b_h\quad
-b_w\quad
-c_1\quad
-c_2\quad
-c_3\quad
-\end{matrix}
-\right]^{T}
-$$
-而是：
-$$
-y=\left[\quad
-p_c\quad
-b_x\quad
-b_y\quad
-b_h\quad
-b_w\quad
-c_1\quad
-c_2\quad
-c_3\quad
-p_c\quad
-b_x\quad
-b_y\quad
-b_h\quad
-b_w\quad
-c_1\quad
-c_2\quad
-c_3\quad
-\right]^{T}
-$$&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Comparing with the previous one&lt;/strong&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;Previous&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;Each object in training image is assigned to grid cell that contains that object’s midpoint.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;With two anchor boxes&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;Each object in training image is assigned to grid cell that contains that object’s midpoint and anchor box for the grid cell with highest IoU.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;如果有两个 anchor box，但在同一个格子中有三个对象，这种情况算法处理不好，希望这种情况不会发生，但如果真的发生了，这个算法并没有很好的处理办法，对于这种情况，就引入一些打破僵局的默认手段。还有这种情况，两个对象都分配到一个格子中，而且它们的 anchor box 形状也一样，这是算法处理不好的另一种情况，需要引入一些打破僵局的默认手段，专门处理这种情况，希望的数据集里不会出现这种情况，其实出现的情况不多，所以对性能的影响应该不会很大。&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;也许设立 anchor box 的好处在于能让学习算法能够更有针对性，特别是如果数据集有一些很高很瘦的对象，比如说行人，还有像汽车这样很宽的对象，这样算法就能更有针对性的处理。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;最后，应该怎么选择 anchor box 呢？人们一般手工指定 anchor box 形状，可以选 5 到 10 个 anchor box 形状，覆盖到多种不同的形状，可以涵盖想要检测的对象的各种形状。&lt;/p&gt;
-&lt;p&gt;还有一个更高级的版本，就是所谓的 &lt;em&gt;&lt;strong&gt;K-means&lt;/strong&gt;&lt;/em&gt;，可以将两类对象形状聚类，如果用它来选择一组 anchor box，选择最具有代表性的一组 anchor box，可以代表试图检测的十几个对象类别，但这其实是自动选择 anchor box 的高级方法。如果就人工选择一些形状，合理的考虑到所有对象的形状，预计会检测的很高很瘦或者很宽很胖的对象。&lt;/p&gt;
-&lt;h2 id=&#34;reference&#34;&gt;Reference&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://blog.csdn.net/yegeli/article/details/109861867&#34;&gt;目标检测（Object Detection）&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </description>
       

@@ -53,9 +53,10 @@
   <meta property="og:title" content="Verilog Basic Syntax" />
 <meta property="og:description" content="数据类型 Verilog HDL 区分大小写 Verilog HDL 的关键字（如 always、and、input等）都采用小写 Verilog HDL 的注释符和C&#43;&#43;一样 数字 Syntax: &lt;bitwidth&gt;&#39;&lt;basis&gt;&lt;value&gt; 数制 进制符号 值 Example Binary b/B 0,1, x," />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://preminstrel.github.io/blog/post/2021/10/16/verilog-basic-syntax/" />
+<meta property="og:url" content="https://preminstrel.github.io/blog/post/2021/10/16/verilog-basic-syntax/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2021-10-16T11:39:41+08:00" />
 <meta property="article:modified_time" content="2021-10-16T11:39:41+08:00" />
+
 
 
   
@@ -64,13 +65,9 @@
   
   
   <meta itemprop="name" content="Verilog Basic Syntax">
-<meta itemprop="description" content="数据类型 Verilog HDL 区分大小写 Verilog HDL 的关键字（如 always、and、input等）都采用小写 Verilog HDL 的注释符和C&#43;&#43;一样 数字 Syntax: &lt;bitwidth&gt;&#39;&lt;basis&gt;&lt;value&gt; 数制 进制符号 值 Example Binary b/B 0,1, x,">
-<meta itemprop="datePublished" content="2021-10-16T11:39:41&#43;08:00" />
-<meta itemprop="dateModified" content="2021-10-16T11:39:41&#43;08:00" />
+<meta itemprop="description" content="数据类型 Verilog HDL 区分大小写 Verilog HDL 的关键字（如 always、and、input等）都采用小写 Verilog HDL 的注释符和C&#43;&#43;一样 数字 Syntax: &lt;bitwidth&gt;&#39;&lt;basis&gt;&lt;value&gt; 数制 进制符号 值 Example Binary b/B 0,1, x,"><meta itemprop="datePublished" content="2021-10-16T11:39:41+08:00" />
+<meta itemprop="dateModified" content="2021-10-16T11:39:41+08:00" />
 <meta itemprop="wordCount" content="1277">
-
-
-
 <meta itemprop="keywords" content="Verilog," />
 
   
@@ -182,36 +179,36 @@ Verilog HDL 的注释符和C++一样</p>
 <table>
 <thead>
 <tr>
-<th align="center">数制</th>
-<th align="center">进制符号</th>
-<th align="center">值</th>
-<th align="center">Example</th>
+<th style="text-align:center">数制</th>
+<th style="text-align:center">进制符号</th>
+<th style="text-align:center">值</th>
+<th style="text-align:center">Example</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="center">Binary</td>
-<td align="center">b/B</td>
-<td align="center">0,1, x, z</td>
-<td align="center">8&rsquo;b11000101</td>
+<td style="text-align:center">Binary</td>
+<td style="text-align:center">b/B</td>
+<td style="text-align:center">0,1, x, z</td>
+<td style="text-align:center">8&rsquo;b11000101</td>
 </tr>
 <tr>
-<td align="center">Octal</td>
-<td align="center">o/O</td>
-<td align="center">0~7, x, z</td>
-<td align="center">8&rsquo;o305</td>
+<td style="text-align:center">Octal</td>
+<td style="text-align:center">o/O</td>
+<td style="text-align:center">0~7, x, z</td>
+<td style="text-align:center">8&rsquo;o305</td>
 </tr>
 <tr>
-<td align="center">Decimal</td>
-<td align="center">d/D</td>
-<td align="center">0~9</td>
-<td align="center">4&rsquo;d61</td>
+<td style="text-align:center">Decimal</td>
+<td style="text-align:center">d/D</td>
+<td style="text-align:center">0~9</td>
+<td style="text-align:center">4&rsquo;d61</td>
 </tr>
 <tr>
-<td align="center">Hexadecimal</td>
-<td align="center">h/H</td>
-<td align="center">0~f, x, z</td>
-<td align="center">8&rsquo;hc5</td>
+<td style="text-align:center">Hexadecimal</td>
+<td style="text-align:center">h/H</td>
+<td style="text-align:center">0~f, x, z</td>
+<td style="text-align:center">8&rsquo;hc5</td>
 </tr>
 </tbody>
 </table>
@@ -220,10 +217,10 @@ Verilog HDL 的注释符和C++一样</p>
 <li>Syntax: <code>parameter 参数名1=表达式, 参数名2=表达式, ...;</code></li>
 </ul>
 <p>Example:</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-verilog" data-lang="verilog"><span style="color:#a2f;font-weight:bold">parameter</span> count_bits <span style="color:#666">=</span> <span style="color:#666">8</span>;
-<span style="color:#a2f;font-weight:bold">parameter</span> sel <span style="color:#666">=</span> <span style="color:#666">8</span>, code <span style="color:#666">=</span> <span style="color:#666">8&#39;ha3</span>;
-<span style="color:#a2f;font-weight:bold">parameter</span> datawidth <span style="color:#666">=</span> <span style="color:#666">8</span>; addrwidth <span style="color:#666">=</span> datawidth <span style="color:#666">*</span> <span style="color:#666">2</span>
-</code></pre></div><p>好处：便于阅读、修改、增强 module 的通用性</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-verilog" data-lang="verilog"><span style="display:flex;"><span><span style="color:#a2f;font-weight:bold">parameter</span> count_bits <span style="color:#666">=</span> <span style="color:#666">8</span>;
+</span></span><span style="display:flex;"><span><span style="color:#a2f;font-weight:bold">parameter</span> sel <span style="color:#666">=</span> <span style="color:#666">8</span>, code <span style="color:#666">=</span> <span style="color:#666">8&#39;ha3</span>;
+</span></span><span style="display:flex;"><span><span style="color:#a2f;font-weight:bold">parameter</span> datawidth <span style="color:#666">=</span> <span style="color:#666">8</span>; addrwidth <span style="color:#666">=</span> datawidth <span style="color:#666">*</span> <span style="color:#666">2</span>
+</span></span></code></pre></div><p>好处：便于阅读、修改、增强 module 的通用性</p>
 <h3 id="变量">变量</h3>
 <h4 id="category">Category</h4>
 <h5 id="网络型nets-type">网络型（nets type）：</h5>
@@ -234,40 +231,40 @@ Verilog HDL 的注释符和C++一样</p>
 <table>
 <thead>
 <tr>
-<th align="center">Type</th>
-<th align="center">Function</th>
+<th style="text-align:center">Type</th>
+<th style="text-align:center">Function</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="center">wire, tri</td>
-<td align="center">连线类型</td>
+<td style="text-align:center">wire, tri</td>
+<td style="text-align:center">连线类型</td>
 </tr>
 <tr>
-<td align="center">wor, trior</td>
-<td align="center">多重驱动时，具有<strong class=chinese>线或</strong>功能的连线型</td>
+<td style="text-align:center">wor, trior</td>
+<td style="text-align:center">多重驱动时，具有<strong class=chinese>线或</strong>功能的连线型</td>
 </tr>
 <tr>
-<td align="center">wand, triand</td>
-<td align="center">多重驱动时，具有<strong class=chinese>线与</strong>功能的连线型</td>
+<td style="text-align:center">wand, triand</td>
+<td style="text-align:center">多重驱动时，具有<strong class=chinese>线与</strong>功能的连线型</td>
 </tr>
 <tr>
-<td align="center">tri1/tri0</td>
-<td align="center">上拉电阻/下拉电阻</td>
+<td style="text-align:center">tri1/tri0</td>
+<td style="text-align:center">上拉电阻/下拉电阻</td>
 </tr>
 <tr>
-<td align="center">supply1/supply0</td>
-<td align="center">电源（逻辑1）/地（逻辑0）</td>
+<td style="text-align:center">supply1/supply0</td>
+<td style="text-align:center">电源（逻辑1）/地（逻辑0）</td>
 </tr>
 </tbody>
 </table>
 <p><strong>wire型变量</strong>
 Syntax: <code>wire data1, data2, ..., datan;</code>
 Example:</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-verilog" data-lang="verilog"><span style="color:#0b0;font-weight:bold">wire</span> a, b, c
-<span style="color:#0b0;font-weight:bold">wire</span> [<span style="color:#666">7</span><span style="color:#666">:</span><span style="color:#666">0</span>] databus  	<span style="color:#080;font-style:italic">//define 8 bits data bus
-</span><span style="color:#080;font-style:italic"></span><span style="color:#0b0;font-weight:bold">wire</span> [<span style="color:#666">20</span><span style="color:#666">:</span><span style="color:#666">1</span>] addrbus 	<span style="color:#080;font-style:italic">//define 20 bits address bus 
-</span></code></pre></div><ul>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-verilog" data-lang="verilog"><span style="display:flex;"><span><span style="color:#0b0;font-weight:bold">wire</span> a, b, c
+</span></span><span style="display:flex;"><span><span style="color:#0b0;font-weight:bold">wire</span> [<span style="color:#666">7</span><span style="color:#666">:</span><span style="color:#666">0</span>] databus  	<span style="color:#080;font-style:italic">//define 8 bits data bus
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span><span style="color:#0b0;font-weight:bold">wire</span> [<span style="color:#666">20</span><span style="color:#666">:</span><span style="color:#666">1</span>] addrbus 	<span style="color:#080;font-style:italic">//define 20 bits address bus 
+</span></span></span></code></pre></div><ul>
 <li>最常用的 nets 型变量</li>
 <li>常用来表示用 assign 语句赋值的组合逻辑信号</li>
 <li>取值为 0，1，x，z</li>
@@ -280,40 +277,40 @@ Example:</p>
 <table>
 <thead>
 <tr>
-<th align="center">Type</th>
+<th style="text-align:center">Type</th>
 <th>Function</th>
-<th align="center">Instance</th>
+<th style="text-align:center">Instance</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="center">reg</td>
+<td style="text-align:center">reg</td>
 <td>常用的register型变量</td>
-<td align="center">如触发器、寄存器等</td>
+<td style="text-align:center">如触发器、寄存器等</td>
 </tr>
 <tr>
-<td align="center">integer</td>
+<td style="text-align:center">integer</td>
 <td>32位带符号整型变量</td>
-<td align="center">-</td>
+<td style="text-align:center">-</td>
 </tr>
 <tr>
-<td align="center">real</td>
+<td style="text-align:center">real</td>
 <td>64位带符号实数型变量</td>
-<td align="center">-</td>
+<td style="text-align:center">-</td>
 </tr>
 <tr>
-<td align="center">time</td>
+<td style="text-align:center">time</td>
 <td>无符号时间变量</td>
-<td align="center">-</td>
+<td style="text-align:center">-</td>
 </tr>
 </tbody>
 </table>
 <p>Syntax: <code>reg data1, data2, ..., datan;</code>
 Example:</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-verilog" data-lang="verilog"><span style="color:#0b0;font-weight:bold">reg</span> a, b, c
-<span style="color:#0b0;font-weight:bold">reg</span> [<span style="color:#666">8</span><span style="color:#666">:</span><span style="color:#666">1</span>] databus  	        <span style="color:#080;font-style:italic">//define 8 bits register
-</span><span style="color:#080;font-style:italic"></span><span style="color:#0b0;font-weight:bold">reg</span> [<span style="color:#666">7</span><span style="color:#666">:</span><span style="color:#666">0</span>] mymem[<span style="color:#666">1023</span><span style="color:#666">:</span><span style="color:#666">0</span>] 	<span style="color:#080;font-style:italic">//define 1k bytes memory
-</span></code></pre></div><h2 id="运算符">运算符</h2>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-verilog" data-lang="verilog"><span style="display:flex;"><span><span style="color:#0b0;font-weight:bold">reg</span> a, b, c
+</span></span><span style="display:flex;"><span><span style="color:#0b0;font-weight:bold">reg</span> [<span style="color:#666">8</span><span style="color:#666">:</span><span style="color:#666">1</span>] databus  	        <span style="color:#080;font-style:italic">//define 8 bits register
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span><span style="color:#0b0;font-weight:bold">reg</span> [<span style="color:#666">7</span><span style="color:#666">:</span><span style="color:#666">0</span>] mymem[<span style="color:#666">1023</span><span style="color:#666">:</span><span style="color:#666">0</span>] 	<span style="color:#080;font-style:italic">//define 1k bytes memory
+</span></span></span></code></pre></div><h2 id="运算符">运算符</h2>
 <table>
 <thead>
 <tr>
@@ -381,33 +378,33 @@ Example:</p>
 <li>always 过程块是<strong class=chinese>不能嵌套使用的</strong></li>
 </ul>
 <h5 id="template">Template</h5>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-verilog" data-lang="verilog"><span style="color:#a2f;font-weight:bold">always</span> @(<span style="color:#666">&lt;</span>signal<span style="color:#666">&gt;</span>)
-<span style="color:#a2f;font-weight:bold">begin</span>
-	<span style="color:#080;font-style:italic">//过程赋值
-</span><span style="color:#080;font-style:italic"></span>	<span style="color:#080;font-style:italic">//if 语句
-</span><span style="color:#080;font-style:italic"></span>	<span style="color:#080;font-style:italic">//case 语句
-</span><span style="color:#080;font-style:italic"></span>	<span style="color:#080;font-style:italic">//while, repeat, for 语句
-</span><span style="color:#080;font-style:italic"></span>	<span style="color:#080;font-style:italic">// task, functiony 调用
-</span></code></pre></div><h5 id="posedge-和-negedge-关键字">posedge 和 negedge 关键字</h5>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-verilog" data-lang="verilog"><span style="display:flex;"><span><span style="color:#a2f;font-weight:bold">always</span> @(<span style="color:#666">&lt;</span>signal<span style="color:#666">&gt;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#a2f;font-weight:bold">begin</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#080;font-style:italic">//过程赋值
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span>	<span style="color:#080;font-style:italic">//if 语句
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span>	<span style="color:#080;font-style:italic">//case 语句
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span>	<span style="color:#080;font-style:italic">//while, repeat, for 语句
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span>	<span style="color:#080;font-style:italic">// task, functiony 调用
+</span></span></span></code></pre></div><h5 id="posedge-和-negedge-关键字">posedge 和 negedge 关键字</h5>
 <p>clk 为同步时序电路的时钟信号，而 clear 为异步清零信号</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-verilog" data-lang="verilog"><span style="color:#080;font-style:italic">//上升沿触发、高电平清零有效
-</span><span style="color:#080;font-style:italic"></span><span style="color:#a2f;font-weight:bold">always</span> @(<span style="color:#a2f;font-weight:bold">posedge</span> clk <span style="color:#a2f;font-weight:bold">or</span> <span style="color:#a2f;font-weight:bold">posedge</span> clear)
-</code></pre></div><h4 id="initial-过程块">initial 过程块</h4>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-verilog" data-lang="verilog"><span style="display:flex;"><span><span style="color:#080;font-style:italic">//上升沿触发、高电平清零有效
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span><span style="color:#a2f;font-weight:bold">always</span> @(<span style="color:#a2f;font-weight:bold">posedge</span> clk <span style="color:#a2f;font-weight:bold">or</span> <span style="color:#a2f;font-weight:bold">posedge</span> clear)
+</span></span></code></pre></div><h4 id="initial-过程块">initial 过程块</h4>
 <h5 id="template-1">Template</h5>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-verilog" data-lang="verilog"><span style="color:#a2f;font-weight:bold">initial</span>
-	<span style="color:#a2f;font-weight:bold">begin</span>
-		sentence1;
-		sentence2;
-		...;
-	<span style="color:#a2f;font-weight:bold">end</span>
-</code></pre></div><p>Example</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-verilog" data-lang="verilog"><span style="color:#a2f;font-weight:bold">initial</span>
-	<span style="color:#a2f;font-weight:bold">begin</span>
-		reg1<span style="color:#666">=</span><span style="color:#666">0</span>;
-		<span style="color:#a2f;font-weight:bold">for</span> (addr <span style="color:#666">=</span> <span style="color:#666">0</span>; addr <span style="color:#666">&lt;</span> size; addr <span style="color:#666">=</span> addr <span style="color:#666">+</span> <span style="color:#666">1</span>)
-			memory[addr] <span style="color:#666">=</span> <span style="color:#666">0</span>;
-	<span style="color:#a2f;font-weight:bold">end</span>
-</code></pre></div><h5 id="说明">说明</h5>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-verilog" data-lang="verilog"><span style="display:flex;"><span><span style="color:#a2f;font-weight:bold">initial</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a2f;font-weight:bold">begin</span>
+</span></span><span style="display:flex;"><span>		sentence1;
+</span></span><span style="display:flex;"><span>		sentence2;
+</span></span><span style="display:flex;"><span>		...;
+</span></span><span style="display:flex;"><span>	<span style="color:#a2f;font-weight:bold">end</span>
+</span></span></code></pre></div><p>Example</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-verilog" data-lang="verilog"><span style="display:flex;"><span><span style="color:#a2f;font-weight:bold">initial</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#a2f;font-weight:bold">begin</span>
+</span></span><span style="display:flex;"><span>		reg1<span style="color:#666">=</span><span style="color:#666">0</span>;
+</span></span><span style="display:flex;"><span>		<span style="color:#a2f;font-weight:bold">for</span> (addr <span style="color:#666">=</span> <span style="color:#666">0</span>; addr <span style="color:#666">&lt;</span> size; addr <span style="color:#666">=</span> addr <span style="color:#666">+</span> <span style="color:#666">1</span>)
+</span></span><span style="display:flex;"><span>			memory[addr] <span style="color:#666">=</span> <span style="color:#666">0</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#a2f;font-weight:bold">end</span>
+</span></span></code></pre></div><h5 id="说明">说明</h5>
 <ul>
 <li>主要面向功能模拟，通常不具有可综合性，只用于测试文件（testbench）</li>
 <li>模拟 0 时刻开始执行，<strong class=chinese>只执行一次</strong></li>
@@ -417,10 +414,10 @@ Example:</p>
 <h3 id="赋值语句">赋值语句</h3>
 <h4 id="连续赋值语句assign">连续赋值语句（assign）</h4>
 <p>常用于对 wire 型变量进行赋值</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-verilog" data-lang="verilog"><span style="color:#a2f;font-weight:bold">input</span> a, b;
-<span style="color:#a2f;font-weight:bold">output</span> c;
-<span style="color:#a2f;font-weight:bold">assign</span> c <span style="color:#666">=</span> a <span style="color:#666">&amp;</span> b;
-</code></pre></div><h4 id="过程赋值语句">过程赋值语句</h4>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-verilog" data-lang="verilog"><span style="display:flex;"><span><span style="color:#a2f;font-weight:bold">input</span> a, b;
+</span></span><span style="display:flex;"><span><span style="color:#a2f;font-weight:bold">output</span> c;
+</span></span><span style="display:flex;"><span><span style="color:#a2f;font-weight:bold">assign</span> c <span style="color:#666">=</span> a <span style="color:#666">&amp;</span> b;
+</span></span></code></pre></div><h4 id="过程赋值语句">过程赋值语句</h4>
 <p>常用于 reg 型变量进行赋值
 <strong class=chinese>非阻塞赋值</strong>：一条非阻塞赋值语句的执行是不会阻塞下一条语句的执行，在本条非阻塞赋值语句执行完毕前，下一条语句也可开始执行</p>
 <ul>

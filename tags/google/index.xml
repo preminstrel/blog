@@ -28,13 +28,13 @@
 &lt;/div&gt;
 &lt;h2 id=&#34;work-with-google-drive&#34;&gt;Work with Google Drive&lt;/h2&gt;
 &lt;p&gt;Google Drive 是 Google 生态中不可或缺的一部分，得益于此，可以和 Google Colab Pro 联动工作。我们知道，训练模型需要给出数据集留出一定的空间，这次我拿到的数据集大概是 3GB 左右，是完全无法每次训练之前都上传到 Colab 的，所以 Google Drive 便派上了用场。我们可以将 Google Drive 与 Google Colab 相连，访问和修改 Drive 中的数据。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color:#00f;font-weight:bold&#34;&gt;google.colab&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;import&lt;/span&gt; drive
-drive&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;mount(&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;/content/gdrive&amp;#39;&lt;/span&gt;)
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;执行完以上指令之后，会弹出窗口让登录 Google 账号，登陆完毕， 成功 &lt;code&gt;Mounted at /content/gdrive&lt;/code&gt;。随后，将 &lt;code&gt;os.chdir&lt;/code&gt; 移动至需要的地方即可。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#00f;font-weight:bold&#34;&gt;os&lt;/span&gt;
-os&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;chdir(&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;/content/gdrive/MyDrive/{TARGET FOLDER NAME}/&amp;#39;&lt;/span&gt;)
-&lt;span style=&#34;color:#666&#34;&gt;%&lt;/span&gt;ls
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;reference&#34;&gt;Reference&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color:#00f;font-weight:bold&#34;&gt;google.colab&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;import&lt;/span&gt; drive
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;drive&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;mount(&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;/content/gdrive&amp;#39;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;执行完以上指令之后，会弹出窗口让登录 Google 账号，登陆完毕， 成功 &lt;code&gt;Mounted at /content/gdrive&lt;/code&gt;。随后，将 &lt;code&gt;os.chdir&lt;/code&gt; 移动至需要的地方即可。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#00f;font-weight:bold&#34;&gt;os&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;os&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;chdir(&lt;span style=&#34;color:#b44&#34;&gt;&amp;#39;/content/gdrive/MyDrive/{TARGET FOLDER NAME}/&amp;#39;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#666&#34;&gt;%&lt;/span&gt;ls
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;reference&#34;&gt;Reference&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;https://zhuanlan.zhihu.com/p/218133131&#34;&gt;Google Colab 的正确使用姿势&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;

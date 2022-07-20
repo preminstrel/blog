@@ -53,9 +53,10 @@
   <meta property="og:title" content="CycleGAN" />
 <meta property="og:description" content="在科研过程中，需要用到 CycleGAN 对眼底图象进行 CFP 和 FFA 的 translation。CycleGAN 的功能，通俗来讲就是在数据集 unpaired 的情况下风格迁移，原论文" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://preminstrel.github.io/blog/post/2022/01/09/cyclegan/" />
+<meta property="og:url" content="https://preminstrel.github.io/blog/post/2022/01/09/cyclegan/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2022-01-09T13:50:22+08:00" />
 <meta property="article:modified_time" content="2022-01-10T00:00:00+00:00" />
+
 
 
   
@@ -64,13 +65,9 @@
   
   
   <meta itemprop="name" content="CycleGAN">
-<meta itemprop="description" content="在科研过程中，需要用到 CycleGAN 对眼底图象进行 CFP 和 FFA 的 translation。CycleGAN 的功能，通俗来讲就是在数据集 unpaired 的情况下风格迁移，原论文">
-<meta itemprop="datePublished" content="2022-01-09T13:50:22&#43;08:00" />
-<meta itemprop="dateModified" content="2022-01-10T00:00:00&#43;00:00" />
+<meta itemprop="description" content="在科研过程中，需要用到 CycleGAN 对眼底图象进行 CFP 和 FFA 的 translation。CycleGAN 的功能，通俗来讲就是在数据集 unpaired 的情况下风格迁移，原论文"><meta itemprop="datePublished" content="2022-01-09T13:50:22+08:00" />
+<meta itemprop="dateModified" content="2022-01-10T00:00:00+00:00" />
 <meta itemprop="wordCount" content="1549">
-
-
-
 <meta itemprop="keywords" content="GAN,Deep Learning," />
 
   
@@ -181,12 +178,12 @@
 <ul>
 <li><em><strong>Adversarial Loss</strong></em>，用于将生成图像的分布与目标域中的数据分布相匹配；对于映射函数 $G: X\rightarrow Y$ 和其对应的 $D_Y$，我们要求优化 $\min_G\max_{D_Y}L_\text{GAN}(G,D_Y,X,Y)$。</li>
 </ul>
-<p>$$L_\text{GAN}(G,D_Y,X, Y) = \mathbb{E}_{y\sim p_\text{data}(y)}\left[\log D_Y(y)\right] + \mathbb{E}_{x\sim p_\text{data}(x)}\left[\log(1 −D_Y(G(x))\right]$$</p>
+<p>$$L_\text{GAN}(G,D_Y,X, Y) = \mathbb{E}<em>{y\sim p</em>\text{data}(y)}\left[\log D_Y(y)\right] + \mathbb{E}<em>{x\sim p</em>\text{data}(x)}\left[\log(1 −D_Y(G(x))\right]$$</p>
 <ul>
 <li><em><strong>Cycle Consistency Loss</strong></em>，以防止学习到的映射 $G$ 和 $F$ 相互矛盾。需要满足 $$x\rightarrow G(x)\rightarrow F(G(x))\approx x,\qquad y\rightarrow F(y)\rightarrow G(F(y))\approx y$$我们使用 Cycle Consistency Loss 来激励这种行为：
 $$
 \begin{aligned}
-L_{\text {cyc }}(G, F) =\mathbb{E}_{x \sim p_{\text {data }}(x)}\left[||F(G(x))-x||_{1}\right]+\mathbb{E}_{y \sim p_{\text {data }}(y)}\left[||G(F(y))-y||_{1}\right]
+L_{\text {cyc }}(G, F) =\mathbb{E}<em>{x \sim p</em>{\text {data }}(x)}\left[||F(G(x))-x||<em>{1}\right]+\mathbb{E}</em>{y \sim p_{\text {data }}(y)}\left[||G(F(y))-y||_{1}\right]
 \end{aligned}
 $$</li>
 </ul>
@@ -205,7 +202,7 @@ L\left(G, F, D_{X}, D_{Y}\right) =L_{\mathrm{GAN}}\left(G, D_{Y}, X, Y\right)
 $$
 其中 $\lambda$ 是控制两种目标的相对重要性的，我们要对下式进行优化：
 $$
-G^{*}, F^{*}=\arg \min _{G, F} \max _{D_{X}, D_{Y}} L\left(G, F, D_{X}, D_{Y}\right)
+G^{<em>}, F^{</em>}=\arg \min <em>{G, F} \max <em>{D</em>{X}, D</em>{Y}} L\left(G, F, D_{X}, D_{Y}\right)
 $$</li>
 </ul>
 <p>CycleGAN 可以看作是训练两个“自动编码器”：我们学习一个自动编码器 $F\circ G:X→ X$ 联合另一个 $G\circ F:Y\rightarrow Y$。 然而，这些自动编码器都有特殊的内部结构：它们通过中间表示将图像映射到自身，中间表示是将图像转换到另一个域中。这种设置也可以被视为“<strong>对抗性自动编码器(<em>adversarial autoencoders</em>)</strong>” 的特例，它使用对抗性丢失来训练自动编码器的瓶颈层，以匹配任意目标分布。</p>

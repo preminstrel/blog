@@ -53,9 +53,10 @@
   <meta property="og:title" content="Quantization Compression" />
 <meta property="og:description" content="本文参考此博客 量化有若干相似的术语。低精度（Low precision）可能是最通用的概念。常规精度一般使用 FP32（32位浮点，单精度）存储" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://preminstrel.github.io/blog/post/2021/10/17/quantization-compression/" />
+<meta property="og:url" content="https://preminstrel.github.io/blog/post/2021/10/17/quantization-compression/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2021-10-17T10:48:26+08:00" />
 <meta property="article:modified_time" content="2021-10-17T10:48:26+08:00" />
+
 
 
   
@@ -64,13 +65,9 @@
   
   
   <meta itemprop="name" content="Quantization Compression">
-<meta itemprop="description" content="本文参考此博客 量化有若干相似的术语。低精度（Low precision）可能是最通用的概念。常规精度一般使用 FP32（32位浮点，单精度）存储">
-<meta itemprop="datePublished" content="2021-10-17T10:48:26&#43;08:00" />
-<meta itemprop="dateModified" content="2021-10-17T10:48:26&#43;08:00" />
+<meta itemprop="description" content="本文参考此博客 量化有若干相似的术语。低精度（Low precision）可能是最通用的概念。常规精度一般使用 FP32（32位浮点，单精度）存储"><meta itemprop="datePublished" content="2021-10-17T10:48:26+08:00" />
+<meta itemprop="dateModified" content="2021-10-17T10:48:26+08:00" />
 <meta itemprop="wordCount" content="4493">
-
-
-
 <meta itemprop="keywords" content="Quantization,Deep Learning," />
 
   
@@ -195,9 +192,9 @@
 <p><a href="https://sm.ms/image/8CBADo39zfO5FPR" target="_blank"><img src="https://s2.loli.net/2022/04/14/8CBADo39zfO5FPR.png" ></a></p>
 <p>浮点运算可以由整数运算组成，在计算机发展的早期，浮点计算都是用软件在定点硬件上模拟的。下面的等式展示了如何将浮点乘法用定点乘法和加法表示。加法的表示方法要复杂得多，这里不做进一步讨论，有需求的可以参考计算机体系结构相关资料。</p>
 <p>$$\begin{aligned}
-z &amp;=x \times y \\<br>
-z_{\text {significand }} \times b a s e^{z_{\text {exponent }}} &amp;=\left(x_{\text {significand }} \times \text { base }^{x_{exponent }}\right) \times\left(y_{\text {significand }} \times \text { base }^{y_{{exponent }}}\right) \\<br>
-&amp;=\left(x_{\text {significand }} \times y_{\text {significand }}\right) \times\left(\text { base }^{x_{exponent }} \times \text { base }^{y_{exponent}}\right) \\<br>
+z &amp;=x \times y \\
+z_{\text {significand }} \times b a s e^{z_{\text {exponent }}} &amp;=\left(x_{\text {significand }} \times \text { base }^{x_{exponent }}\right) \times\left(y_{\text {significand }} \times \text { base }^{y_{{exponent }}}\right) \\
+&amp;=\left(x_{\text {significand }} \times y_{\text {significand }}\right) \times\left(\text { base }^{x_{exponent }} \times \text { base }^{y_{exponent}}\right) \\
 &amp;=\left(x_{\text {significand }} \times y_{\text {significand }}\right) \times \text { base }^{x_{exponent}+y_{exponent }}
 \end{aligned}$$</p>
 <p>实际上，在上面有效数字的整数乘法之后，当乘法结果相对于表示范围太大时，通常需要<strong class=chinese>重新缩放</strong>，如下图。<strong class=chinese>重新缩放移动将有效数字结果的一部分转移到指数</strong>，并以最近舍入方法舍入剩余的有效数字。图的右半部分是一个例子。<strong>由于部分数字被舍弃，浮点乘法会丢失一些信息</strong>。</p>
@@ -213,9 +210,9 @@ z_{\text {significand }} \times b a s e^{z_{\text {exponent }}} &amp;=\left(x_{\
 <li>将权重张量的每个值从 FP32 转换为 INT8 。</li>
 </ol>
 <p>$$\begin{aligned}
-x_{\text {float }} &amp; \in\left[x_{\text {float }}^{\min }, x_{\text {float }}^{\max }\right] \\<br>
-x_{\text {scale }} &amp;=\frac{x_{\text {float }}^{\max }-x_{\text {float }}^{\text {min }}}{x_{\text {quantized }}^{\max }-x_{\text {quantized }}^{\min }} \\<br>
-x_{\text {zero_point }} &amp;=x_{\text {quantized }}^{\max }-x_{\text {float }}^{\max } \div x_{\text {scale }} \\<br>
+x_{\text {float }} &amp; \in\left[x_{\text {float }}^{\min }, x_{\text {float }}^{\max }\right] \\
+x_{\text {scale }} &amp;=\frac{x_{\text {float }}^{\max }-x_{\text {float }}^{\text {min }}}{x_{\text {quantized }}^{\max }-x_{\text {quantized }}^{\min }} \\
+x_{\text {zero_point }} &amp;=x_{\text {quantized }}^{\max }-x_{\text {float }}^{\max } \div x_{\text {scale }} \\
 x_{\text {quantized }} &amp;=x_{\text {float }} \div x_{\text {scale }}+x_{\text {zero_point }}
 \end{aligned}$$</p>
 <p><strong>注意，当浮点运算结果不等于整数时，需要额外的舍入步骤</strong>。例如将 FP32 值域 $[−1,1]$ 映射到 INT8 值域 $[0,255]$，有 $x_{scale}=\frac{2}{255}$，而$x_{zero_point}=255−\frac{255}{2}\approx 127$。</p>
@@ -247,20 +244,20 @@ $$S_3(q_3^{i,k}-Z_3)=\sum_{j=1}^NS_1(q_1^{i,k}-Z_1)S_2(q_2^{i,k}-Z_2)$$
 <p>很多刚接触量化的同学对这一点比较疑惑，下面我就用一个简单的示例说明这一点。我们把 $M=\frac{S_1S_2}{S_3}$  代入可以得到：$$q_3^{i,j}=M\sum_{j=1}^N (q_1^{i,j}-Z_1)(q_2^{i,j}-Z_2)+Z_3=MP+Z_3$$</p>
 <p>这里面 $P$  是一个在<strong class=chinese>定点域上计算好的整数</strong>。</p>
 <p>假设 $P = 7091,M = 0.0072474273418460$  ($M$ 可以通过 $S$ 事先计算得到)，那下面我们就是要找到一个 $M_0$ 和 $n$ ，使得 $M P =2^{-n}M_0 P$ 成立。我们可以用一段代码来找到这两个数：</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">M <span style="color:#666">=</span> <span style="color:#666">0.0072474273418460</span>
-P <span style="color:#666">=</span> <span style="color:#666">7091</span>
-
-<span style="color:#a2f;font-weight:bold">def</span> <span style="color:#00a000">multiply</span>(n, M, P):
-    result <span style="color:#666">=</span> M <span style="color:#666">*</span> P
-    Mo <span style="color:#666">=</span> <span style="color:#a2f">int</span>(<span style="color:#a2f">round</span>(<span style="color:#666">2</span> <span style="color:#666">**</span> n <span style="color:#666">*</span> M)) <span style="color:#080;font-style:italic"># 这里不一定要四舍五入截断，因为python定点数不好表示才这样处理</span>
-
-    approx_result <span style="color:#666">=</span> (Mo <span style="color:#666">*</span> P) <span style="color:#666">&gt;&gt;</span> n
-    <span style="color:#a2f;font-weight:bold">print</span>(<span style="color:#b44">&#34;n=</span><span style="color:#b68;font-weight:bold">%d</span><span style="color:#b44">, Mo=</span><span style="color:#b68;font-weight:bold">%d</span><span style="color:#b44">, approx=</span><span style="color:#b68;font-weight:bold">%f</span><span style="color:#b44">, error=</span><span style="color:#b68;font-weight:bold">%f</span><span style="color:#b44">&#34;</span><span style="color:#666">%</span>\
-          (n, Mo, approx_result, result<span style="color:#666">-</span>approx_result))
-
-<span style="color:#a2f;font-weight:bold">for</span> n <span style="color:#a2f;font-weight:bold">in</span> <span style="color:#a2f">range</span>(<span style="color:#666">1</span>, <span style="color:#666">16</span>):
-    multiply(n, M, P)
-</code></pre></div><p>可以看到，在 $n=11、M_0=15$ 的时候，误差就已经在 1 以内了。因此，只要 $M_0P$ 的数值范围在 21(32-11) 个 bit 内，就可以通过对 $M_0P$ 右移 $n$ 个 bit 来近似 $MP$ 了，而这个误差本身在可以接受的范围内。这样一来，就可以完全通过定点运算来计算，即我们实现了<strong class=chinese>浮点矩阵乘法的量化</strong>。</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>M <span style="color:#666">=</span> <span style="color:#666">0.0072474273418460</span>
+</span></span><span style="display:flex;"><span>P <span style="color:#666">=</span> <span style="color:#666">7091</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a2f;font-weight:bold">def</span> <span style="color:#00a000">multiply</span>(n, M, P):
+</span></span><span style="display:flex;"><span>    result <span style="color:#666">=</span> M <span style="color:#666">*</span> P
+</span></span><span style="display:flex;"><span>    Mo <span style="color:#666">=</span> <span style="color:#a2f">int</span>(<span style="color:#a2f">round</span>(<span style="color:#666">2</span> <span style="color:#666">**</span> n <span style="color:#666">*</span> M)) <span style="color:#080;font-style:italic"># 这里不一定要四舍五入截断，因为python定点数不好表示才这样处理</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    approx_result <span style="color:#666">=</span> (Mo <span style="color:#666">*</span> P) <span style="color:#666">&gt;&gt;</span> n
+</span></span><span style="display:flex;"><span>    <span style="color:#a2f">print</span>(<span style="color:#b44">&#34;n=</span><span style="color:#b68;font-weight:bold">%d</span><span style="color:#b44">, Mo=</span><span style="color:#b68;font-weight:bold">%d</span><span style="color:#b44">, approx=</span><span style="color:#b68;font-weight:bold">%f</span><span style="color:#b44">, error=</span><span style="color:#b68;font-weight:bold">%f</span><span style="color:#b44">&#34;</span><span style="color:#666">%</span>\
+</span></span><span style="display:flex;"><span>          (n, Mo, approx_result, result<span style="color:#666">-</span>approx_result))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a2f;font-weight:bold">for</span> n <span style="color:#a2f;font-weight:bold">in</span> <span style="color:#a2f">range</span>(<span style="color:#666">1</span>, <span style="color:#666">16</span>):
+</span></span><span style="display:flex;"><span>    multiply(n, M, P)
+</span></span></code></pre></div><p>可以看到，在 $n=11、M_0=15$ 的时候，误差就已经在 1 以内了。因此，只要 $M_0P$ 的数值范围在 21(32-11) 个 bit 内，就可以通过对 $M_0P$ 右移 $n$ 个 bit 来近似 $MP$ 了，而这个误差本身在可以接受的范围内。这样一来，就可以完全通过定点运算来计算，即我们实现了<strong class=chinese>浮点矩阵乘法的量化</strong>。</p>
 <h3 id="卷积网络的量化">卷积网络的量化</h3>
 <p>有了上面矩阵乘法的量化，我们就可以进一步尝试对卷积网络的量化。假设一个这样的网络：</p>
 <p><img src="/img/20210916190953.png" alt=""></p>

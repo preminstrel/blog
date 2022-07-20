@@ -144,36 +144,36 @@ $$XW^V=V$$&lt;/p&gt;
 &lt;p&gt;而随后与 $V$ 的乘积，代表的是&lt;strong&gt;向量经过注意力机制加权求和之后的结果&lt;/strong&gt;。也就是说，softmax 管的是一个相关度权值大小，与后面的 $V$ 相乘，得到的是通过相关度权值标准而重新计算得到的量。&lt;/p&gt;
 &lt;p&gt;对 Self-Attention 来说，它跟每一个输入的向量都做 Attention，所以没有考虑到输入的顺序。更通俗来讲，大家可以发现我们前文的计算每一个词向量都与其他词向量计算内积，得到的结果丢失了我们原来文本的顺序信息。对比来说，LSTM 是对于文本顺序信息的解释是输出词向量的先后顺序，而我们上文的计算对 sequence 的顺序这一部分则完全没有提及，你打乱词向量的顺序，得到的结果仍然是相同的，此处便可以引出 Transformer 的位置编码部分。&lt;strong&gt;Query 与 Key 作用得到 Attention 的权值，之后这个权值作用在 Value 上得到 Attention值。&lt;/strong&gt;&lt;/p&gt;
 &lt;h2 id=&#34;code&#34;&gt;Code&lt;/h2&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# Attention 机制的实现&lt;/span&gt;
-&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color:#00f;font-weight:bold&#34;&gt;math&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;import&lt;/span&gt; sqrt
-&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#00f;font-weight:bold&#34;&gt;torch&lt;/span&gt;
-&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#00f;font-weight:bold&#34;&gt;torch.nn&lt;/span&gt;
-
-
-&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#00f&#34;&gt;Self_Attention&lt;/span&gt;(nn&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;Module):
-    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# input : batch_size * seq_len * input_dim&lt;/span&gt;
-    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# q : batch_size * input_dim * dim_k&lt;/span&gt;
-    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# k : batch_size * input_dim * dim_k&lt;/span&gt;
-    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# v : batch_size * input_dim * dim_v&lt;/span&gt;
-    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; __init__(self,input_dim,dim_k,dim_v):
-        &lt;span style=&#34;color:#a2f&#34;&gt;super&lt;/span&gt;(Self_Attention,self)&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;__init__()
-        self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;q &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; nn&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;Linear(input_dim,dim_k)
-        self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;k &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; nn&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;Linear(input_dim,dim_k)
-        self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;v &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; nn&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;Linear(input_dim,dim_v)
-        self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;_norm_fact &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;/&lt;/span&gt; sqrt(dim_k)
-        
-    
-    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;forward&lt;/span&gt;(self,x):
-        Q &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;q(x) &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# Q: batch_size * seq_len * dim_k&lt;/span&gt;
-        K &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;k(x) &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# K: batch_size * seq_len * dim_k&lt;/span&gt;
-        V &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;v(x) &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# V: batch_size * seq_len * dim_v&lt;/span&gt;
-         
-        atten &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; nn&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;Softmax(dim&lt;span style=&#34;color:#666&#34;&gt;=-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)(torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;bmm(Q,K&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;permute(&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;2&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;))) &lt;span style=&#34;color:#666&#34;&gt;*&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;_norm_fact &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# Q * K.T() # batch_size * seq_len * seq_len&lt;/span&gt;
-        
-        output &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;bmm(atten,V) &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# Q * K.T() * V # batch_size * seq_len * dim_v&lt;/span&gt;
-        
-        &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;return&lt;/span&gt; output
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;reference&#34;&gt;Reference&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# Attention 机制的实现&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;from&lt;/span&gt; &lt;span style=&#34;color:#00f;font-weight:bold&#34;&gt;math&lt;/span&gt; &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;import&lt;/span&gt; sqrt
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#00f;font-weight:bold&#34;&gt;torch&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;import&lt;/span&gt; &lt;span style=&#34;color:#00f;font-weight:bold&#34;&gt;torch.nn&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;class&lt;/span&gt; &lt;span style=&#34;color:#00f&#34;&gt;Self_Attention&lt;/span&gt;(nn&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;Module):
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# input : batch_size * seq_len * input_dim&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# q : batch_size * input_dim * dim_k&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# k : batch_size * input_dim * dim_k&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# v : batch_size * input_dim * dim_v&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; __init__(self,input_dim,dim_k,dim_v):
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#a2f&#34;&gt;super&lt;/span&gt;(Self_Attention,self)&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;__init__()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;q &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; nn&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;Linear(input_dim,dim_k)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;k &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; nn&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;Linear(input_dim,dim_k)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;v &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; nn&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;Linear(input_dim,dim_v)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;_norm_fact &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#666&#34;&gt;/&lt;/span&gt; sqrt(dim_k)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#00a000&#34;&gt;forward&lt;/span&gt;(self,x):
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        Q &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;q(x) &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# Q: batch_size * seq_len * dim_k&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        K &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;k(x) &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# K: batch_size * seq_len * dim_k&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        V &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;v(x) &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# V: batch_size * seq_len * dim_v&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;         
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        atten &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; nn&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;Softmax(dim&lt;span style=&#34;color:#666&#34;&gt;=-&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;)(torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;bmm(Q,K&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;permute(&lt;span style=&#34;color:#666&#34;&gt;0&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;2&lt;/span&gt;,&lt;span style=&#34;color:#666&#34;&gt;1&lt;/span&gt;))) &lt;span style=&#34;color:#666&#34;&gt;*&lt;/span&gt; self&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;_norm_fact &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# Q * K.T() # batch_size * seq_len * seq_len&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        output &lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt; torch&lt;span style=&#34;color:#666&#34;&gt;.&lt;/span&gt;bmm(atten,V) &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;# Q * K.T() * V # batch_size * seq_len * dim_v&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#a2f;font-weight:bold&#34;&gt;return&lt;/span&gt; output
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;reference&#34;&gt;Reference&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;https://zhuanlan.zhihu.com/p/410776234&#34;&gt;超详细图解Self-Attention&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
@@ -704,12 +704,12 @@ $$&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;em&gt;&lt;strong&gt;Adversarial Loss&lt;/strong&gt;&lt;/em&gt;，用于将生成图像的分布与目标域中的数据分布相匹配；对于映射函数 $G: X\rightarrow Y$ 和其对应的 $D_Y$，我们要求优化 $\min_G\max_{D_Y}L_\text{GAN}(G,D_Y,X,Y)$。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;$$L_\text{GAN}(G,D_Y,X, Y) = \mathbb{E}_{y\sim p_\text{data}(y)}\left[\log D_Y(y)\right] + \mathbb{E}_{x\sim p_\text{data}(x)}\left[\log(1 −D_Y(G(x))\right]$$&lt;/p&gt;
+&lt;p&gt;$$L_\text{GAN}(G,D_Y,X, Y) = \mathbb{E}&lt;em&gt;{y\sim p&lt;/em&gt;\text{data}(y)}\left[\log D_Y(y)\right] + \mathbb{E}&lt;em&gt;{x\sim p&lt;/em&gt;\text{data}(x)}\left[\log(1 −D_Y(G(x))\right]$$&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;em&gt;&lt;strong&gt;Cycle Consistency Loss&lt;/strong&gt;&lt;/em&gt;，以防止学习到的映射 $G$ 和 $F$ 相互矛盾。需要满足 $$x\rightarrow G(x)\rightarrow F(G(x))\approx x,\qquad y\rightarrow F(y)\rightarrow G(F(y))\approx y$$我们使用 Cycle Consistency Loss 来激励这种行为：
 $$
 \begin{aligned}
-L_{\text {cyc }}(G, F) =\mathbb{E}_{x \sim p_{\text {data }}(x)}\left[||F(G(x))-x||_{1}\right]+\mathbb{E}_{y \sim p_{\text {data }}(y)}\left[||G(F(y))-y||_{1}\right]
+L_{\text {cyc }}(G, F) =\mathbb{E}&lt;em&gt;{x \sim p&lt;/em&gt;{\text {data }}(x)}\left[||F(G(x))-x||&lt;em&gt;{1}\right]+\mathbb{E}&lt;/em&gt;{y \sim p_{\text {data }}(y)}\left[||G(F(y))-y||_{1}\right]
 \end{aligned}
 $$&lt;/li&gt;
 &lt;/ul&gt;
@@ -728,7 +728,7 @@ L\left(G, F, D_{X}, D_{Y}\right) =L_{\mathrm{GAN}}\left(G, D_{Y}, X, Y\right)
 $$
 其中 $\lambda$ 是控制两种目标的相对重要性的，我们要对下式进行优化：
 $$
-G^{*}, F^{*}=\arg \min _{G, F} \max _{D_{X}, D_{Y}} L\left(G, F, D_{X}, D_{Y}\right)
+G^{&lt;em&gt;}, F^{&lt;/em&gt;}=\arg \min &lt;em&gt;{G, F} \max &lt;em&gt;{D&lt;/em&gt;{X}, D&lt;/em&gt;{Y}} L\left(G, F, D_{X}, D_{Y}\right)
 $$&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;CycleGAN 可以看作是训练两个“自动编码器”：我们学习一个自动编码器 $F\circ G:X→ X$ 联合另一个 $G\circ F:Y\rightarrow Y$。 然而，这些自动编码器都有特殊的内部结构：它们通过中间表示将图像映射到自身，中间表示是将图像转换到另一个域中。这种设置也可以被视为“&lt;strong&gt;对抗性自动编码器(&lt;em&gt;adversarial autoencoders&lt;/em&gt;)&lt;/strong&gt;” 的特例，它使用对抗性丢失来训练自动编码器的瓶颈层，以匹配任意目标分布。&lt;/p&gt;
@@ -762,12 +762,12 @@ $$&lt;/li&gt;
 &lt;/div&gt;
 &lt;h2 id=&#34;formula&#34;&gt;Formula&lt;/h2&gt;
 &lt;p&gt;以上只是大致说了一下 GAN 的核心原理，如何用数学语言描述呢？这里直接摘录论文里的公式：&lt;/p&gt;
-&lt;p&gt;$$\min_{G} \max_{D} V(D, G)=\mathbb{E}_{\boldsymbol{x} \sim p_{\text {data }}(\boldsymbol{x})}[\log D(\boldsymbol{x})]+\mathbb{E}_{\boldsymbol{z} \sim p_{\boldsymbol{z}}(\boldsymbol{z})}[\log (1-D(G(\boldsymbol{z})))]$$&lt;/p&gt;
+&lt;p&gt;$$\min_{G} \max_{D} V(D, G)=\mathbb{E}&lt;em&gt;{\boldsymbol{x} \sim p&lt;/em&gt;{\text {data }}(\boldsymbol{x})}[\log D(\boldsymbol{x})]+\mathbb{E}&lt;em&gt;{\boldsymbol{z} \sim p&lt;/em&gt;{\boldsymbol{z}}(\boldsymbol{z})}[\log (1-D(G(\boldsymbol{z})))]$$&lt;/p&gt;
 &lt;p&gt;公式中：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;整个式子由两项构成。$x$ 表示真实图片，$z$  表示输入 $G$ 网络的噪声，而 $G(z)$ 表示 $G$ 网络生成的图片。&lt;/li&gt;
 &lt;li&gt;$D(x)$ 表示 $D$ 网络判断&lt;strong&gt;真实图片是否真实&lt;/strong&gt;的概率（因为 $x$ 就是真实的，所以对于 $D$ 来说，这个值越接近 1 越好）。而 $D(G(z))$ 是 &lt;strong&gt;$D$ 网络判断 $G$ 生成的图片的是否真实的概率。&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;$G$ 的目的：上面提到过，$D(G(z))$ 是&lt;strong&gt;$D$ 网络判断 $G$ 生成的图片是否真实的概率&lt;/strong&gt;，$G$ 应该希望自己生成的图片“越接近真实越好”。也就是说，$G$ 希望 $D(G(z))$ 尽可能得大，这时 $V(D, G)$ 会变小。因此我们看到式子的最前面的记号是 $\min_G$。&lt;/li&gt;
+&lt;li&gt;$G$ 的目的：上面提到过，$D(G(z))$ 是**$D$ 网络判断 $G$ 生成的图片是否真实的概率**，$G$ 应该希望自己生成的图片“越接近真实越好”。也就是说，$G$ 希望 $D(G(z))$ 尽可能得大，这时 $V(D, G)$ 会变小。因此我们看到式子的最前面的记号是 $\min_G$。&lt;/li&gt;
 &lt;li&gt;$D$ 的目的：$D$ 的能力越强，$D(x)$ 应该越大，$D(G(x))$ 应该越小。这时 $V(D,G)$ 会变大。因此式子对于 $D$ 来说是求最大 $\max_D$&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;下面这幅图片很好地描述了这个过程：&lt;/p&gt;
@@ -805,35 +805,35 @@ $$&lt;/li&gt;
       <description>&lt;h2 id=&#34;pytorch环境搭建&#34;&gt;Pytorch环境搭建&lt;/h2&gt;
 &lt;h3 id=&#34;install-anaconda3&#34;&gt;Install Anaconda3&lt;/h3&gt;
 &lt;p&gt;最近在用WSL，因为比双系统方便且想直接在WSL里面写代码，于是就在WSL环境下进行了配置。首先安装Anaconda，这里是直接从官网上下package的。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#a2f&#34;&gt;cd&lt;/span&gt; ~/Downloads
-bash Anaconda3-5.3.0-Linux-x86_64.sh
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这个时候我发现&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;$ conda info
-zsh: &lt;span style=&#34;color:#a2f&#34;&gt;command&lt;/span&gt; not found: conda
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这是zsh和路径的原因，我们需要添加路径&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;vim ~/.zshrc
-&lt;span style=&#34;color:#a2f&#34;&gt;source&lt;/span&gt; ~/.zshrc
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;create-environment&#34;&gt;Create Environment&lt;/h3&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;color:#a2f&#34;&gt;cd&lt;/span&gt; ~/anaconda3
-conda create -n pytorch &lt;span style=&#34;color:#b8860b&#34;&gt;python&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;3.7
-conda init zsh
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;我们需要查看CUDA的类型，所以安装lightdm&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;sudo apt-get install lightdm
-nvidia-smi
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;可以看见，我的是CUDA Version: 11.4，于是我们在pytorch官网上找到一个CUDA 10.2版本的进行安装。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;conda activate pytorch
-conda install pytorch torchvision torchaudio &lt;span style=&#34;color:#b8860b&#34;&gt;cudatoolkit&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;10.2 -c pytorch
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;run&#34;&gt;Run&lt;/h3&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;conda activate pytorch
-conda install ipython 
-conda install jupyter
-jupyter notebook --no-browser &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;#Mention here&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;tensorflowkeras&#34;&gt;Tensorflow+Keras&lt;/h2&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a2f&#34;&gt;cd&lt;/span&gt; ~/Downloads
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;bash Anaconda3-5.3.0-Linux-x86_64.sh
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这个时候我发现&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ conda info
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;zsh: &lt;span style=&#34;color:#a2f&#34;&gt;command&lt;/span&gt; not found: conda
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;这是zsh和路径的原因，我们需要添加路径&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;vim ~/.zshrc
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a2f&#34;&gt;source&lt;/span&gt; ~/.zshrc
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;create-environment&#34;&gt;Create Environment&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a2f&#34;&gt;cd&lt;/span&gt; ~/anaconda3
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;conda create -n pytorch &lt;span style=&#34;color:#b8860b&#34;&gt;python&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;3.7
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;conda init zsh
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;我们需要查看CUDA的类型，所以安装lightdm&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;sudo apt-get install lightdm
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;nvidia-smi
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;可以看见，我的是CUDA Version: 11.4，于是我们在pytorch官网上找到一个CUDA 10.2版本的进行安装。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;conda activate pytorch
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;conda install pytorch torchvision torchaudio &lt;span style=&#34;color:#b8860b&#34;&gt;cudatoolkit&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;10.2 -c pytorch
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;run&#34;&gt;Run&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;conda activate pytorch
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;conda install ipython 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;conda install jupyter
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;jupyter notebook --no-browser &lt;span style=&#34;color:#080;font-style:italic&#34;&gt;#Mention here&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;tensorflowkeras&#34;&gt;Tensorflow+Keras&lt;/h2&gt;
 &lt;p&gt;tensorflow的安装变得比以前简单了，以前keras的版本会和tensorflow有冲突，现在没了，很不错。值得注意的是，需要安装cudatoolkit，我的显卡是CUDA Version: 11.4，所以找了11.0的安装。&lt;/p&gt;
-&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;pip install --upgrade pip
-pip install tensorflow
-conda install &lt;span style=&#34;color:#b8860b&#34;&gt;cudatoolkit&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;11.0
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;pip install --upgrade pip
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;pip install tensorflow
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;conda install &lt;span style=&#34;color:#b8860b&#34;&gt;cudatoolkit&lt;/span&gt;&lt;span style=&#34;color:#666&#34;&gt;=&lt;/span&gt;11.0
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
       
     </item>
     

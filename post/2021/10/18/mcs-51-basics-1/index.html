@@ -53,9 +53,10 @@
   <meta property="og:title" content="MCS 51 Basics (1)" />
 <meta property="og:description" content="最近因为在上微机原理课，所以买了51单片机（MCS 51）来进行实验学习。 Introduction to MCU 一台能够工作的计算机要有这样几个部件构成：CPU（进行运算、控" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://preminstrel.github.io/blog/post/2021/10/18/mcs-51-basics-1/" />
+<meta property="og:url" content="https://preminstrel.github.io/blog/post/2021/10/18/mcs-51-basics-1/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2021-10-18T22:45:32+08:00" />
 <meta property="article:modified_time" content="2021-10-24T00:00:00+00:00" />
+
 
 
   
@@ -64,13 +65,9 @@
   
   
   <meta itemprop="name" content="MCS 51 Basics (1)">
-<meta itemprop="description" content="最近因为在上微机原理课，所以买了51单片机（MCS 51）来进行实验学习。 Introduction to MCU 一台能够工作的计算机要有这样几个部件构成：CPU（进行运算、控">
-<meta itemprop="datePublished" content="2021-10-18T22:45:32&#43;08:00" />
-<meta itemprop="dateModified" content="2021-10-24T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="5563">
-
-
-
+<meta itemprop="description" content="最近因为在上微机原理课，所以买了51单片机（MCS 51）来进行实验学习。 Introduction to MCU 一台能够工作的计算机要有这样几个部件构成：CPU（进行运算、控"><meta itemprop="datePublished" content="2021-10-18T22:45:32+08:00" />
+<meta itemprop="dateModified" content="2021-10-24T00:00:00+00:00" />
+<meta itemprop="wordCount" content="5564">
 <meta itemprop="keywords" content="MCU,MCS 51," />
 
   
@@ -359,18 +356,18 @@
 <h2 id="keil-c51-template">Keil C51 template</h2>
 <p>我们使用 Keil 来创建完美地工程模板，为后面的程序编写带来方便。</p>
 <p>CPU 型号选择 <code>AT89C52</code>，在 <code>Configuration</code> 中配置好合适的字体后，我们创建一个 <code>main.c</code> 文件，写入以下代码。</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#080;font-style:italic">/* main.c */</span>
-
-<span style="color:#080">#include</span> <span style="color:#080">&#34;reg52.h&#34;</span><span style="color:#080">
-</span><span style="color:#080"></span>
-<span style="color:#0b0;font-weight:bold">void</span> <span style="color:#00a000">main</span>()
-{
-    <span style="color:#a2f;font-weight:bold">while</span>(<span style="color:#666">1</span>)
-    {
-        
-    }
-}
-</code></pre></div><h3 id="头文件作用">头文件作用</h3>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#080;font-style:italic">/* main.c */</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#080">#include</span> <span style="color:#080">&#34;reg52.h&#34;</span><span style="color:#080">
+</span></span></span><span style="display:flex;"><span><span style="color:#080"></span>
+</span></span><span style="display:flex;"><span><span style="color:#0b0;font-weight:bold">void</span> <span style="color:#00a000">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#a2f;font-weight:bold">while</span>(<span style="color:#666">1</span>)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="头文件作用">头文件作用</h3>
 <p>在代码中引用头文件，其实际意义就是将这个头文件中的全部内容放到引用头文件的位置处，免去我们每次编写同类程序都要将头文件中的语句重复编写。</p>
 <p>在代码中加入头文件有两种书写方法，分别为<code>#include &lt;reg52.h&gt;</code>和<code>#include&quot;reg52.h&quot;</code>，这两种写法是有区别的。</p>
 <ul>
@@ -422,67 +419,67 @@
 <h3 id="software-design">Software Design</h3>
 <h4 id="点亮第一个-led-1">点亮第一个 LED</h4>
 <p>这里所要实现的功能是：点亮 <code>D1</code> 指示灯，即让 <code>P2.0</code> 管脚输出一个低电平。 完成后可再控制 <code>D1</code> 指示灯闪烁，即间隔一段时间点亮和熄灭 <code>D1</code> 指示灯。具体过程是使用 <code>sbit</code> 关键字来定义 <code>P2.0</code> 管脚，定义好后即可使用 <code>LED1</code> 来替代 <code>P2.0</code> 口的操作。</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#080">#include</span> <span style="color:#080">&#34;reg52.h&#34;</span><span style="color:#080">
-</span><span style="color:#080"></span>
-<span style="color:#a2f;font-weight:bold">typedef</span> <span style="color:#0b0;font-weight:bold">unsigned</span> <span style="color:#0b0;font-weight:bold">int</span> u16;    <span style="color:#080;font-style:italic">//对系统默认数据类型进行重定义
-</span><span style="color:#080;font-style:italic"></span><span style="color:#a2f;font-weight:bold">typedef</span> <span style="color:#0b0;font-weight:bold">unsigned</span> <span style="color:#0b0;font-weight:bold">char</span> u8;
-
-sbit LED1 <span style="color:#666">=</span> P2<span style="color:#666">^</span><span style="color:#666">0</span>;    <span style="color:#080;font-style:italic">//用sbit将P2.0管脚定义为LED1
-</span><span style="color:#080;font-style:italic"></span>
-<span style="color:#080;font-style:italic">/*******************************************************************************
-</span><span style="color:#080;font-style:italic">* 函 数 名       : delay_10us
-</span><span style="color:#080;font-style:italic">* 函数功能         : 延时函数，ten_us=1时，大约延时10us
-</span><span style="color:#080;font-style:italic">* 输    入       : ten_us
-</span><span style="color:#080;font-style:italic">* 输    出         : 无
-</span><span style="color:#080;font-style:italic">*******************************************************************************/</span>
-<span style="color:#0b0;font-weight:bold">void</span> <span style="color:#00a000">delay_10us</span>(u16 ten_us)
-{
-    <span style="color:#a2f;font-weight:bold">while</span>(ten_us<span style="color:#666">--</span>);    
-}
-
-<span style="color:#0b0;font-weight:bold">void</span> <span style="color:#00a000">main</span>()
-{
-    <span style="color:#a2f;font-weight:bold">while</span>(<span style="color:#666">1</span>)
-    {
-        LED1<span style="color:#666">=</span><span style="color:#666">0</span>;    <span style="color:#080;font-style:italic">//点亮
-</span><span style="color:#080;font-style:italic"></span>        delay_10us(<span style="color:#666">50000</span>); <span style="color:#080;font-style:italic">//大约延时450ms
-</span><span style="color:#080;font-style:italic"></span>        LED1<span style="color:#666">=</span><span style="color:#666">1</span>;    <span style="color:#080;font-style:italic">//熄灭
-</span><span style="color:#080;font-style:italic"></span>        delay_10us(<span style="color:#666">50000</span>); 
-    }
-}
-</code></pre></div><h4 id="led-流水灯实验">LED 流水灯实验</h4>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#080">#include</span> <span style="color:#080">&#34;reg52.h&#34;</span><span style="color:#080">
+</span></span></span><span style="display:flex;"><span><span style="color:#080"></span>
+</span></span><span style="display:flex;"><span><span style="color:#a2f;font-weight:bold">typedef</span> <span style="color:#0b0;font-weight:bold">unsigned</span> <span style="color:#0b0;font-weight:bold">int</span> u16;    <span style="color:#080;font-style:italic">//对系统默认数据类型进行重定义
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span><span style="color:#a2f;font-weight:bold">typedef</span> <span style="color:#0b0;font-weight:bold">unsigned</span> <span style="color:#0b0;font-weight:bold">char</span> u8;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>sbit LED1 <span style="color:#666">=</span> P2<span style="color:#666">^</span><span style="color:#666">0</span>;    <span style="color:#080;font-style:italic">//用sbit将P2.0管脚定义为LED1
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span>
+</span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic">/*******************************************************************************
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic">* 函 数 名       : delay_10us
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic">* 函数功能         : 延时函数，ten_us=1时，大约延时10us
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic">* 输    入       : ten_us
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic">* 输    出         : 无
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic">*******************************************************************************/</span>
+</span></span><span style="display:flex;"><span><span style="color:#0b0;font-weight:bold">void</span> <span style="color:#00a000">delay_10us</span>(u16 ten_us)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#a2f;font-weight:bold">while</span>(ten_us<span style="color:#666">--</span>);    
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#0b0;font-weight:bold">void</span> <span style="color:#00a000">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#a2f;font-weight:bold">while</span>(<span style="color:#666">1</span>)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        LED1<span style="color:#666">=</span><span style="color:#666">0</span>;    <span style="color:#080;font-style:italic">//点亮
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span>        delay_10us(<span style="color:#666">50000</span>); <span style="color:#080;font-style:italic">//大约延时450ms
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span>        LED1<span style="color:#666">=</span><span style="color:#666">1</span>;    <span style="color:#080;font-style:italic">//熄灭
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span>        delay_10us(<span style="color:#666">50000</span>); 
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h4 id="led-流水灯实验">LED 流水灯实验</h4>
 <p>如果要实现 LED 流水灯，只需循环让 <code>D1</code>-<code>D8</code> 指示灯逐个点亮。同样本实验也需要延时。要实现循环点亮，点亮 <code>D1</code> 且把 <code>D2</code>-<code>D8</code> 熄灭，延时一段时间后再点亮 <code>D2</code> 且把 <code>D1</code>、 <code>D3</code>-<code>D8</code> 熄灭，延时一段时间后再点亮 <code>D3</code> 且把 <code>D1</code>-<code>D2</code>、<code>D4</code>-<code>D8</code> 熄灭，如此循环，这样就可以很简单的实现 LED 流水灯实验，当然不推荐此种方法。</p>
 <p>在前面我们学习了 C 语言相关的基础知识，里面有移位以及循环语句操作，根据流水灯实现原理，即 IO 口由低往高或者由高往低逐个输出低电平特点，那么我们可以将移位操作以及循环结合进来。实现代码如下：</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#080">#include</span> <span style="color:#080">&#34;reg52.h&#34;</span><span style="color:#080">
-</span><span style="color:#080">#include</span> <span style="color:#080">&#34;intrins.h&#34;</span><span style="color:#080">
-</span><span style="color:#080"></span>
-<span style="color:#a2f;font-weight:bold">typedef</span> <span style="color:#0b0;font-weight:bold">unsigned</span> <span style="color:#0b0;font-weight:bold">int</span> u16;    <span style="color:#080;font-style:italic">//对系统默认数据类型进行重定义
-</span><span style="color:#080;font-style:italic"></span><span style="color:#a2f;font-weight:bold">typedef</span> <span style="color:#0b0;font-weight:bold">unsigned</span> <span style="color:#0b0;font-weight:bold">char</span> u8;
-
-<span style="color:#080">#define LED_PORT    P2    </span><span style="color:#080;font-style:italic">//使用宏定义P2端口
-</span><span style="color:#080;font-style:italic"></span>
-<span style="color:#0b0;font-weight:bold">void</span> <span style="color:#00a000">delay_10us</span>(u16 ten_us)
-{
-    <span style="color:#a2f;font-weight:bold">while</span>(ten_us<span style="color:#666">--</span>);    
-}
-
-
-<span style="color:#0b0;font-weight:bold">void</span> <span style="color:#00a000">main</span>()
-{    
-    u8 i<span style="color:#666">=</span><span style="color:#666">0</span>;
-    LED_PORT<span style="color:#666">=~</span><span style="color:#666">0x01</span>;
-    delay_10us(<span style="color:#666">50000</span>);
-    <span style="color:#a2f;font-weight:bold">while</span>(<span style="color:#666">1</span>)
-    {
-        <span style="color:#080;font-style:italic">//使用移位 + 循环实现流水灯
-</span><span style="color:#080;font-style:italic"></span>        <span style="color:#a2f;font-weight:bold">for</span> (i<span style="color:#666">=</span><span style="color:#666">0</span>; i<span style="color:#666">&lt;</span><span style="color:#666">8</span>; i<span style="color:#666">++</span>)
-        {
-            LED_PORT<span style="color:#666">=~</span>(<span style="color:#666">0x01</span><span style="color:#666">&lt;&lt;</span>i);  <span style="color:#080;font-style:italic">//将 1 右移 i 位，然后取反将结果赋值到 LED_PORT;
-</span><span style="color:#080;font-style:italic"></span>            delay_10us(<span style="color:#666">50000</span>);
-        }
-    }
-}
-</code></pre></div><p><code>0X01&lt;&lt;i</code> 表示 i 增加 1 次，<code>0x01</code> 中的 1 就移动多少位，因为 1（高电平）不会让 LED 点亮，需要取反后变为低电平 0 才能点亮，所以最后的结果需要取反后给 <code>LED_PORT</code> 口，并且每次循环都要延时一段时间，这样才能分辨出来 LED 在流水。</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#080">#include</span> <span style="color:#080">&#34;reg52.h&#34;</span><span style="color:#080">
+</span></span></span><span style="display:flex;"><span><span style="color:#080">#include</span> <span style="color:#080">&#34;intrins.h&#34;</span><span style="color:#080">
+</span></span></span><span style="display:flex;"><span><span style="color:#080"></span>
+</span></span><span style="display:flex;"><span><span style="color:#a2f;font-weight:bold">typedef</span> <span style="color:#0b0;font-weight:bold">unsigned</span> <span style="color:#0b0;font-weight:bold">int</span> u16;    <span style="color:#080;font-style:italic">//对系统默认数据类型进行重定义
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span><span style="color:#a2f;font-weight:bold">typedef</span> <span style="color:#0b0;font-weight:bold">unsigned</span> <span style="color:#0b0;font-weight:bold">char</span> u8;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#080">#define LED_PORT    P2    </span><span style="color:#080;font-style:italic">//使用宏定义P2端口
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span>
+</span></span><span style="display:flex;"><span><span style="color:#0b0;font-weight:bold">void</span> <span style="color:#00a000">delay_10us</span>(u16 ten_us)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#a2f;font-weight:bold">while</span>(ten_us<span style="color:#666">--</span>);    
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#0b0;font-weight:bold">void</span> <span style="color:#00a000">main</span>()
+</span></span><span style="display:flex;"><span>{    
+</span></span><span style="display:flex;"><span>    u8 i<span style="color:#666">=</span><span style="color:#666">0</span>;
+</span></span><span style="display:flex;"><span>    LED_PORT<span style="color:#666">=~</span><span style="color:#666">0x01</span>;
+</span></span><span style="display:flex;"><span>    delay_10us(<span style="color:#666">50000</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a2f;font-weight:bold">while</span>(<span style="color:#666">1</span>)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#080;font-style:italic">//使用移位 + 循环实现流水灯
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span>        <span style="color:#a2f;font-weight:bold">for</span> (i<span style="color:#666">=</span><span style="color:#666">0</span>; i<span style="color:#666">&lt;</span><span style="color:#666">8</span>; i<span style="color:#666">++</span>)
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            LED_PORT<span style="color:#666">=~</span>(<span style="color:#666">0x01</span><span style="color:#666">&lt;&lt;</span>i);  <span style="color:#080;font-style:italic">//将 1 右移 i 位，然后取反将结果赋值到 LED_PORT;
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span>            delay_10us(<span style="color:#666">50000</span>);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><code>0X01&lt;&lt;i</code> 表示 i 增加 1 次，<code>0x01</code> 中的 1 就移动多少位，因为 1（高电平）不会让 LED 点亮，需要取反后变为低电平 0 才能点亮，所以最后的结果需要取反后给 <code>LED_PORT</code> 口，并且每次循环都要延时一段时间，这样才能分辨出来 LED 在流水。</p>
 <h2 id="reference">Reference</h2>
 <ul>
 <li>普中51单片机开发攻略</li>

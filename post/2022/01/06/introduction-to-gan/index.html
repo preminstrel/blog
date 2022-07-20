@@ -53,9 +53,10 @@
   <meta property="og:title" content="Introduction to GAN" />
 <meta property="og:description" content="最近科研要用到 CycleGAN，借此机会，便对 GAN(Generative Adversarial Networks) 进行一个学习。Ian Goodfellow 大牛的 Generative Adversarial Networks（arxiv：https://arxiv" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://preminstrel.github.io/blog/post/2022/01/06/introduction-to-gan/" />
+<meta property="og:url" content="https://preminstrel.github.io/blog/post/2022/01/06/introduction-to-gan/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2022-01-06T23:12:33+08:00" />
 <meta property="article:modified_time" content="2022-01-09T00:00:00+00:00" />
+
 
 
   
@@ -64,13 +65,9 @@
   
   
   <meta itemprop="name" content="Introduction to GAN">
-<meta itemprop="description" content="最近科研要用到 CycleGAN，借此机会，便对 GAN(Generative Adversarial Networks) 进行一个学习。Ian Goodfellow 大牛的 Generative Adversarial Networks（arxiv：https://arxiv">
-<meta itemprop="datePublished" content="2022-01-06T23:12:33&#43;08:00" />
-<meta itemprop="dateModified" content="2022-01-09T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="1063">
-
-
-
+<meta itemprop="description" content="最近科研要用到 CycleGAN，借此机会，便对 GAN(Generative Adversarial Networks) 进行一个学习。Ian Goodfellow 大牛的 Generative Adversarial Networks（arxiv：https://arxiv"><meta itemprop="datePublished" content="2022-01-06T23:12:33+08:00" />
+<meta itemprop="dateModified" content="2022-01-09T00:00:00+00:00" />
+<meta itemprop="wordCount" content="1067">
 <meta itemprop="keywords" content="GAN,Deep Learning," />
 
   
@@ -174,12 +171,12 @@
 </div>
 <h2 id="formula">Formula</h2>
 <p>以上只是大致说了一下 GAN 的核心原理，如何用数学语言描述呢？这里直接摘录论文里的公式：</p>
-<p>$$\min_{G} \max_{D} V(D, G)=\mathbb{E}_{\boldsymbol{x} \sim p_{\text {data }}(\boldsymbol{x})}[\log D(\boldsymbol{x})]+\mathbb{E}_{\boldsymbol{z} \sim p_{\boldsymbol{z}}(\boldsymbol{z})}[\log (1-D(G(\boldsymbol{z})))]$$</p>
+<p>$$\min_{G} \max_{D} V(D, G)=\mathbb{E}<em>{\boldsymbol{x} \sim p</em>{\text {data }}(\boldsymbol{x})}[\log D(\boldsymbol{x})]+\mathbb{E}<em>{\boldsymbol{z} \sim p</em>{\boldsymbol{z}}(\boldsymbol{z})}[\log (1-D(G(\boldsymbol{z})))]$$</p>
 <p>公式中：</p>
 <ul>
 <li>整个式子由两项构成。$x$ 表示真实图片，$z$  表示输入 $G$ 网络的噪声，而 $G(z)$ 表示 $G$ 网络生成的图片。</li>
 <li>$D(x)$ 表示 $D$ 网络判断<strong class=chinese>真实图片是否真实</strong>的概率（因为 $x$ 就是真实的，所以对于 $D$ 来说，这个值越接近 1 越好）。而 $D(G(z))$ 是 <strong>$D$ 网络判断 $G$ 生成的图片的是否真实的概率。</strong></li>
-<li>$G$ 的目的：上面提到过，$D(G(z))$ 是<strong>$D$ 网络判断 $G$ 生成的图片是否真实的概率</strong>，$G$ 应该希望自己生成的图片“越接近真实越好”。也就是说，$G$ 希望 $D(G(z))$ 尽可能得大，这时 $V(D, G)$ 会变小。因此我们看到式子的最前面的记号是 $\min_G$。</li>
+<li>$G$ 的目的：上面提到过，$D(G(z))$ 是**$D$ 网络判断 $G$ 生成的图片是否真实的概率**，$G$ 应该希望自己生成的图片“越接近真实越好”。也就是说，$G$ 希望 $D(G(z))$ 尽可能得大，这时 $V(D, G)$ 会变小。因此我们看到式子的最前面的记号是 $\min_G$。</li>
 <li>$D$ 的目的：$D$ 的能力越强，$D(x)$ 应该越大，$D(G(x))$ 应该越小。这时 $V(D,G)$ 会变大。因此式子对于 $D$ 来说是求最大 $\max_D$</li>
 </ul>
 <p>下面这幅图片很好地描述了这个过程：</p>

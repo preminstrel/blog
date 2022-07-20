@@ -53,9 +53,10 @@
   <meta property="og:title" content="Deep Learning on WSL" />
 <meta property="og:description" content="Pytorch环境搭建 Install Anaconda3 最近在用WSL，因为比双系统方便且想直接在WSL里面写代码，于是就在WSL环境下进行了配置。首先安装Anacond" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://preminstrel.github.io/blog/post/2021/10/17/deep-learning-on-wsl/" />
+<meta property="og:url" content="https://preminstrel.github.io/blog/post/2021/10/17/deep-learning-on-wsl/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2021-10-17T13:42:45+08:00" />
 <meta property="article:modified_time" content="2021-10-17T13:42:45+08:00" />
+
 
 
   
@@ -64,13 +65,9 @@
   
   
   <meta itemprop="name" content="Deep Learning on WSL">
-<meta itemprop="description" content="Pytorch环境搭建 Install Anaconda3 最近在用WSL，因为比双系统方便且想直接在WSL里面写代码，于是就在WSL环境下进行了配置。首先安装Anacond">
-<meta itemprop="datePublished" content="2021-10-17T13:42:45&#43;08:00" />
-<meta itemprop="dateModified" content="2021-10-17T13:42:45&#43;08:00" />
+<meta itemprop="description" content="Pytorch环境搭建 Install Anaconda3 最近在用WSL，因为比双系统方便且想直接在WSL里面写代码，于是就在WSL环境下进行了配置。首先安装Anacond"><meta itemprop="datePublished" content="2021-10-17T13:42:45+08:00" />
+<meta itemprop="dateModified" content="2021-10-17T13:42:45+08:00" />
 <meta itemprop="wordCount" content="373">
-
-
-
 <meta itemprop="keywords" content="Deep Learning," />
 
   
@@ -166,35 +163,35 @@
     <h2 id="pytorch环境搭建">Pytorch环境搭建</h2>
 <h3 id="install-anaconda3">Install Anaconda3</h3>
 <p>最近在用WSL，因为比双系统方便且想直接在WSL里面写代码，于是就在WSL环境下进行了配置。首先安装Anaconda，这里是直接从官网上下package的。</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#a2f">cd</span> ~/Downloads
-bash Anaconda3-5.3.0-Linux-x86_64.sh
-</code></pre></div><p>这个时候我发现</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ conda info
-zsh: <span style="color:#a2f">command</span> not found: conda
-</code></pre></div><p>这是zsh和路径的原因，我们需要添加路径</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">vim ~/.zshrc
-<span style="color:#a2f">source</span> ~/.zshrc
-</code></pre></div><h3 id="create-environment">Create Environment</h3>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#a2f">cd</span> ~/anaconda3
-conda create -n pytorch <span style="color:#b8860b">python</span><span style="color:#666">=</span>3.7
-conda init zsh
-</code></pre></div><p>我们需要查看CUDA的类型，所以安装lightdm</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo apt-get install lightdm
-nvidia-smi
-</code></pre></div><p>可以看见，我的是CUDA Version: 11.4，于是我们在pytorch官网上找到一个CUDA 10.2版本的进行安装。</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">conda activate pytorch
-conda install pytorch torchvision torchaudio <span style="color:#b8860b">cudatoolkit</span><span style="color:#666">=</span>10.2 -c pytorch
-</code></pre></div><h3 id="run">Run</h3>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">conda activate pytorch
-conda install ipython 
-conda install jupyter
-jupyter notebook --no-browser <span style="color:#080;font-style:italic">#Mention here</span>
-</code></pre></div><h2 id="tensorflowkeras">Tensorflow+Keras</h2>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#a2f">cd</span> ~/Downloads
+</span></span><span style="display:flex;"><span>bash Anaconda3-5.3.0-Linux-x86_64.sh
+</span></span></code></pre></div><p>这个时候我发现</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ conda info
+</span></span><span style="display:flex;"><span>zsh: <span style="color:#a2f">command</span> not found: conda
+</span></span></code></pre></div><p>这是zsh和路径的原因，我们需要添加路径</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>vim ~/.zshrc
+</span></span><span style="display:flex;"><span><span style="color:#a2f">source</span> ~/.zshrc
+</span></span></code></pre></div><h3 id="create-environment">Create Environment</h3>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#a2f">cd</span> ~/anaconda3
+</span></span><span style="display:flex;"><span>conda create -n pytorch <span style="color:#b8860b">python</span><span style="color:#666">=</span>3.7
+</span></span><span style="display:flex;"><span>conda init zsh
+</span></span></code></pre></div><p>我们需要查看CUDA的类型，所以安装lightdm</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo apt-get install lightdm
+</span></span><span style="display:flex;"><span>nvidia-smi
+</span></span></code></pre></div><p>可以看见，我的是CUDA Version: 11.4，于是我们在pytorch官网上找到一个CUDA 10.2版本的进行安装。</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>conda activate pytorch
+</span></span><span style="display:flex;"><span>conda install pytorch torchvision torchaudio <span style="color:#b8860b">cudatoolkit</span><span style="color:#666">=</span>10.2 -c pytorch
+</span></span></code></pre></div><h3 id="run">Run</h3>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>conda activate pytorch
+</span></span><span style="display:flex;"><span>conda install ipython 
+</span></span><span style="display:flex;"><span>conda install jupyter
+</span></span><span style="display:flex;"><span>jupyter notebook --no-browser <span style="color:#080;font-style:italic">#Mention here</span>
+</span></span></code></pre></div><h2 id="tensorflowkeras">Tensorflow+Keras</h2>
 <p>tensorflow的安装变得比以前简单了，以前keras的版本会和tensorflow有冲突，现在没了，很不错。值得注意的是，需要安装cudatoolkit，我的显卡是CUDA Version: 11.4，所以找了11.0的安装。</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">pip install --upgrade pip
-pip install tensorflow
-conda install <span style="color:#b8860b">cudatoolkit</span><span style="color:#666">=</span>11.0
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>pip install --upgrade pip
+</span></span><span style="display:flex;"><span>pip install tensorflow
+</span></span><span style="display:flex;"><span>conda install <span style="color:#b8860b">cudatoolkit</span><span style="color:#666">=</span>11.0
+</span></span></code></pre></div>
     
   </article>
   <div class="paginator">

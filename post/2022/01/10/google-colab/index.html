@@ -53,9 +53,10 @@
   <meta property="og:title" content="Google Colab" />
 <meta property="og:description" content="当我电脑的 RTX2060 带不动，而导师的实验室算力资源还没到位的时候，就必须去花钱租赁额外的计算资源了，需要在 3 月前的这一段时间内先自掏腰包对付一下。无" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://preminstrel.github.io/blog/post/2022/01/10/google-colab/" />
+<meta property="og:url" content="https://preminstrel.github.io/blog/post/2022/01/10/google-colab/" /><meta property="article:section" content="post" />
 <meta property="article:published_time" content="2022-01-10T21:07:50+08:00" />
 <meta property="article:modified_time" content="2022-01-10T21:07:50+08:00" />
+
 
 
   
@@ -64,13 +65,9 @@
   
   
   <meta itemprop="name" content="Google Colab">
-<meta itemprop="description" content="当我电脑的 RTX2060 带不动，而导师的实验室算力资源还没到位的时候，就必须去花钱租赁额外的计算资源了，需要在 3 月前的这一段时间内先自掏腰包对付一下。无">
-<meta itemprop="datePublished" content="2022-01-10T21:07:50&#43;08:00" />
-<meta itemprop="dateModified" content="2022-01-10T21:07:50&#43;08:00" />
+<meta itemprop="description" content="当我电脑的 RTX2060 带不动，而导师的实验室算力资源还没到位的时候，就必须去花钱租赁额外的计算资源了，需要在 3 月前的这一段时间内先自掏腰包对付一下。无"><meta itemprop="datePublished" content="2022-01-10T21:07:50+08:00" />
+<meta itemprop="dateModified" content="2022-01-10T21:07:50+08:00" />
 <meta itemprop="wordCount" content="645">
-
-
-
 <meta itemprop="keywords" content="Google,GPU," />
 
   
@@ -172,13 +169,13 @@
 </div>
 <h2 id="work-with-google-drive">Work with Google Drive</h2>
 <p>Google Drive 是 Google 生态中不可或缺的一部分，得益于此，可以和 Google Colab Pro 联动工作。我们知道，训练模型需要给出数据集留出一定的空间，这次我拿到的数据集大概是 3GB 左右，是完全无法每次训练之前都上传到 Colab 的，所以 Google Drive 便派上了用场。我们可以将 Google Drive 与 Google Colab 相连，访问和修改 Drive 中的数据。</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a2f;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">google.colab</span> <span style="color:#a2f;font-weight:bold">import</span> drive
-drive<span style="color:#666">.</span>mount(<span style="color:#b44">&#39;/content/gdrive&#39;</span>)
-</code></pre></div><p>执行完以上指令之后，会弹出窗口让登录 Google 账号，登陆完毕， 成功 <code>Mounted at /content/gdrive</code>。随后，将 <code>os.chdir</code> 移动至需要的地方即可。</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a2f;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">os</span>
-os<span style="color:#666">.</span>chdir(<span style="color:#b44">&#39;/content/gdrive/MyDrive/{TARGET FOLDER NAME}/&#39;</span>)
-<span style="color:#666">%</span>ls
-</code></pre></div><h2 id="reference">Reference</h2>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a2f;font-weight:bold">from</span> <span style="color:#00f;font-weight:bold">google.colab</span> <span style="color:#a2f;font-weight:bold">import</span> drive
+</span></span><span style="display:flex;"><span>drive<span style="color:#666">.</span>mount(<span style="color:#b44">&#39;/content/gdrive&#39;</span>)
+</span></span></code></pre></div><p>执行完以上指令之后，会弹出窗口让登录 Google 账号，登陆完毕， 成功 <code>Mounted at /content/gdrive</code>。随后，将 <code>os.chdir</code> 移动至需要的地方即可。</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#a2f;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">os</span>
+</span></span><span style="display:flex;"><span>os<span style="color:#666">.</span>chdir(<span style="color:#b44">&#39;/content/gdrive/MyDrive/{TARGET FOLDER NAME}/&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#666">%</span>ls
+</span></span></code></pre></div><h2 id="reference">Reference</h2>
 <ul>
 <li><a href="https://zhuanlan.zhihu.com/p/218133131">Google Colab 的正确使用姿势</a></li>
 </ul>

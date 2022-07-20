@@ -36,12 +36,12 @@
 &lt;ul&gt;
 &lt;li&gt;&lt;em&gt;&lt;strong&gt;Adversarial Loss&lt;/strong&gt;&lt;/em&gt;，用于将生成图像的分布与目标域中的数据分布相匹配；对于映射函数 $G: X\rightarrow Y$ 和其对应的 $D_Y$，我们要求优化 $\min_G\max_{D_Y}L_\text{GAN}(G,D_Y,X,Y)$。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;$$L_\text{GAN}(G,D_Y,X, Y) = \mathbb{E}_{y\sim p_\text{data}(y)}\left[\log D_Y(y)\right] + \mathbb{E}_{x\sim p_\text{data}(x)}\left[\log(1 −D_Y(G(x))\right]$$&lt;/p&gt;
+&lt;p&gt;$$L_\text{GAN}(G,D_Y,X, Y) = \mathbb{E}&lt;em&gt;{y\sim p&lt;/em&gt;\text{data}(y)}\left[\log D_Y(y)\right] + \mathbb{E}&lt;em&gt;{x\sim p&lt;/em&gt;\text{data}(x)}\left[\log(1 −D_Y(G(x))\right]$$&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;em&gt;&lt;strong&gt;Cycle Consistency Loss&lt;/strong&gt;&lt;/em&gt;，以防止学习到的映射 $G$ 和 $F$ 相互矛盾。需要满足 $$x\rightarrow G(x)\rightarrow F(G(x))\approx x,\qquad y\rightarrow F(y)\rightarrow G(F(y))\approx y$$我们使用 Cycle Consistency Loss 来激励这种行为：
 $$
 \begin{aligned}
-L_{\text {cyc }}(G, F) =\mathbb{E}_{x \sim p_{\text {data }}(x)}\left[||F(G(x))-x||_{1}\right]+\mathbb{E}_{y \sim p_{\text {data }}(y)}\left[||G(F(y))-y||_{1}\right]
+L_{\text {cyc }}(G, F) =\mathbb{E}&lt;em&gt;{x \sim p&lt;/em&gt;{\text {data }}(x)}\left[||F(G(x))-x||&lt;em&gt;{1}\right]+\mathbb{E}&lt;/em&gt;{y \sim p_{\text {data }}(y)}\left[||G(F(y))-y||_{1}\right]
 \end{aligned}
 $$&lt;/li&gt;
 &lt;/ul&gt;
@@ -60,7 +60,7 @@ L\left(G, F, D_{X}, D_{Y}\right) =L_{\mathrm{GAN}}\left(G, D_{Y}, X, Y\right)
 $$
 其中 $\lambda$ 是控制两种目标的相对重要性的，我们要对下式进行优化：
 $$
-G^{*}, F^{*}=\arg \min _{G, F} \max _{D_{X}, D_{Y}} L\left(G, F, D_{X}, D_{Y}\right)
+G^{&lt;em&gt;}, F^{&lt;/em&gt;}=\arg \min &lt;em&gt;{G, F} \max &lt;em&gt;{D&lt;/em&gt;{X}, D&lt;/em&gt;{Y}} L\left(G, F, D_{X}, D_{Y}\right)
 $$&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;CycleGAN 可以看作是训练两个“自动编码器”：我们学习一个自动编码器 $F\circ G:X→ X$ 联合另一个 $G\circ F:Y\rightarrow Y$。 然而，这些自动编码器都有特殊的内部结构：它们通过中间表示将图像映射到自身，中间表示是将图像转换到另一个域中。这种设置也可以被视为“&lt;strong&gt;对抗性自动编码器(&lt;em&gt;adversarial autoencoders&lt;/em&gt;)&lt;/strong&gt;” 的特例，它使用对抗性丢失来训练自动编码器的瓶颈层，以匹配任意目标分布。&lt;/p&gt;
@@ -94,12 +94,12 @@ $$&lt;/li&gt;
 &lt;/div&gt;
 &lt;h2 id=&#34;formula&#34;&gt;Formula&lt;/h2&gt;
 &lt;p&gt;以上只是大致说了一下 GAN 的核心原理，如何用数学语言描述呢？这里直接摘录论文里的公式：&lt;/p&gt;
-&lt;p&gt;$$\min_{G} \max_{D} V(D, G)=\mathbb{E}_{\boldsymbol{x} \sim p_{\text {data }}(\boldsymbol{x})}[\log D(\boldsymbol{x})]+\mathbb{E}_{\boldsymbol{z} \sim p_{\boldsymbol{z}}(\boldsymbol{z})}[\log (1-D(G(\boldsymbol{z})))]$$&lt;/p&gt;
+&lt;p&gt;$$\min_{G} \max_{D} V(D, G)=\mathbb{E}&lt;em&gt;{\boldsymbol{x} \sim p&lt;/em&gt;{\text {data }}(\boldsymbol{x})}[\log D(\boldsymbol{x})]+\mathbb{E}&lt;em&gt;{\boldsymbol{z} \sim p&lt;/em&gt;{\boldsymbol{z}}(\boldsymbol{z})}[\log (1-D(G(\boldsymbol{z})))]$$&lt;/p&gt;
 &lt;p&gt;公式中：&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;整个式子由两项构成。$x$ 表示真实图片，$z$  表示输入 $G$ 网络的噪声，而 $G(z)$ 表示 $G$ 网络生成的图片。&lt;/li&gt;
 &lt;li&gt;$D(x)$ 表示 $D$ 网络判断&lt;strong&gt;真实图片是否真实&lt;/strong&gt;的概率（因为 $x$ 就是真实的，所以对于 $D$ 来说，这个值越接近 1 越好）。而 $D(G(z))$ 是 &lt;strong&gt;$D$ 网络判断 $G$ 生成的图片的是否真实的概率。&lt;/strong&gt;&lt;/li&gt;
-&lt;li&gt;$G$ 的目的：上面提到过，$D(G(z))$ 是&lt;strong&gt;$D$ 网络判断 $G$ 生成的图片是否真实的概率&lt;/strong&gt;，$G$ 应该希望自己生成的图片“越接近真实越好”。也就是说，$G$ 希望 $D(G(z))$ 尽可能得大，这时 $V(D, G)$ 会变小。因此我们看到式子的最前面的记号是 $\min_G$。&lt;/li&gt;
+&lt;li&gt;$G$ 的目的：上面提到过，$D(G(z))$ 是**$D$ 网络判断 $G$ 生成的图片是否真实的概率**，$G$ 应该希望自己生成的图片“越接近真实越好”。也就是说，$G$ 希望 $D(G(z))$ 尽可能得大，这时 $V(D, G)$ 会变小。因此我们看到式子的最前面的记号是 $\min_G$。&lt;/li&gt;
 &lt;li&gt;$D$ 的目的：$D$ 的能力越强，$D(x)$ 应该越大，$D(G(x))$ 应该越小。这时 $V(D,G)$ 会变大。因此式子对于 $D$ 来说是求最大 $\max_D$&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;下面这幅图片很好地描述了这个过程：&lt;/p&gt;
