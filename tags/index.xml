@@ -8,7 +8,18 @@
     <language>en</language>
     <managingEditor>preminstrel@gmail.com (Hanshi Sun)</managingEditor>
     <webMaster>preminstrel@gmail.com (Hanshi Sun)</webMaster>
-    <lastBuildDate>Wed, 20 Jul 2022 12:58:09 -0600</lastBuildDate><atom:link href="https://preminstrel.github.io/blog/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 08 Aug 2022 22:17:34 -0600</lastBuildDate><atom:link href="https://preminstrel.github.io/blog/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Apple</title>
+      <link>https://preminstrel.github.io/blog/tags/apple/</link>
+      <pubDate>Mon, 08 Aug 2022 22:17:34 -0600</pubDate>
+      <author>preminstrel@gmail.com (Hanshi Sun)</author>
+      <guid>https://preminstrel.github.io/blog/tags/apple/</guid>
+      
+      <description></description>
+      
+    </item>
+    
     <item>
       <title>Canada</title>
       <link>https://preminstrel.github.io/blog/tags/canada/</link>
@@ -103,17 +114,6 @@
       <pubDate>Fri, 14 Jan 2022 13:32:15 +0800</pubDate>
       <author>preminstrel@gmail.com (Hanshi Sun)</author>
       <guid>https://preminstrel.github.io/blog/tags/r-cnn/</guid>
-      
-      <description></description>
-      
-    </item>
-    
-    <item>
-      <title>Google</title>
-      <link>https://preminstrel.github.io/blog/tags/google/</link>
-      <pubDate>Mon, 10 Jan 2022 21:07:50 +0800</pubDate>
-      <author>preminstrel@gmail.com (Hanshi Sun)</author>
-      <guid>https://preminstrel.github.io/blog/tags/google/</guid>
       
       <description></description>
       

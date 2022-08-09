@@ -8,7 +8,19 @@
     <language>en</language>
     <managingEditor>preminstrel@gmail.com (Hanshi Sun)</managingEditor>
     <webMaster>preminstrel@gmail.com (Hanshi Sun)</webMaster>
-    <lastBuildDate>Wed, 20 Jul 2022 12:58:09 -0600</lastBuildDate><atom:link href="https://preminstrel.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 08 Aug 2022 22:17:34 -0600</lastBuildDate><atom:link href="https://preminstrel.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>MacBook Pro 14-inch</title>
+      <link>https://preminstrel.github.io/blog/post/2022/08/08/mbp14_2021/</link>
+      <pubDate>Mon, 08 Aug 2022 22:17:34 -0600</pubDate>
+      <author>preminstrel@gmail.com (Hanshi Sun)</author>
+      <guid>https://preminstrel.github.io/blog/post/2022/08/08/mbp14_2021/</guid>
+      
+      <description>&lt;p&gt;In Canada, I bought a MacBook Pro 14-inch whose chip is Apple M1 Pro, with 32 GB Memory and 1TB Storage. The impressive Built-in Liquid Retina XDR Display make it&amp;rsquo;s a pleasure to watch the screen. Moreover, the&lt;/p&gt;
+</description>
+      
+    </item>
+    
     <item>
       <title>Banff Trip</title>
       <link>https://preminstrel.github.io/blog/post/2022/07/20/banff_trip/</link>
@@ -17,8 +29,11 @@
       <guid>https://preminstrel.github.io/blog/post/2022/07/20/banff_trip/</guid>
       
       <description>&lt;p&gt;When I arrived Edmonton, I have signed up a trip to Banff. After I signed the waiver, I was on the bus to Banff on July 15th. I lived with two Indians and Ruiqi, who is from HUST, majoring in Mechanical Engineering. One of the Indians is called Simha, the name of Lion King, which sounds very ambitious. We have a night chat, and I got to know that universities in India employ the origin English textbooks and teach them in English, which is really a shock to me. Simha said that his major is computer science and he has some papers accepcted by top conference like CVPR and AAAI. His intern toppic is related to ECG diagnosis, extremely resembling my first topic. Just when we are sharing our viewpoint upon the projects, Ruiqi had taken a lot of photos of the sky with twinkling stars.&lt;/p&gt;
-&lt;p&gt;On July 16th, we waked up pretty early and got a ride to Lake Louise, which I think is the best sencery during this trip. We took enormous photos and chose a very well-taken one as our avater in all social networking accounts. After that, we had a boat floting tour around the moutains on the limpid water. To be frank, it is very cozy for me to enjoy the comfortable wind with tiny sway. We had a lunch at Banff Town and we selected a Chinese resturant for just some appetizers because the main dishes are so expensive that we cannot afford it.&lt;/p&gt;
+&lt;p&gt;On July 16th, we waked up pretty early and got a ride to Lake Louise, which I think is the best sencery during this trip. We took enormous photos and chose a very well-taken one as our avater in all social networking accounts. The most impressive thing is that I got the new avatar with Lake Louise.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://github.com/preminstrel/preminstrel.github.io/raw/master/assets/img/bio.jpg&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;After that, we had a boat floting tour around the moutains on the limpid water. To be frank, it is very cozy for me to enjoy the comfortable wind with tiny sway. We had a lunch at Banff Town and we selected a Chinese resturant for just some appetizers because the main dishes are so expensive that we cannot afford it.&lt;/p&gt;
 &lt;p&gt;In the afternoon, we made the acquaintance of Kinh and Toya, who are from Vitnam and Japan respectly, and now we are Asian Five.&lt;/p&gt;
+&lt;p&gt;I think the 17th trip is not as interesting as 16th, which is just like a dessert after main dishes. Therefore, I will demonstrate it in this blog.&lt;/p&gt;
 </description>
       
     </item>
@@ -606,65 +621,6 @@ $$XW^V=V$$&lt;/p&gt;
 &lt;h2 id=&#34;reference&#34;&gt;Reference&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;https://arxiv.org/abs/1504.08083&#34;&gt;Fast R-CNN&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-      
-    </item>
-    
-    <item>
-      <title>SPP-net</title>
-      <link>https://preminstrel.github.io/blog/post/2022/01/13/sppnet/</link>
-      <pubDate>Thu, 13 Jan 2022 21:56:21 +0800</pubDate>
-      <author>preminstrel@gmail.com (Hanshi Sun)</author>
-      <guid>https://preminstrel.github.io/blog/post/2022/01/13/sppnet/</guid>
-      
-      <description>&lt;p&gt;SPP-net 的强大功能在目标检测中也很重要。使用 &lt;em&gt;&lt;strong&gt;SPP-net(Spatial Pyramid Pooling-net)&lt;/strong&gt;&lt;/em&gt;，我们只计算整个图像的特征图一次，然后将任意区域(子图像)中的特征池化以生成用于训练检测器的固定长度表示。这种方法&lt;strong&gt;避免了重复计算卷积特征&lt;/strong&gt;。在处理测试图像时，此方法比 R-CNN 方法快，同时在 Pascal VOC 2007 上实现了更好或相当的准确度。&lt;/p&gt;
-&lt;div align=center&gt;
-&lt;a href=&#34;https://sm.ms/image/NfZ6v2S1tTEgmC5&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://s2.loli.net/2022/04/14/NfZ6v2S1tTEgmC5.png&#34; &gt;&lt;/a&gt;
-&lt;/div&gt;
-&lt;h2 id=&#34;r-cnn-vs-spp-net&#34;&gt;R-CNN v.s. SPP-net&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;em&gt;&lt;strong&gt;R-CNN&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;R-CNN 是让每个候选区域经过 crop/wrap 等操作变换成固定大小的图像&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;固定大小的图像塞给 CNN 传给后面的层做训练回归分类操作&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;em&gt;&lt;strong&gt;SPP-net&lt;/strong&gt;&lt;/em&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;SPP-net 把全图塞给 CNN 得到全图的 feature map&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;让 SS 得到&lt;strong&gt;候选区域直接映射特征向量中对应位置&lt;/strong&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;映射过来的特征向量，&lt;strong&gt;经过 SPP 层(空间金字塔变换层)，S 输出固定大小的特征向量给 FC 层&lt;/strong&gt;&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div align=center&gt;
-&lt;a href=&#34;https://sm.ms/image/Ngk5SU1qdteRwbT&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://s2.loli.net/2022/04/14/Ngk5SU1qdteRwbT.png&#34; width=&#34;600px&#34;&gt;&lt;/a&gt;
-&lt;/div&gt;
-&lt;h2 id=&#34;advantages&#34;&gt;Advantages&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;SPP-net 在 R-CNN 的基础上提出了改进，通过候选区域和 feature map 的映射，配合 SPP 层的使用，从而达到了CNN 层的共享计算，减少了运算时间，后面的 &lt;em&gt;&lt;strong&gt;Fast R-CNN&lt;/strong&gt;&lt;/em&gt; 等也是受 SPPNet 的启发&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;drawbacks&#34;&gt;Drawbacks&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;训练依然过慢、效率低，特征需要写入磁盘(因为 SVM 的存在)&lt;/li&gt;
-&lt;li&gt;分阶段训练网络︰选取候选区域、训练 CNN、训练 SVM、训练 bbox 回归器，SPP-net 反向传播效率低&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;reference&#34;&gt;Reference&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://arxiv.org/abs/1406.4729&#34;&gt;Spatial Pyramid Pooling in Deep Convolutional Networks for Visual Recognition&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </description>
       
