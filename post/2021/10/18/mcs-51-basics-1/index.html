@@ -58,7 +58,6 @@
 <meta property="article:modified_time" content="2021-10-24T00:00:00+00:00" />
 
 
-
   
   <link rel="canonical" href="https://preminstrel.github.io/blog/post/2021/10/18/mcs-51-basics-1/">
 
@@ -112,7 +111,7 @@
     </span>
     
     <span class="nav-bar-item">
-      <a class="link" href="/blog/about/">About</a>
+      <a class="link" href="https://preminstrel.github.io">About</a>
     </span>
     
   </nav>
@@ -442,9 +441,9 @@
 </span></span><span style="display:flex;"><span>    <span style="color:#a2f;font-weight:bold">while</span>(<span style="color:#666">1</span>)
 </span></span><span style="display:flex;"><span>    {
 </span></span><span style="display:flex;"><span>        LED1<span style="color:#666">=</span><span style="color:#666">0</span>;    <span style="color:#080;font-style:italic">//点亮
-</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span>        delay_10us(<span style="color:#666">50000</span>); <span style="color:#080;font-style:italic">//大约延时450ms
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span>        <span style="color:#00a000">delay_10us</span>(<span style="color:#666">50000</span>); <span style="color:#080;font-style:italic">//大约延时450ms
 </span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span>        LED1<span style="color:#666">=</span><span style="color:#666">1</span>;    <span style="color:#080;font-style:italic">//熄灭
-</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span>        delay_10us(<span style="color:#666">50000</span>); 
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span>        <span style="color:#00a000">delay_10us</span>(<span style="color:#666">50000</span>); 
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h4 id="led-流水灯实验">LED 流水灯实验</h4>
@@ -468,14 +467,14 @@
 </span></span><span style="display:flex;"><span>{    
 </span></span><span style="display:flex;"><span>    u8 i<span style="color:#666">=</span><span style="color:#666">0</span>;
 </span></span><span style="display:flex;"><span>    LED_PORT<span style="color:#666">=~</span><span style="color:#666">0x01</span>;
-</span></span><span style="display:flex;"><span>    delay_10us(<span style="color:#666">50000</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#00a000">delay_10us</span>(<span style="color:#666">50000</span>);
 </span></span><span style="display:flex;"><span>    <span style="color:#a2f;font-weight:bold">while</span>(<span style="color:#666">1</span>)
 </span></span><span style="display:flex;"><span>    {
 </span></span><span style="display:flex;"><span>        <span style="color:#080;font-style:italic">//使用移位 + 循环实现流水灯
 </span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span>        <span style="color:#a2f;font-weight:bold">for</span> (i<span style="color:#666">=</span><span style="color:#666">0</span>; i<span style="color:#666">&lt;</span><span style="color:#666">8</span>; i<span style="color:#666">++</span>)
 </span></span><span style="display:flex;"><span>        {
 </span></span><span style="display:flex;"><span>            LED_PORT<span style="color:#666">=~</span>(<span style="color:#666">0x01</span><span style="color:#666">&lt;&lt;</span>i);  <span style="color:#080;font-style:italic">//将 1 右移 i 位，然后取反将结果赋值到 LED_PORT;
-</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span>            delay_10us(<span style="color:#666">50000</span>);
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span>            <span style="color:#00a000">delay_10us</span>(<span style="color:#666">50000</span>);
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
@@ -508,7 +507,7 @@
 
     <footer id="footer">
   <div>
-    <span>© 2021</span> - <span>2022</span>
+    <span>© 2021</span> - <span>2023</span>
   </div>
   <div class="footnote">
     <span>Follow me on <a class=link href=https://github.com/preminstrel>GitHub</a>,

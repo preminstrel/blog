@@ -8,11 +8,22 @@
     <language>en</language>
     <managingEditor>preminstrel@gmail.com (Hanshi Sun)</managingEditor>
     <webMaster>preminstrel@gmail.com (Hanshi Sun)</webMaster>
-    <lastBuildDate>Mon, 08 Aug 2022 22:17:34 -0600</lastBuildDate><atom:link href="https://preminstrel.github.io/blog/categories/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 21 Mar 2023 19:46:54 +0800</lastBuildDate><atom:link href="https://preminstrel.github.io/blog/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Master</title>
+      <link>https://preminstrel.github.io/blog/categories/master/</link>
+      <pubDate>Tue, 21 Mar 2023 19:46:54 +0800</pubDate>
+      <author>preminstrel@gmail.com (Hanshi Sun)</author>
+      <guid>https://preminstrel.github.io/blog/categories/master/</guid>
+      
+      <description></description>
+      
+    </item>
+    
     <item>
       <title>Canada</title>
       <link>https://preminstrel.github.io/blog/categories/canada/</link>
-      <pubDate>Mon, 08 Aug 2022 22:17:34 -0600</pubDate>
+      <pubDate>Wed, 20 Jul 2022 12:58:09 -0600</pubDate>
       <author>preminstrel@gmail.com (Hanshi Sun)</author>
       <guid>https://preminstrel.github.io/blog/categories/canada/</guid>
       
@@ -103,17 +114,6 @@
       <pubDate>Sun, 17 Oct 2021 13:46:08 +0800</pubDate>
       <author>preminstrel@gmail.com (Hanshi Sun)</author>
       <guid>https://preminstrel.github.io/blog/categories/productivity/</guid>
-      
-      <description></description>
-      
-    </item>
-    
-    <item>
-      <title>Linux</title>
-      <link>https://preminstrel.github.io/blog/categories/linux/</link>
-      <pubDate>Sun, 17 Oct 2021 13:42:45 +0800</pubDate>
-      <author>preminstrel@gmail.com (Hanshi Sun)</author>
-      <guid>https://preminstrel.github.io/blog/categories/linux/</guid>
       
       <description></description>
       

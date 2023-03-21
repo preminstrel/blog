@@ -58,7 +58,6 @@
 <meta property="article:modified_time" content="2021-10-25T00:00:00+00:00" />
 
 
-
   
   <link rel="canonical" href="https://preminstrel.github.io/blog/post/2021/10/25/mcs-51-basics-3/">
 
@@ -112,7 +111,7 @@
     </span>
     
     <span class="nav-bar-item">
-      <a class="link" href="/blog/about/">About</a>
+      <a class="link" href="https://preminstrel.github.io">About</a>
     </span>
     
   </nav>
@@ -226,7 +225,7 @@
 </span></span><span style="display:flex;"><span>    <span style="color:#a2f;font-weight:bold">if</span>(mode)key<span style="color:#666">=</span><span style="color:#666">1</span>;<span style="color:#080;font-style:italic">//连续扫描按键
 </span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span>    <span style="color:#a2f;font-weight:bold">if</span>(key<span style="color:#666">==</span><span style="color:#666">1</span><span style="color:#666">&amp;&amp;</span>(KEY1<span style="color:#666">==</span><span style="color:#666">0</span><span style="color:#666">||</span>KEY2<span style="color:#666">==</span><span style="color:#666">0</span><span style="color:#666">||</span>KEY3<span style="color:#666">==</span><span style="color:#666">0</span><span style="color:#666">||</span>KEY4<span style="color:#666">==</span><span style="color:#666">0</span>))<span style="color:#080;font-style:italic">//任意按键按下
 </span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span>    {
-</span></span><span style="display:flex;"><span>        delay_10us(<span style="color:#666">1000</span>);<span style="color:#080;font-style:italic">//消抖
+</span></span><span style="display:flex;"><span>        <span style="color:#00a000">delay_10us</span>(<span style="color:#666">1000</span>);<span style="color:#080;font-style:italic">//消抖
 </span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span>        key<span style="color:#666">=</span><span style="color:#666">0</span>;
 </span></span><span style="display:flex;"><span>        <span style="color:#a2f;font-weight:bold">if</span>(KEY1<span style="color:#666">==</span><span style="color:#666">0</span>)
 </span></span><span style="display:flex;"><span>            <span style="color:#a2f;font-weight:bold">return</span> KEY1_PRESS;
@@ -250,7 +249,7 @@
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    <span style="color:#a2f;font-weight:bold">while</span>(<span style="color:#666">1</span>)
 </span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        key<span style="color:#666">=</span>key_scan(<span style="color:#666">0</span>);
+</span></span><span style="display:flex;"><span>        key<span style="color:#666">=</span><span style="color:#00a000">key_scan</span>(<span style="color:#666">0</span>);
 </span></span><span style="display:flex;"><span>        <span style="color:#a2f;font-weight:bold">if</span>(key<span style="color:#666">==</span>KEY1_PRESS)<span style="color:#080;font-style:italic">//检测按键K1是否按下
 </span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span>            LED1<span style="color:#666">=!</span>LED1;<span style="color:#080;font-style:italic">//LED1状态翻转    
 </span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span>    }        
@@ -279,7 +278,7 @@
 
     <footer id="footer">
   <div>
-    <span>© 2021</span> - <span>2022</span>
+    <span>© 2021</span> - <span>2023</span>
   </div>
   <div class="footnote">
     <span>Follow me on <a class=link href=https://github.com/preminstrel>GitHub</a>,

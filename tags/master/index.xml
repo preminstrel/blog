@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Master on Blog de Preminstrel</title>
+    <link>https://preminstrel.github.io/blog/tags/master/</link>
+    <description>Recent content in Master on Blog de Preminstrel</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <managingEditor>preminstrel@gmail.com (Hanshi Sun)</managingEditor>
+    <webMaster>preminstrel@gmail.com (Hanshi Sun)</webMaster>
+    <lastBuildDate>Tue, 21 Mar 2023 19:46:54 +0800</lastBuildDate><atom:link href="https://preminstrel.github.io/blog/tags/master/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>M.S.申请回忆录</title>
+      <link>https://preminstrel.github.io/blog/post/2023/03/21/ms_app/</link>
+      <pubDate>Tue, 21 Mar 2023 19:46:54 +0800</pubDate>
+      <author>preminstrel@gmail.com (Hanshi Sun)</author>
+      <guid>https://preminstrel.github.io/blog/post/2023/03/21/ms_app/</guid>
+      
+      <description>&lt;blockquote&gt;
+&lt;p&gt;&lt;em&gt;“ My Heart is in the Work.”&lt;/em&gt;
+Andrew Carnegie, Founder November 15, 1900&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;之前听过一句话，&lt;strong&gt;大学的生活珍贵到无论如何度过，都觉得是虚度光阴&lt;/strong&gt;。2022可以说是我大学中的一个transition了，这一年发生了太多太多，从大三结束，到加拿大暑研，到Apple实习，到23Fall的申请季，再到疫情的放开。考完了最后的试，见了南长街，参了南禅寺，最后一顿二楼聚餐，120周年校庆的纪念版校园卡……在SEU的生活，差不多落下了一个句号。考完的那一天，看着夕阳，我失去了辨别天与海的能力。我知道，在这个校园内的生活屈指可数了。&lt;/p&gt;
+&lt;p&gt;我本科是EE的，但是research基本做的都是ML/CV的东西，所以申请ECE方向带DS/ML的track，有一些转专业的意思，所以放弃了一些硬件EE项目。关于MS申请，前期也做了一些工作，和同学也讨论了很多次。&lt;a href=&#34;https://trinkle23897.github.io/posts/application&#34;&gt;n+e的这篇blog&lt;/a&gt; 给了我很多有用的信息，我准备这次写总结也差不多按照这位大佬的格式来。我申请所用到的材料大概包括：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;成绩单和在读证明 (中英文都要，&lt;del&gt;UMich得用scholaro计算GPA，我直接掉了0.14&lt;/del&gt;)，排名证明 (Optional，这个找教务开，但是学校的档案馆不给翻译，就在公证的地方找了一个英文翻译服务)，高中毕业证公证 (ETHz要求)&lt;/li&gt;
+&lt;li&gt;TOEFL&amp;amp;GRE&lt;/li&gt;
+&lt;li&gt;文书 (CV, SoP, PS/PHS, Diversity Statement)&lt;/li&gt;
+&lt;li&gt;三封推荐信&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;gpa&#34;&gt;GPA&lt;/h2&gt;
+&lt;p&gt;首先是出身，本科是东南大学，感觉US对于985什么的都不太认识，除了头部的那几个，但是对于上海科技大学、南方科技大学等学校都很认可。&lt;/p&gt;
+&lt;p&gt;我的GPA还是不错的，得益于SEU比较好的GPA评分机制，申请的时候3.98/4.0，均分94.04。我感觉SEU的GPA不是很难拿，专业课基本上把往年题刷一遍，课后题弄清楚了都可以90分左右。但是需要注意的是&lt;strong&gt;GPA的边际效益很不好，对于申请来说可能3.98和3.9，甚至和3.85的区别不是特别巨大的，然而，从3.9提升到3.98所花费的时间成本却远远高于所得到的好处&lt;/strong&gt;。有条件最好还是多分一些时间给软背景，我申请就是吃了这个亏，科研很弱，软背景不够强，Top项目很难申请。&lt;/p&gt;
+&lt;p&gt;有条件的建议大三去交换，既可以轻松拿高绩点，而且可以白嫖学校的出国补助 (up to 120k)，更是可以拿到推荐信，建立海外connection。&lt;/p&gt;
+&lt;h2 id=&#34;toeflgre&#34;&gt;TOEFL&amp;amp;GRE&lt;/h2&gt;
+&lt;p&gt;对于TG，&lt;strong&gt;一定要早考，杜绝拖延症&lt;/strong&gt;。我就是因为之前一直没考上，拖到大三暑假在加拿大暑研的时候才考出TOEFL成绩，而且GRE也没时间考了，所幸今年的MS项目大多还是optional/not required，这个一定要提前check好各个项目的要求，同时注意best score用处不是很大。
+TOEFL感觉最重要最难的是听力，最容易提升的是写作。还有一点是，多约几次多考几次，有的时候真的只是运气问题，我托福最后拿了115分 (30 | 30 | 27 | 28)，我感觉纯粹是运气使然，口语有的题目都没来得及说完。在国外考托福有一个福利就是很便宜，价格大概是国内的一半。
+但是TOEFL其实不用过多看重，有时候中介和一些机构就是喜欢让你把语言和标化考的高起来 (e.g., 110+/105+)。实际上TOEFL也就是一个filter，过了那个线就无所谓了。对于大部分学校，100够用了；对于个别学校，要105；对于极其奇葩的项目，要很奇怪的分数，比如CMU一个项目要Speaking 28+。&lt;/p&gt;
+&lt;h2 id=&#34;科研rl&#34;&gt;科研&amp;amp;RL&lt;/h2&gt;
+&lt;p&gt;这一部分，我的失败，彻彻底底。我&lt;strong&gt;大学最失败的一点就是没有用卷GPA一半的时间出来做research&lt;/strong&gt;。所以我科研做的工作都比较水，对于研究领域也没有很强的insight；建议有Ph.D.理想的少发EI水会，真的用处不是很大，而且有时候会起反作用，让人觉得你水水的。当然，如果目标只是MS的话，其实还可以在简历上装点一下门面的，虽然作用也仅仅是装点门面了&amp;hellip;&lt;/p&gt;
+&lt;p&gt;我的科研主要分为三段。第一段是校内的SRTP，一个省级项目，大二暑假写了一篇一作EI投了&lt;del&gt;现在看来我当时写的就是厕纸，做的work也很差&lt;/del&gt;。第二段是校内计算机实验室跟的一个老师，做的计算机视觉在Medical Imaging上的一些应用。虽然没有什么产出，但是感觉学的东西比第一段要多，申请的时候有一篇SCI四作，用处不是很大。第三段是Mitacs暑研去加拿大Alberta做的Unsupervised Learning for Anomaly Detection的项目，申请的时候有一篇二作在投。三篇推荐信也出自这三段科研中，其中加拿大暑研的老师是自己写自己交的推荐信，其他两位都是我自己的写了让学校老师签名的。&lt;/p&gt;
+&lt;p&gt;加拿大supervisor人真的很nice，不仅自己写推荐信还帮我交的贼快，几乎我这里系统里刚一发invite；我申请了22个项目她都挨个交了，真的是人特别好特别好，很幸运能遇到这么好一个老师。当然，东大的老师人也非常nice，回复都很及时，遇到大家真的很幸运。学校里两个老师的推荐信我都让中介帮我拟稿了，有一点要注意的就是最好用不同的letter format和不同的口吻。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://sm.ms/image/BcsLpI7my9E2Ubx&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://s2.loli.net/2023/03/21/BcsLpI7my9E2Ubx.png&#34; &gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;关于Mitacs暑研，我感觉是一次很好的机会，因为它是带funding的，算是SEU平台难得的暑研（公费旅游）机会了。在克服了签证，机票，Covid PCR等一系列困难后，带着快一百斤的行李，坐了快一天一夜的飞机来到了Edmonton。Edmonton的夏天不冷不热，穿一件刚刚好。在UofA的校园里闲逛，一切都仿佛那么新奇。劝退的餐饮费让我自学了煎牛排，意大利面，通心粉，煮水饺，下鸡蛋面……认识了许多志同道合的小伙伴，同时也一定程度上锻炼了自己的口语（还一直是菜狗🐶）。Banff的Lake Louise很美，美的不那么真实，水质很像是电影中渲染的特效。在河边，我获得了全网统一的头像（笑。Banff之后，我便染上了Covid，拖着咳嗽剧痛的嗓子参加了托福首考，最后94分 (Speaking 20)。忘不了麦当劳的Poutine，忘不了Timms的平价咖啡，忘不了Botanic Garden，忘不了Southgate的Apple Store，忘不了Green Golden 的Alberta。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://sm.ms/image/puUPXQjnFI3qvLb&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://s2.loli.net/2023/03/21/puUPXQjnFI3qvLb.jpg&#34; &gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;实习&#34;&gt;实习&lt;/h2&gt;
+&lt;p&gt;我在加拿大暑研的时候还顺便投了Apple R&amp;amp;D的intern岗位，具体经历在&lt;a href=&#34;https://zhuanlan.zhihu.com/p/603277820&#34;&gt;知乎上有过一篇文章&lt;/a&gt;，主要是因为感觉大四的时候应该比较清闲，而且简历上也没有professional experience这一section，所以想要找个internship做一下，顺便也想看看工业界和学术界的区别。由于抱着随便投投的心态，所以只投了比较喜欢的Apple（资深果粉XD）。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://sm.ms/image/6UDe7WnAhGR3zi5&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://s2.loli.net/2023/03/21/6UDe7WnAhGR3zi5.jpg&#34; &gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;2022.8 在Apple中国官网海投简历，附件为transcript，resume和一些link（LinkedIn，GitHub等）。&lt;/p&gt;
+&lt;p&gt;2022.9 收到HR的电话（那时候我彻底把Apple这事情忘了，刚开始我还以为是骚扰电话，挂了很多次没接），HR简单问了一下我的基本情况和时间安排之后说尽快帮我安排面试。过了几天我收到了面试的邀请，用webex参加了面试。&lt;/p&gt;
+&lt;p&gt;一面是team的manager，人很友善。首先让我自我介绍，并详细了解了我的那些research经历。面试本应是英文的，但是因为我当时人在加拿大做research intern，所以他说就不用考察我这部分能力了。基本情况了解后，便随便chat了一段时间，没有考察任何的题目和基础知识掌握程度，也没有code review。整个面试时间大概半个小时，聊的很开心。&lt;/p&gt;
+&lt;p&gt;2022.10 过了一个月，这个月我又把这事情给忘了，这次接到面试的邀请的时候我刚从加拿大回来，在上海的隔离酒店。这次面试我的是一个未来会一起工作的同事，他首先讲了一下team做的事情和他正在做的project，让我有所了解。随后，他问了我的research experience中写到的一个anomaly detection算法如何应用于XXX，我简单讲了一下，然后挑了一篇论文的可视化heat map给他看。又chat了一会后，他问我愿意不愿意来帮他做这个project，我说挺好的，也挺感兴趣。整个面试时间大概也是半小时左右。&lt;/p&gt;
+&lt;p&gt;2022.11 在家摸鱼的时候，接到了HR的电话说我被录了，可以开始走入职流程了，背景调查了两周之后我顺利拿到了offer。在这之后还收到了爱丁堡交流项学期交流项目的offer（因为本来准备去英国玩一阵子，没想着Apple能录），忍痛放弃了去旅游的机会。当月就入职了Apple，开始打工，合同签到了6.30，也就是我毕业的时候。&lt;/p&gt;
+&lt;p&gt;有趣的是，在9月的时候，我还面了一个EPM岗（HR瞎给的面试，我一点相关经历没有，面试前十分钟才去查了一下EPM是啥…）。面试是全英文，刚聊五分钟我就想退出会议了，之后痛苦地尬聊了半小时，也没有后续了。&lt;/p&gt;
+&lt;p&gt;关于薪资/津贴/房补和其他福利等就不讲了，对于实习来说感觉很满意。最近感觉Apple R&amp;amp;D在国内的坑位变多了，感兴趣的小伙伴可以投一下。感觉bar其实也还好，主要是看对眼。入职检查的时候查出来眼底有问题，眼压有点高，让我更加意识到了健康的重要性，sigh。&lt;/p&gt;
+&lt;p&gt;在Apple干了也有几个月了，感觉还可以，同事都很nice，老板还想留我干到八月底。&lt;del&gt;虽然也经常摸鱼哈哈哈。&lt;/del&gt;&lt;/p&gt;
+&lt;h2 id=&#34;选校&#34;&gt;选校&lt;/h2&gt;
+&lt;p&gt;由于我科研比较弱，Paper都是水文章，所以我只能申请MS，Ph.D.只抽了一个UCSD (因为UCSD的MS要GRE&amp;hellip;)。选校我只分了三个level：Reach，Match和Safety (实际上Match里面还要细分一下，bar还是有很大区别的，有的分的也不是很合理)。主要申请美国，欧洲只申请了双E，因为有Mitacs的Graduate Fellowship所以加拿大随手申了两个。排名的话CS专业的话可以参考&lt;a href=&#34;https://csrankings.org/#/fromyear/2012/toyear/2023/index?all&amp;amp;us&#34;&gt;CS Ranking&lt;/a&gt;，但是要注意的是，faculty越多，分数也会越高，所以这个ranking也是有bias的。公认的四大一般是MIT、Stanford、Berkeley和CMU~~，其中CMU经常被开除Top4~~。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;彩票&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Stanford EE，这个今年招了很多人耶，但是女生居多，是男生的好几倍，这种顶级项目某种程度上也很看运气&lt;/li&gt;
+&lt;li&gt;Caltech EE，class size很小，某种程度上比Stanford还要难&lt;/li&gt;
+&lt;li&gt;UCSD ECE PhD&lt;/li&gt;
+&lt;li&gt;UIUC CS MS，因为ECE MS要GRE所以我只能申请CS送钱&lt;/li&gt;
+&lt;li&gt;UMich CSE，这个bar对于我们这些本科EE的人来说还是很高的，所以放在了彩票，但是价值不一定能与前面四个媲美&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;主申&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;CMU ECE/MSIN，这俩项目都是CMU工程学院的，所以也不用再交一次TOEFL；相比ECE，MSIN更加偏就业导向，甚至没有什么faculty。CMU是CS的四大，但是综合排名比较一般~~，计算机技校~~&lt;/li&gt;
+&lt;li&gt;UT Austin ECE，这个项目的class size很小，DICE track基本不收人，我申请的是bioECE，好像也不咋收人，Austin的好处就是更好转PhD，学费便宜，可以RA/TA，基本可以cover很多花销~~，偷偷说一句，他们家的申请系统做的是真的烂啊，和UW的申请系统有的一比~~&lt;/li&gt;
+&lt;li&gt;GaTech ECE，因为在黑人区所以治安有一些concern，招的人也不是特别多，价格相对便宜&lt;/li&gt;
+&lt;li&gt;ETHz EEIT/EPFL EE，瑞士双E，国际排名很牛，今年ETHz要GRE，我没交。我们学校在ETHz是每年有一些quota的，电子信息专业的均分大于91的感觉都有希望。花费少，签证好过，风景好，排名牛，但是缺点就是读PhD要卷硕士GPA，research时间会比较少，而且和US的connection的不是那么多，有点曲线救国的意思&lt;/li&gt;
+&lt;li&gt;UCLA ECE，地域较好，处于加州，学费也便宜，但是他家ECE偏Hardware一些，我申请的signal方向，并不太喜欢&lt;/li&gt;
+&lt;li&gt;Duke ECE，我拿了offer之后才知道Duke ECE很贵，Duke的综排还可以US Top10，专排不行，这个项目也可以选成全软课&lt;/li&gt;
+&lt;li&gt;NWU CS MS，今年NWU CS陆本拒麻了，这个学校和Duke一样，综排还可以，专排不行&lt;/li&gt;
+&lt;li&gt;UofT CS MScAc，一个就业导向项目，8 months coursework+8 months applied research internship，多大的title在加拿大也挺好用的。这个项目interview是硬性要求，shortlist之后会慢慢发面试。面试是和项目的Administration聊大概45min，我是三月中旬收到interview invitation的，晚上十点聊的，感觉Claire人还是很好的，开始的时候就说会尽快结束，我说渴了可以随时喝点东西哈哈哈&lt;/li&gt;
+&lt;li&gt;UBC ECE MSc，科研项目，没套瓷的话基本属于送钱，我套瓷套晚了，没收到答复&lt;/li&gt;
+&lt;li&gt;Columbia CS MS，哥大的class size太大了不太好，申请单纯是为了CS title，尤其是哥大的EE~~，俗称点击就送，今年看见有人EE没交申请费没完成申请都被发了offer~~&lt;/li&gt;
+&lt;li&gt;Berkeley EECS MEng，Berkeley的EECS很强，但是这个项目是MEng，项目的优势是title和加州的地理位置吧&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;保底&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Cornell ECE MEng，这个项目其实难度不应该放在保底，应该是主申-保底的过渡，在我这里排名比较低是因为我有一些MEng的bias；康奈尔国内名气很不错&lt;/li&gt;
+&lt;li&gt;USC CS，加州私立，不看推荐信，不看文书，只看三维，保底专用&lt;/li&gt;
+&lt;li&gt;UPenn ESE，UPenn的bar也很低&lt;/li&gt;
+&lt;/ul&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Program&lt;/th&gt;
+&lt;th&gt;Level&lt;/th&gt;
+&lt;th&gt;Decision&lt;/th&gt;
+&lt;th&gt;Date&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Stanford EE MS&lt;/td&gt;
+&lt;td&gt;Reach&lt;/td&gt;
+&lt;td&gt;Rejected&lt;/td&gt;
+&lt;td&gt;Feb 22, 2023&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Caltech EE MS&lt;/td&gt;
+&lt;td&gt;Reach&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;UCSD ECE PhD&lt;/td&gt;
+&lt;td&gt;Reach&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;UIUC CS MS&lt;/td&gt;
+&lt;td&gt;Reach&lt;/td&gt;
+&lt;td&gt;Rejected&lt;/td&gt;
+&lt;td&gt;Mar 16, 2023&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;UMich CSE MS&lt;/td&gt;
+&lt;td&gt;Reach&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;CMU ECE MS&lt;/td&gt;
+&lt;td&gt;Match&lt;/td&gt;
+&lt;td&gt;Admitted&lt;/td&gt;
+&lt;td&gt;Feb 17, 2023&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;CMU MSIN MS&lt;/td&gt;
+&lt;td&gt;Match&lt;/td&gt;
+&lt;td&gt;Waitlist&lt;/td&gt;
+&lt;td&gt;Mar 10, 2023&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;UT Austin ECE MS&lt;/td&gt;
+&lt;td&gt;Match&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;GaTech ECE MS&lt;/td&gt;
+&lt;td&gt;Match&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ETHz EEIT MS&lt;/td&gt;
+&lt;td&gt;Match&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;EPFL EE MS&lt;/td&gt;
+&lt;td&gt;Match&lt;/td&gt;
+&lt;td&gt;Rejected&lt;/td&gt;
+&lt;td&gt;Mar 16, 2023&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;UCLA ECE MS&lt;/td&gt;
+&lt;td&gt;Match&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Duke ECE MS&lt;/td&gt;
+&lt;td&gt;Match&lt;/td&gt;
+&lt;td&gt;Admitted&lt;/td&gt;
+&lt;td&gt;Feb 7, 2023&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;NWU CS MS&lt;/td&gt;
+&lt;td&gt;Match&lt;/td&gt;
+&lt;td&gt;Rejected&lt;/td&gt;
+&lt;td&gt;Feb 10, 2023&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;UofT CS MScAc&lt;/td&gt;
+&lt;td&gt;Match&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;UBC ECE MSc&lt;/td&gt;
+&lt;td&gt;Match&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Columbia CS MS&lt;/td&gt;
+&lt;td&gt;Match&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Berkeley EECS MEng&lt;/td&gt;
+&lt;td&gt;Match&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Cornell ECE MEng&lt;/td&gt;
+&lt;td&gt;Safety&lt;/td&gt;
+&lt;td&gt;Admitted&lt;/td&gt;
+&lt;td&gt;Mar 9, 2023&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;USC CS MS&lt;/td&gt;
+&lt;td&gt;Safety&lt;/td&gt;
+&lt;td&gt;Admitted&lt;/td&gt;
+&lt;td&gt;Mar 14, 2023&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;UPenn ESE MSE&lt;/td&gt;
+&lt;td&gt;Safety&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id=&#34;文书&#34;&gt;文书&lt;/h2&gt;
+&lt;p&gt;文书的重要性无法确定，但是我感觉凭&lt;strong&gt;先尽人事而以待天命&lt;/strong&gt;的态度，我也得把文书好好写了，不仅是为了申请，也是为了给自己大学三年一个交代。在反复修改PS的时候，也对未来的career plan有了一些清楚的认知。&lt;/p&gt;
+&lt;h3 id=&#34;cv&#34;&gt;CV&lt;/h3&gt;
+&lt;p&gt;我在大三申请Mitacs暑研的时候就写过了CV，申请季用了新的LaTeX template重构了一下，模版在&lt;a href=&#34;https://github.com/preminstrel/MS-Application/tree/master/CV&#34;&gt;这里&lt;/a&gt;。
+PDF：&lt;a href=&#34;https://preminstrel.com/MS-Application/CV/resume.pdf&#34;&gt;https://preminstrel.com/MS-Application/CV/resume.pdf&lt;/a&gt;
+html：&lt;a href=&#34;https://preminstrel.com&#34;&gt;https://preminstrel.com&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;页边距可以适当调整，但是不要太离谱&lt;/li&gt;
+&lt;li&gt;注意一些格式，比如bullet point，时间格式等&lt;/li&gt;
+&lt;li&gt;不要超过两页，除非特别牛，Pub很多那种；如果没有价值的东西太多，建议一页&lt;/li&gt;
+&lt;li&gt;检查embedded link是否有效&lt;/li&gt;
+&lt;li&gt;用Grammarly或GPT检查一下语法拼写&lt;/li&gt;
+&lt;li&gt;不用写上了哪些课，除非真的没东西写了/大幅度转专业&lt;/li&gt;
+&lt;li&gt;建议写的compact一些&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;sop&#34;&gt;SoP&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&#34;https://trinkle23897.github.io/posts/application&#34;&gt;n+e的这篇blog&lt;/a&gt; 讲的很好，我刚开始SoP也是CV的单纯流水账，什么都想塞进去，导致写得很烂还很长，SoP一般要求是两页，about 1k words。之后我痛改前非，几乎重构了第一版的SoP。到最后，大概修订了五个版本的样子。我还找了fiverr帮我改SoP，真的好贵。有几个点是我想说的：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;最好删除已经在简历中出现过的GPA，成绩，奖项，申请；SoP要展示的是你的motivation和experience，而不是重复成绩单上的东西&lt;/li&gt;
+&lt;li&gt;Motivation，有意思的开头有深度的引子，讲出为什么喜欢这个专业&lt;/li&gt;
+&lt;li&gt;Preparation/Qualification，体现了主观的motivation转向实践（详细），描写最重要的两个项目（精华），对专业的认识加深，体现了自己的客观capability，进一步激发了兴趣，并加强了你的信念，即很适合该课程的学习&lt;/li&gt;
+&lt;li&gt;强调过程，不要设置一个问题并跳到解决方案。展示达成该解决方案的过程。给出方法和推理的细节。举一个之前看到的例子，&amp;ldquo;As a result of the in-depth exposure to networks I gained in the dormitory project, I was well prepared for the challenges that awaited me as the manager of Information Services at the Transportation Center at Northwestern University.&amp;quot;，只有在最后一句，才开始扩展到更广泛的教训&lt;/li&gt;
+&lt;li&gt;提出了一个明确的、有意义的观点，与该段中提出的证据紧密相连。还必须谈到一些更广泛的意义，但是很多人很容易被冲昏头脑，写得太笼统，或者采取简单的方法用一些肤浅的东西来作为result。即套话是没有用的，这一点有点像托福写作，Do not be hollow。&lt;/li&gt;
+&lt;li&gt;Career goals，写出你的3-5年的future plan和ultimate goal&lt;/li&gt;
+&lt;li&gt;Why School，research部分可以提到到心仪faculty的名字，并表明对他们的工作有一些了解。这个需要去对每个学校你感兴趣的faculty进行调研，看看他们最近发的paper是干嘛的；课程部分也可以写，可以体现你的interest&lt;/li&gt;
+&lt;li&gt;最好有整个文章的大目的，要有递进式，段与段之间要有比较自然的transition&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;* Avoid the &amp;#34;what I did with my life&amp;#34; approach.
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;* Avoid the &amp;#34;I&amp;#39;ve always wanted to be a &amp;#34; approach.
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;* Avoid a catalog of achievements. This is only a list of what you have done, and tells nothing about you as a person. Normally, the statement is far more than a resume.
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;* Avoid lecturing the reader. For example, you should not write a statement such as &amp;#34;Communication skills are important in this field.&amp;#34; Any graduate admissions committee member knows that and is not trying to learn about the field from the applicant. Some statements do ask applicants about their understanding of the field.
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;* It should be objective, yet self-revelatory. Write directly and in a straightforward manner that tells about your experience and what it means to you. Do not use &amp;#34;academese.&amp;#34; This is not a research paper for a professor.
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;* It should form conclusions that explain the value and meaning of your experience, such as what you learned about yourself and your field, your future goals, and your career plans. Draw your conclusions from the evidence your life provides.
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;* It should be specific. Document your conclusions with specific instances, or draw your conclusions as the result of individual experience. See below a list of general words and phrases to avoid using without explanation.
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;* It should be an example of careful persuasive writing. Career Center Counselors can help you determine if this is so by reviewing your draft statement.
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;* It should get to the point early on and catch the attention of the reader.
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;* It often should be limited in length, no more than two pages or less. In some instances it may be longer, depending on the school&amp;#39;s instructions.
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;psphsdiversity-statement&#34;&gt;PS/PHS/Diversity Statement&lt;/h3&gt;
+&lt;p&gt;我是亚洲男性工科生，感觉没有任何的diversity，只能说是first generation这样的。我写了在加拿大暑研的经历，感受到了加拿大推行diversity，想要以后为这个field contribute什么的，感觉没一点用。这里挺推荐各位女同学抽一抽顶级项目的，感觉顶级项目还是很看diversity的，比如大S的EE，国内今年录取的女生是数倍于男生的。这里又得夸一夸&lt;a href=&#34;https://trinkle23897.github.io/posts/application&#34;&gt;n+e的这篇blog&lt;/a&gt; 里面的PHS了，他写的非常好，他在GitHub上有很多开源的贡献，可以从这个点出发。&lt;/p&gt;
+&lt;h2 id=&#34;网申&#34;&gt;网申&lt;/h2&gt;
+&lt;p&gt;用的outlook邮箱+gmail邮箱搞的，用国内邮箱怕offer/reject直接进trash。送分只送了托福，下面统计一下花费。
+总共$2711.88，不到两万人民币：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;TOEFL送分 $21x20，其中UCLA送了两次，EPFL没送&lt;/li&gt;
+&lt;li&gt;Stanford $125&lt;/li&gt;
+&lt;li&gt;Caltech $100&lt;/li&gt;
+&lt;li&gt;UCSD $155&lt;/li&gt;
+&lt;li&gt;UCLA $155&lt;/li&gt;
+&lt;li&gt;UIUC $90&lt;/li&gt;
+&lt;li&gt;CMU $75x2&lt;/li&gt;
+&lt;li&gt;GaTech $85&lt;/li&gt;
+&lt;li&gt;Duke $95&lt;/li&gt;
+&lt;li&gt;UofT $91.31&lt;/li&gt;
+&lt;li&gt;Cornell $105&lt;/li&gt;
+&lt;li&gt;NWU $95&lt;/li&gt;
+&lt;li&gt;USC $90&lt;/li&gt;
+&lt;li&gt;UPenn $90&lt;/li&gt;
+&lt;li&gt;UMich $90&lt;/li&gt;
+&lt;li&gt;Columbia  $85&lt;/li&gt;
+&lt;li&gt;UBC $122.91&lt;/li&gt;
+&lt;li&gt;Berkeley $155&lt;/li&gt;
+&lt;li&gt;ETHz $161.33&lt;/li&gt;
+&lt;li&gt;EPFL $161.33&lt;/li&gt;
+&lt;li&gt;UT Austin $90&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;一个小插曲，刚开始我还申了UW，但是UW的推荐信系统坏掉了推荐信没发出去，加上网申系统很烂，失去好感，后续没申请；ETHz刚开始一直收不到Xingyu的推荐信，之后联系了小蜜解决了。&lt;/p&gt;
+&lt;h2 id=&#34;等拒信&#34;&gt;等拒信&lt;/h2&gt;
+&lt;p&gt;这里主要是timeline，偷个懒，把知乎的回答粘贴过来。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;学校：中游工科 985
+专业：EE
+申请：ECE/CS
+GPA：3.98/4.0, 均分94+, 小专业Rank1, TOEFL 115 (S27)，GRE没空学了就没考（菜狗不想努力了
+科研：校内三段，mitacs加拿大暑研一段，水论文几篇
+实习：Apple R&amp;amp;D一段 (Nov-present, base深圳)
+推荐信：两封本校+一封海外暑研
+其他：国奖x2, 其他小奖加起来不到2w (太碎了，很多都没想写到CV)&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;Dec 23: 交完了所有的申请，自此邮箱陷入长期沉默状态&lt;/p&gt;
+&lt;p&gt;Feb 7: 1st AD ECE@Duke&lt;/p&gt;
+&lt;p&gt;Feb 10: 1st REJ CS@NWU，NWU CS今年貌似不咋收陆本&lt;/p&gt;
+&lt;p&gt;Feb 18：2nd AD ECE@CMU，有点想去&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://smms.app/image/Y7xthfnimgvRMp4&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://s2.loli.net/2023/03/21/Y7xthfnimgvRMp4.png&#34; &gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Feb 23：2nd REJ EE@Stanford，摸奖失败，今年好像扩招了，比往年收了更多人，女生居多&lt;/p&gt;
+&lt;p&gt;Mar 9：3rd AD ECE MEng@Cornell，应该不会去，算集邮了&lt;/p&gt;
+&lt;p&gt;Mar 10：1st WL MSIN@CMU，听说往年5月份Waitlist才可能转正，其实相当于REJ了&lt;/p&gt;
+&lt;p&gt;Mar 14：4th AD CS37@USC，3rd REJ CS28@USC，还收到了UofT的interview邀请&lt;/p&gt;
+&lt;p&gt;Mar 16：4th REJ CS@UIUC，5th REJ EE@EPFL&lt;/p&gt;
+&lt;p&gt;Mar 18：晚上和UofT的老师interview，聊了45min&lt;/p&gt;
+&lt;p&gt;咋感觉剩下想要知道结果的都要全聚德了。。&lt;/p&gt;
+&lt;h2 id=&#34;miscfun-facts&#34;&gt;Misc/Fun Facts&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;ETHz有一个ESOP option，我还写了一个master thesis pre-proposal，实际上就是把本科毕业设计的任务书改了改加了点文献翻译一下交了过去，还装模作样地拟了一个timeline&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;a href=&#34;https://smms.app/image/orPIGVeyFKL82u7&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://s2.loli.net/2023/03/21/orPIGVeyFKL82u7.png&#34; &gt;&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;fin&#34;&gt;Fin&lt;/h2&gt;
+&lt;p&gt;此处还没开始写 XD
+等申请季正式结束再重写一遍本文
+PLACEHOLDER！&lt;/p&gt;
+</description>
+      
+    </item>
+    
+  </channel>
+</rss>

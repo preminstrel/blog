@@ -58,7 +58,6 @@
 <meta property="article:modified_time" content="2021-10-25T00:00:00+00:00" />
 
 
-
   
   <link rel="canonical" href="https://preminstrel.github.io/blog/post/2021/10/24/mcs-51-basics-2/">
 
@@ -112,7 +111,7 @@
     </span>
     
     <span class="nav-bar-item">
-      <a class="link" href="/blog/about/">About</a>
+      <a class="link" href="https://preminstrel.github.io">About</a>
     </span>
     
   </nav>
@@ -216,7 +215,7 @@
 </span></span><span style="display:flex;"><span>        <span style="color:#a2f;font-weight:bold">while</span>(i<span style="color:#666">--</span>)<span style="color:#080;font-style:italic">//循环2000次
 </span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span>        {
 </span></span><span style="display:flex;"><span>            BEEP<span style="color:#666">=!</span>BEEP;<span style="color:#080;font-style:italic">//产生一定频率的脉冲信号
-</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span>            delay_10us(<span style="color:#666">100</span>); <span style="color:#080;font-style:italic">//改变此处会使得声音的频率变化，越大越低沉
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span>            <span style="color:#00a000">delay_10us</span>(<span style="color:#666">100</span>); <span style="color:#080;font-style:italic">//改变此处会使得声音的频率变化，越大越低沉
 </span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span>        }
 </span></span><span style="display:flex;"><span>        i<span style="color:#666">=</span><span style="color:#666">0</span>;<span style="color:#080;font-style:italic">//清零
 </span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span>        BEEP<span style="color:#666">=</span><span style="color:#666">0</span>;<span style="color:#080;font-style:italic">//关闭蜂鸣器
@@ -410,7 +409,7 @@
 </span></span><span style="display:flex;"><span>            <span style="color:#a2f;font-weight:bold">case</span> <span style="color:#666">7</span><span style="color:#666">:</span> LSC<span style="color:#666">=</span><span style="color:#666">0</span>;LSB<span style="color:#666">=</span><span style="color:#666">0</span>;LSA<span style="color:#666">=</span><span style="color:#666">0</span>;<span style="color:#a2f;font-weight:bold">break</span>;
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>        SMG_A_DP_PORT<span style="color:#666">=</span>gsmg_code[i];<span style="color:#080;font-style:italic">//传送段选数据
-</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span>        delay_10us(<span style="color:#666">100</span>);<span style="color:#080;font-style:italic">//延时一段时间，等待显示稳定
+</span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span>        <span style="color:#00a000">delay_10us</span>(<span style="color:#666">100</span>);<span style="color:#080;font-style:italic">//延时一段时间，等待显示稳定
 </span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span>        SMG_A_DP_PORT<span style="color:#666">=</span><span style="color:#666">0x00</span>;<span style="color:#080;font-style:italic">//消音
 </span></span></span><span style="display:flex;"><span><span style="color:#080;font-style:italic"></span>    }
 </span></span><span style="display:flex;"><span>}
@@ -420,7 +419,7 @@
 </span></span><span style="display:flex;"><span>{    
 </span></span><span style="display:flex;"><span>    <span style="color:#a2f;font-weight:bold">while</span>(<span style="color:#666">1</span>)
 </span></span><span style="display:flex;"><span>    {
-</span></span><span style="display:flex;"><span>        smg_display();
+</span></span><span style="display:flex;"><span>        <span style="color:#00a000">smg_display</span>();
 </span></span><span style="display:flex;"><span>    }        
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>该程序是根据动态数码管显示原理所编写，即选中所要显示的那位数码管，然后发送在该位数码管上所要显示的段码数据，延时一定时间后在将段选口清零即消隐（消除之前的显示），如此循环 8 次即可实现 8 位数码管显示。<strong>在动态显示中，要注意延时时间，只要保证在人肉眼所能感觉时间之内即可，让我们看到所要显示的内容就像是同时显示一样。</strong></p>
@@ -452,7 +451,7 @@
 
     <footer id="footer">
   <div>
-    <span>© 2021</span> - <span>2022</span>
+    <span>© 2021</span> - <span>2023</span>
   </div>
   <div class="footnote">
     <span>Follow me on <a class=link href=https://github.com/preminstrel>GitHub</a>,
