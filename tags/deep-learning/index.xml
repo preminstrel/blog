@@ -500,12 +500,14 @@ z_{\text {significand }} \times b a s e^{z_{\text {exponent }}} &amp;amp;=\left(
 &lt;li&gt;通过在权重张量（Tensor）中找到 &lt;em&gt;min&lt;/em&gt; 和 &lt;em&gt;max&lt;/em&gt; 值从而确定 $x_{scale}$ 和$x_{zero_point}$。&lt;/li&gt;
 &lt;li&gt;将权重张量的每个值从 FP32 转换为 INT8 。&lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;$$\begin{aligned}
+&lt;p&gt;$$
+\begin{aligned}
 x_{\text {float }} &amp;amp; \in\left[x_{\text {float }}^{\min }, x_{\text {float }}^{\max }\right] \\
-x_{\text {scale }} &amp;amp;=\frac{x_{\text {float }}^{\max }-x_{\text {float }}^{\text {min }}}{x_{\text {quantized }}^{\max }-x_{\text {quantized }}^{\min }} \\
+x_{\text {scale } &amp;amp;=\frac{x_{\text {float }}^{\max }-x_{\text {float }}^{\text {min }}}{x_{\text {quantized }}^{\max }-x_{\text {quantized }}^{\min }} \\
 x_{\text {zero_point }} &amp;amp;=x_{\text {quantized }}^{\max }-x_{\text {float }}^{\max } \div x_{\text {scale }} \\
 x_{\text {quantized }} &amp;amp;=x_{\text {float }} \div x_{\text {scale }}+x_{\text {zero_point }}
-\end{aligned}$$&lt;/p&gt;
+\end{aligned}
+$$&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;注意，当浮点运算结果不等于整数时，需要额外的舍入步骤&lt;/strong&gt;。例如将 FP32 值域 $[−1,1]$ 映射到 INT8 值域 $[0,255]$，有 $x_{scale}=\frac{2}{255}$，而$x_{zero_point}=255−\frac{255}{2}\approx 127$。&lt;/p&gt;
 &lt;p&gt;量化过程中存在误差是不可避免的，就像数字信号处理中量化一样。下图显示了数字信号处理的&lt;a href=&#34;https://en.wikipedia.org/wiki/Quantization_(signal_processing)#Quantization_error_models&#34;&gt;量化和误差&lt;/a&gt;。&lt;/p&gt;
 &lt;p&gt;&lt;a href=&#34;https://sm.ms/image/8CBADo39zfO5FPR&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://s2.loli.net/2022/04/14/8CBADo39zfO5FPR.png&#34; &gt;&lt;/a&gt;&lt;/p&gt;

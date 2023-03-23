@@ -66,7 +66,7 @@
   <meta itemprop="name" content="Quantization Compression">
 <meta itemprop="description" content="本文参考此博客 量化有若干相似的术语。低精度（Low precision）可能是最通用的概念。常规精度一般使用 FP32（32位浮点，单精度）存储"><meta itemprop="datePublished" content="2021-10-17T10:48:26+08:00" />
 <meta itemprop="dateModified" content="2021-10-17T10:48:26+08:00" />
-<meta itemprop="wordCount" content="4493">
+<meta itemprop="wordCount" content="4495">
 <meta itemprop="keywords" content="Quantization,Deep Learning," />
 
   
@@ -208,12 +208,14 @@ z_{\text {significand }} \times b a s e^{z_{\text {exponent }}} &amp;=\left(x_{\
 <li>通过在权重张量（Tensor）中找到 <em>min</em> 和 <em>max</em> 值从而确定 $x_{scale}$ 和$x_{zero_point}$。</li>
 <li>将权重张量的每个值从 FP32 转换为 INT8 。</li>
 </ol>
-<p>$$\begin{aligned}
+<p>$$
+\begin{aligned}
 x_{\text {float }} &amp; \in\left[x_{\text {float }}^{\min }, x_{\text {float }}^{\max }\right] \\
-x_{\text {scale }} &amp;=\frac{x_{\text {float }}^{\max }-x_{\text {float }}^{\text {min }}}{x_{\text {quantized }}^{\max }-x_{\text {quantized }}^{\min }} \\
+x_{\text {scale } &amp;=\frac{x_{\text {float }}^{\max }-x_{\text {float }}^{\text {min }}}{x_{\text {quantized }}^{\max }-x_{\text {quantized }}^{\min }} \\
 x_{\text {zero_point }} &amp;=x_{\text {quantized }}^{\max }-x_{\text {float }}^{\max } \div x_{\text {scale }} \\
 x_{\text {quantized }} &amp;=x_{\text {float }} \div x_{\text {scale }}+x_{\text {zero_point }}
-\end{aligned}$$</p>
+\end{aligned}
+$$</p>
 <p><strong>注意，当浮点运算结果不等于整数时，需要额外的舍入步骤</strong>。例如将 FP32 值域 $[−1,1]$ 映射到 INT8 值域 $[0,255]$，有 $x_{scale}=\frac{2}{255}$，而$x_{zero_point}=255−\frac{255}{2}\approx 127$。</p>
 <p>量化过程中存在误差是不可避免的，就像数字信号处理中量化一样。下图显示了数字信号处理的<a href="https://en.wikipedia.org/wiki/Quantization_(signal_processing)#Quantization_error_models">量化和误差</a>。</p>
 <p><a href="https://sm.ms/image/8CBADo39zfO5FPR" target="_blank"><img src="https://s2.loli.net/2022/04/14/8CBADo39zfO5FPR.png" ></a></p>
