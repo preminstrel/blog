@@ -23,20 +23,9 @@
     <item>
       <title>Canada</title>
       <link>https://preminstrel.github.io/blog/categories/canada/</link>
-      <pubDate>Wed, 20 Jul 2022 12:58:09 -0600</pubDate>
+      <pubDate>Mon, 09 May 2022 16:15:25 +0800</pubDate>
       <author>preminstrel@gmail.com (Hanshi Sun)</author>
       <guid>https://preminstrel.github.io/blog/categories/canada/</guid>
-      
-      <description></description>
-      
-    </item>
-    
-    <item>
-      <title>Game</title>
-      <link>https://preminstrel.github.io/blog/categories/game/</link>
-      <pubDate>Thu, 05 May 2022 22:18:01 +0800</pubDate>
-      <author>preminstrel@gmail.com (Hanshi Sun)</author>
-      <guid>https://preminstrel.github.io/blog/categories/game/</guid>
       
       <description></description>
       
@@ -54,55 +43,33 @@
     </item>
     
     <item>
-      <title>Object Detection</title>
-      <link>https://preminstrel.github.io/blog/categories/object-detection/</link>
-      <pubDate>Fri, 14 Jan 2022 13:32:15 +0800</pubDate>
+      <title>Publication</title>
+      <link>https://preminstrel.github.io/blog/categories/publication/</link>
+      <pubDate>Sun, 17 Oct 2021 13:37:23 +0800</pubDate>
       <author>preminstrel@gmail.com (Hanshi Sun)</author>
-      <guid>https://preminstrel.github.io/blog/categories/object-detection/</guid>
+      <guid>https://preminstrel.github.io/blog/categories/publication/</guid>
       
       <description></description>
       
     </item>
     
     <item>
-      <title>Google</title>
-      <link>https://preminstrel.github.io/blog/categories/google/</link>
-      <pubDate>Mon, 10 Jan 2022 21:07:50 +0800</pubDate>
+      <title>Model Compression</title>
+      <link>https://preminstrel.github.io/blog/categories/model-compression/</link>
+      <pubDate>Sun, 17 Oct 2021 10:48:26 +0800</pubDate>
       <author>preminstrel@gmail.com (Hanshi Sun)</author>
-      <guid>https://preminstrel.github.io/blog/categories/google/</guid>
+      <guid>https://preminstrel.github.io/blog/categories/model-compression/</guid>
       
       <description></description>
       
     </item>
     
     <item>
-      <title>GAN</title>
-      <link>https://preminstrel.github.io/blog/categories/gan/</link>
-      <pubDate>Sun, 09 Jan 2022 13:50:22 +0800</pubDate>
+      <title>Pytorch</title>
+      <link>https://preminstrel.github.io/blog/categories/pytorch/</link>
+      <pubDate>Sun, 17 Oct 2021 00:25:41 +0800</pubDate>
       <author>preminstrel@gmail.com (Hanshi Sun)</author>
-      <guid>https://preminstrel.github.io/blog/categories/gan/</guid>
-      
-      <description></description>
-      
-    </item>
-    
-    <item>
-      <title>FPGA</title>
-      <link>https://preminstrel.github.io/blog/categories/fpga/</link>
-      <pubDate>Thu, 04 Nov 2021 20:28:55 +0800</pubDate>
-      <author>preminstrel@gmail.com (Hanshi Sun)</author>
-      <guid>https://preminstrel.github.io/blog/categories/fpga/</guid>
-      
-      <description></description>
-      
-    </item>
-    
-    <item>
-      <title>MCU</title>
-      <link>https://preminstrel.github.io/blog/categories/mcu/</link>
-      <pubDate>Mon, 25 Oct 2021 22:59:29 +0800</pubDate>
-      <author>preminstrel@gmail.com (Hanshi Sun)</author>
-      <guid>https://preminstrel.github.io/blog/categories/mcu/</guid>
+      <guid>https://preminstrel.github.io/blog/categories/pytorch/</guid>
       
       <description></description>
       
@@ -111,9 +78,20 @@
     <item>
       <title>Productivity</title>
       <link>https://preminstrel.github.io/blog/categories/productivity/</link>
-      <pubDate>Sun, 17 Oct 2021 13:46:08 +0800</pubDate>
+      <pubDate>Sat, 16 Oct 2021 23:20:55 +0800</pubDate>
       <author>preminstrel@gmail.com (Hanshi Sun)</author>
       <guid>https://preminstrel.github.io/blog/categories/productivity/</guid>
+      
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Animation</title>
+      <link>https://preminstrel.github.io/blog/categories/animation/</link>
+      <pubDate>Thu, 15 Jul 2021 23:53:14 +0800</pubDate>
+      <author>preminstrel@gmail.com (Hanshi Sun)</author>
+      <guid>https://preminstrel.github.io/blog/categories/animation/</guid>
       
       <description></description>
       
