@@ -501,12 +501,16 @@ z_{\text {significand }} \times b a s e^{z_{\text {exponent }}} &amp;amp;=\left(
 &lt;li&gt;将权重张量的每个值从 FP32 转换为 INT8 。&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;$$
-\begin{aligned}
-x_{\text {float }} &amp;amp; \in\left[x_{\text {float }}^{\min }, x_{\text {float }}^{\max }\right] \\
-x_{\text {scale } &amp;amp;=\frac{x_{\text {float }}^{\max }-x_{\text {float }}^{\text {min }}}{x_{\text {quantized }}^{\max }-x_{\text {quantized }}^{\min }} \\
-x_{\text {zero_point }} &amp;amp;=x_{\text {quantized }}^{\max }-x_{\text {float }}^{\max } \div x_{\text {scale }} \\
-x_{\text {quantized }} &amp;amp;=x_{\text {float }} \div x_{\text {scale }}+x_{\text {zero_point }}
-\end{aligned}
+x_{\text {float }}  \in\left[x_{\text {float }}^{\min }, x_{\text {float }}^{\max }\right]
+$$
+$$
+x_{\text {scale }} =\frac{x_{\text {float }}^{\max }-x_{\text {float }}^{\text {min }}}{x_{\text {quantized }}^{\max }-x_{\text {quantized }}^{\min }}
+$$&lt;/p&gt;
+&lt;p&gt;$$
+x_{\text {zeropoint }} =x_{\text {quantized }}^{\max }-x_{\text {float }}^{\max } \div x_{\text {scale }}
+$$&lt;/p&gt;
+&lt;p&gt;$$
+x_{\text {quantized }} =x_{\text {float }} \div x_{\text {scale }}+x_{\text {zeropoint }}
 $$&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;注意，当浮点运算结果不等于整数时，需要额外的舍入步骤&lt;/strong&gt;。例如将 FP32 值域 $[−1,1]$ 映射到 INT8 值域 $[0,255]$，有 $x_{scale}=\frac{2}{255}$，而$x_{zero_point}=255−\frac{255}{2}\approx 127$。&lt;/p&gt;
 &lt;p&gt;量化过程中存在误差是不可避免的，就像数字信号处理中量化一样。下图显示了数字信号处理的&lt;a href=&#34;https://en.wikipedia.org/wiki/Quantization_(signal_processing)#Quantization_error_models&#34;&gt;量化和误差&lt;/a&gt;。&lt;/p&gt;
@@ -553,7 +557,7 @@ $$S_3(q_3^{i,k}-Z_3)=\sum_{j=1}^NS_1(q_1^{i,k}-Z_1)S_2(q_2^{i,k}-Z_2)$$
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;可以看到，在 $n=11、M_0=15$ 的时候，误差就已经在 1 以内了。因此，只要 $M_0P$ 的数值范围在 21(32-11) 个 bit 内，就可以通过对 $M_0P$ 右移 $n$ 个 bit 来近似 $MP$ 了，而这个误差本身在可以接受的范围内。这样一来，就可以完全通过定点运算来计算，即我们实现了&lt;strong&gt;浮点矩阵乘法的量化&lt;/strong&gt;。&lt;/p&gt;
 &lt;h3 id=&#34;卷积网络的量化&#34;&gt;卷积网络的量化&lt;/h3&gt;
 &lt;p&gt;有了上面矩阵乘法的量化，我们就可以进一步尝试对卷积网络的量化。假设一个这样的网络：&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://preminstrel.github.io/blog/img/20210916190953.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://smms.app/image/JBluaykQ8vRwc6x&#34; target=&#34;_blank&#34;&gt;&lt;img src=&#34;https://s2.loli.net/2023/03/23/JBluaykQ8vRwc6x.png&#34; &gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;这个网络只有三个模块，现在需要把 &lt;em&gt;conv、fc、relu&lt;/em&gt; 量化。&lt;/p&gt;
 &lt;p&gt;假设输入为 $x$，可以事先统计样本的最大值和最小值，然后计算出 $S_x$ (scale) 和 $Z_x$ (zero point)。
 同样地，假设 &lt;em&gt;conv、fc&lt;/em&gt; 的参数为 $w_1, w_2$，以及 scale 和 zero point 为 $S_{w1},Z_{w1},S_{w2},Z_{w2}$ 。中间层的 feature map 为 $a_1,a_2$ ，事先统计出它们的 scale 和 zero point 为 $S_{a1},Z_{a1},S_{s2},Z_{a2}$。&lt;/p&gt;
@@ -561,7 +565,7 @@ $$S_3(q_3^{i,k}-Z_3)=\sum_{j=1}^NS_1(q_1^{i,k}-Z_1)S_2(q_2^{i,k}-Z_2)$$
 $$a_1^{i,k}=\sum_{j=1}^N x^{i,j}w_1^{i,j}$$
 $$q_{a1}^{i,k}=M\sum_{j=1}^N (q_x^{i,j}-Z_x)(q_{w1}^{i,j}-Z_{w1})+Z_{a1}$$
 其中 $M=\dfrac{S_{w1}S_{x}}{S_{a1}}$。得到 conv 的输出后，不用反量化回  $a_1$ ，直接用  $q_{a1}$ 继续后面的计算即可。&lt;/p&gt;
-&lt;p&gt;对于量化的 RuLU 来说，计算公式不再是 $q_{a2}=max(q_{a1},0)$，而是 $q_{a2}=max(q_{a1},Z_{a1})$，并且 $S_{a1}=S_{a2},Z_{a1}=Z_{a2}$。在部署的时候，ReLU 或者 BN 通常是会整合到 conv 中一起计算的。&lt;/p&gt;
+&lt;p&gt;对于量化的 RuLU 来说，计算公式不再是 $q_{a2}=\max(q_{a1},0)$，而是 $q_{a2}=\max(q_{a1},Z_{a1})$，并且 $S_{a1}=S_{a2},Z_{a1}=Z_{a2}$。在部署的时候，ReLU 或者 BN 通常是会整合到 conv 中一起计算的。&lt;/p&gt;
 &lt;p&gt;得到 $q_{a2}$ 之后，我们可以计算 fc 层。假设网络输出为 $y$ ，对应的 scale 和zero_point 为 $S_y,Z_y$ ，则量化之后的  fc 层可以用如下公式来计算：
 $$
 q_{y}^{i, k}=M \sum_{j=1}^{N}\left(q_{a 2}^{i, j}-Z_{a 2}\right)\left(q_{w 2}^{j, k}-Z_{w 2}\right)+Z_{y}
@@ -570,7 +574,7 @@ $$&lt;/p&gt;
 &lt;p&gt;可以看到，上面整个流程都是用定点运算实现的。我们在得到全精度的模型后，可以事先统计出 weight 以及中间各个 feature map 的 min、max，并以此计算出 scale 和 zero point，然后把 weight 量化成 int8/int16 型的整数后，整个网络便完成了量化，然后就可以依据上面的流程做量化推理了。&lt;/p&gt;
 &lt;h2 id=&#34;model-size&#34;&gt;Model Size&lt;/h2&gt;
 &lt;ul&gt;
-&lt;li&gt;网络的大小取决于Parameter的数量，如果是float32，就是$Parameters\times 4$&lt;/li&gt;
+&lt;li&gt;网络的大小取决于Parameter的数量，如果是float32，就是$\text{Parameters}\times 4$&lt;/li&gt;
 &lt;/ul&gt;
 </description>
       

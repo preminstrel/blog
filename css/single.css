@@ -7,7 +7,7 @@
 }
 
 #main > .warning {
-    background-color: brown;
+    background-color: #bb0000;
     color: white;
     font-size: 1.1rem;
     margin: 2rem 0;
