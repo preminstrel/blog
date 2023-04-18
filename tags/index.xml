@@ -32,17 +32,6 @@
     </item>
     
     <item>
-      <title>Application</title>
-      <link>https://preminstrel.github.io/blog/tags/application/</link>
-      <pubDate>Tue, 21 Mar 2023 19:46:54 +0800</pubDate>
-      <author>preminstrel@gmail.com (Hanshi Sun)</author>
-      <guid>https://preminstrel.github.io/blog/tags/application/</guid>
-      
-      <description></description>
-      
-    </item>
-    
-    <item>
       <title>Master</title>
       <link>https://preminstrel.github.io/blog/tags/master/</link>
       <pubDate>Tue, 21 Mar 2023 19:46:54 +0800</pubDate>
@@ -114,6 +103,17 @@
       <pubDate>Sun, 17 Oct 2021 10:48:26 +0800</pubDate>
       <author>preminstrel@gmail.com (Hanshi Sun)</author>
       <guid>https://preminstrel.github.io/blog/tags/quantization/</guid>
+      
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Pytorch</title>
+      <link>https://preminstrel.github.io/blog/tags/pytorch/</link>
+      <pubDate>Sun, 17 Oct 2021 00:25:41 +0800</pubDate>
+      <author>preminstrel@gmail.com (Hanshi Sun)</author>
+      <guid>https://preminstrel.github.io/blog/tags/pytorch/</guid>
       
       <description></description>
       
