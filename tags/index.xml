@@ -8,7 +8,29 @@
     <language>en</language>
     <managingEditor>preminstrel@gmail.com (Hanshi Sun)</managingEditor>
     <webMaster>preminstrel@gmail.com (Hanshi Sun)</webMaster>
-    <lastBuildDate>Tue, 21 Mar 2023 19:46:54 +0800</lastBuildDate><atom:link href="https://preminstrel.github.io/blog/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 18 Apr 2023 17:15:47 +0800</lastBuildDate><atom:link href="https://preminstrel.github.io/blog/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>US</title>
+      <link>https://preminstrel.github.io/blog/tags/us/</link>
+      <pubDate>Tue, 18 Apr 2023 17:15:47 +0800</pubDate>
+      <author>preminstrel@gmail.com (Hanshi Sun)</author>
+      <guid>https://preminstrel.github.io/blog/tags/us/</guid>
+      
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Visa</title>
+      <link>https://preminstrel.github.io/blog/tags/visa/</link>
+      <pubDate>Tue, 18 Apr 2023 17:15:47 +0800</pubDate>
+      <author>preminstrel@gmail.com (Hanshi Sun)</author>
+      <guid>https://preminstrel.github.io/blog/tags/visa/</guid>
+      
+      <description></description>
+      
+    </item>
+    
     <item>
       <title>Application</title>
       <link>https://preminstrel.github.io/blog/tags/application/</link>
@@ -54,17 +76,6 @@
     </item>
     
     <item>
-      <title>Visa</title>
-      <link>https://preminstrel.github.io/blog/tags/visa/</link>
-      <pubDate>Mon, 09 May 2022 16:15:25 +0800</pubDate>
-      <author>preminstrel@gmail.com (Hanshi Sun)</author>
-      <guid>https://preminstrel.github.io/blog/tags/visa/</guid>
-      
-      <description></description>
-      
-    </item>
-    
-    <item>
       <title>Deep Learning</title>
       <link>https://preminstrel.github.io/blog/tags/deep-learning/</link>
       <pubDate>Wed, 26 Jan 2022 17:47:40 +0800</pubDate>
@@ -103,17 +114,6 @@
       <pubDate>Sun, 17 Oct 2021 10:48:26 +0800</pubDate>
       <author>preminstrel@gmail.com (Hanshi Sun)</author>
       <guid>https://preminstrel.github.io/blog/tags/quantization/</guid>
-      
-      <description></description>
-      
-    </item>
-    
-    <item>
-      <title>Pytorch</title>
-      <link>https://preminstrel.github.io/blog/tags/pytorch/</link>
-      <pubDate>Sun, 17 Oct 2021 00:25:41 +0800</pubDate>
-      <author>preminstrel@gmail.com (Hanshi Sun)</author>
-      <guid>https://preminstrel.github.io/blog/tags/pytorch/</guid>
       
       <description></description>
       
