@@ -8,7 +8,29 @@
     <language>en</language>
     <managingEditor>preminstrel@gmail.com (Hanshi Sun)</managingEditor>
     <webMaster>preminstrel@gmail.com (Hanshi Sun)</webMaster>
-    <lastBuildDate>Tue, 18 Apr 2023 17:15:47 +0800</lastBuildDate><atom:link href="https://preminstrel.github.io/blog/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 26 May 2023 19:46:47 +0800</lastBuildDate><atom:link href="https://preminstrel.github.io/blog/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>HK</title>
+      <link>https://preminstrel.github.io/blog/tags/hk/</link>
+      <pubDate>Fri, 26 May 2023 19:46:47 +0800</pubDate>
+      <author>preminstrel@gmail.com (Hanshi Sun)</author>
+      <guid>https://preminstrel.github.io/blog/tags/hk/</guid>
+      
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Travel</title>
+      <link>https://preminstrel.github.io/blog/tags/travel/</link>
+      <pubDate>Fri, 26 May 2023 19:46:47 +0800</pubDate>
+      <author>preminstrel@gmail.com (Hanshi Sun)</author>
+      <guid>https://preminstrel.github.io/blog/tags/travel/</guid>
+      
+      <description></description>
+      
+    </item>
+    
     <item>
       <title>US</title>
       <link>https://preminstrel.github.io/blog/tags/us/</link>
@@ -92,28 +114,6 @@
       <pubDate>Sun, 17 Oct 2021 13:37:23 +0800</pubDate>
       <author>preminstrel@gmail.com (Hanshi Sun)</author>
       <guid>https://preminstrel.github.io/blog/tags/publication/</guid>
-      
-      <description></description>
-      
-    </item>
-    
-    <item>
-      <title>Quantization</title>
-      <link>https://preminstrel.github.io/blog/tags/quantization/</link>
-      <pubDate>Sun, 17 Oct 2021 10:48:26 +0800</pubDate>
-      <author>preminstrel@gmail.com (Hanshi Sun)</author>
-      <guid>https://preminstrel.github.io/blog/tags/quantization/</guid>
-      
-      <description></description>
-      
-    </item>
-    
-    <item>
-      <title>Pytorch</title>
-      <link>https://preminstrel.github.io/blog/tags/pytorch/</link>
-      <pubDate>Sun, 17 Oct 2021 00:25:41 +0800</pubDate>
-      <author>preminstrel@gmail.com (Hanshi Sun)</author>
-      <guid>https://preminstrel.github.io/blog/tags/pytorch/</guid>
       
       <description></description>
       
