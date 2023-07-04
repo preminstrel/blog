@@ -8,7 +8,18 @@
     <language>en</language>
     <managingEditor>preminstrel@gmail.com (Hanshi Sun)</managingEditor>
     <webMaster>preminstrel@gmail.com (Hanshi Sun)</webMaster>
-    <lastBuildDate>Fri, 23 Jun 2023 14:03:23 +0800</lastBuildDate><atom:link href="https://preminstrel.github.io/blog/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 04 Jul 2023 08:13:18 +0800</lastBuildDate><atom:link href="https://preminstrel.github.io/blog/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Anime</title>
+      <link>https://preminstrel.github.io/blog/tags/anime/</link>
+      <pubDate>Tue, 04 Jul 2023 08:13:18 +0800</pubDate>
+      <author>preminstrel@gmail.com (Hanshi Sun)</author>
+      <guid>https://preminstrel.github.io/blog/tags/anime/</guid>
+      
+      <description></description>
+      
+    </item>
+    
     <item>
       <title>Bachelor</title>
       <link>https://preminstrel.github.io/blog/tags/bachelor/</link>
@@ -103,17 +114,6 @@
       <pubDate>Mon, 09 May 2022 16:15:25 +0800</pubDate>
       <author>preminstrel@gmail.com (Hanshi Sun)</author>
       <guid>https://preminstrel.github.io/blog/tags/mitacs/</guid>
-      
-      <description></description>
-      
-    </item>
-    
-    <item>
-      <title>Deep Learning</title>
-      <link>https://preminstrel.github.io/blog/tags/deep-learning/</link>
-      <pubDate>Wed, 26 Jan 2022 17:47:40 +0800</pubDate>
-      <author>preminstrel@gmail.com (Hanshi Sun)</author>
-      <guid>https://preminstrel.github.io/blog/tags/deep-learning/</guid>
       
       <description></description>
       
