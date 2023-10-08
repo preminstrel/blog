@@ -5,6 +5,8 @@
     <link>https://preminstrel.github.io/blog/en/tags/</link>
     <description>Recent content in Tags on Hanshi Sun&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en</language><atom:link href="https://preminstrel.github.io/blog/en/tags/index.xml" rel="self" type="application/rss+xml" />
+    <language>en</language>
+    <managingEditor>preminstrel@gmail.com (Hanshi Sun)</managingEditor>
+    <webMaster>preminstrel@gmail.com (Hanshi Sun)</webMaster><atom:link href="https://preminstrel.github.io/blog/en/tags/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>
