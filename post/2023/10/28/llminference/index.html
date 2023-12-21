@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="zh"><head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLM Inference 简述</title>
+    <meta charset="utf-8">
+    <meta name="description" content="Ladder@LLM Parameters LLM 中的每个 Transformer 包括 self-attn block 和 MLP block，总参数量为 $12h^2&#43;13h$。如果 LLM 有 $l$ layers, 包括 embedding 一起算，总参数量为 $l(12h^2&#43;13h)&#43;V">
+    <meta name="author" content="Hanshi Sun">
+    <link rel="canonical" href="https://preminstrel.github.io/blog/post/2023/10/28/llminference/">
+
+    <link rel="alternate" type="application/rss+xml" href="https://preminstrel.github.io/blog//index.xml" title="Hanshi Sun&#39;s Blog">
+
+    
+
+
+    <meta property="og:title" content="LLM Inference 简述" />
+<meta property="og:description" content="LLM Parameters LLM 中的每个 Transformer 包括 self-attn block 和 MLP block，总参数量为 $12h^2&#43;13h$。如果 LLM 有 $l$ layers, 包括 embedding 一起算，总参数量为 $l(12h^2&#43;13h)&#43;V" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://preminstrel.github.io/blog/post/2023/10/28/llminference/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2023-10-28T23:56:28-04:00" />
+<meta property="article:modified_time" content="2023-10-28T23:56:28-04:00" />
+
+
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="LLM Inference 简述"/>
+<meta name="twitter:description" content="LLM Parameters LLM 中的每个 Transformer 包括 self-attn block 和 MLP block，总参数量为 $12h^2&#43;13h$。如果 LLM 有 $l$ layers, 包括 embedding 一起算，总参数量为 $l(12h^2&#43;13h)&#43;V"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://preminstrel.github.io/blog/post/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "LLM Inference 简述",
+      "item": "https://preminstrel.github.io/blog/post/2023/10/28/llminference/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "LLM Inference 简述",
+  "name": "LLM Inference 简述",
+  "description": "LLM Parameters LLM 中的每个 Transformer 包括 self-attn block 和 MLP block，总参数量为 $12h^2+13h$。如果 LLM 有 $l$ layers, 包括 embedding 一起算，总参数量为 $l(12h^2+13h)+V",
+  "keywords": [
+    "LLM"
+  ],
+  "articleBody": "LLM Parameters LLM 中的每个 Transformer 包括 self-attn block 和 MLP block，总参数量为 $12h^2+13h$。如果 LLM 有 $l$ layers, 包括 embedding 一起算，总参数量为 $l(12h^2+13h)+Vh$。同时，对于一个 $l$ layers 的 LLM，FLOPs 为 $l(24bsh^2+4bs^2h)+2bshV$ （没有计算 Softmax 和 LN 等过程）。\nParts Modules Parameters FLOPs self-attn block $W_{K}, W_V, W_Q, W_O, \\text{LayerNorm}$ $4h^2+6h$ $8bsh^2+4bs^2h$ MLP block $W_1,W_2,\\text{LayerNorm}$ $8h^2+7h$ $16bsh^2$ 在训练的时候一般采用 AdamW optimizer，利用混合精度，为 FP32 的权重存储 FP16 格式。虽然这样多存了一份权重，但使用 FP16 计算 intermediate activations 通常能大大减少显存使用。所以，总的显存使用量往往仍然比纯 FP32 训练要小。考虑到 AdamW 会保存 FP32 的一阶动量和二阶动量，对于每个可训练参数来说，需要显存大小如下：\n$$ [\\text{weights}](2+4)+[\\text{gradients}](2+4)+[\\text{optim}](4+4)=20 \\text{ bytes} $$\n注：计算 gradients 的时候可以把 FP16 释放，所以一些论文写的是 18 bytes 。\n我们可以近似认为：在一次前向传递中，对于每个 token，每个模型参数，需要进行两次浮点数运算，即一次乘法法运算和一次加法运算。每次 backprop 的计算量是前向传递的两倍，所以是四次，加起来是六次。如果考虑激活重计算技术来减少中间激活显存，需要进行八次。在给定训练tokens数、硬件环境配置的情况下，训练transformer模型的计算时间为： $$ \\text{Training Time} = \\frac{8\\times s \\times \\text{Model Params}}{\\text{num of GPUs} \\times \\text{Peak FLOPs} \\times \\text{GPU-Util}} $$ 注：随着 batch size 的增大，中间激活占用的显存远远超过了模型参数显存。通常会采用激活重计算技术来减少中间激活，理论上可以将中间激活显存从 $O(n)$ 减少到 $O(\\sqrt{n})$，代价是增加了一次额外前向计算的时间，时间换空间。\n因为少了梯度、优化器状态、中间激活，模型推理阶段占用的显存要远小于训练阶段，只包括了模型的权重大小和用来加速推理的 KV cache 。比如，如果不考虑 KV cache，对于一个 7B 的 model，用 FP16 推理，大概需要 14 GB 的显存。\nKV cache LLM inference 的时候，可以利用 KV cache 以 memory resource 换 computation resource，可以每次只inference 一个 word 出来。假设刚开始的 prompt shape 是 $[b, s, h]$, 得到 K, V, Q 的 shape 是 $[b,n,s,h/n]$，最后 output 的 shape 也是 $[b, s, h]$。后面 word 挨个 feed 进去 (seq_len=1)，保留前面的 KV 信息。此时 input shape 是 $[b, 1, h]$，计算 self-attn 的时候把 KV concat，他们的 shape 变成了 $[b,n,s+1,h/n]$，而Q 的shape 则是 $[b,n,1,h/n]$。最后输出是 $[b, 1, h]$，decode 后就是一个 word 。\n每个 token 所存储的字节数为（第一个 2 是有 KV 两个要存，第二个 2 是假设了数据类型为 FP16，需要两个字节，所以 past KV 的 shape 为 $[b, 2, n,s,h/n]$）： $$ 2 \\times 2 \\times n_{\\text{layer}} \\times n_{\\text{head}} \\times \\frac{h}{n_{\\text{head}}} $$ 对于一个 $n_{\\text{layer}}=64, h=8192$ 的 model 来说，按照 FP16，一个 token 的 KV cache 要占用大概 $4\\times 64\\times 8192\\approx 0.002GB$，1000 个 token 的 KV cache 就 2GB 了，还是挺多的。此时，计算一个 token 的 KV 所需的 Flops 为： $$ 2\\times 2 \\times n_{\\text{layer}} \\times h^2 $$ 对于 A100 来说（312e12 flops/s and 1.5e12 bytes/s of memory bandwidth），计算一个 token KV 所花的时间和为了计算 KV我们需要加载权重 $W_{k}, W_v$ 所花的时间为 $$ \\text{Computation} = 4n_{\\text{layer}}h^2/312e12 $$\n$$ \\text{Memory} = 4n_{\\text{layer}}h^2/1.5e12 $$\n显然，Memory 要花 208 倍的时间，如果我们要计算一个 token 的 KV，和计算 208 个 token 的 KV 花的时间是一样的。\n如果我们计算的 token 数小于 208，就会受到 memory bandwidth bound 如果我们计算的 token 数大于 208，就会受到计算 flops bound 每个 transformer 层的总参数为 $12h^2+13h$，除了 KV 计算的其他部分也依照这个 208 的 rule。注意，我们必须提高 batch size，否则是不划算的，会受到 memory bound，还不如直接计算。\nModel Parallelism Model Parallelism 包括了 tensor parallel 和 pipeline parallel 。tensor parallel 在模型的中间split，每个 GPU 将权重分片推理。pipeline parallel 是每个 GPU host 一些完整的层，pipeline 在 inference 的时候会出现问题，每次只有一个 GPU 在 working。 pipeline parallel 的好处就是减少了 communication，因为每个 GPU 只要和下一个 GPU communicate 就好了，model parallel 则是全部都要一起 communicate 。对于每个 GPU，需要 communicate 的数据量为 $4(N-1)h/N$。下图是 Kipp blog 中用的一幅图，我就偷过来直接用 XD。\nReference Transformer Inference Arithmetic 分析transformer模型的参数量、计算量、中间激活、KV cache ",
+  "wordCount" : "1559",
+  "inLanguage": "zh",
+  "datePublished": "2023-10-28T23:56:28-04:00",
+  "dateModified": "2023-10-28T23:56:28-04:00",
+  "author":{
+    "@type": "Person",
+    "name": "Hanshi Sun"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://preminstrel.github.io/blog/post/2023/10/28/llminference/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Hanshi Sun's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://preminstrel.github.io/blog/favicon.ico"
+    }
+  }
+}
+</script>
+    <link rel="icon" href="/blog/favicon.ico" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/blog/favicon.ico">
+
+<link rel="manifest" href="/blog/favicon.ico">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"
+    integrity="sha384-R4558gYOUz8mP9YWpZJjofhk+zx0AS11p36HnD2ZKj/6JR5z27gSSULCNHIRReVs" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"
+    integrity="sha384-z1fJDqw8ZApjGO3/unPWUPsIymfsJmyrDVWC8Tv/a1HeOtGmkwNd/7xUS0Xcnvsx"
+    crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/contrib/auto-render.min.js"
+    integrity="sha384-+XBljXPPiv+OzfbB3cVmLHf4hdUFHlWNZN5spNQ7rmHTXpd7WvJum6fIACpNNfIR"
+    crossorigin="anonymous"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        renderMathInElement(document.body, {
+            
+            
+            delimiters: [
+                { left: '$$', right: '$$', display: true },
+                { left: '$', right: '$', display: false },
+                { left: '\\(', right: '\\)', display: false },
+                { left: '\\[', right: '\\]', display: true },
+                { left: "\\begin{equation}", right: "\\end{equation}", display: true },
+                { left: "\\begin{align}", right: "\\end{align}", display: true },
+                { left: "\\begin{alignat}", right: "\\end{alignat}", display: true },
+                { left: "\\begin{gather}", right: "\\end{gather}", display: true },
+                { left: "\\begin{CD}", right: "\\end{CD}", display: true },
+                { left: "\\[", right: "\\]", display: true }
+            ],
+            
+            throwOnError: false,
+            trust: (context) => ['\\htmlId', '\\href'].includes(context.command),
+            macros: {
+                "\\eqref": "\\href{###1}{(\\text{#1})}",
+                "\\ref": "\\href{###1}{\\text{#1}}",
+                "\\label": "\\htmlId{#1}{}"
+            }
+        });
+    });
+</script>
+
+    <link rel="stylesheet" href="https://cdn.staticfile.org/lxgw-wenkai-webfont/1.6.0/style.css" />
+
+    
+    
+    
+    <link rel="stylesheet" href="/blog/css/main.min.0ab3ddcbfd547075b76e6049181a27bc69095a4a83cec7e9f6d5251546fdcc13.css" integrity="sha256-CrPdy/1UcHW3bmBJGBonvGkJWkqDzsfp9tUlFUb9zBM=" crossorigin="anonymous" media="screen" />
+    
+
+
+    
+    <link rel="stylesheet" href="/blog/scss/highlight/github-dark.min.min.66034289ee9a113219a2c4aae0a8bd2095ab255c832a42efcf5863f10814e7a1.css" />
+
+    
+    <script src="/blog/js/highlight.min.min.872dfd2cd00064018a833a6e8e77a0fbf8fbac159546f2f205d4dad79a5d8e15.js"></script>
+    <script>hljs.highlightAll();</script>
+
+    <script>(()=>{var t=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,e=localStorage.getItem("theme");t&&e===null&&(localStorage.setItem("theme","dark"),document.documentElement.setAttribute("data-dark-mode","")),t&&e==="dark"&&document.documentElement.setAttribute("data-dark-mode",""),e==="dark"&&document.documentElement.setAttribute("data-dark-mode","")})()</script>
+    </head>
+<body>
+      <main class="wrapper"><nav class="navigation">
+    <section class="container">
+        <a class="navigation-brand" href="/blog">
+            主页
+        </a>
+        <input type="checkbox" id="menu-toggle" />
+        <label class="menu-button float-right" for="menu-toggle">
+            <span></span><span></span><span></span>
+        </label>
+        
+        <ul class="navigation-list" id="navigation-list">
+            
+            
+            <li class="navigation-item navigation-menu">
+                <a class="navigation-link" href="/blog/post">文章</a>
+            </li>
+            
+            <li class="navigation-item navigation-menu">
+                <a class="navigation-link" href="/blog/archives">归档</a>
+            </li>
+            
+            <li class="navigation-item navigation-menu">
+                <a class="navigation-link" href="/blog/tags">标签</a>
+            </li>
+            
+            <li class="navigation-item navigation-menu">
+                <a class="navigation-link" href="/blog/series">分类</a>
+            </li>
+            
+            
+
+            <li class="navigation-item menu-separator">
+                <span>|</span>
+            </li>
+
+            
+            
+            <li class="navigation-item navigation-social">
+                <a class="navigation-link" href="https://github.com/preminstrel"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a>
+            </li>
+            
+            
+
+            <li class="navigation-item navigation-dark">
+                <button id="mode" type="button" aria-label="toggle user light or dark theme">
+                    <span class="toggle-dark"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></span>
+                    <span class="toggle-light"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sun"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg></span>
+                </button>
+            </li>
+
+            
+        </ul>
+        
+    </section>
+</nav>
+<div id="content">
+<article class="blog-single">
+  <header class="blog-title">
+    <h1>LLM Inference 简述</h1>
+  </header>
+
+  <p>
+  <small>
+    2023年10月28日&nbsp;· 1559 字&nbsp;· 4 分钟</small>
+
+  <small>
+      
+      ·
+      
+      
+      <a href="https://preminstrel.github.io/blog/tags/llm/">LLM</a>
+      
+    </small>
+  
+<p>
+
+  <div class="blog-toc">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#llm-parameters">LLM Parameters</a></li>
+    <li><a href="#kv-cache">KV cache</a></li>
+    <li><a href="#model-parallelism">Model Parallelism</a></li>
+    <li><a href="#reference">Reference</a></li>
+  </ul>
+</nav>
+  </div>
+
+  <section class="blog-content"><h2 id="llm-parameters">LLM Parameters</h2>
+<p>LLM 中的每个 Transformer 包括 self-attn block 和 MLP block，总参数量为 $12h^2+13h$。如果 LLM 有 $l$ layers, 包括 embedding 一起算，总参数量为 $l(12h^2+13h)+Vh$。同时，对于一个 $l$ layers 的 LLM，FLOPs 为 $l(24bsh^2+4bs^2h)+2bshV$ （没有计算 Softmax 和 LN 等过程）。</p>
+<table>
+<thead>
+<tr>
+<th>Parts</th>
+<th>Modules</th>
+<th>Parameters</th>
+<th>FLOPs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>self-attn block</td>
+<td>$W_{K}, W_V, W_Q, W_O, \text{LayerNorm}$</td>
+<td>$4h^2+6h$</td>
+<td>$8bsh^2+4bs^2h$</td>
+</tr>
+<tr>
+<td>MLP block</td>
+<td>$W_1,W_2,\text{LayerNorm}$</td>
+<td>$8h^2+7h$</td>
+<td>$16bsh^2$</td>
+</tr>
+</tbody>
+</table>
+<p>在训练的时候一般采用 AdamW optimizer，利用混合精度，为 FP32 的权重存储 FP16 格式。虽然这样多存了一份权重，但使用 FP16 计算 intermediate activations 通常能大大减少显存使用。所以，总的显存使用量往往仍然比纯 FP32 训练要小。考虑到 AdamW 会保存 FP32 的一阶动量和二阶动量，对于每个可训练参数来说，需要显存大小如下：</p>
+<p>$$
+[\text{weights}](2+4)+[\text{gradients}](2+4)+[\text{optim}](4+4)=20 \text{ bytes}
+$$</p>
+<p><em>注：计算 gradients 的时候可以把 FP16 释放，所以一些论文写的是 18 bytes 。</em></p>
+<p>我们可以近似认为：<strong>在一次前向传递中，对于每个 token，每个模型参数，需要进行两次浮点数运算</strong>，即一次乘法法运算和一次加法运算。每次 backprop 的计算量是前向传递的两倍，所以是四次，加起来是六次。如果考虑激活重计算技术来减少中间激活显存，需要进行八次。<strong>在给定训练tokens数、硬件环境配置的情况下，训练transformer模型的计算时间为</strong>：
+$$
+\text{Training Time} = \frac{8\times s \times \text{Model Params}}{\text{num of GPUs} \times \text{Peak FLOPs} \times \text{GPU-Util}}
+$$
+<em>注：随着 batch size 的增大，中间激活占用的显存远远超过了模型参数显存。通常会采用<strong>激活重计算</strong>技术来减少中间激活，理论上可以将中间激活显存从 $O(n)$ 减少到 $O(\sqrt{n})$，代价是增加了一次额外前向计算的时间，时间换空间。</em></p>
+<p>因为少了梯度、优化器状态、中间激活，模型推理阶段占用的显存要远小于训练阶段，只包括了模型的权重大小和用来加速推理的 KV cache 。比如，如果不考虑 KV cache，对于一个 7B 的 model，用 FP16 推理，大概需要 14 GB 的显存。</p>
+<h2 id="kv-cache">KV cache</h2>
+<p>LLM inference 的时候，可以利用 KV cache 以 memory resource 换 computation resource，可以每次只inference 一个 word 出来。假设刚开始的 prompt shape 是 $[b, s, h]$, 得到 K, V, Q 的 shape 是 $[b,n,s,h/n]$，最后 output 的 shape 也是 $[b, s, h]$。后面 word 挨个  feed 进去 (<code>seq_len=1</code>)，保留前面的 KV 信息。此时 input shape 是 $[b, 1, h]$，计算 self-attn 的时候把 KV concat，他们的 shape 变成了 $[b,n,s+1,h/n]$，而Q 的shape 则是 $[b,n,1,h/n]$。最后输出是 $[b, 1, h]$，decode 后就是一个 word 。</p>
+<p>每个 token 所存储的字节数为（第一个 2 是有 KV 两个要存，第二个 2 是假设了数据类型为 FP16，需要两个字节，所以 past KV 的 shape 为 $[b, 2, n,s,h/n]$）：
+$$
+2 \times 2 \times n_{\text{layer}} \times n_{\text{head}} \times \frac{h}{n_{\text{head}}}
+$$
+对于一个 $n_{\text{layer}}=64, h=8192$ 的 model 来说，按照 FP16，一个 token 的 KV cache 要占用大概 $4\times 64\times 8192\approx 0.002GB$，1000 个 token 的 KV cache 就 2GB 了，还是挺多的。此时，计算<strong>一个 token</strong> 的 KV 所需的 Flops 为：
+$$
+2\times 2 \times n_{\text{layer}} \times  h^2
+$$
+对于 A100 来说（312e12 flops/s and 1.5e12 bytes/s of memory bandwidth），计算一个 token KV 所花的时间和为了计算 KV我们需要加载权重 $W_{k}, W_v$ 所花的时间为
+$$
+\text{Computation} = 4n_{\text{layer}}h^2/312e12
+$$</p>
+<p>$$
+\text{Memory} = 4n_{\text{layer}}h^2/1.5e12
+$$</p>
+<p>显然，Memory 要花 208 倍的时间，如果我们要计算一个 token 的 KV，和计算 208 个 token 的 KV 花的时间是一样的。</p>
+<ul>
+<li>如果我们计算的 token 数小于 208，就会受到 memory bandwidth bound</li>
+<li>如果我们计算的 token 数大于 208，就会受到计算 flops bound</li>
+</ul>
+<p>每个 transformer 层的总参数为 $12h^2+13h$，除了 KV 计算的其他部分也依照这个 208 的 rule。注意，我们必须提高 batch size，否则是不划算的，会受到 memory bound，还不如直接计算。</p>
+<p><img src="https://s2.loli.net/2023/10/30/QPoXtgUwcT6YBOy.png" alt="KVcache.excalidraw.png"></p>
+<h2 id="model-parallelism">Model Parallelism</h2>
+<p>Model Parallelism 包括了 tensor parallel 和 pipeline parallel 。tensor parallel 在模型的中间split，每个 GPU 将权重分片推理。pipeline parallel 是每个 GPU host 一些完整的层，pipeline 在 inference 的时候会出现问题，每次只有一个 GPU 在 working。 pipeline parallel 的好处就是减少了 communication，因为每个 GPU 只要和下一个 GPU communicate 就好了，model parallel 则是全部都要一起 communicate 。对于每个 GPU，需要 communicate 的数据量为 $4(N-1)h/N$。下图是 Kipp blog 中用的一幅图，我就偷过来直接用 XD。</p>
+<p><img src="https://kipp.ly/img/arithmetic_transformers/mp.png" alt=""></p>
+<h2 id="reference">Reference</h2>
+<ul>
+<li><a href="https://kipp.ly/transformer-inference-arithmetic/">Transformer Inference Arithmetic</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/624740065">分析transformer模型的参数量、计算量、中间激活、KV cache</a></li>
+</ul>
+</section>
+
+  
+  
+  <div class="paginator">
+    
+    <a class="prev" href="https://preminstrel.github.io/blog/post/2023/12/20/cmu23fall/">
+      <svg class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M3.77086 21.1546C11.0491 22.698 21.4339 21.7773 21.4339 16.3608V4.63375C21.4339 3.93962 21.3581 3.30535 21.1917 2.76787M3.77086 21.1546C1.9934 20.7777 0.973585 18.7264 1.08749 16.688C1.2668 13.479 1.15721 9.43135 1.00513 6.21507C0.87809 3.52811 3.12891 1.16316 5.51029 1.25008C9.76594 1.40542 15.377 1.20229 18.7912 1.00542C20.0864 0.930734 20.8406 1.63385 21.1917 2.76787M3.77086 21.1546C4.56586 21.4723 5.49168 21.7879 6.5 22.0658M21.1917 2.76787C23.1097 4.18217 23.13 12.4191 22.9004 16.3608C20.8478 24.0194 12.3061 23.6662 6.5 22.0658M21.1917 2.76787C21.7612 4.51192 22.7203 9.67216 22 16.3608C21.2797 23.0494 11.3665 22.9511 6.5 22.0658M9.94496 9C9.28897 9.61644 7.63215 10.997 6.04814 11.7966C5.98257 11.8297 5.98456 11.9753 6.05061 12.0063C7.05496 12.4779 8.92941 13.9264 9.94496 15M6.44444 11.9667C8.86549 12.0608 14 12 16 11" stroke="currentColor" stroke-linecap="round"/>
+      </svg>
+      <span>CMU 23Fall Checkpoint</span></a>
+    
+    
+    <a class="next" href="https://preminstrel.github.io/blog/post/2023/10/09/anime2023s3/"><span>2023年七月新番Review</span>
+        <svg class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3.77086 21.1546C11.0491 22.698 21.4339 21.7773 21.4339 16.3608V4.63375C21.4339 3.93962 21.3581 3.30535 21.1917 2.76787M3.77086 21.1546C1.9934 20.7777 0.973585 18.7264 1.08749 16.688C1.2668 13.479 1.15721 9.43135 1.00513 6.21507C0.87809 3.52811 3.12891 1.16316 5.51029 1.25008C9.76594 1.40542 15.377 1.20229 18.7912 1.00542C20.0864 0.930734 20.8406 1.63385 21.1917 2.76787M3.77086 21.1546C4.56586 21.4723 5.49168 21.7879 6.5 22.0658M21.1917 2.76787C23.1097 4.18217 23.13 12.4191 22.9004 16.3608C20.8478 24.0194 12.3061 23.6662 6.5 22.0658M21.1917 2.76787C21.7612 4.51192 22.7203 9.67216 22 16.3608C21.2797 23.0494 11.3665 22.9511 6.5 22.0658M12.055 9C12.711 9.61644 14.3679 10.997 15.9519 11.7966C16.0174 11.8297 16.0154 11.9753 15.9494 12.0063C14.945 12.4779 13.0706 13.9264 12.055 15M15.5556 11.9667C13.1345 12.0608 8 12 6 11" stroke="currentColor" stroke-linecap="round"/>
+        <svg class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M3.77086 21.1546C11.0491 22.698 21.4339 21.7773 21.4339 16.3608V4.63375C21.4339 3.93962 21.3581 3.30535 21.1917 2.76787M3.77086 21.1546C1.9934 20.7777 0.973585 18.7264 1.08749 16.688C1.2668 13.479 1.15721 9.43135 1.00513 6.21507C0.87809 3.52811 3.12891 1.16316 5.51029 1.25008C9.76594 1.40542 15.377 1.20229 18.7912 1.00542C20.0864 0.930734 20.8406 1.63385 21.1917 2.76787M3.77086 21.1546C4.56586 21.4723 5.49168 21.7879 6.5 22.0658M21.1917 2.76787C23.1097 4.18217 23.13 12.4191 22.9004 16.3608C20.8478 24.0194 12.3061 23.6662 6.5 22.0658M21.1917 2.76787C21.7612 4.51192 22.7203 9.67216 22 16.3608C21.2797 23.0494 11.3665 22.9511 6.5 22.0658M12.055 9C12.711 9.61644 14.3679 10.997 15.9519 11.7966C16.0174 11.8297 16.0154 11.9753 15.9494 12.0063C14.945 12.4779 13.0706 13.9264 12.055 15M15.5556 11.9667C13.1345 12.0608 8 12 6 11" stroke="currentColor" stroke-linecap="round"/>
+        </svg>
+    </a>
+    
+  </div>
+  
+
+  
+
+<div class="related-resources">
+  
+    
+    
+    
+  
+</div>
+
+
+</article>
+
+        </div><footer class="footer">
+<p>
+&copy; 2023 <a href="https://preminstrel.com"> Hanshi Sun</a>
+</p>
+</footer>
+
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10.5376 22.7916C11.0152 22.7207 22.5795 21.1781 22.0978 10.4211C22.0536 9.43274 21.9303 8.53367 21.7387 7.71865M10.5376 22.7916C16.876 22.3728 20.0969 19.8899 21.5383 16.9142M10.5376 22.7916C9.7707 22.9055 8.97982 22.8964 8.19743 22.7725M21.7387 7.71865C21.4988 6.69828 21.1518 5.80967 20.7188 5.04257M21.7387 7.71865C22.6022 10.1105 23.0542 13.7848 21.5383 16.9142M20.7188 5.04257C17.1684 -1.24629 7.83127 0.632493 4.27577 5.04257C2.88063 6.77451 -0.0433281 11.1668 1.38159 16.6571C2.27481 20.0988 5.17269 22.2936 8.19743 22.7725M20.7188 5.04257C22.0697 6.9404 24.0299 11.3848 22.3541 15.4153M21.5383 16.9142C21.8737 16.4251 22.1428 15.9235 22.3541 15.4153M8.19743 22.7725C12.1971 23.4683 20.6281 22.971 22.3541 15.4153M14 10.945C13.3836 10.289 12.003 8.63215 11.2034 7.04814C11.1703 6.98257 11.0247 6.98456 10.9937 7.05061C10.5221 8.05496 9.07362 9.92941 8 10.945M11.0333 7.44444C10.9392 9.86549 11 15 12 17" stroke="currentColor" stroke-linecap="round"/>
+    </svg>
+</a>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+</script>
+
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'Copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'Copied';
+            setTimeout(() => {
+                copybutton.innerHTML = 'Copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+        codeblock.parentNode.appendChild(copybutton);
+    });
+</script></main>
+    </body><script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.0.6/medium-zoom.min.js" integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S+Yti0U7QtuZvQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <script>
+      const images = Array.from(document.querySelectorAll(".blog-content img"));
+      images.forEach(img => {
+          mediumZoom(img, {
+              margin: 10,  
+              scrollOffset: 40,  
+              container: null,  
+              template: null,  
+              background: 'rgba(0, 0, 0, 0.5)'
+          });
+      });
+  </script>
+
+  
+  <script src="/blog/main.min.6bb26b69159420159c74dc9e097b06a578ed2b68c701466a91a44a9632d851bd0af167a1b30012387b4c512b48ad9ad4d3394e04d77ae38d57e1920fe4ed34fe.js" integrity="sha512-a7JraRWUIBWcdNyeCXsGpXjtK2jHAUZqkaRKljLYUb0K8WehswASOHtMUStIrZrU0zlOBNd6441X4ZIP5O00/g==" crossorigin="anonymous" defer></script></html>

@@ -8,7 +8,127 @@
     <language>zh</language>
     <managingEditor>preminstrel@gmail.com (Hanshi Sun)</managingEditor>
     <webMaster>preminstrel@gmail.com (Hanshi Sun)</webMaster>
-    <lastBuildDate>Mon, 09 Oct 2023 22:32:11 -0400</lastBuildDate><atom:link href="https://preminstrel.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 20 Dec 2023 17:49:19 -0500</lastBuildDate><atom:link href="https://preminstrel.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>CMU 23Fall Checkpoint</title>
+      <link>https://preminstrel.github.io/blog/post/2023/12/20/cmu23fall/</link>
+      <pubDate>Wed, 20 Dec 2023 17:49:19 -0500</pubDate>
+      <author>preminstrel@gmail.com (Hanshi Sun)</author>
+      <guid>https://preminstrel.github.io/blog/post/2023/12/20/cmu23fall/</guid>
+      <description>&lt;p&gt;在 CMU 的第一个学期（1/3 的 Master 生涯）过去了，感觉这个学期还是学了很多东西的——可以很自信地说，但是现在的我要比半年前强（虽然还是很弱）。本学期三门课都拿了 A+，但是由于 ECE 学院不区分 A+/A/A-，所以统一成了 A（感觉以后可以少花一些时间在课程上了）。下学期的课 enroll 了 Li Lei 的 LLM Sys 和大名鼎鼎的 CSAPP，希望可以对 system 有更系统全面的了解，已经开始期待能学到多少东西了。下面稍微讲一下这学期的几门课。&lt;/p&gt;
+&lt;h2 id=&#34;11-785-introduction-to-dl&#34;&gt;11-785 Introduction to DL&lt;/h2&gt;
+&lt;p&gt;Bhiksha 的课，之前在 &lt;a href=&#34;https://preminstrel.github.io/blog/blog/post/2023/10/07/cmu_kickstart/&#34;&gt;fall break 的 blog&lt;/a&gt; 中我已经夸过它了，所以这里来说几点其他的。这门课想要拿高分确实不难，因为没有考试，作业给的时间也比较充足，所以大家分数基本都很高。由于 Bhiksha 是在 LTI 学院做 Speech 的，所以这门课好像除了第二个 Homework 是 Face Classification &amp;amp; Verification，其他 Homework 都是关于 Speech Recognition 的（相比之下，ECE 学院的 Intro to DL 大部分的 Homework 和 Project 都是关于 Computer Vision 的）。&lt;/p&gt;
+&lt;p&gt;关于workload，这门课我感觉主要是前面花的时间稍微多一些，最后一个月我几乎没有花什么时间在上面。看起来 write-up 很吓人，但是其实做起来真的还好。 每个 Homework 的 Part1 都可以一天内完成（不过我记得 Bonus 中第一个 Autograd 我 Debug 花的时间有点长）。虽然 Part2 每个都给了快一个月的训练时间，但是我感觉只要模型结构设计得还行，适当加点 regularization 和其他的 trick 基本都可以达到 high cutoff 拿满分。反而我是觉得每周的 Quiz 还挺折磨的，每周都得花点时间去做一下。不过需要注意一下计算资源的使用情况，如果天天跑的话，400 刀的 GCP 和 150 刀的 AWS credits 远远不够。&lt;/p&gt;
+&lt;p&gt;我不是很喜欢这门课的 Project，给的时间不够充足，也不提供额外的计算资源，而且还是小组作业（这可能是罪魁祸首）。让我感觉有点在浪费时间生产所谓的科研垃圾，还不如 enroll 11-685 版本去做 HW5——implement a LLM from scratch。也听说之前有人靠着 Project 发了顶会，不过实际体验下来我感觉这部分的 support 做得还不够好。&lt;/p&gt;
+&lt;p&gt;从我自身的感受出发，我觉得这门课最大的价值是把很多东西讲清楚的同时，用比较好的 Homework 来巩固 coding 能力，每周的 Quiz 来巩固理论知识。说实话，在上这门课之前，我做 DL 的一些 Project 很多时候都是直接依葫芦画瓢，并不清楚这一行代码背后真正在运行什么（只知道这行代码是用来干什么的），也对深度学习框架只有一个比较模糊的认知（本课的 HW Part1 完美解决了这个问题），这门课绝对配得上是 CMU 的神课之一。正如 Bhiksha 在第一节课说的，如果这门课拿了 A，说明你已经初步具备了在 DL 工业界干活的能力了。&lt;/p&gt;
+&lt;p&gt;*下图是 11785 的 fence 。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2023/12/21/795npSglFf1NAKX.png&#34; alt=&#34;IMG_9067.png&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;18-661-introduction-to-ml&#34;&gt;18-661 Introduction to ML&lt;/h2&gt;
+&lt;p&gt;这门课是 Beidi 和 Yuejie 一起上的，课程质量还是可以的。和上面的 Intro2DL 相比，这门课更像一门数学课，有期中和期末，允许带 Cheating Sheet 。这门课从 MLE 一直讲到 RL，几乎把基础的 ML 都覆盖到了。我刷题的时候也顺便刷了 10-601 的期中期末，感觉确实讲的东西要比 10-601 的少一些，比如没有讲到 VC Dimension 什么的，不过总的来说算是一门合格的 Intro to ML 课了，弥补了我很多缺失的基础知识。&lt;/p&gt;
+&lt;p&gt;这门课拿 A 还是很容易的，因为有 6 分的 Bonus，算是 106 满分。期末要比期中简单很多，换算成 100 班级均分能有 76 分了。我感觉考试 few-shot 一下往年题就可以了，Cheating Sheet也可以用 LaTeX 打印，更加 compact 一些。Workload 的话，感觉不是很大，主要就是复习考试的时候要花点时间刷刷题，过一遍 slides 这样的。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2023/12/21/5ydlTPjHYKoJ61s.png&#34; alt=&#34;IMG_8966.png&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;18-797-ml-for-signal-processing-mlsp&#34;&gt;18-797 ML for Signal Processing (MLSP)&lt;/h2&gt;
+&lt;p&gt;相比前两门课，这门课我用的时间就不是那么多了。这门课也是 Bhiksha 讲，所以课程质量还是有保障的；但是可以明显感受到，这门课的 infra 没有 11-785 好。MLSP 的一个很大的问题就是，讲的东西有点快了，而且相对比较 theory，如果这学期没有上 18-661，可能这门课花的时间会更长。这门课和 661 可以起到一个相互补充的作用，比如 661 中的 EM 讲的不是很清楚，再听一下这门课的版本，说不定就清晰很多了。&lt;/p&gt;
+&lt;p&gt;MLSP 的 workload 也算还行，包括每周的 Quiz 和四次 HW，一个小组作业 Project 。和 11-785 一样，我觉得小组 Project 中并没有学到很多东西，同时 project timeline 的设置也不是很合理。HW 我感觉质量还行，有的还挺有趣的。总得来说，这门课我学到的东西不如前两门课多，当然这也和课程内容与 661 有 overlap 有一定关系；我看 FCEs 里面大家对这门课的评价还是非常高的，还算值得一上的。&lt;/p&gt;
+&lt;p&gt;*下图是 Halloween 的时候拍的合照&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2023/12/21/ESHo2zi78wX5fNC.png&#34; alt=&#34;IMG_9005.png&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;生活&#34;&gt;生活&lt;/h2&gt;
+&lt;p&gt;我还是挺宅的一个人，平时也很少出去；而且正好匹村确实好玩的不是很多。&lt;/p&gt;
+&lt;p&gt;*Research Lab 一起出去玩 throwing axe&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2023/12/21/8wX9TWZqLHc7rlE.png&#34; alt=&#34;IMG_9409.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;*你想活出怎样的人生
+&lt;img src=&#34;https://s2.loli.net/2023/12/21/T5xifubtqlwG1jL.jpg&#34; alt=&#34;boy and heron.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;*Carnegie Museum of Art and Natural History（Carnegie 真的好有钱）
+&lt;img src=&#34;https://s2.loli.net/2023/12/21/VHN6usBG7DMkZ1Q.jpg&#34; alt=&#34;carnegie art museum.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;*Light Up Night
+&lt;img src=&#34;https://s2.loli.net/2023/12/21/3ujCphJbMYHe8U9.jpg&#34; alt=&#34;light up night.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;*很久没有见过的烟花
+&lt;img src=&#34;https://s2.loli.net/2023/12/21/3dbj7yKi6YohLX2.jpg&#34; alt=&#34;fireworks.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;*不知道为什么让我感觉很搞笑的一条鱼（感觉它好像很有智慧的样子）
+&lt;img src=&#34;https://s2.loli.net/2023/12/21/pL1VSIhJxTiQ46z.jpg&#34; alt=&#34;fish.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;*泰坦尼克旧物的展览
+&lt;img src=&#34;https://s2.loli.net/2023/12/21/SHrpIhgFOw3c8Pu.png&#34; alt=&#34;IMG_9490.png&#34;&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>LLM Inference 简述</title>
+      <link>https://preminstrel.github.io/blog/post/2023/10/28/llminference/</link>
+      <pubDate>Sat, 28 Oct 2023 23:56:28 -0400</pubDate>
+      <author>preminstrel@gmail.com (Hanshi Sun)</author>
+      <guid>https://preminstrel.github.io/blog/post/2023/10/28/llminference/</guid>
+      <description>&lt;h2 id=&#34;llm-parameters&#34;&gt;LLM Parameters&lt;/h2&gt;
+&lt;p&gt;LLM 中的每个 Transformer 包括 self-attn block 和 MLP block，总参数量为 $12h^2+13h$。如果 LLM 有 $l$ layers, 包括 embedding 一起算，总参数量为 $l(12h^2+13h)+Vh$。同时，对于一个 $l$ layers 的 LLM，FLOPs 为 $l(24bsh^2+4bs^2h)+2bshV$ （没有计算 Softmax 和 LN 等过程）。&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Parts&lt;/th&gt;
+&lt;th&gt;Modules&lt;/th&gt;
+&lt;th&gt;Parameters&lt;/th&gt;
+&lt;th&gt;FLOPs&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;self-attn block&lt;/td&gt;
+&lt;td&gt;$W_{K}, W_V, W_Q, W_O, \text{LayerNorm}$&lt;/td&gt;
+&lt;td&gt;$4h^2+6h$&lt;/td&gt;
+&lt;td&gt;$8bsh^2+4bs^2h$&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;MLP block&lt;/td&gt;
+&lt;td&gt;$W_1,W_2,\text{LayerNorm}$&lt;/td&gt;
+&lt;td&gt;$8h^2+7h$&lt;/td&gt;
+&lt;td&gt;$16bsh^2$&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;在训练的时候一般采用 AdamW optimizer，利用混合精度，为 FP32 的权重存储 FP16 格式。虽然这样多存了一份权重，但使用 FP16 计算 intermediate activations 通常能大大减少显存使用。所以，总的显存使用量往往仍然比纯 FP32 训练要小。考虑到 AdamW 会保存 FP32 的一阶动量和二阶动量，对于每个可训练参数来说，需要显存大小如下：&lt;/p&gt;
+&lt;p&gt;$$
+[\text{weights}](2+4)+[\text{gradients}](2+4)+[\text{optim}](4+4)=20 \text{ bytes}
+$$&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;注：计算 gradients 的时候可以把 FP16 释放，所以一些论文写的是 18 bytes 。&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;我们可以近似认为：&lt;strong&gt;在一次前向传递中，对于每个 token，每个模型参数，需要进行两次浮点数运算&lt;/strong&gt;，即一次乘法法运算和一次加法运算。每次 backprop 的计算量是前向传递的两倍，所以是四次，加起来是六次。如果考虑激活重计算技术来减少中间激活显存，需要进行八次。&lt;strong&gt;在给定训练tokens数、硬件环境配置的情况下，训练transformer模型的计算时间为&lt;/strong&gt;：
+$$
+\text{Training Time} = \frac{8\times s \times \text{Model Params}}{\text{num of GPUs} \times \text{Peak FLOPs} \times \text{GPU-Util}}
+$$
+&lt;em&gt;注：随着 batch size 的增大，中间激活占用的显存远远超过了模型参数显存。通常会采用&lt;strong&gt;激活重计算&lt;/strong&gt;技术来减少中间激活，理论上可以将中间激活显存从 $O(n)$ 减少到 $O(\sqrt{n})$，代价是增加了一次额外前向计算的时间，时间换空间。&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;因为少了梯度、优化器状态、中间激活，模型推理阶段占用的显存要远小于训练阶段，只包括了模型的权重大小和用来加速推理的 KV cache 。比如，如果不考虑 KV cache，对于一个 7B 的 model，用 FP16 推理，大概需要 14 GB 的显存。&lt;/p&gt;
+&lt;h2 id=&#34;kv-cache&#34;&gt;KV cache&lt;/h2&gt;
+&lt;p&gt;LLM inference 的时候，可以利用 KV cache 以 memory resource 换 computation resource，可以每次只inference 一个 word 出来。假设刚开始的 prompt shape 是 $[b, s, h]$, 得到 K, V, Q 的 shape 是 $[b,n,s,h/n]$，最后 output 的 shape 也是 $[b, s, h]$。后面 word 挨个  feed 进去 (&lt;code&gt;seq_len=1&lt;/code&gt;)，保留前面的 KV 信息。此时 input shape 是 $[b, 1, h]$，计算 self-attn 的时候把 KV concat，他们的 shape 变成了 $[b,n,s+1,h/n]$，而Q 的shape 则是 $[b,n,1,h/n]$。最后输出是 $[b, 1, h]$，decode 后就是一个 word 。&lt;/p&gt;
+&lt;p&gt;每个 token 所存储的字节数为（第一个 2 是有 KV 两个要存，第二个 2 是假设了数据类型为 FP16，需要两个字节，所以 past KV 的 shape 为 $[b, 2, n,s,h/n]$）：
+$$
+2 \times 2 \times n_{\text{layer}} \times n_{\text{head}} \times \frac{h}{n_{\text{head}}}
+$$
+对于一个 $n_{\text{layer}}=64, h=8192$ 的 model 来说，按照 FP16，一个 token 的 KV cache 要占用大概 $4\times 64\times 8192\approx 0.002GB$，1000 个 token 的 KV cache 就 2GB 了，还是挺多的。此时，计算&lt;strong&gt;一个 token&lt;/strong&gt; 的 KV 所需的 Flops 为：
+$$
+2\times 2 \times n_{\text{layer}} \times  h^2
+$$
+对于 A100 来说（312e12 flops/s and 1.5e12 bytes/s of memory bandwidth），计算一个 token KV 所花的时间和为了计算 KV我们需要加载权重 $W_{k}, W_v$ 所花的时间为
+$$
+\text{Computation} = 4n_{\text{layer}}h^2/312e12
+$$&lt;/p&gt;
+&lt;p&gt;$$
+\text{Memory} = 4n_{\text{layer}}h^2/1.5e12
+$$&lt;/p&gt;
+&lt;p&gt;显然，Memory 要花 208 倍的时间，如果我们要计算一个 token 的 KV，和计算 208 个 token 的 KV 花的时间是一样的。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;如果我们计算的 token 数小于 208，就会受到 memory bandwidth bound&lt;/li&gt;
+&lt;li&gt;如果我们计算的 token 数大于 208，就会受到计算 flops bound&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;每个 transformer 层的总参数为 $12h^2+13h$，除了 KV 计算的其他部分也依照这个 208 的 rule。注意，我们必须提高 batch size，否则是不划算的，会受到 memory bound，还不如直接计算。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2023/10/30/QPoXtgUwcT6YBOy.png&#34; alt=&#34;KVcache.excalidraw.png&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;model-parallelism&#34;&gt;Model Parallelism&lt;/h2&gt;
+&lt;p&gt;Model Parallelism 包括了 tensor parallel 和 pipeline parallel 。tensor parallel 在模型的中间split，每个 GPU 将权重分片推理。pipeline parallel 是每个 GPU host 一些完整的层，pipeline 在 inference 的时候会出现问题，每次只有一个 GPU 在 working。 pipeline parallel 的好处就是减少了 communication，因为每个 GPU 只要和下一个 GPU communicate 就好了，model parallel 则是全部都要一起 communicate 。对于每个 GPU，需要 communicate 的数据量为 $4(N-1)h/N$。下图是 Kipp blog 中用的一幅图，我就偷过来直接用 XD。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://kipp.ly/img/arithmetic_transformers/mp.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;reference&#34;&gt;Reference&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://kipp.ly/transformer-inference-arithmetic/&#34;&gt;Transformer Inference Arithmetic&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://zhuanlan.zhihu.com/p/624740065&#34;&gt;分析transformer模型的参数量、计算量、中间激活、KV cache&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
     <item>
       <title>2023年七月新番Review</title>
       <link>https://preminstrel.github.io/blog/post/2023/10/09/anime2023s3/</link>
@@ -791,58 +911,6 @@ TOEFL感觉最重要最难的是听力，最容易提升的是写作。还有一
 &lt;p&gt;VFS Global&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;五月九日，收到了北京发来的 EMS，贴签结束。查看签证后，发现是 WX-1，有效期到 2029-07-08，还算满意了。但是申请签证的过程，堪称折磨。&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Mitacs Globalink Research Intern</title>
-      <link>https://preminstrel.github.io/blog/post/2022/04/15/mitacs/</link>
-      <pubDate>Fri, 15 Apr 2022 13:47:07 +0800</pubDate>
-      <author>preminstrel@gmail.com (Hanshi Sun)</author>
-      <guid>https://preminstrel.github.io/blog/post/2022/04/15/mitacs/</guid>
-      <description>&lt;p&gt;去年八月份的时候，学校教务处官网发了申报 Mitacs 项目的相关申报流程。简单来说，这个项目是加拿大 Mitasc 和 CSC 的合作项目，每年选派 200 名本科生在大三暑假去加拿大各高校去进行 Research。这个项目和自己套的暑研比，优缺点也是比较明显的。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Pros&lt;/strong&gt;: 每个月国家提供经费 $1800，国家承担来回机票，报销签证费用；Mitacs 免费帮买保险，也有理由可以去进行课内的暑期短学期的学分替换，签证申请比较方便等。&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Cons&lt;/strong&gt;: 套到的项目和学校都不如自己套的好，项目匹配机制比较迷，周期很长，需要填很多材料，申请流程比较繁琐。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;我最后是录到了 University of Alberta 的 ECE department 的一个华人老师 &lt;a href=&#34;https://www.ece.ualberta.ca/~xingyu/index.html&#34;&gt;Xingyu Li&lt;/a&gt; 的 Weak/self supervision for abnormal detection in medical image analysis 项目，下面我来简单谈谈申请流程。&lt;/p&gt;
-&lt;h2 id=&#34;personal-background&#34;&gt;Personal Background&lt;/h2&gt;
-&lt;p&gt;首先提供我申请时的背景。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;本科 SEU，CGPA: 3.98/4, 93.8/100&lt;/li&gt;
-&lt;li&gt;无语言成绩，无竞赛，有国奖等零碎的奖学金&lt;/li&gt;
-&lt;li&gt;有一段相关科研和毫不相关的科研经历，有一篇 EI 水会并未在 CV 提及&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;timeline&#34;&gt;Timeline&lt;/h2&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;em&gt;2021-09-04&lt;/em&gt;   完成 Mitacs 网申，收到自动回复的邮件说 Application Complete&lt;/li&gt;
-&lt;li&gt;&lt;em&gt;2021-09-26&lt;/em&gt;   收到邮件说申请 portal 已关闭：2022 Globalink Research Internship applications now closed&lt;/li&gt;
-&lt;li&gt;&lt;em&gt;2021-11-07&lt;/em&gt;   陆续有人收到拒信&lt;/li&gt;
-&lt;li&gt;&lt;em&gt;2021-11-10&lt;/em&gt;   官网更新消息，CUC (Candidate under consideration)，也就是通过初审，进入项目匹配阶段。这一阶段大家可能会收到一些老师的面试和相关信息&lt;/li&gt;
-&lt;li&gt;&lt;em&gt;2021-11-18&lt;/em&gt;   收到第一个面试邮件，是我 Rank 7 UBC 的一位女老师。提出了以下面试细节：
-&lt;ul&gt;
-&lt;li&gt;5-10 min interview&lt;/li&gt;
-&lt;li&gt;Zoom is required, with video if possible&lt;/li&gt;
-&lt;li&gt;time restricted, on Friday Nov 19th, noon PDT (Vancouver time)&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;em&gt;2021-11-20&lt;/em&gt;   凌晨四点，进入 Zoom 会议，面试的人有七个，我排在倒数第二个，我以为大概五点多到我，但是四点半就到我了。因为这个老师面试极快，先 30s 介绍了自己的项目，然后就问了我一个问题——介绍你以前的project，我讲之前，她问我你能不能在两分钟之内结束。我打开自己做的 Slides 开始讲，成功在两分钟之内讲完了。说好的 5-10 min 呢？我很快讲完之后，她直接说：OK，have a good day, you can leave the zoom room. 面完就感觉她挺急的，这个 rank 7 的项目估计是寄了，不过也不咋心疼&lt;/li&gt;
-&lt;li&gt;&lt;em&gt;2021-12-10&lt;/em&gt;   Portal 出 offer 了 是 Alberta 无面试录了。下午一点收到了 offer 邮件，说匹配成功，Congratulations&lt;/li&gt;
-&lt;li&gt;&lt;em&gt;2021-12-11&lt;/em&gt;   可以在 Portal 上 accept 了，接受之后会有一封感谢信发到邮箱&lt;/li&gt;
-&lt;li&gt;&lt;em&gt;2022-02-17&lt;/em&gt;   收到下一步的邮件，填写一些 agreement 和个人信息。关于疫情是否 on site，Mitacs 觉得是大概率 on site 的。&lt;/li&gt;
-&lt;li&gt;&lt;em&gt;2022-03-01&lt;/em&gt;   在 IRCC Portal 申请了签证&lt;/li&gt;
-&lt;li&gt;&lt;em&gt;2022-03-04&lt;/em&gt;   去上海签证中心录生物信息，进入漫长的 Visa 审核流程&lt;/li&gt;
-&lt;li&gt;&lt;em&gt;2022-03-22&lt;/em&gt;   CSC 系统更新，发贺信，进行签约和一些银行卡开卡手续&lt;/li&gt;
-&lt;li&gt;&lt;em&gt;2022-04-15&lt;/em&gt;   最近上海爆发疫情，CSC 银行卡的寄送受到了影响，我们也封校了，签证还在审理中&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2 id=&#34;application-detail&#34;&gt;Application Detail&lt;/h2&gt;
-&lt;p&gt;这里说一说我认为的对成功申请和匹配的一些建议和细节。首先，匹配分两个阶段。第一阶段初审过后，会分为三类：CUC、Waitlist、Rej。CUC 代表经过初审，可以去和教授进行面试和 rerank 来匹配。匹配结束后，CUC 有可能没匹配上，进入 Waitlist。然后是第二轮匹配，这个时候第一轮的 Waitlist 有概率会被录取，但是可能性比较小。&lt;/p&gt;
-&lt;h3 id=&#34;初审---cuc&#34;&gt;初审 -&amp;gt; CUC&lt;/h3&gt;
-&lt;p&gt;想要通过初审，那么 GPA 和 Resume 是最重要的。也可以看到，我没有任何竞赛和语言成绩，依旧通过了初审。所以 transcript 和 Resume 至关重要。GPA 这个也不好准备，大家都知道，基本上低于 85 分就没啥希望了。主要努力方向还是 Resume。Mitacs 官网会提供 Resume Template，但是我不建议用。个人写自己的 Resume 是要去突出自己的优势，稍微掩盖自己的劣势的。同时，Mitacs 给的模板比较粗糙，不好看。所以我建议用 LaTeX 进行写作，Overleaf 上也可以找到一些好看的模板，不会装 LaTeX 的可以用 Overleaf 在线编译下载 PDF（最好还是学一下 LaTeX，这个不会就去做 Research 也挺离谱的）。&lt;/p&gt;
-&lt;h3 id=&#34;interview---offer&#34;&gt;Interview -&amp;gt; Offer&lt;/h3&gt;
-&lt;p&gt;这个阶段基本是最难熬的，可能会很焦虑。尤其是当你发现，自己一封邮件没收到，群里小伙伴有的都面完五六个老师的时候，心里会很不是滋味。这里我想说的是，无面试录取的可能性很大，尤其是 University of Alberta，好多都是没面试直接拿 Offer 的。如果你有幸被面试，那么一定要提前做好展示的 Slides，然后配置好网络环境（科学上网），最后面试完给老师发一封感谢信。&lt;/p&gt;
-&lt;h2 id=&#34;conclusion&#34;&gt;Conclusion&lt;/h2&gt;
-&lt;p&gt;这个项目总体来说，由于 Mitacs 的谜一般的匹配机制，所以也是比较看运气的。所以，如果没录不用觉得自己咋样，自己套往往是更好的。祝大家都能拿到 offer。&lt;/p&gt;
 </description>
     </item>
     

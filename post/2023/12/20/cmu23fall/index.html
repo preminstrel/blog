@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="zh"><head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CMU 23Fall Checkpoint</title>
+    <meta charset="utf-8">
+    <meta name="description" content="Ladder@在 CMU 的第一个学期（1/3 的 Master 生涯）过去了，感觉这个学期还是学了很多东西的——可以很自信地说，但是现在的我要比半年前强（虽然还是很弱）。本学期">
+    <meta name="author" content="Hanshi Sun">
+    <link rel="canonical" href="https://preminstrel.github.io/blog/post/2023/12/20/cmu23fall/">
+
+    <link rel="alternate" type="application/rss+xml" href="https://preminstrel.github.io/blog//index.xml" title="Hanshi Sun&#39;s Blog">
+
+    
+
+
+    <meta property="og:title" content="CMU 23Fall Checkpoint" />
+<meta property="og:description" content="在 CMU 的第一个学期（1/3 的 Master 生涯）过去了，感觉这个学期还是学了很多东西的——可以很自信地说，但是现在的我要比半年前强（虽然还是很弱）。本学期" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://preminstrel.github.io/blog/post/2023/12/20/cmu23fall/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2023-12-20T17:49:19-05:00" />
+<meta property="article:modified_time" content="2023-12-20T17:49:19-05:00" />
+<meta property="og:see_also" content="https://preminstrel.github.io/blog/post/2023/10/07/cmu_kickstart/" /><meta property="og:see_also" content="https://preminstrel.github.io/blog/post/2023/04/18/us_visa/" />
+
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="CMU 23Fall Checkpoint"/>
+<meta name="twitter:description" content="在 CMU 的第一个学期（1/3 的 Master 生涯）过去了，感觉这个学期还是学了很多东西的——可以很自信地说，但是现在的我要比半年前强（虽然还是很弱）。本学期"/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://preminstrel.github.io/blog/post/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "CMU 23Fall Checkpoint",
+      "item": "https://preminstrel.github.io/blog/post/2023/12/20/cmu23fall/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "CMU 23Fall Checkpoint",
+  "name": "CMU 23Fall Checkpoint",
+  "description": "在 CMU 的第一个学期（1/3 的 Master 生涯）过去了，感觉这个学期还是学了很多东西的——可以很自信地说，但是现在的我要比半年前强（虽然还是很弱）。本学期",
+  "keywords": [
+    "CMU", "US"
+  ],
+  "articleBody": "在 CMU 的第一个学期（1/3 的 Master 生涯）过去了，感觉这个学期还是学了很多东西的——可以很自信地说，但是现在的我要比半年前强（虽然还是很弱）。本学期三门课都拿了 A+，但是由于 ECE 学院不区分 A+/A/A-，所以统一成了 A（感觉以后可以少花一些时间在课程上了）。下学期的课 enroll 了 Li Lei 的 LLM Sys 和大名鼎鼎的 CSAPP，希望可以对 system 有更系统全面的了解，已经开始期待能学到多少东西了。下面稍微讲一下这学期的几门课。\n11-785 Introduction to DL Bhiksha 的课，之前在 fall break 的 blog 中我已经夸过它了，所以这里来说几点其他的。这门课想要拿高分确实不难，因为没有考试，作业给的时间也比较充足，所以大家分数基本都很高。由于 Bhiksha 是在 LTI 学院做 Speech 的，所以这门课好像除了第二个 Homework 是 Face Classification \u0026 Verification，其他 Homework 都是关于 Speech Recognition 的（相比之下，ECE 学院的 Intro to DL 大部分的 Homework 和 Project 都是关于 Computer Vision 的）。\n关于workload，这门课我感觉主要是前面花的时间稍微多一些，最后一个月我几乎没有花什么时间在上面。看起来 write-up 很吓人，但是其实做起来真的还好。 每个 Homework 的 Part1 都可以一天内完成（不过我记得 Bonus 中第一个 Autograd 我 Debug 花的时间有点长）。虽然 Part2 每个都给了快一个月的训练时间，但是我感觉只要模型结构设计得还行，适当加点 regularization 和其他的 trick 基本都可以达到 high cutoff 拿满分。反而我是觉得每周的 Quiz 还挺折磨的，每周都得花点时间去做一下。不过需要注意一下计算资源的使用情况，如果天天跑的话，400 刀的 GCP 和 150 刀的 AWS credits 远远不够。\n我不是很喜欢这门课的 Project，给的时间不够充足，也不提供额外的计算资源，而且还是小组作业（这可能是罪魁祸首）。让我感觉有点在浪费时间生产所谓的科研垃圾，还不如 enroll 11-685 版本去做 HW5——implement a LLM from scratch。也听说之前有人靠着 Project 发了顶会，不过实际体验下来我感觉这部分的 support 做得还不够好。\n从我自身的感受出发，我觉得这门课最大的价值是把很多东西讲清楚的同时，用比较好的 Homework 来巩固 coding 能力，每周的 Quiz 来巩固理论知识。说实话，在上这门课之前，我做 DL 的一些 Project 很多时候都是直接依葫芦画瓢，并不清楚这一行代码背后真正在运行什么（只知道这行代码是用来干什么的），也对深度学习框架只有一个比较模糊的认知（本课的 HW Part1 完美解决了这个问题），这门课绝对配得上是 CMU 的神课之一。正如 Bhiksha 在第一节课说的，如果这门课拿了 A，说明你已经初步具备了在 DL 工业界干活的能力了。\n*下图是 11785 的 fence 。\n18-661 Introduction to ML 这门课是 Beidi 和 Yuejie 一起上的，课程质量还是可以的。和上面的 Intro2DL 相比，这门课更像一门数学课，有期中和期末，允许带 Cheating Sheet 。这门课从 MLE 一直讲到 RL，几乎把基础的 ML 都覆盖到了。我刷题的时候也顺便刷了 10-601 的期中期末，感觉确实讲的东西要比 10-601 的少一些，比如没有讲到 VC Dimension 什么的，不过总的来说算是一门合格的 Intro to ML 课了，弥补了我很多缺失的基础知识。\n这门课拿 A 还是很容易的，因为有 6 分的 Bonus，算是 106 满分。期末要比期中简单很多，换算成 100 班级均分能有 76 分了。我感觉考试 few-shot 一下往年题就可以了，Cheating Sheet也可以用 LaTeX 打印，更加 compact 一些。Workload 的话，感觉不是很大，主要就是复习考试的时候要花点时间刷刷题，过一遍 slides 这样的。\n18-797 ML for Signal Processing (MLSP) 相比前两门课，这门课我用的时间就不是那么多了。这门课也是 Bhiksha 讲，所以课程质量还是有保障的；但是可以明显感受到，这门课的 infra 没有 11-785 好。MLSP 的一个很大的问题就是，讲的东西有点快了，而且相对比较 theory，如果这学期没有上 18-661，可能这门课花的时间会更长。这门课和 661 可以起到一个相互补充的作用，比如 661 中的 EM 讲的不是很清楚，再听一下这门课的版本，说不定就清晰很多了。\nMLSP 的 workload 也算还行，包括每周的 Quiz 和四次 HW，一个小组作业 Project 。和 11-785 一样，我觉得小组 Project 中并没有学到很多东西，同时 project timeline 的设置也不是很合理。HW 我感觉质量还行，有的还挺有趣的。总得来说，这门课我学到的东西不如前两门课多，当然这也和课程内容与 661 有 overlap 有一定关系；我看 FCEs 里面大家对这门课的评价还是非常高的，还算值得一上的。\n*下图是 Halloween 的时候拍的合照\n生活 我还是挺宅的一个人，平时也很少出去；而且正好匹村确实好玩的不是很多。\n*Research Lab 一起出去玩 throwing axe\n*你想活出怎样的人生 *Carnegie Museum of Art and Natural History（Carnegie 真的好有钱） *Light Up Night *很久没有见过的烟花 *不知道为什么让我感觉很搞笑的一条鱼（感觉它好像很有智慧的样子） *泰坦尼克旧物的展览 ",
+  "wordCount" : "1771",
+  "inLanguage": "zh",
+  "datePublished": "2023-12-20T17:49:19-05:00",
+  "dateModified": "2023-12-20T17:49:19-05:00",
+  "author":{
+    "@type": "Person",
+    "name": "Hanshi Sun"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://preminstrel.github.io/blog/post/2023/12/20/cmu23fall/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Hanshi Sun's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://preminstrel.github.io/blog/favicon.ico"
+    }
+  }
+}
+</script>
+    <link rel="icon" href="/blog/favicon.ico" sizes="16x16">
+
+<link rel="apple-touch-icon" href="/blog/favicon.ico">
+
+<link rel="manifest" href="/blog/favicon.ico">
+    
+
+    <link rel="stylesheet" href="https://cdn.staticfile.org/lxgw-wenkai-webfont/1.6.0/style.css" />
+
+    
+    
+    
+    <link rel="stylesheet" href="/blog/css/main.min.0ab3ddcbfd547075b76e6049181a27bc69095a4a83cec7e9f6d5251546fdcc13.css" integrity="sha256-CrPdy/1UcHW3bmBJGBonvGkJWkqDzsfp9tUlFUb9zBM=" crossorigin="anonymous" media="screen" />
+    
+
+
+    
+    <link rel="stylesheet" href="/blog/scss/highlight/github-dark.min.min.66034289ee9a113219a2c4aae0a8bd2095ab255c832a42efcf5863f10814e7a1.css" />
+
+    
+    <script src="/blog/js/highlight.min.min.872dfd2cd00064018a833a6e8e77a0fbf8fbac159546f2f205d4dad79a5d8e15.js"></script>
+    <script>hljs.highlightAll();</script>
+
+    <script>(()=>{var t=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,e=localStorage.getItem("theme");t&&e===null&&(localStorage.setItem("theme","dark"),document.documentElement.setAttribute("data-dark-mode","")),t&&e==="dark"&&document.documentElement.setAttribute("data-dark-mode",""),e==="dark"&&document.documentElement.setAttribute("data-dark-mode","")})()</script>
+    </head>
+<body>
+      <main class="wrapper"><nav class="navigation">
+    <section class="container">
+        <a class="navigation-brand" href="/blog">
+            主页
+        </a>
+        <input type="checkbox" id="menu-toggle" />
+        <label class="menu-button float-right" for="menu-toggle">
+            <span></span><span></span><span></span>
+        </label>
+        
+        <ul class="navigation-list" id="navigation-list">
+            
+            
+            <li class="navigation-item navigation-menu">
+                <a class="navigation-link" href="/blog/post">文章</a>
+            </li>
+            
+            <li class="navigation-item navigation-menu">
+                <a class="navigation-link" href="/blog/archives">归档</a>
+            </li>
+            
+            <li class="navigation-item navigation-menu">
+                <a class="navigation-link" href="/blog/tags">标签</a>
+            </li>
+            
+            <li class="navigation-item navigation-menu">
+                <a class="navigation-link" href="/blog/series">分类</a>
+            </li>
+            
+            
+
+            <li class="navigation-item menu-separator">
+                <span>|</span>
+            </li>
+
+            
+            
+            <li class="navigation-item navigation-social">
+                <a class="navigation-link" href="https://github.com/preminstrel"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></a>
+            </li>
+            
+            
+
+            <li class="navigation-item navigation-dark">
+                <button id="mode" type="button" aria-label="toggle user light or dark theme">
+                    <span class="toggle-dark"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-moon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></span>
+                    <span class="toggle-light"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-sun"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg></span>
+                </button>
+            </li>
+
+            
+        </ul>
+        
+    </section>
+</nav>
+<div id="content">
+<article class="blog-single">
+  <header class="blog-title">
+    <h1>CMU 23Fall Checkpoint</h1>
+  </header>
+
+  <p>
+  <small>
+    2023年12月20日&nbsp;· 1771 字&nbsp;· 4 分钟</small>
+
+  <small>
+      
+      ·
+      
+      
+      <a href="https://preminstrel.github.io/blog/tags/cmu/">CMU</a>
+      
+      <a href="https://preminstrel.github.io/blog/tags/us/">US</a>
+      
+    </small>
+  
+<p>
+
+  <div class="blog-toc">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#11-785-introduction-to-dl">11-785 Introduction to DL</a></li>
+    <li><a href="#18-661-introduction-to-ml">18-661 Introduction to ML</a></li>
+    <li><a href="#18-797-ml-for-signal-processing-mlsp">18-797 ML for Signal Processing (MLSP)</a></li>
+    <li><a href="#生活">生活</a></li>
+  </ul>
+</nav>
+  </div>
+
+  <section class="blog-content"><p>在 CMU 的第一个学期（1/3 的 Master 生涯）过去了，感觉这个学期还是学了很多东西的——可以很自信地说，但是现在的我要比半年前强（虽然还是很弱）。本学期三门课都拿了 A+，但是由于 ECE 学院不区分 A+/A/A-，所以统一成了 A（感觉以后可以少花一些时间在课程上了）。下学期的课 enroll 了 Li Lei 的 LLM Sys 和大名鼎鼎的 CSAPP，希望可以对 system 有更系统全面的了解，已经开始期待能学到多少东西了。下面稍微讲一下这学期的几门课。</p>
+<h2 id="11-785-introduction-to-dl">11-785 Introduction to DL</h2>
+<p>Bhiksha 的课，之前在 <a href="/blog/post/2023/10/07/cmu_kickstart/">fall break 的 blog</a> 中我已经夸过它了，所以这里来说几点其他的。这门课想要拿高分确实不难，因为没有考试，作业给的时间也比较充足，所以大家分数基本都很高。由于 Bhiksha 是在 LTI 学院做 Speech 的，所以这门课好像除了第二个 Homework 是 Face Classification &amp; Verification，其他 Homework 都是关于 Speech Recognition 的（相比之下，ECE 学院的 Intro to DL 大部分的 Homework 和 Project 都是关于 Computer Vision 的）。</p>
+<p>关于workload，这门课我感觉主要是前面花的时间稍微多一些，最后一个月我几乎没有花什么时间在上面。看起来 write-up 很吓人，但是其实做起来真的还好。 每个 Homework 的 Part1 都可以一天内完成（不过我记得 Bonus 中第一个 Autograd 我 Debug 花的时间有点长）。虽然 Part2 每个都给了快一个月的训练时间，但是我感觉只要模型结构设计得还行，适当加点 regularization 和其他的 trick 基本都可以达到 high cutoff 拿满分。反而我是觉得每周的 Quiz 还挺折磨的，每周都得花点时间去做一下。不过需要注意一下计算资源的使用情况，如果天天跑的话，400 刀的 GCP 和 150 刀的 AWS credits 远远不够。</p>
+<p>我不是很喜欢这门课的 Project，给的时间不够充足，也不提供额外的计算资源，而且还是小组作业（这可能是罪魁祸首）。让我感觉有点在浪费时间生产所谓的科研垃圾，还不如 enroll 11-685 版本去做 HW5——implement a LLM from scratch。也听说之前有人靠着 Project 发了顶会，不过实际体验下来我感觉这部分的 support 做得还不够好。</p>
+<p>从我自身的感受出发，我觉得这门课最大的价值是把很多东西讲清楚的同时，用比较好的 Homework 来巩固 coding 能力，每周的 Quiz 来巩固理论知识。说实话，在上这门课之前，我做 DL 的一些 Project 很多时候都是直接依葫芦画瓢，并不清楚这一行代码背后真正在运行什么（只知道这行代码是用来干什么的），也对深度学习框架只有一个比较模糊的认知（本课的 HW Part1 完美解决了这个问题），这门课绝对配得上是 CMU 的神课之一。正如 Bhiksha 在第一节课说的，如果这门课拿了 A，说明你已经初步具备了在 DL 工业界干活的能力了。</p>
+<p>*下图是 11785 的 fence 。</p>
+<p><img src="https://s2.loli.net/2023/12/21/795npSglFf1NAKX.png" alt="IMG_9067.png"></p>
+<h2 id="18-661-introduction-to-ml">18-661 Introduction to ML</h2>
+<p>这门课是 Beidi 和 Yuejie 一起上的，课程质量还是可以的。和上面的 Intro2DL 相比，这门课更像一门数学课，有期中和期末，允许带 Cheating Sheet 。这门课从 MLE 一直讲到 RL，几乎把基础的 ML 都覆盖到了。我刷题的时候也顺便刷了 10-601 的期中期末，感觉确实讲的东西要比 10-601 的少一些，比如没有讲到 VC Dimension 什么的，不过总的来说算是一门合格的 Intro to ML 课了，弥补了我很多缺失的基础知识。</p>
+<p>这门课拿 A 还是很容易的，因为有 6 分的 Bonus，算是 106 满分。期末要比期中简单很多，换算成 100 班级均分能有 76 分了。我感觉考试 few-shot 一下往年题就可以了，Cheating Sheet也可以用 LaTeX 打印，更加 compact 一些。Workload 的话，感觉不是很大，主要就是复习考试的时候要花点时间刷刷题，过一遍 slides 这样的。</p>
+<p><img src="https://s2.loli.net/2023/12/21/5ydlTPjHYKoJ61s.png" alt="IMG_8966.png"></p>
+<h2 id="18-797-ml-for-signal-processing-mlsp">18-797 ML for Signal Processing (MLSP)</h2>
+<p>相比前两门课，这门课我用的时间就不是那么多了。这门课也是 Bhiksha 讲，所以课程质量还是有保障的；但是可以明显感受到，这门课的 infra 没有 11-785 好。MLSP 的一个很大的问题就是，讲的东西有点快了，而且相对比较 theory，如果这学期没有上 18-661，可能这门课花的时间会更长。这门课和 661 可以起到一个相互补充的作用，比如 661 中的 EM 讲的不是很清楚，再听一下这门课的版本，说不定就清晰很多了。</p>
+<p>MLSP 的 workload 也算还行，包括每周的 Quiz 和四次 HW，一个小组作业 Project 。和 11-785 一样，我觉得小组 Project 中并没有学到很多东西，同时 project timeline 的设置也不是很合理。HW 我感觉质量还行，有的还挺有趣的。总得来说，这门课我学到的东西不如前两门课多，当然这也和课程内容与 661 有 overlap 有一定关系；我看 FCEs 里面大家对这门课的评价还是非常高的，还算值得一上的。</p>
+<p>*下图是 Halloween 的时候拍的合照</p>
+<p><img src="https://s2.loli.net/2023/12/21/ESHo2zi78wX5fNC.png" alt="IMG_9005.png"></p>
+<h2 id="生活">生活</h2>
+<p>我还是挺宅的一个人，平时也很少出去；而且正好匹村确实好玩的不是很多。</p>
+<p>*Research Lab 一起出去玩 throwing axe</p>
+<p><img src="https://s2.loli.net/2023/12/21/8wX9TWZqLHc7rlE.png" alt="IMG_9409.png"></p>
+<p>*你想活出怎样的人生
+<img src="https://s2.loli.net/2023/12/21/T5xifubtqlwG1jL.jpg" alt="boy and heron.png"></p>
+<p>*Carnegie Museum of Art and Natural History（Carnegie 真的好有钱）
+<img src="https://s2.loli.net/2023/12/21/VHN6usBG7DMkZ1Q.jpg" alt="carnegie art museum.png"></p>
+<p>*Light Up Night
+<img src="https://s2.loli.net/2023/12/21/3ujCphJbMYHe8U9.jpg" alt="light up night.png"></p>
+<p>*很久没有见过的烟花
+<img src="https://s2.loli.net/2023/12/21/3dbj7yKi6YohLX2.jpg" alt="fireworks.png"></p>
+<p>*不知道为什么让我感觉很搞笑的一条鱼（感觉它好像很有智慧的样子）
+<img src="https://s2.loli.net/2023/12/21/pL1VSIhJxTiQ46z.jpg" alt="fish.png"></p>
+<p>*泰坦尼克旧物的展览
+<img src="https://s2.loli.net/2023/12/21/SHrpIhgFOw3c8Pu.png" alt="IMG_9490.png"></p>
+</section>
+
+  
+  
+  <div class="paginator">
+    
+    
+    <a class="next" href="https://preminstrel.github.io/blog/post/2023/10/28/llminference/"><span>LLM Inference 简述</span>
+        <svg class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3.77086 21.1546C11.0491 22.698 21.4339 21.7773 21.4339 16.3608V4.63375C21.4339 3.93962 21.3581 3.30535 21.1917 2.76787M3.77086 21.1546C1.9934 20.7777 0.973585 18.7264 1.08749 16.688C1.2668 13.479 1.15721 9.43135 1.00513 6.21507C0.87809 3.52811 3.12891 1.16316 5.51029 1.25008C9.76594 1.40542 15.377 1.20229 18.7912 1.00542C20.0864 0.930734 20.8406 1.63385 21.1917 2.76787M3.77086 21.1546C4.56586 21.4723 5.49168 21.7879 6.5 22.0658M21.1917 2.76787C23.1097 4.18217 23.13 12.4191 22.9004 16.3608C20.8478 24.0194 12.3061 23.6662 6.5 22.0658M21.1917 2.76787C21.7612 4.51192 22.7203 9.67216 22 16.3608C21.2797 23.0494 11.3665 22.9511 6.5 22.0658M12.055 9C12.711 9.61644 14.3679 10.997 15.9519 11.7966C16.0174 11.8297 16.0154 11.9753 15.9494 12.0063C14.945 12.4779 13.0706 13.9264 12.055 15M15.5556 11.9667C13.1345 12.0608 8 12 6 11" stroke="currentColor" stroke-linecap="round"/>
+        <svg class="icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M3.77086 21.1546C11.0491 22.698 21.4339 21.7773 21.4339 16.3608V4.63375C21.4339 3.93962 21.3581 3.30535 21.1917 2.76787M3.77086 21.1546C1.9934 20.7777 0.973585 18.7264 1.08749 16.688C1.2668 13.479 1.15721 9.43135 1.00513 6.21507C0.87809 3.52811 3.12891 1.16316 5.51029 1.25008C9.76594 1.40542 15.377 1.20229 18.7912 1.00542C20.0864 0.930734 20.8406 1.63385 21.1917 2.76787M3.77086 21.1546C4.56586 21.4723 5.49168 21.7879 6.5 22.0658M21.1917 2.76787C23.1097 4.18217 23.13 12.4191 22.9004 16.3608C20.8478 24.0194 12.3061 23.6662 6.5 22.0658M21.1917 2.76787C21.7612 4.51192 22.7203 9.67216 22 16.3608C21.2797 23.0494 11.3665 22.9511 6.5 22.0658M12.055 9C12.711 9.61644 14.3679 10.997 15.9519 11.7966C16.0174 11.8297 16.0154 11.9753 15.9494 12.0063C14.945 12.4779 13.0706 13.9264 12.055 15M15.5556 11.9667C13.1345 12.0608 8 12 6 11" stroke="currentColor" stroke-linecap="round"/>
+        </svg>
+    </a>
+    
+  </div>
+  
+
+  
+
+<div class="related-resources">
+  
+    
+    
+    
+    <h3>相关系列文章推荐</h3>
+      <nav>
+        <ul>
+        
+        
+          
+        
+          
+            <li>
+              <a href="/blog/post/2023/10/07/cmu_kickstart/">CMU Kick Start</a>
+            </li>
+          
+        
+          
+            <li>
+              <a href="/blog/post/2023/04/18/us_visa/">US Visa</a>
+            </li>
+          
+        
+        </ul>
+      </nav>
+    
+  
+</div>
+
+
+</article>
+
+        </div><footer class="footer">
+<p>
+&copy; 2023 <a href="https://preminstrel.com"> Hanshi Sun</a>
+</p>
+</footer>
+
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10.5376 22.7916C11.0152 22.7207 22.5795 21.1781 22.0978 10.4211C22.0536 9.43274 21.9303 8.53367 21.7387 7.71865M10.5376 22.7916C16.876 22.3728 20.0969 19.8899 21.5383 16.9142M10.5376 22.7916C9.7707 22.9055 8.97982 22.8964 8.19743 22.7725M21.7387 7.71865C21.4988 6.69828 21.1518 5.80967 20.7188 5.04257M21.7387 7.71865C22.6022 10.1105 23.0542 13.7848 21.5383 16.9142M20.7188 5.04257C17.1684 -1.24629 7.83127 0.632493 4.27577 5.04257C2.88063 6.77451 -0.0433281 11.1668 1.38159 16.6571C2.27481 20.0988 5.17269 22.2936 8.19743 22.7725M20.7188 5.04257C22.0697 6.9404 24.0299 11.3848 22.3541 15.4153M21.5383 16.9142C21.8737 16.4251 22.1428 15.9235 22.3541 15.4153M8.19743 22.7725C12.1971 23.4683 20.6281 22.971 22.3541 15.4153M14 10.945C13.3836 10.289 12.003 8.63215 11.2034 7.04814C11.1703 6.98257 11.0247 6.98456 10.9937 7.05061C10.5221 8.05496 9.07362 9.92941 8 10.945M11.0333 7.44444C10.9392 9.86549 11 15 12 17" stroke="currentColor" stroke-linecap="round"/>
+    </svg>
+</a>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+</script>
+
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'Copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'Copied';
+            setTimeout(() => {
+                copybutton.innerHTML = 'Copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+        codeblock.parentNode.appendChild(copybutton);
+    });
+</script></main>
+    </body><script src="https://cdnjs.cloudflare.com/ajax/libs/medium-zoom/1.0.6/medium-zoom.min.js" integrity="sha512-N9IJRoc3LaP3NDoiGkcPa4gG94kapGpaA5Zq9/Dr04uf5TbLFU5q0o8AbRhLKUUlp8QFS2u7S+Yti0U7QtuZvQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <script>
+      const images = Array.from(document.querySelectorAll(".blog-content img"));
+      images.forEach(img => {
+          mediumZoom(img, {
+              margin: 10,  
+              scrollOffset: 40,  
+              container: null,  
+              template: null,  
+              background: 'rgba(0, 0, 0, 0.5)'
+          });
+      });
+  </script>
+
+  
+  <script src="/blog/main.min.6bb26b69159420159c74dc9e097b06a578ed2b68c701466a91a44a9632d851bd0af167a1b30012387b4c512b48ad9ad4d3394e04d77ae38d57e1920fe4ed34fe.js" integrity="sha512-a7JraRWUIBWcdNyeCXsGpXjtK2jHAUZqkaRKljLYUb0K8WehswASOHtMUStIrZrU0zlOBNd6441X4ZIP5O00/g==" crossorigin="anonymous" defer></script></html>
