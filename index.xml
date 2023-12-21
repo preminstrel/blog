@@ -21,7 +21,7 @@
 &lt;p&gt;关于workload，这门课我感觉主要是前面花的时间稍微多一些，最后一个月我几乎没有花什么时间在上面。看起来 write-up 很吓人，但是其实做起来真的还好。 每个 Homework 的 Part1 都可以一天内完成（不过我记得 Bonus 中第一个 Autograd 我 Debug 花的时间有点长）。虽然 Part2 每个都给了快一个月的训练时间，但是我感觉只要模型结构设计得还行，适当加点 regularization 和其他的 trick 基本都可以达到 high cutoff 拿满分。反而我是觉得每周的 Quiz 还挺折磨的，每周都得花点时间去做一下。不过需要注意一下计算资源的使用情况，如果天天跑的话，400 刀的 GCP 和 150 刀的 AWS credits 远远不够。&lt;/p&gt;
 &lt;p&gt;我不是很喜欢这门课的 Project，给的时间不够充足，也不提供额外的计算资源，而且还是小组作业（这可能是罪魁祸首）。让我感觉有点在浪费时间生产所谓的科研垃圾，还不如 enroll 11-685 版本去做 HW5——implement a LLM from scratch。也听说之前有人靠着 Project 发了顶会，不过实际体验下来我感觉这部分的 support 做得还不够好。&lt;/p&gt;
 &lt;p&gt;从我自身的感受出发，我觉得这门课最大的价值是把很多东西讲清楚的同时，用比较好的 Homework 来巩固 coding 能力，每周的 Quiz 来巩固理论知识。说实话，在上这门课之前，我做 DL 的一些 Project 很多时候都是直接依葫芦画瓢，并不清楚这一行代码背后真正在运行什么（只知道这行代码是用来干什么的），也对深度学习框架只有一个比较模糊的认知（本课的 HW Part1 完美解决了这个问题），这门课绝对配得上是 CMU 的神课之一。正如 Bhiksha 在第一节课说的，如果这门课拿了 A，说明你已经初步具备了在 DL 工业界干活的能力了。&lt;/p&gt;
-&lt;p&gt;*下图是 11785 的 fence&lt;/p&gt;
+&lt;p&gt;*下图是 11-785 的 fence&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2023/12/21/795npSglFf1NAKX.png&#34; alt=&#34;IMG_9067.png&#34;&gt;&lt;/p&gt;
 &lt;h2 id=&#34;18-661-introduction-to-ml&#34;&gt;18-661 Introduction to ML&lt;/h2&gt;
 &lt;p&gt;这门课是 Beidi 和 Yuejie 一起上的，课程质量还是可以的。和上面的 Intro2DL 相比，这门课更像一门数学课，有期中和期末，允许带 Cheating Sheet 。这门课从 MLE 一直讲到 RL，几乎把基础的 ML 都覆盖到了。我刷题的时候也顺便刷了 10-601 的期中期末，感觉确实讲的东西要比 10-601 的少一些，比如没有讲到 VC Dimension 什么的，不过总的来说算是一门合格的 Intro to ML 课了，弥补了我很多缺失的基础知识。&lt;/p&gt;
