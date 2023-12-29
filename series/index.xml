@@ -2,12 +2,12 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Series on Hanshi Sun&#39;s Blog</title>
-    <link>https://preminstrel.github.io/blog/series/</link>
+    <link>https://blog.preminstrel.com/series/</link>
     <description>Recent content in Series on Hanshi Sun&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
     <managingEditor>preminstrel@gmail.com (Hanshi Sun)</managingEditor>
     <webMaster>preminstrel@gmail.com (Hanshi Sun)</webMaster>
-    <lastBuildDate>Wed, 20 Dec 2023 17:49:19 -0500</lastBuildDate><atom:link href="https://preminstrel.github.io/blog/series/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 20 Dec 2023 17:49:19 -0500</lastBuildDate><atom:link href="https://blog.preminstrel.com/series/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>

@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on Hanshi Sun&#39;s Blog</title>
-    <link>https://preminstrel.github.io/blog/post/</link>
+    <link>https://blog.preminstrel.com/post/</link>
     <description>Recent content in Posts on Hanshi Sun&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
     <managingEditor>preminstrel@gmail.com (Hanshi Sun)</managingEditor>
     <webMaster>preminstrel@gmail.com (Hanshi Sun)</webMaster>
-    <lastBuildDate>Wed, 20 Dec 2023 17:49:19 -0500</lastBuildDate><atom:link href="https://preminstrel.github.io/blog/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 20 Dec 2023 17:49:19 -0500</lastBuildDate><atom:link href="https://blog.preminstrel.com/post/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>CMU 23Fall Checkpoint</title>
-      <link>https://preminstrel.github.io/blog/post/2023/12/20/cmu23fall/</link>
+      <link>https://blog.preminstrel.com/post/2023/12/20/cmu23fall/</link>
       <pubDate>Wed, 20 Dec 2023 17:49:19 -0500</pubDate>
       <author>preminstrel@gmail.com (Hanshi Sun)</author>
-      <guid>https://preminstrel.github.io/blog/post/2023/12/20/cmu23fall/</guid>
+      <guid>https://blog.preminstrel.com/post/2023/12/20/cmu23fall/</guid>
       <description>&lt;p&gt;在 CMU 的第一个学期（1/3 的 Master 生涯）过去了，感觉这个学期还是学了很多东西的——可以很自信地说，现在的我要比半年前强（虽然还是很弱）。本学期三门课都拿了 A+，但是由于 ECE 学院不区分 A+/A/A-，所以统一成了 A（感觉以后可以少花一些时间在课程上了）。下学期的课 enroll 了 Lei Li 的 LLM Sys 和大名鼎鼎的 CSAPP，希望可以对 system 有更系统全面的了解，已经开始期待能学到多少东西了。下面稍微讲一下这学期的几门课。&lt;/p&gt;
 &lt;h2 id=&#34;11-785-introduction-to-dl&#34;&gt;11-785 Introduction to DL&lt;/h2&gt;
-&lt;p&gt;Bhiksha 的课，之前在 &lt;a href=&#34;https://preminstrel.github.io/blog/blog/post/2023/10/07/cmu_kickstart/&#34;&gt;fall break 的 blog&lt;/a&gt; 中我已经夸过它了，所以这里来说几点其他的。这门课想要拿高分确实不难，因为没有考试，作业给的时间也比较充足，所以大家分数基本都很高。由于 Bhiksha 是在 LTI 学院做 Speech 的，所以这门课好像除了第二个 Homework 是 Face Classification &amp;amp; Verification，其他 Homework 都是关于 Speech Recognition 的（相比之下，ECE 学院的 Intro to DL 大部分的 Homework 和 Project 都是关于 Computer Vision 的）。正好下学期我要当 ECE Intro2DL 的 TA，可以看看具体有什么差别。&lt;/p&gt;
+&lt;p&gt;Bhiksha 的课，之前在 &lt;a href=&#34;https://blog.preminstrel.com/blog/post/2023/10/07/cmu_kickstart/&#34;&gt;fall break 的 blog&lt;/a&gt; 中我已经夸过它了，所以这里来说几点其他的。这门课想要拿高分确实不难，因为没有考试，作业给的时间也比较充足，所以大家分数基本都很高。由于 Bhiksha 是在 LTI 学院做 Speech 的，所以这门课好像除了第二个 Homework 是 Face Classification &amp;amp; Verification，其他 Homework 都是关于 Speech Recognition 的（相比之下，ECE 学院的 Intro to DL 大部分的 Homework 和 Project 都是关于 Computer Vision 的）。正好下学期我要当 ECE Intro2DL 的 TA，可以看看具体有什么差别。&lt;/p&gt;
 &lt;p&gt;关于workload，这门课我感觉主要是前面花的时间稍微多一些，最后一个月我几乎没有花什么时间在上面。看起来 write-up 很吓人，但是其实做起来真的还好。 每个 Homework 的 Part1 都可以一天内完成（不过我记得 Bonus 中第一个 Autograd 我 Debug 花的时间有点长）。虽然 Part2 每个都给了快一个月的训练时间，但是我感觉只要模型结构设计得还行，适当加点 regularization 和其他的 trick 基本都可以达到 high cutoff 拿满分。反而我是觉得每周的 Quiz 还挺折磨的，每周都得花点时间去做一下。不过需要注意一下计算资源的使用情况，如果天天跑的话，400 刀的 GCP 和 150 刀的 AWS credits 远远不够。&lt;/p&gt;
 &lt;p&gt;我不是很喜欢这门课的 Project，给的时间不够充足，也不提供额外的计算资源，而且还是小组作业（这可能是罪魁祸首）。让我感觉有点在浪费时间生产所谓的科研垃圾，还不如 enroll 11-685 版本去做 HW5——implement a LLM from scratch。也听说之前有人靠着 Project 发了顶会，不过实际体验下来我感觉这部分的 support 做得还不够好。&lt;/p&gt;
 &lt;p&gt;从我自身的感受出发，我觉得这门课最大的价值是把很多东西讲清楚的同时，用比较好的 Homework 来巩固 coding 能力，每周的 Quiz 来巩固理论知识。说实话，在上这门课之前，我做 DL 的一些 Project 很多时候都是直接依葫芦画瓢，并不清楚这一行代码背后真正在运行什么（只知道这行代码是用来干什么的），也对深度学习框架只有一个比较模糊的认知（本课的 HW Part1 完美解决了这个问题），这门课绝对配得上是 CMU 的神课之一。正如 Bhiksha 在第一节课说的，如果这门课拿了 A，说明你已经初步具备了在 DL 工业界干活的能力了。&lt;/p&gt;
@@ -53,10 +53,10 @@
     
     <item>
       <title>LLM Inference 简述</title>
-      <link>https://preminstrel.github.io/blog/post/2023/10/28/llminference/</link>
+      <link>https://blog.preminstrel.com/post/2023/10/28/llminference/</link>
       <pubDate>Sat, 28 Oct 2023 23:56:28 -0400</pubDate>
       <author>preminstrel@gmail.com (Hanshi Sun)</author>
-      <guid>https://preminstrel.github.io/blog/post/2023/10/28/llminference/</guid>
+      <guid>https://blog.preminstrel.com/post/2023/10/28/llminference/</guid>
       <description>&lt;h2 id=&#34;llm-parameters&#34;&gt;LLM Parameters&lt;/h2&gt;
 &lt;p&gt;LLM 中的每个 Transformer 包括 self-attn block 和 MLP block，总参数量为 $12h^2+13h$。如果 LLM 有 $l$ layers, 包括 embedding 一起算，总参数量为 $l(12h^2+13h)+Vh$。同时，对于一个 $l$ layers 的 LLM，FLOPs 为 $l(24bsh^2+4bs^2h)+2bshV$ （没有计算 Softmax 和 LN 等过程）。&lt;/p&gt;
 &lt;table&gt;
@@ -131,10 +131,10 @@ $$&lt;/p&gt;
     
     <item>
       <title>2023年七月新番Review</title>
-      <link>https://preminstrel.github.io/blog/post/2023/10/09/anime2023s3/</link>
+      <link>https://blog.preminstrel.com/post/2023/10/09/anime2023s3/</link>
       <pubDate>Mon, 09 Oct 2023 22:32:11 -0400</pubDate>
       <author>preminstrel@gmail.com (Hanshi Sun)</author>
-      <guid>https://preminstrel.github.io/blog/post/2023/10/09/anime2023s3/</guid>
+      <guid>https://blog.preminstrel.com/post/2023/10/09/anime2023s3/</guid>
       <description>&lt;p&gt;今年的七月番好看的真的很少（但是十月新番好看的超级多，最近看的好爽😭），这里就挑几个稍微记录一下。&lt;/p&gt;
 &lt;h2 id=&#34;死神-千年血战篇--诀别谭-&#34;&gt;死神 千年血战篇 -诀别谭-&lt;/h2&gt;
 &lt;p&gt;非常好看非常推荐，久保老师甚至添加了很多原作中没有的细节，改了一些剧情，经费十足，多米诺风格的 OP 也是时髦值爆表。露琪亚的卐解真的画的太美了，零番队的战斗也被补全的非常好，进度没有原作那么跳跃。就是剑八让我感觉有点不是那么强，和我想象中的还是有一些差距，有一些不配为特级标记战力。零番队的战斗和漫画相比，戏份加了很多，但是兵主部一兵卫和友哈巴赫的战斗画的不是很震撼（甚至没有零番队的战斗好看，零番队的卐解真的画的太好了）；真的非常期待下一季的灵王宫战斗后续。&lt;/p&gt;
@@ -202,10 +202,10 @@ $$&lt;/p&gt;
     
     <item>
       <title>CMU Kick Start</title>
-      <link>https://preminstrel.github.io/blog/post/2023/10/07/cmu_kickstart/</link>
+      <link>https://blog.preminstrel.com/post/2023/10/07/cmu_kickstart/</link>
       <pubDate>Sat, 07 Oct 2023 22:34:45 -0400</pubDate>
       <author>preminstrel@gmail.com (Hanshi Sun)</author>
-      <guid>https://preminstrel.github.io/blog/post/2023/10/07/cmu_kickstart/</guid>
+      <guid>https://blog.preminstrel.com/post/2023/10/07/cmu_kickstart/</guid>
       <description>&lt;p&gt;转眼间来 CMU 已经 2 个月了，不禁感叹时间真的过得好快。8月初从上海出发，中转了东京和纽约，最后到达匹兹堡。想起来刚到那天因为误机导致到公寓已经凌晨两点多了，还被锁在了公寓门外一直等到天亮。因为住的是 2b2b，所以地方还算宽敞，吐槽一下 IKEA 送东西真的太慢了，而且配送费好贵，还是 Amazon Prime 方便点。刚入学的时候，Target 有 student discount，全场 85 折，还挺好的，买了很多日用品。&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2023/10/08/eyCNYL182whBXHz.jpg&#34; alt=&#34;DD5482E0-F813-4764-B43D-3621531210A4_1_105_c.jpeg&#34;&gt;&lt;/p&gt;
 &lt;h2 id=&#34;orientation&#34;&gt;Orientation&lt;/h2&gt;
@@ -226,10 +226,10 @@ $$&lt;/p&gt;
     
     <item>
       <title>2023年四月新番Review</title>
-      <link>https://preminstrel.github.io/blog/post/2023/07/04/anime2023s2/</link>
+      <link>https://blog.preminstrel.com/post/2023/07/04/anime2023s2/</link>
       <pubDate>Tue, 04 Jul 2023 08:13:18 +0800</pubDate>
       <author>preminstrel@gmail.com (Hanshi Sun)</author>
-      <guid>https://preminstrel.github.io/blog/post/2023/07/04/anime2023s2/</guid>
+      <guid>https://blog.preminstrel.com/post/2023/07/04/anime2023s2/</guid>
       <description>&lt;p&gt;最近2023年度四月番接近尾声，正好我刚从Apple离职，有时间记录一下。&lt;/p&gt;
 &lt;h2 id=&#34;我推的孩子&#34;&gt;我推的孩子&lt;/h2&gt;
 &lt;p&gt;推子因为某不知名古神的力量刚开始在bilibili连二创都不允许存在，被泛式称为The娱乐圈漫改。这部作品画面非常精美，经费十足，设定也很有意思。尤其是超长版第一集，最后的一段演出让大家彻底记住了爱这个角色（塑造的那么好的角色这么快就盒饭了好可惜）。
@@ -299,10 +299,10 @@ $$&lt;/p&gt;
     
     <item>
       <title>SEU Review | 东南大学回忆录</title>
-      <link>https://preminstrel.github.io/blog/post/2023/06/23/seu/</link>
+      <link>https://blog.preminstrel.com/post/2023/06/23/seu/</link>
       <pubDate>Fri, 23 Jun 2023 14:03:23 +0800</pubDate>
       <author>preminstrel@gmail.com (Hanshi Sun)</author>
-      <guid>https://preminstrel.github.io/blog/post/2023/06/23/seu/</guid>
+      <guid>https://blog.preminstrel.com/post/2023/06/23/seu/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;Do the right thing, whatever it takes.&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -329,7 +329,7 @@ $$&lt;/p&gt;
 &lt;p&gt;大三的专业课我上的非常折磨，这个时候&lt;strong&gt;我对硬件知识的厌恶开始进一步加剧&lt;/strong&gt;。由于大一大二的课程专业课占比不是特别多，而且数学性多一些，所以还可以handle，但是到了大三这种分裂感越来越大，同时由于没有什么一起转码的伙伴所以学习上有一种孤独感。大三很多课都是物理课，包括电磁场，现代光学，半导体物理等。很多次我都是上课摆烂玩手机，然后为了GPA在考前几周进行自学，把崭新的课本从第一页学起来，考试周疯狂拟合一下做题套路获得一个相对满意的分数，纯粹属于是&lt;strong&gt;冲激函数&lt;/strong&gt;式学习法。虽然我可以获得高的GPA，但是&lt;strong&gt;我真的感觉在浪费自己的时间，做自己不喜欢的事情（即使我可以做好）是很痛苦的一件事&lt;/strong&gt;。&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2023/07/02/1ei2HTuV5D7Ns4j.jpg&#34; alt=&#34;IMG_5951.jpeg&#34;&gt;&lt;/p&gt;
 &lt;p&gt;无锡校区的食堂很不好吃，基本就只有一个大伙，因此我甚至还自己做了一段时间的饭，宿舍里小火慢炖猪蹄汤什么的。但是无锡校区的宿舍条件还是很不错的，是二人间，还有马桶、浴霸什么的。也并不是上床下桌，而是桌子和床都在地上。无锡那段时间，我在research上跟了AI学院的一个老师remote做了一段时间，最后毕设也跟他做的，还是很开心的一段经历，老师人也很不错。&lt;/p&gt;
-&lt;p&gt;大三的时候我报名了去加拿大公派暑研Mitacs，这无疑是一段非常宝贵的经历，对我的影响也非常大，详细见&lt;a href=&#34;https://preminstrel.com/blog/post/2023/03/21/ms_app/&#34;&gt;我申请MS的blog&lt;/a&gt;和&lt;a href=&#34;https://preminstrel.com/blog/post/2022/04/15/mitacs/&#34;&gt;申请Mitacs的blog&lt;/a&gt;。不仅让我遇到了很多志同道合的朋友，更让我体验到了国外的科研氛围和生活感受（&lt;del&gt;主要是生活感受，暑研的时候我一直在摸鱼&lt;/del&gt;）。&lt;/p&gt;
+&lt;p&gt;大三的时候我报名了去加拿大公派暑研Mitacs，这无疑是一段非常宝贵的经历，对我的影响也非常大，详细见&lt;a href=&#34;https://blog.preminstrel.com/post/2023/03/21/ms_app/&#34;&gt;我申请MS的blog&lt;/a&gt;和&lt;a href=&#34;https://blog.preminstrel.com/post/2022/04/15/mitacs/&#34;&gt;申请Mitacs的blog&lt;/a&gt;。不仅让我遇到了很多志同道合的朋友，更让我体验到了国外的科研氛围和生活感受（&lt;del&gt;主要是生活感受，暑研的时候我一直在摸鱼&lt;/del&gt;）。&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2023/07/02/xsUrQRKy6F3PS8q.jpg&#34; alt=&#34;IMG_0958.jpeg&#34;&gt;&lt;/p&gt;
 &lt;p&gt;这里值得一提的是，无锡的教务和新辅导员人都非常不错，很多事情都可以通情达理地帮学生解决，属于是东南行政为数不多让我感觉到开心的地方了；无论是我大三暑假的research intern、大四的Apple intern还是最后毕业论文的线上答辩，他们都爽快地批了，这在陆本都是难得的。&lt;/p&gt;
 &lt;h2 id=&#34;脱离学校的大四&#34;&gt;脱离学校的大四&lt;/h2&gt;
@@ -348,10 +348,10 @@ $$&lt;/p&gt;
     
     <item>
       <title>HK</title>
-      <link>https://preminstrel.github.io/blog/post/2023/05/26/hk/</link>
+      <link>https://blog.preminstrel.com/post/2023/05/26/hk/</link>
       <pubDate>Fri, 26 May 2023 19:46:47 +0800</pubDate>
       <author>preminstrel@gmail.com (Hanshi Sun)</author>
-      <guid>https://preminstrel.github.io/blog/post/2023/05/26/hk/</guid>
+      <guid>https://blog.preminstrel.com/post/2023/05/26/hk/</guid>
       <description>&lt;p&gt;在深圳实习的时候，早就办好了港澳通行证，终于趁着五一节从深圳来到了香港找DR玩。&lt;/p&gt;
 &lt;h2 id=&#34;checklist&#34;&gt;Checklist&lt;/h2&gt;
 &lt;ul&gt;
@@ -377,10 +377,10 @@ $$&lt;/p&gt;
     
     <item>
       <title>US Visa</title>
-      <link>https://preminstrel.github.io/blog/post/2023/04/18/us_visa/</link>
+      <link>https://blog.preminstrel.com/post/2023/04/18/us_visa/</link>
       <pubDate>Tue, 18 Apr 2023 17:15:47 +0800</pubDate>
       <author>preminstrel@gmail.com (Hanshi Sun)</author>
-      <guid>https://preminstrel.github.io/blog/post/2023/04/18/us_visa/</guid>
+      <guid>https://blog.preminstrel.com/post/2023/04/18/us_visa/</guid>
       <description>&lt;p&gt;敏感专业ECE，在广州21号窗口面签。我刚开始已经怀着肯定被check的心态去面了，结果很神奇地直接水过了。护照不是白本，有日本旅游签证和加拿大的十年工签。&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2023/04/18/uyOWN4PzsKIZYQf.jpg&#34; alt=&#34;736BBE85-3FA0-426C-97A8-F8CC095AF2E1_1_102_o.jpeg&#34;&gt;&lt;/p&gt;
 &lt;h2 id=&#34;checklist&#34;&gt;Checklist&lt;/h2&gt;
@@ -475,10 +475,10 @@ $$&lt;/p&gt;
     
     <item>
       <title>M.S.申请回忆录</title>
-      <link>https://preminstrel.github.io/blog/post/2023/03/21/ms_app/</link>
+      <link>https://blog.preminstrel.com/post/2023/03/21/ms_app/</link>
       <pubDate>Tue, 21 Mar 2023 19:46:54 +0800</pubDate>
       <author>preminstrel@gmail.com (Hanshi Sun)</author>
-      <guid>https://preminstrel.github.io/blog/post/2023/03/21/ms_app/</guid>
+      <guid>https://blog.preminstrel.com/post/2023/03/21/ms_app/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;&lt;em&gt;“ My Heart is in the Work.”&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;Andrew Carnegie, Founder, November 15, 1900&lt;/p&gt;
@@ -811,10 +811,10 @@ TOEFL感觉最重要最难的是听力，最容易提升的是写作。还有一
     
     <item>
       <title>Canada Visa</title>
-      <link>https://preminstrel.github.io/blog/post/2022/05/09/canada-visa/</link>
+      <link>https://blog.preminstrel.com/post/2022/05/09/canada-visa/</link>
       <pubDate>Mon, 09 May 2022 16:15:25 +0800</pubDate>
       <author>preminstrel@gmail.com (Hanshi Sun)</author>
-      <guid>https://preminstrel.github.io/blog/post/2022/05/09/canada-visa/</guid>
+      <guid>https://blog.preminstrel.com/post/2022/05/09/canada-visa/</guid>
       <description>&lt;h2 id=&#34;application---march&#34;&gt;Application - March&lt;/h2&gt;
 &lt;p&gt;参与 Mitacs 项目需要申请加拿大签证，这里进行一个申请的记录。这个项目让我们申请的是 TRV (Temporary Resident Visa)，通过 GSS (Global Skill Strategy) 在入境时申请 Work Exemption，也就是说，我申请的是 Visitor Visa V-1。但是实际上，目前很多人下的签都是 WX-1，是工签，有人是 MULTIPLE，也有人是 ONE。由于我还没贴签，所以不太清楚自己下的是什么。&lt;/p&gt;
 &lt;p&gt;申请的时候，有两个通道，分别是 GCKey 和 IRCC Portal，前者是老通道，后者是疫情之后才开放的新通道。老通道是填表，同时要上传很多材料；新通道是类似于做问卷一样，填入一些信息，eye-friendly。我选择了 Portal 进行申报，在三月一号的时候完成了签证的申请。在缴费 $185 的时候，我发现用 Mastercard 付款失败了，但是用银联的信用卡反而成功了，群里也有人反应说借记卡也可以付款成功。指纹采集信当天就下来了，我预约了三月四号中午去上海的签证中心录指纹。&lt;/p&gt;

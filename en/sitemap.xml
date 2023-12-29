@@ -2,40 +2,40 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://preminstrel.github.io/blog/en/</loc>
+    <loc>https://blog.preminstrel.com/en/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="https://preminstrel.github.io/blog/"
+                href="https://blog.preminstrel.com/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://preminstrel.github.io/blog/en/"
+                href="https://blog.preminstrel.com/en/"
                 />
   </url><url>
-    <loc>https://preminstrel.github.io/blog/en/series/</loc>
+    <loc>https://blog.preminstrel.com/en/series/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="https://preminstrel.github.io/blog/series/"
+                href="https://blog.preminstrel.com/series/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://preminstrel.github.io/blog/en/series/"
+                href="https://blog.preminstrel.com/en/series/"
                 />
   </url><url>
-    <loc>https://preminstrel.github.io/blog/en/tags/</loc>
+    <loc>https://blog.preminstrel.com/en/tags/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="zh"
-                href="https://preminstrel.github.io/blog/tags/"
+                href="https://blog.preminstrel.com/tags/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://preminstrel.github.io/blog/en/tags/"
+                href="https://blog.preminstrel.com/en/tags/"
                 />
   </url>
 </urlset>

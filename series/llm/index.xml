@@ -2,19 +2,19 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>LLM on Hanshi Sun&#39;s Blog</title>
-    <link>https://preminstrel.github.io/blog/series/llm/</link>
+    <link>https://blog.preminstrel.com/series/llm/</link>
     <description>Recent content in LLM on Hanshi Sun&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
     <managingEditor>preminstrel@gmail.com (Hanshi Sun)</managingEditor>
     <webMaster>preminstrel@gmail.com (Hanshi Sun)</webMaster>
-    <lastBuildDate>Sat, 28 Oct 2023 23:56:28 -0400</lastBuildDate><atom:link href="https://preminstrel.github.io/blog/series/llm/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 28 Oct 2023 23:56:28 -0400</lastBuildDate><atom:link href="https://blog.preminstrel.com/series/llm/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>LLM Inference 简述</title>
-      <link>https://preminstrel.github.io/blog/post/2023/10/28/llminference/</link>
+      <link>https://blog.preminstrel.com/post/2023/10/28/llminference/</link>
       <pubDate>Sat, 28 Oct 2023 23:56:28 -0400</pubDate>
       <author>preminstrel@gmail.com (Hanshi Sun)</author>
-      <guid>https://preminstrel.github.io/blog/post/2023/10/28/llminference/</guid>
+      <guid>https://blog.preminstrel.com/post/2023/10/28/llminference/</guid>
       <description>&lt;h2 id=&#34;llm-parameters&#34;&gt;LLM Parameters&lt;/h2&gt;
 &lt;p&gt;LLM 中的每个 Transformer 包括 self-attn block 和 MLP block，总参数量为 $12h^2+13h$。如果 LLM 有 $l$ layers, 包括 embedding 一起算，总参数量为 $l(12h^2+13h)+Vh$。同时，对于一个 $l$ layers 的 LLM，FLOPs 为 $l(24bsh^2+4bs^2h)+2bshV$ （没有计算 Softmax 和 LN 等过程）。&lt;/p&gt;
 &lt;table&gt;

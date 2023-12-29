@@ -2,11 +2,11 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tags on Hanshi Sun&#39;s Blog</title>
-    <link>https://preminstrel.github.io/blog/en/tags/</link>
+    <link>https://blog.preminstrel.com/en/tags/</link>
     <description>Recent content in Tags on Hanshi Sun&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <managingEditor>preminstrel@gmail.com (Hanshi Sun)</managingEditor>
-    <webMaster>preminstrel@gmail.com (Hanshi Sun)</webMaster><atom:link href="https://preminstrel.github.io/blog/en/tags/index.xml" rel="self" type="application/rss+xml" />
+    <webMaster>preminstrel@gmail.com (Hanshi Sun)</webMaster><atom:link href="https://blog.preminstrel.com/en/tags/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>

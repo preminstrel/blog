@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>CMU on Hanshi Sun&#39;s Blog</title>
-    <link>https://preminstrel.github.io/blog/tags/cmu/</link>
+    <link>https://blog.preminstrel.com/tags/cmu/</link>
     <description>Recent content in CMU on Hanshi Sun&#39;s Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh</language>
     <managingEditor>preminstrel@gmail.com (Hanshi Sun)</managingEditor>
     <webMaster>preminstrel@gmail.com (Hanshi Sun)</webMaster>
-    <lastBuildDate>Wed, 20 Dec 2023 17:49:19 -0500</lastBuildDate><atom:link href="https://preminstrel.github.io/blog/tags/cmu/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 20 Dec 2023 17:49:19 -0500</lastBuildDate><atom:link href="https://blog.preminstrel.com/tags/cmu/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>CMU 23Fall Checkpoint</title>
-      <link>https://preminstrel.github.io/blog/post/2023/12/20/cmu23fall/</link>
+      <link>https://blog.preminstrel.com/post/2023/12/20/cmu23fall/</link>
       <pubDate>Wed, 20 Dec 2023 17:49:19 -0500</pubDate>
       <author>preminstrel@gmail.com (Hanshi Sun)</author>
-      <guid>https://preminstrel.github.io/blog/post/2023/12/20/cmu23fall/</guid>
+      <guid>https://blog.preminstrel.com/post/2023/12/20/cmu23fall/</guid>
       <description>&lt;p&gt;在 CMU 的第一个学期（1/3 的 Master 生涯）过去了，感觉这个学期还是学了很多东西的——可以很自信地说，现在的我要比半年前强（虽然还是很弱）。本学期三门课都拿了 A+，但是由于 ECE 学院不区分 A+/A/A-，所以统一成了 A（感觉以后可以少花一些时间在课程上了）。下学期的课 enroll 了 Lei Li 的 LLM Sys 和大名鼎鼎的 CSAPP，希望可以对 system 有更系统全面的了解，已经开始期待能学到多少东西了。下面稍微讲一下这学期的几门课。&lt;/p&gt;
 &lt;h2 id=&#34;11-785-introduction-to-dl&#34;&gt;11-785 Introduction to DL&lt;/h2&gt;
-&lt;p&gt;Bhiksha 的课，之前在 &lt;a href=&#34;https://preminstrel.github.io/blog/blog/post/2023/10/07/cmu_kickstart/&#34;&gt;fall break 的 blog&lt;/a&gt; 中我已经夸过它了，所以这里来说几点其他的。这门课想要拿高分确实不难，因为没有考试，作业给的时间也比较充足，所以大家分数基本都很高。由于 Bhiksha 是在 LTI 学院做 Speech 的，所以这门课好像除了第二个 Homework 是 Face Classification &amp;amp; Verification，其他 Homework 都是关于 Speech Recognition 的（相比之下，ECE 学院的 Intro to DL 大部分的 Homework 和 Project 都是关于 Computer Vision 的）。正好下学期我要当 ECE Intro2DL 的 TA，可以看看具体有什么差别。&lt;/p&gt;
+&lt;p&gt;Bhiksha 的课，之前在 &lt;a href=&#34;https://blog.preminstrel.com/blog/post/2023/10/07/cmu_kickstart/&#34;&gt;fall break 的 blog&lt;/a&gt; 中我已经夸过它了，所以这里来说几点其他的。这门课想要拿高分确实不难，因为没有考试，作业给的时间也比较充足，所以大家分数基本都很高。由于 Bhiksha 是在 LTI 学院做 Speech 的，所以这门课好像除了第二个 Homework 是 Face Classification &amp;amp; Verification，其他 Homework 都是关于 Speech Recognition 的（相比之下，ECE 学院的 Intro to DL 大部分的 Homework 和 Project 都是关于 Computer Vision 的）。正好下学期我要当 ECE Intro2DL 的 TA，可以看看具体有什么差别。&lt;/p&gt;
 &lt;p&gt;关于workload，这门课我感觉主要是前面花的时间稍微多一些，最后一个月我几乎没有花什么时间在上面。看起来 write-up 很吓人，但是其实做起来真的还好。 每个 Homework 的 Part1 都可以一天内完成（不过我记得 Bonus 中第一个 Autograd 我 Debug 花的时间有点长）。虽然 Part2 每个都给了快一个月的训练时间，但是我感觉只要模型结构设计得还行，适当加点 regularization 和其他的 trick 基本都可以达到 high cutoff 拿满分。反而我是觉得每周的 Quiz 还挺折磨的，每周都得花点时间去做一下。不过需要注意一下计算资源的使用情况，如果天天跑的话，400 刀的 GCP 和 150 刀的 AWS credits 远远不够。&lt;/p&gt;
 &lt;p&gt;我不是很喜欢这门课的 Project，给的时间不够充足，也不提供额外的计算资源，而且还是小组作业（这可能是罪魁祸首）。让我感觉有点在浪费时间生产所谓的科研垃圾，还不如 enroll 11-685 版本去做 HW5——implement a LLM from scratch。也听说之前有人靠着 Project 发了顶会，不过实际体验下来我感觉这部分的 support 做得还不够好。&lt;/p&gt;
 &lt;p&gt;从我自身的感受出发，我觉得这门课最大的价值是把很多东西讲清楚的同时，用比较好的 Homework 来巩固 coding 能力，每周的 Quiz 来巩固理论知识。说实话，在上这门课之前，我做 DL 的一些 Project 很多时候都是直接依葫芦画瓢，并不清楚这一行代码背后真正在运行什么（只知道这行代码是用来干什么的），也对深度学习框架只有一个比较模糊的认知（本课的 HW Part1 完美解决了这个问题），这门课绝对配得上是 CMU 的神课之一。正如 Bhiksha 在第一节课说的，如果这门课拿了 A，说明你已经初步具备了在 DL 工业界干活的能力了。&lt;/p&gt;
@@ -53,10 +53,10 @@
     
     <item>
       <title>CMU Kick Start</title>
-      <link>https://preminstrel.github.io/blog/post/2023/10/07/cmu_kickstart/</link>
+      <link>https://blog.preminstrel.com/post/2023/10/07/cmu_kickstart/</link>
       <pubDate>Sat, 07 Oct 2023 22:34:45 -0400</pubDate>
       <author>preminstrel@gmail.com (Hanshi Sun)</author>
-      <guid>https://preminstrel.github.io/blog/post/2023/10/07/cmu_kickstart/</guid>
+      <guid>https://blog.preminstrel.com/post/2023/10/07/cmu_kickstart/</guid>
       <description>&lt;p&gt;转眼间来 CMU 已经 2 个月了，不禁感叹时间真的过得好快。8月初从上海出发，中转了东京和纽约，最后到达匹兹堡。想起来刚到那天因为误机导致到公寓已经凌晨两点多了，还被锁在了公寓门外一直等到天亮。因为住的是 2b2b，所以地方还算宽敞，吐槽一下 IKEA 送东西真的太慢了，而且配送费好贵，还是 Amazon Prime 方便点。刚入学的时候，Target 有 student discount，全场 85 折，还挺好的，买了很多日用品。&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://s2.loli.net/2023/10/08/eyCNYL182whBXHz.jpg&#34; alt=&#34;DD5482E0-F813-4764-B43D-3621531210A4_1_105_c.jpeg&#34;&gt;&lt;/p&gt;
 &lt;h2 id=&#34;orientation&#34;&gt;Orientation&lt;/h2&gt;
@@ -77,10 +77,10 @@
     
     <item>
       <title>M.S.申请回忆录</title>
-      <link>https://preminstrel.github.io/blog/post/2023/03/21/ms_app/</link>
+      <link>https://blog.preminstrel.com/post/2023/03/21/ms_app/</link>
       <pubDate>Tue, 21 Mar 2023 19:46:54 +0800</pubDate>
       <author>preminstrel@gmail.com (Hanshi Sun)</author>
-      <guid>https://preminstrel.github.io/blog/post/2023/03/21/ms_app/</guid>
+      <guid>https://blog.preminstrel.com/post/2023/03/21/ms_app/</guid>
       <description>&lt;blockquote&gt;
 &lt;p&gt;&lt;em&gt;“ My Heart is in the Work.”&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;Andrew Carnegie, Founder, November 15, 1900&lt;/p&gt;
