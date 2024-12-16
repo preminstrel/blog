@@ -2,17 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://blog.preminstrel.com/tags/bytedance/</loc>
+    <lastmod>2024-12-15T17:49:19-05:00</lastmod>
+  </url><url>
     <loc>https://blog.preminstrel.com/tags/cmu/</loc>
-    <lastmod>2023-12-20T17:49:19-05:00</lastmod>
+    <lastmod>2024-12-15T17:49:19-05:00</lastmod>
   </url><url>
     <loc>https://blog.preminstrel.com/series/cmu/</loc>
-    <lastmod>2023-12-20T17:49:19-05:00</lastmod>
+    <lastmod>2024-12-15T17:49:19-05:00</lastmod>
   </url><url>
-    <loc>https://blog.preminstrel.com/post/2023/12/20/cmu23fall/</loc>
-    <lastmod>2023-12-20T17:49:19-05:00</lastmod>
+    <loc>https://blog.preminstrel.com/post/2024/12/15/cmu_wind-down/</loc>
+    <lastmod>2024-12-15T17:49:19-05:00</lastmod>
   </url><url>
     <loc>https://blog.preminstrel.com/</loc>
-    <lastmod>2023-12-20T17:49:19-05:00</lastmod>
+    <lastmod>2024-12-15T17:49:19-05:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -25,10 +28,10 @@
                 />
   </url><url>
     <loc>https://blog.preminstrel.com/post/</loc>
-    <lastmod>2023-12-20T17:49:19-05:00</lastmod>
+    <lastmod>2024-12-15T17:49:19-05:00</lastmod>
   </url><url>
     <loc>https://blog.preminstrel.com/series/</loc>
-    <lastmod>2023-12-20T17:49:19-05:00</lastmod>
+    <lastmod>2024-12-15T17:49:19-05:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -41,7 +44,7 @@
                 />
   </url><url>
     <loc>https://blog.preminstrel.com/tags/</loc>
-    <lastmod>2023-12-20T17:49:19-05:00</lastmod>
+    <lastmod>2024-12-15T17:49:19-05:00</lastmod>
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
@@ -54,16 +57,10 @@
                 />
   </url><url>
     <loc>https://blog.preminstrel.com/tags/us/</loc>
+    <lastmod>2024-12-15T17:49:19-05:00</lastmod>
+  </url><url>
+    <loc>https://blog.preminstrel.com/post/2023/12/20/cmu23fall/</loc>
     <lastmod>2023-12-20T17:49:19-05:00</lastmod>
-  </url><url>
-    <loc>https://blog.preminstrel.com/tags/llm/</loc>
-    <lastmod>2023-10-28T23:56:28-04:00</lastmod>
-  </url><url>
-    <loc>https://blog.preminstrel.com/series/llm/</loc>
-    <lastmod>2023-10-28T23:56:28-04:00</lastmod>
-  </url><url>
-    <loc>https://blog.preminstrel.com/post/2023/10/28/llminference/</loc>
-    <lastmod>2023-10-28T23:56:28-04:00</lastmod>
   </url><url>
     <loc>https://blog.preminstrel.com/post/2023/10/09/anime2023s3/</loc>
     <lastmod>2023-10-09T22:32:11-04:00</lastmod>
@@ -119,17 +116,10 @@
     <loc>https://blog.preminstrel.com/tags/mitacs/</loc>
     <lastmod>2022-05-09T16:15:25+08:00</lastmod>
   </url><url>
-    <loc>https://blog.preminstrel.com/post/2022/04/15/mitacs/</loc>
-    <lastmod>2022-04-15T13:47:07+08:00</lastmod>
-  </url><url>
     <loc>https://blog.preminstrel.com/archives/</loc>
   </url><url>
     <loc>https://blog.preminstrel.com/art/</loc>
   </url><url>
     <loc>https://blog.preminstrel.com/blog/</loc>
-  </url><url>
-    <loc>https://blog.preminstrel.com/guestbook/</loc>
-  </url><url>
-    <loc>https://blog.preminstrel.com/tags/</loc>
   </url>
 </urlset>
